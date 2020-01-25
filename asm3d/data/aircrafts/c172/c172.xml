@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<gen_file>
+ <group depth_sorted_bin_state="0" name="C172" depth_sorted_bin_value="1">
+  <node_file depth_sorted_bin_state="1" name="FuselageNode" file="data/aircrafts/c172/c172_fuselage.osgt" depth_sorted_bin_value="1"/>
+  <group depth_sorted_bin_state="0" name="Ailerons" depth_sorted_bin_value="1">
+   <pat depth_sorted_bin_state="0" ax="1.7" ay="0" px="-0.96" az="7.5238" py="-2.6391" pz="-0.772" name="AileronPATL" convention="1" depth_sorted_bin_value="1">
+    <pat depth_sorted_bin_state="0" ax="0" ay="0" px="0" az="0" py="0" pz="0" name="AileronL" convention="0" depth_sorted_bin_value="1">
+     <node_file depth_sorted_bin_state="1" name="AileronNodeL" file="data/aircrafts/c172/c172_aileron_l.osgt" depth_sorted_bin_value="1"/>
+    </pat>
+   </pat>
+   <pat depth_sorted_bin_state="0" ax="-1.7" ay="0" px="-0.96" az="-7.5238" py="2.6391" pz="-0.772" name="AileronPATR" convention="1" depth_sorted_bin_value="1">
+    <pat depth_sorted_bin_state="0" ax="0" ay="0" px="0" az="0" py="0" pz="0" name="AileronR" convention="0" depth_sorted_bin_value="1">
+     <node_file depth_sorted_bin_state="1" name="AileronNodeR" file="data/aircrafts/c172/c172_aileron_r.osgt" depth_sorted_bin_value="1"/>
+    </pat>
+   </pat>
+  </group>
+  <group depth_sorted_bin_state="0" name="Flaps" depth_sorted_bin_value="1">
+   <pat depth_sorted_bin_state="0" ax="1.7" ay="0" px="-0.96" az="0" py="-0.55" pz="-0.71" name="FlapPATL" convention="1" depth_sorted_bin_value="1">
+    <pat depth_sorted_bin_state="0" ax="0" ay="0" px="0" az="0" py="0" pz="0" name="FlapL" convention="0" depth_sorted_bin_value="1">
+     <node_file depth_sorted_bin_state="1" name="FlapNodeL" file="data/aircrafts/c172/c172_flap_l.osgt" depth_sorted_bin_value="1"/>
+    </pat>
+   </pat>
+   <pat depth_sorted_bin_state="0" ax="-1.7" ay="0" px="-0.96" az="0" py="0.55" pz="-0.71" name="FlapPATR" convention="1" depth_sorted_bin_value="1">
+    <pat depth_sorted_bin_state="0" ax="0" ay="0" px="0" az="0" py="0" pz="0" name="FlapR" convention="0" depth_sorted_bin_value="1">
+     <node_file depth_sorted_bin_state="1" name="FlapNodeR" file="data/aircrafts/c172/c172_flap_r.osgt" depth_sorted_bin_value="1"/>
+    </pat>
+   </pat>
+  </group>
+  <pat depth_sorted_bin_state="0" ax="0" ay="0" px="-4.84" az="0" py="0" pz="-0.4" name="ElevatorPAT" convention="0" depth_sorted_bin_value="1">
+   <pat depth_sorted_bin_state="0" ax="0" ay="0" px="0" az="0" py="0" pz="0" name="Elevator" convention="0" depth_sorted_bin_value="1">
+    <node_file depth_sorted_bin_state="1" name="ElevatorNode" file="data/aircrafts/c172/c172_elevator.osgt" depth_sorted_bin_value="1"/>
+   </pat>
+  </pat>
+  <pat depth_sorted_bin_state="0" ax="0" ay="23.2" px="-4.9" az="0" py="0" pz="-0.51" name="RudderPAT" convention="0" depth_sorted_bin_value="1">
+   <pat depth_sorted_bin_state="0" ax="0" ay="0" px="0" az="0" py="0" pz="0" name="Rudder" convention="0" depth_sorted_bin_value="1">
+    <node_file depth_sorted_bin_state="1" name="RudderNode" file="data/aircrafts/c172/c172_rudder.osgt" depth_sorted_bin_value="1"/>
+   </pat>
+  </pat>
+  <pat depth_sorted_bin_state="0" ax="0" ay="0" px="2.07" az="0" py="0" pz="0" name="PropellerPAT" convention="0" depth_sorted_bin_value="1">
+   <pat depth_sorted_bin_state="0" ax="0" ay="0" px="0" az="0" py="0" pz="0" name="Propeller" convention="0" depth_sorted_bin_value="1">
+    <node_file depth_sorted_bin_state="1" name="PropellerNode" file="data/aircrafts/c172/c172_propeller.osgt" depth_sorted_bin_value="7"/>
+   </pat>
+  </pat>
+ </group>
+</gen_file>

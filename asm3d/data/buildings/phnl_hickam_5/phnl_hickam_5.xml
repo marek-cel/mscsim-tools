@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<gen_file>
+ <lod depth_sorted_bin_state="0" interval_o="10000" interval_s="8000" name="LOD" depth_sorted_bin_value="1" interval_f="2000">
+  <node_file depth_sorted_bin_state="0" name="FileH" file="data/buildings/phnl_hickam_5/phnl_hickam_5_h.osgt" depth_sorted_bin_value="1"/>
+  <node_file depth_sorted_bin_state="0" name="FileL" file="data/buildings/phnl_hickam_5/phnl_hickam_5_l.osgt" depth_sorted_bin_value="1"/>
+ </lod>
+</gen_file>

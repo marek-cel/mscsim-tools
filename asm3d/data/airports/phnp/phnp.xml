@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<gen_file>
+ <lod depth_sorted_bin_state="0" interval_o="1000" interval_s="1000" name="LOD" depth_sorted_bin_value="1" interval_f="25000">
+  <group depth_sorted_bin_state="0" name="PHNL" depth_sorted_bin_value="1">
+   <world alt="0.000" lon="-157.96138900" depth_sorted_bin_state="0" ax="136.186402446337" ay="-59.684305525269" px="14490.134641" az="48.020104943209" lat="21.36055600" py="0.074649" pz="6375303.953413" name="World" file="data/airports/phnp/terrain.osgb" convention="0" depth_sorted_bin_value="1"/>
+   <group depth_sorted_bin_state="0" name="Buildings" depth_sorted_bin_value="1">
+    <pat depth_sorted_bin_state="0" ax="0.000000000000" ay="0.000000000000" px="15.000000" az="0.000000000000" py="-25.000000" pz="-4.000000" name="TowerPAT" convention="0" depth_sorted_bin_value="1">
+     <node_file depth_sorted_bin_state="0" name="TowerFile" file="data/buildings/phnp_tower/phnp_tower.osgb" depth_sorted_bin_value="1"/>
+    </pat>
+    <pat depth_sorted_bin_state="0" ax="0.000000000000" ay="0.000000000000" px="174.000000" az="52.000000000000" py="830.000000" pz="0.000000" name="MissouriPAT" convention="0" depth_sorted_bin_value="1">
+     <node_file depth_sorted_bin_state="0" name="MissouriFile" file="data/ships/bb63/bb63.osgb" depth_sorted_bin_value="1"/>
+    </pat>
+    <pat depth_sorted_bin_state="0" ax="0.000000000000" ay="0.000000000000" px="455.000000" az="145.000000000000" py="1200.000000" pz="0.000000" name="ArizonaPAT" convention="0" depth_sorted_bin_value="1">
+     <node_file depth_sorted_bin_state="0" name="File" file="data/buildings/phnp_arizona/phnp_arizona.osgb" depth_sorted_bin_value="1"/>
+    </pat>
+   </group>
+  </group>
+ </lod>
+</gen_file>

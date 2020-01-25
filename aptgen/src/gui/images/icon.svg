@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   version="1.1"
+   id="svg2"
+   height="128"
+   width="128">
+  <defs
+     id="defs4">
+    <linearGradient
+       id="linearGradient3955">
+      <stop
+         id="stop3957"
+         offset="0"
+         style="stop-color:#032a63;stop-opacity:1;" />
+      <stop
+         id="stop3959"
+         offset="1"
+         style="stop-color:#0846a4;stop-opacity:1;" />
+    </linearGradient>
+    <linearGradient
+       gradientUnits="userSpaceOnUse"
+       y2="924.7226"
+       x2="63.602776"
+       y1="1051.7493"
+       x1="66.922607"
+       id="linearGradient3961"
+       xlink:href="#linearGradient3955" />
+    <linearGradient
+       y2="924.7226"
+       x2="63.602776"
+       y1="1051.7493"
+       x1="66.922607"
+       gradientUnits="userSpaceOnUse"
+       id="linearGradient3065"
+       xlink:href="#linearGradient3955" />
+    <linearGradient
+       y2="924.7226"
+       x2="63.602776"
+       y1="1051.7493"
+       x1="66.922607"
+       gradientUnits="userSpaceOnUse"
+       id="linearGradient2997"
+       xlink:href="#linearGradient3955" />
+    <linearGradient
+       id="linearGradient4209">
+      <stop
+         id="stop4211"
+         offset="0"
+         style="stop-color:#ffffff;stop-opacity:0;" />
+      <stop
+         style="stop-color:#ffffff;stop-opacity:0.29411766;"
+         offset="0.5"
+         id="stop4217" />
+      <stop
+         id="stop4213"
+         offset="1"
+         style="stop-color:#ffffff;stop-opacity:0;" />
+    </linearGradient>
+    <linearGradient
+       id="linearGradient4145">
+      <stop
+         id="stop4147"
+         offset="0"
+         style="stop-color:#000000;stop-opacity:0.19607843;" />
+      <stop
+         style="stop-color:#000000;stop-opacity:0;"
+         offset="0.5"
+         id="stop4153" />
+      <stop
+         id="stop4149"
+         offset="1"
+         style="stop-color:#000000;stop-opacity:0.19607843;" />
+    </linearGradient>
+  </defs>
+  <metadata
+     id="metadata7">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     transform="translate(0,-924.36218)"
+     id="layer1">
+    <rect
+       y="924.36218"
+       x="0"
+       height="128"
+       width="128"
+       id="rect2985-1"
+       style="fill:#000000;fill-opacity:1;stroke:none" />
+    <path
+       id="rect3013-0"
+       d="m 4,928.3622 0,8 0,104 0,8 8,0 112,0 0,-8 0,-112 -112,0 -8,0 z m 8,8 104,0 0,104 -104,0 0,-104 z"
+       style="fill:#ffff00;fill-opacity:1;stroke:none" />
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:10.3018856px;line-height:0%;font-family:hhh;-inkscape-font-specification:'hhh Bold';letter-spacing:0px;word-spacing:0px;fill:#ffff00;fill-opacity:1;stroke:none;stroke-width:0.81649655"
+       x="99.943031"
+       y="668.93604"
+       id="text3755-9"
+       transform="scale(0.64658683,1.5465827)"><tspan
+         id="tspan3757-4"
+         x="99.943031"
+         y="668.93604"
+         style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:82.06851959px;line-height:1.25;font-family:'DejaVu Sans';-inkscape-font-specification:'DejaVu Sans Bold';text-align:center;text-anchor:middle;fill:#ffff00;stroke-width:0.81649655">G</tspan></text>
+  </g>
+</svg>

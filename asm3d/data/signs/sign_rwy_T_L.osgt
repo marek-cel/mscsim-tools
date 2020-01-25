@@ -1,0 +1,296 @@
+#Ascii Scene 
+#Version 100 
+#Generator OpenSceneGraph 3.2.3 
+
+osg::Group {
+  UniqueID 1 
+  Name "sign_rwy_C_L.obj" 
+  Children 3 {
+    osg::Geode {
+      UniqueID 2 
+      Name "Xgen.001" 
+      Drawables 1 {
+        osg::Geometry {
+          UniqueID 3 
+          DataVariance STATIC 
+          StateSet TRUE {
+            osg::StateSet {
+              UniqueID 4 
+              DataVariance STATIC 
+              AttributeList 1 {
+                osg::Material {
+                  UniqueID 5 
+                  Name "Material.001" 
+                  Ambient TRUE Front 0.5 0.5 0.5 1 Back 0.5 0.5 0.5 1 
+                  Diffuse TRUE Front 1 1 1 1 Back 1 1 1 1 
+                  Specular TRUE Front 0 0 0 1 Back 0 0 0 1 
+                  Emission TRUE Front 0 0 0 1 Back 0 0 0 1 
+                  Shininess TRUE Front 50.0 Back 50.0 
+                }
+                Value OFF 
+              }
+              TextureModeList 1 {
+                Data 1 {
+                  GL_TEXTURE_2D ON 
+                }
+              }
+              TextureAttributeList 1 {
+                Data 1 {
+                  osg::Texture2D {
+                    UniqueID 6 
+                    WRAP_S CLAMP_TO_EDGE 
+                    WRAP_T CLAMP_TO_EDGE 
+                    WRAP_R CLAMP_TO_EDGE 
+                    MIN_FILTER LINEAR_MIPMAP_LINEAR 
+                    MAG_FILTER LINEAR 
+                    MaxAnisotropy 8 
+                    Swizzle RGBA 
+                    Image TRUE {
+                      ClassName osg::Image 
+                      UniqueID 7 
+                      FileName "data/signs/sign_arrow_L.png" 
+                      WriteHint 0 2 
+                      DataVariance STATIC 
+                    }
+                  }
+                  Value OFF 
+                }
+              }
+            }
+          }
+          PrimitiveSetList 1 {
+            DrawElementsUShort GL_TRIANGLE_STRIP 0 4 {
+              2 0 1 3 
+            }
+            
+          }
+          VertexData {
+            Array TRUE ArrayID 1 Vec3fArray 4 {
+              0 -0 -1.2 
+              0 -1.2 0 
+              0 -0 0 
+              0 -1.2 -1.2 
+            }
+            Indices FALSE 
+            Binding BIND_PER_VERTEX 
+            Normalize 0 
+          }
+          NormalData {
+            Array TRUE ArrayID 2 Vec3fArray 4 {
+              -1 -0 0 
+              -1 -0 0 
+              -1 -0 0 
+              -1 -0 0 
+            }
+            Indices FALSE 
+            Binding BIND_PER_VERTEX 
+            Normalize 0 
+          }
+          TexCoordData 1 {
+            Data {
+              Array TRUE ArrayID 3 Vec2fArray 4 {
+                1 1 
+                0 0 
+                1 0 
+                0 1 
+              }
+              Indices FALSE 
+              Binding BIND_PER_VERTEX 
+              Normalize 0 
+            }
+          }
+        }
+      }
+    }
+    osg::Geode {
+      UniqueID 8 
+      Name "Xgen.001" 
+      Drawables 1 {
+        osg::Geometry {
+          UniqueID 9 
+          DataVariance STATIC 
+          StateSet TRUE {
+            osg::StateSet {
+              UniqueID 10 
+              DataVariance STATIC 
+              AttributeList 1 {
+                osg::Material {
+                  UniqueID 5 
+                }
+                Value OFF 
+              }
+              TextureModeList 1 {
+                Data 1 {
+                  GL_TEXTURE_2D ON 
+                }
+              }
+              TextureAttributeList 1 {
+                Data 1 {
+                  osg::Texture2D {
+                    UniqueID 11 
+                    WRAP_S CLAMP_TO_EDGE 
+                    WRAP_T CLAMP_TO_EDGE 
+                    WRAP_R CLAMP_TO_EDGE 
+                    MIN_FILTER LINEAR_MIPMAP_LINEAR 
+                    MAG_FILTER LINEAR 
+                    MaxAnisotropy 8 
+                    Swizzle RGBA 
+                    Image TRUE {
+                      ClassName osg::Image 
+                      UniqueID 12 
+                      FileName "data/signs/sign_twy_T.png" 
+                      WriteHint 0 2 
+                      DataVariance STATIC 
+                    }
+                  }
+                  Value OFF 
+                }
+              }
+            }
+          }
+          PrimitiveSetList 1 {
+            DrawElementsUShort GL_TRIANGLE_STRIP 0 4 {
+              2 0 1 3 
+            }
+            
+          }
+          VertexData {
+            Array TRUE ArrayID 4 Vec3fArray 4 {
+              0 -0 0 
+              0 1.2 -1.2 
+              0 -0 -1.2 
+              0 1.2 0 
+            }
+            Indices FALSE 
+            Binding BIND_PER_VERTEX 
+            Normalize 0 
+          }
+          NormalData {
+            Array TRUE ArrayID 5 Vec3fArray 4 {
+              -1 -0 0 
+              -1 -0 0 
+              -1 -0 0 
+              -1 -0 0 
+            }
+            Indices FALSE 
+            Binding BIND_PER_VERTEX 
+            Normalize 0 
+          }
+          TexCoordData 1 {
+            Data {
+              Array TRUE ArrayID 6 Vec2fArray 4 {
+                0 0 
+                1 1 
+                0 1 
+                1 0 
+              }
+              Indices FALSE 
+              Binding BIND_PER_VERTEX 
+              Normalize 0 
+            }
+          }
+        }
+      }
+    }
+    osg::Geode {
+      UniqueID 13 
+      Name "Xgen.002" 
+      Drawables 1 {
+        osg::Geometry {
+          UniqueID 14 
+          DataVariance STATIC 
+          StateSet TRUE {
+            osg::StateSet {
+              UniqueID 15 
+              DataVariance STATIC 
+              AttributeList 1 {
+                osg::Material {
+                  UniqueID 16 
+                  Name "Material.002" 
+                  Ambient TRUE Front 0.3 0.3 0.3 1 Back 0.3 0.3 0.3 1 
+                  Diffuse TRUE Front 0.6 0.6 0.6 1 Back 0.6 0.6 0.6 1
+                  Specular TRUE Front 0 0 0 1 Back 0 0 0 1 
+                  Emission TRUE Front 0 0 0 1 Back 0 0 0 1 
+                  Shininess TRUE Front 50.0 Back 50.0 
+                }
+                Value OFF 
+              }
+            }
+          }
+          PrimitiveSetList 5 {
+            DrawElementsUShort GL_TRIANGLE_STRIP 0 4 {
+              2 0 1 15 
+            }
+            DrawElementsUShort GL_TRIANGLE_STRIP 0 4 {
+              11 9 10 18 
+            }
+            DrawElementsUShort GL_TRIANGLE_STRIP 0 4 {
+              17 7 6 8 
+            }
+            DrawElementsUShort GL_TRIANGLE_STRIP 0 4 {
+              19 13 12 14 
+            }
+            DrawElementsUShort GL_TRIANGLE_STRIP 0 4 {
+              16 4 3 5 
+            }
+            
+          }
+          VertexData {
+            Array TRUE ArrayID 7 Vec3fArray 20 {
+              0.3 1.2 0 
+              0 -1.2 0 
+              0.3 -1.2 0 
+              0 -1.2 -1.2 
+              0.3 -1.2 0 
+              0 -1.2 0 
+              0 -1.2 -1.2 
+              0.3 1.2 -1.2 
+              0.3 -1.2 -1.2 
+              0.3 1.2 -1.2 
+              0 1.2 0 
+              0.3 1.2 0 
+              0.3 1.2 -1.2 
+              0.3 -1.2 0 
+              0.3 -1.2 -1.2 
+              0 1.2 0 
+              0.3 -1.2 -1.2 
+              0 1.2 -1.2 
+              0 1.2 -1.2 
+              0.3 1.2 0 
+            }
+            Indices FALSE 
+            Binding BIND_PER_VERTEX 
+            Normalize 0 
+          }
+          NormalData {
+            Array TRUE ArrayID 8 Vec3fArray 20 {
+              0 -0 1 
+              0 -0 1 
+              0 -0 1 
+              0 -1 0 
+              0 -1 0 
+              0 -1 0 
+              0 -0 -1 
+              0 -0 -1 
+              0 -0 -1 
+              0 1 0 
+              0 1 0 
+              0 1 0 
+              1 -0 0 
+              1 -0 0 
+              1 -0 0 
+              0 -0 1 
+              0 -1 0 
+              0 -0 -1 
+              0 1 0 
+              1 -0 0 
+            }
+            Indices FALSE 
+            Binding BIND_PER_VERTEX 
+            Normalize 0 
+          }
+        }
+      }
+    }
+  }
+}

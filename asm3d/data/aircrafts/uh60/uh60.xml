@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<gen_file>
+ <group depth_sorted_bin_state="0" name="Root" depth_sorted_bin_value="1">
+  <node_file depth_sorted_bin_state="1" name="FuselageNode" file="data/aircrafts/uh60/uh60_fuselage.osgt" depth_sorted_bin_value="1"/>
+  <node_file depth_sorted_bin_state="1" name="WindshieldNode" file="data/aircrafts/uh60/uh60_windshield.osgt" depth_sorted_bin_value="7"/>
+  <pat depth_sorted_bin_state="1" ax="0" ay="0" px="-9.2706" az="0" py="0" pz="0.1" name="ElevatorPAT" convention="1" depth_sorted_bin_value="1">
+   <pat depth_sorted_bin_state="1" ax="0" ay="0" px="0" az="0" py="0" pz="0" name="Elevator" convention="0" depth_sorted_bin_value="1">
+    <node_file depth_sorted_bin_state="1" name="ElevatorNode" file="data/aircrafts/uh60/uh60_elevator.osgt" depth_sorted_bin_value="1"/>
+   </pat>
+  </pat>
+  <rotor file_blade="data/aircrafts/uh60/uh60_rotor_blade.osgt" direction="1" blades_offset="0.2" depth_sorted_bin_state="1" ax="0" ay="-3" file_shaft="data/aircrafts/uh60/uh60_rotor_shaft.osgt" px="0.034" az="0" py="0" pz="-1.62" blades_count="4" name="MainRotor" convention="0" depth_sorted_bin_value="1"/>
+  <pat depth_sorted_bin_state="0" ax="-20" ay="0" px="-9.86" az="0" py="0.49" pz="-1.92" name="TailRotorPAT" convention="0" depth_sorted_bin_value="1">
+   <pat depth_sorted_bin_state="0" ax="0" ay="0" px="0" az="0" py="0" pz="0" name="TailRotor" convention="0" depth_sorted_bin_value="1">
+    <node_file depth_sorted_bin_state="1" name="TailRotorNode" file="data/aircrafts/uh60/uh60_tail_rotor.osgt" depth_sorted_bin_value="1"/>
+   </pat>
+  </pat>
+ </group>
+</gen_file>
