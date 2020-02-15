@@ -204,7 +204,7 @@ void Rotor::update()
     // main rotor blades
     for ( unsigned int i = 0; i < _blades.size() && i < MAX_BLADES; i++ )
     {
-        double pitching = Data::get()->blade[ i ].theta;
+        double pitching = Data::get()->blade[ i ].theta * ( -coef );
         double flapping = Data::get()->blade[ i ].beta;
 
         _blades[ i ]->setAttitude( osg::Quat( pitching, osg::X_AXIS,
