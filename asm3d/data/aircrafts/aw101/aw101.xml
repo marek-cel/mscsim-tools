@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<gen_file>
+ <group depth_sorted_bin_state="0" name="Root" depth_sorted_bin_value="1">
+  <node_file depth_sorted_bin_state="1" name="FuselageNode" file="data/aircrafts/aw101/aw101_fuselage.osgt" depth_sorted_bin_value="1"/>
+  <rotor file_blade="data/aircrafts/aw101/aw101_rotor_blade.osgt" direction="1" blades_offset="0.2" depth_sorted_bin_state="1" ax="0.000000000000" ay="-4.000000000000" file_shaft="data/aircrafts/aw101/aw101_rotor_hub.osgt" px="0.000000" az="0.000000000000" py="0.000000" pz="-3.570000" blades_count="5" name="MainRotor" convention="0" depth_sorted_bin_value="1"/>
+  <pat depth_sorted_bin_state="0" ax="0.000000000000" ay="0.000000000000" px="-11.500000" az="0.000000000000" py="-0.910000" pz="-3.340000" name="TailRotorPAT" convention="0" depth_sorted_bin_value="1">
+   <pat depth_sorted_bin_state="0" ax="0.000000000000" ay="0.000000000000" px="0.000000" az="0.000000000000" py="0.000000" pz="0.000000" name="TailRotor" convention="0" depth_sorted_bin_value="1">
+    <node_file depth_sorted_bin_state="1" name="TailRotorNode" file="data/aircrafts/aw101/aw101_tail_rotor.osgt" depth_sorted_bin_value="1"/>
+   </pat>
+  </pat>
+  <switch depth_sorted_bin_state="1" visible="1" name="LandingGear" depth_sorted_bin_value="1">
+   <node_file depth_sorted_bin_state="0" name="LandingGearR" file="data/aircrafts/aw101/aw101_landing_gear_r.osgt" depth_sorted_bin_value="1"/>
+   <group depth_sorted_bin_state="0" name="LandingGearE" depth_sorted_bin_value="1">
+    <pat depth_sorted_bin_state="0" ax="0.000000000000" ay="0.000000000000" px="-1.980000" az="0.000000000000" py="-1.780000" pz="0.200000" name="PAT_Wheel_L" convention="0" depth_sorted_bin_value="1">
+     <pat depth_sorted_bin_state="0" ax="0.000000000000" ay="0.000000000000" px="0.000000" az="0.000000000000" py="0.000000" pz="0.000000" name="LandingGear1" convention="0" depth_sorted_bin_value="1">
+      <node_file depth_sorted_bin_state="0" name="FileNode" file="data/aircrafts/aw101/aw101_landing_gear_wheel_l.osgt" depth_sorted_bin_value="1"/>
+     </pat>
+    </pat>
+    <pat depth_sorted_bin_state="0" ax="0.000000000000" ay="0.000000000000" px="-1.980000" az="0.000000000000" py="1.780000" pz="0.200000" name="PAT_Wheel_R" convention="0" depth_sorted_bin_value="1">
+     <pat depth_sorted_bin_state="0" ax="0.000000000000" ay="0.000000000000" px="0.000000" az="0.000000000000" py="0.000000" pz="0.000000" name="LandingGear2" convention="0" depth_sorted_bin_value="1">
+      <node_file depth_sorted_bin_state="0" name="FileNode" file="data/aircrafts/aw101/aw101_landing_gear_wheel_r.osgt" depth_sorted_bin_value="1"/>
+     </pat>
+    </pat>
+    <pat depth_sorted_bin_state="0" ax="0.000000000000" ay="0.000000000000" px="5.050000" az="0.000000000000" py="0.000000" pz="0.400000" name="PAT_Wheel_N" convention="0" depth_sorted_bin_value="1">
+     <pat depth_sorted_bin_state="0" ax="0.000000000000" ay="0.000000000000" px="0.000000" az="0.000000000000" py="0.000000" pz="0.000000" name="LandingGear3" convention="0" depth_sorted_bin_value="1">
+      <node_file depth_sorted_bin_state="0" name="FileNode" file="data/aircrafts/aw101/aw101_landing_gear_wheel_n.osgt" depth_sorted_bin_value="1"/>
+     </pat>
+    </pat>
+   </group>
+  </switch>
+ </group>
+</gen_file>
