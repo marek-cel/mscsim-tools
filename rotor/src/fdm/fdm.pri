@@ -19,12 +19,37 @@ SOURCES += \
 ################################################################################
 
 HEADERS += \
+    $$PWD/main/fdm_Aerodynamics.h \
+    $$PWD/main/fdm_Aircraft.h \
+    $$PWD/main/fdm_Controls.h \
+    $$PWD/main/fdm_Environment.h \
+    $$PWD/main/fdm_Intersections.h \
+    $$PWD/main/fdm_LandingGear.h \
+    $$PWD/main/fdm_Mass.h \
+    $$PWD/main/fdm_Module.h \
+    $$PWD/main/fdm_Propulsion.h
+
+SOURCES += \
+    $$PWD/main/fdm_Aerodynamics.cpp \
+    $$PWD/main/fdm_Aircraft.cpp \
+    $$PWD/main/fdm_Controls.cpp \
+    $$PWD/main/fdm_Environment.cpp \
+    $$PWD/main/fdm_Intersections.cpp \
+    $$PWD/main/fdm_LandingGear.cpp \
+    $$PWD/main/fdm_Mass.cpp \
+    $$PWD/main/fdm_Propulsion.cpp
+
+################################################################################
+
+HEADERS += \
+    $$PWD/models/fdm_Atmosphere.h \
     $$PWD/models/fdm_Blade.h \
     $$PWD/models/fdm_MainRotor.h \
     $$PWD/models/fdm_MainRotorAD.h \
     $$PWD/models/fdm_MainRotorBE.h
 
 SOURCES += \
+    $$PWD/models/fdm_Atmosphere.cpp \
     $$PWD/models/fdm_Blade.cpp \
     $$PWD/models/fdm_MainRotor.cpp \
     $$PWD/models/fdm_MainRotorAD.cpp \
