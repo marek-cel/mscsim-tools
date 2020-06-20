@@ -140,7 +140,7 @@ int main(int argc, char *argv[])
     setlocale( LC_ALL, "C" );
 
 #   ifdef _LINUX_
-    setenv( "LC_NUMERIC", "en_US", 1 );
+    //setenv( "LC_NUMERIC", "en_US", 1 );
 #   endif
 
     QApplication *app = new QApplication( argc, argv );

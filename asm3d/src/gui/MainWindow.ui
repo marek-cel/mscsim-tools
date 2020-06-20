@@ -14,7 +14,7 @@
    <string>FSG Models Assembler</string>
   </property>
   <property name="windowIcon">
-   <iconset resource="../models_assembler.qrc">
+   <iconset resource="../asm3d.qrc">
     <normaloff>:/gui/images/icon.svg</normaloff>:/gui/images/icon.svg</iconset>
   </property>
   <property name="locale">
@@ -179,7 +179,7 @@
   </customwidget>
  </customwidgets>
  <resources>
-  <include location="../models_assembler.qrc"/>
+  <include location="../asm3d.qrc"/>
  </resources>
  <connections/>
 </ui>

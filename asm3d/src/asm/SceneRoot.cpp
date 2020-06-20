@@ -182,7 +182,10 @@ void SceneRoot::createSceneLight()
     osg::ref_ptr<osg::PositionAttitudeTransform> patSun = new osg::PositionAttitudeTransform();
     _sceneRoot->addChild( patSun.get() );
 
-    patSun->setAttitude( osg::Quat( -M_PI_2 - M_PI_4, osg::Z_AXIS, M_PI_4, osg::Y_AXIS, 0.0, osg::X_AXIS ) );
+    //patSun->setAttitude( osg::Quat( -M_PI_2 - M_PI_4, osg::Z_AXIS, M_PI_4, osg::Y_AXIS, 0.0, osg::X_AXIS ) );
+//    patSun->setAttitude( osg::Quat( -M_PI_2 + M_PI_4, osg::Z_AXIS,
+//                                             -M_PI_4, osg::Y_AXIS,
+//                                                 0.0, osg::X_AXIS ) );
 
     osg::ref_ptr<osg::LightSource> lightSourceSun = new osg::LightSource();
     patSun->addChild( lightSourceSun.get() );
@@ -191,7 +194,8 @@ void SceneRoot::createSceneLight()
 
     lightSun->setLightNum( 0 );
 
-    lightSun->setPosition( osg::Vec4d( 10000.0f, 0.0f, 0.0f, 0.0f ) );
+    //lightSun->setPosition( osg::Vec4d( 10000.0f, 0.0f, 0.0f, 0.0f ) );
+    lightSun->setPosition( osg::Vec4d( 0.0f, 10000.0f, -10000.0f, 0.0f ) );
 
     osg::Vec4 lightColor( 255.0f/255.0f, 253.0f/255.0f, 250.0f/255.0f, 1.0f );
 

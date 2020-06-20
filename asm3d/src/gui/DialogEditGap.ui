@@ -14,7 +14,7 @@
    <string>Runway Edit</string>
   </property>
   <property name="locale">
-   <locale language="English" country="UnitedStates"/>
+   <locale language="Polish" country="Poland"/>
   </property>
   <property name="modal">
    <bool>true</bool>
