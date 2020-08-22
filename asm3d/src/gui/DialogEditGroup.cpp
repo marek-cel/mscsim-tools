@@ -162,7 +162,7 @@ void DialogEditGroup::edit( Group *group )
 
 void DialogEditGroup::save()
 {
-    _group->setName( _ui->lineEditName->text().toAscii().data() );
+    _group->setName( _ui->lineEditName->text().toLatin1().data() );
 
     _group->setDepthSortedBinValue( _ui->spinBoxDepthSortedBin->value() );
     _group->setDepthSortedBinState( _ui->checkBoxDepthSortedBin->isChecked() );

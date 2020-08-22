@@ -166,7 +166,7 @@ void DialogEditLOD::edit( LOD *lod )
 
 void DialogEditLOD::save()
 {
-    _lod->setName( _ui->lineEditName->text().toAscii().data() );
+    _lod->setName( _ui->lineEditName->text().toLatin1().data() );
 
     _lod->setDepthSortedBinValue( _ui->spinBoxDepthSortedBin->value() );
     _lod->setDepthSortedBinState( _ui->checkBoxDepthSortedBin->isChecked() );

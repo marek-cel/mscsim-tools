@@ -161,7 +161,7 @@ FLOLS::~FLOLS()
 
 void FLOLS::save( QDomDocument *doc, QDomElement *parentNode )
 {
-    QDomElement node = doc->createElement( "flols" );
+    QDomElement node = doc->createElement( FLOLS::tagName );
     parentNode->appendChild( node );
 
     saveParameters( doc, &node );

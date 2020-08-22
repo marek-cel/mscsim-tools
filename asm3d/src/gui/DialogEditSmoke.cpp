@@ -166,7 +166,7 @@ void DialogEditSmoke::edit( Smoke *smoke )
 
 void DialogEditSmoke::save()
 {
-    _smoke->setName( _ui->lineEditName->text().toAscii().data() );
+    _smoke->setName( _ui->lineEditName->text().toLatin1().data() );
 
     _smoke->setDepthSortedBinValue( _ui->spinBoxDepthSortedBin->value() );
     _smoke->setDepthSortedBinState( _ui->checkBoxDepthSortedBin->isChecked() );

@@ -159,7 +159,7 @@ Smoke::~Smoke()
 
 void Smoke::save( QDomDocument *doc, QDomElement *parentNode )
 {
-    QDomElement node = doc->createElement( "smoke" );
+    QDomElement node = doc->createElement( Smoke::tagName );
     parentNode->appendChild( node );
 
     saveParameters( doc, &node );

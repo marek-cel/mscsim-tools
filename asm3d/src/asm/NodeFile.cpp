@@ -148,7 +148,7 @@ NodeFile::NodeFile( QDomElement *xmlNode ) :
 
     _group ( dynamic_cast< osg::Group* >( _node.get() ) )
 {
-    setFile( xmlNode->attributeNode( "file" ).value().toAscii().data() );
+    setFile( xmlNode->attributeNode( "file" ).value().toLatin1().data() );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -162,7 +162,7 @@ NodeFile::~NodeFile()
 
 void NodeFile::save( QDomDocument *doc, QDomElement *parentNode )
 {
-    QDomElement node = doc->createElement( "node_file" );
+    QDomElement node = doc->createElement( NodeFile::tagName );
     parentNode->appendChild( node );
 
     saveParameters( doc, &node );

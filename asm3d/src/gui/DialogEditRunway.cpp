@@ -207,7 +207,7 @@ void DialogEditRunway::edit( Runway *runway )
 
 void DialogEditRunway::save()
 {
-    _runway->setName( _ui->lineEditName->text().toAscii().data() );
+    _runway->setName( _ui->lineEditName->text().toLatin1().data() );
 
     _runway->setDepthSortedBinValue( _ui->spinBoxDepthSortedBin->value() );
     _runway->setDepthSortedBinState( _ui->checkBoxDepthSortedBin->isChecked() );

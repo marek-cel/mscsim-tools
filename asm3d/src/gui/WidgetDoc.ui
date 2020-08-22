@@ -72,6 +72,11 @@
        <string>&gt;&gt;&gt; World</string>
       </property>
      </item>
+     <item>
+      <property name="text">
+       <string>&gt;&gt;&gt; Flame</string>
+      </property>
+     </item>
     </widget>
    </item>
    <item row="0" column="1">

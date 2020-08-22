@@ -13,6 +13,7 @@ HEADERS += \
     $$PWD/ManipulatorTrack.h \
     $$PWD/Models.h \
     $$PWD/NodeFile.h \
+    $$PWD/Nozzle.h \
     $$PWD/PAT.h \
     $$PWD/Rotor.h \
     $$PWD/Runway.h \
@@ -39,6 +40,7 @@ SOURCES += \
     $$PWD/ManipulatorTrack.cpp \
     $$PWD/Models.cpp \
     $$PWD/NodeFile.cpp \
+    $$PWD/Nozzle.cpp \
     $$PWD/PAT.cpp \
     $$PWD/Rotor.cpp \
     $$PWD/Runway.cpp \

@@ -188,13 +188,13 @@ void DialogEditRotor::edit( Rotor *rotor )
 
 void DialogEditRotor::save()
 {
-    _rotor->setName( _ui->lineEditName->text().toAscii().data() );
+    _rotor->setName( _ui->lineEditName->text().toLatin1().data() );
 
     _rotor->setDepthSortedBinValue( _ui->spinBoxDepthSortedBin->value() );
     _rotor->setDepthSortedBinState( _ui->checkBoxDepthSortedBin->isChecked() );
 
-    _rotor->setFileBlade( _ui->lineEditFileBlade->text().toAscii().data() );
-    _rotor->setFileShaft( _ui->lineEditFileShaft->text().toAscii().data() );
+    _rotor->setFileBlade( _ui->lineEditFileBlade->text().toLatin1().data() );
+    _rotor->setFileShaft( _ui->lineEditFileShaft->text().toLatin1().data() );
     _rotor->setBladesCount( _ui->spinBoxBladesCount->value() );
     _rotor->setBladesOffset( _ui->spinBoxBladesOffset->value() );
 

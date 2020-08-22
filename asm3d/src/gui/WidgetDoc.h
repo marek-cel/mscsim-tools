@@ -144,6 +144,7 @@
 #include "DialogEditFLOLS.h"
 #include "DialogEditRunway.h"
 #include "DialogEditWorld.h"
+#include "DialogEditNozzle.h"
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -199,6 +200,7 @@ private:
     DialogEditFLOLS    *_dialogEditFLOLS;      ///<
     DialogEditRunway   *_dialogEditRunway;     ///<
     DialogEditWorld    *_dialogEditWorld;      ///<
+    DialogEditNozzle   *_dialogEditNozzle;     ///<
 
     int _timedId;
 
@@ -225,6 +227,7 @@ private slots:
     void dialogEditFLOLS_accepted();
     void dialogEditRunway_accepted();
     void dialogEditWorld_accepted();
+    void dialogEditNozzle_accepted();
 
 
     void on_pushButtonAdd_clicked();

@@ -146,6 +146,7 @@ WidgetDoc::WidgetDoc( QWidget *parent ) :
     _dialogEditFLOLS    ( new DialogEditFLOLS    ( this ) ),
     _dialogEditRunway   ( new DialogEditRunway   ( this ) ),
     _dialogEditWorld    ( new DialogEditWorld    ( this ) ),
+    _dialogEditNozzle   ( new DialogEditNozzle   ( this ) ),
 
     _timedId ( 0 )
 {
@@ -163,6 +164,7 @@ WidgetDoc::WidgetDoc( QWidget *parent ) :
     connect( _dialogEditFLOLS    , SIGNAL(accepted()), this, SLOT(dialogEditFLOLS_accepted())    );
     connect( _dialogEditRunway   , SIGNAL(accepted()), this, SLOT(dialogEditRunway_accepted())   );
     connect( _dialogEditWorld    , SIGNAL(accepted()), this, SLOT(dialogEditWorld_accepted())    );
+    connect( _dialogEditNozzle   , SIGNAL(accepted()), this, SLOT(dialogEditNozzle_accepted())   );
 
     _timedId = startTimer( 17 ); // ca. 60Hz
 }
@@ -202,6 +204,9 @@ WidgetDoc::~WidgetDoc()
 
     if ( _dialogEditWorld ) delete _dialogEditWorld;
     _dialogEditWorld = nullptr;
+
+    if ( _dialogEditNozzle ) delete _dialogEditNozzle;
+    _dialogEditNozzle = nullptr;
 
     if ( _doc ) delete _doc;
     _doc = nullptr;
@@ -449,6 +454,11 @@ void WidgetDoc::addComponent()
         component = new World();
         component->setName( "World" );
     }
+    else if ( _ui->comboBoxComponents->currentIndex() == 10 )
+    {
+        component = new Nozzle();
+        component->setName( "Nozzle" );
+    }
 
 
     if ( component )
@@ -490,10 +500,12 @@ void WidgetDoc::editComponent()
     FLOLS  *flols  = dynamic_cast< FLOLS  * >( node );
     Runway *runway = dynamic_cast< Runway * >( node );
     World  *world  = dynamic_cast< World  * >( node );
+    Nozzle *nozzle = dynamic_cast< Nozzle * >( node );
 
 
 
     if      ( file   ) _dialogEditNodeFile ->edit( file   );
+    else if ( nozzle ) _dialogEditNozzle   ->edit( nozzle );
     else if ( world  ) _dialogEditWorld    ->edit( world  );
     else if ( runway ) _dialogEditRunway   ->edit( runway );
     else if ( flols  ) _dialogEditFLOLS    ->edit( flols  );
@@ -601,6 +613,15 @@ void WidgetDoc::dialogEditRunway_accepted()
 void WidgetDoc::dialogEditWorld_accepted()
 {
     _dialogEditWorld->save();
+    updateGUI();
+    emit( changed() );
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void WidgetDoc::dialogEditNozzle_accepted()
+{
+    _dialogEditNozzle->save();
     updateGUI();
     emit( changed() );
 }

@@ -123,76 +123,52 @@
  *     party to this document and has no duty or obligation with respect to
  *     this CC0 or use of the Work.
  ******************************************************************************/
-#include <asm/LOD.h>
+#include <osgDB/ReadFile>
+
+#include <osg/AlphaFunc>
+#include <osg/BlendFunc>
+#include <osg/Depth>
+
+#include <asm/Nozzle.h>
+
+#include <Data.h>
 
 ////////////////////////////////////////////////////////////////////////////////
 
-const char LOD::tagName[] = "lod";
+const char Nozzle::tagName[] = "nozzle";
 
 ////////////////////////////////////////////////////////////////////////////////
 
-LOD::LOD() :
-    Group( new osg::LOD() ),
-
-    _lod ( dynamic_cast< osg::LOD* >( _node.get() ) ),
-
-    _interval_f ( 1000.0 ),
-    _interval_s ( 1000.0 ),
-    _interval_o ( 1000.0 )
+Nozzle::Nozzle()
 {
-    _lod->setCenter( osg::Vec3d( 0.0, 0.0, 0.0 ) );
-    _lod->setCenterMode( osg::LOD::USER_DEFINED_CENTER );
-    _lod->setRangeMode( osg::LOD::DISTANCE_FROM_EYE_POINT );
+    _fileGlow = "";
+    _fileExhaust = "";
+
+    _suffix = "";
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
-LOD::LOD( QDomElement *xmlNode ) :
-    Group( xmlNode, new osg::LOD() ),
-
-    _lod ( dynamic_cast< osg::LOD* >( _node.get() ) )
+Nozzle::Nozzle( QDomElement *xmlNode ) :
+    PAT( xmlNode )
 {
-    _lod->setCenter( osg::Vec3d( 0.0, 0.0, 0.0 ) );
-    _lod->setCenterMode( osg::LOD::USER_DEFINED_CENTER );
-    _lod->setRangeMode( osg::LOD::DISTANCE_FROM_EYE_POINT );
-
-    double interval_f = xmlNode->attributeNode( "interval_f" ).value().toDouble();
-    double interval_s = xmlNode->attributeNode( "interval_s" ).value().toDouble();
-    double interval_o = xmlNode->attributeNode( "interval_o" ).value().toDouble();
-
-    if ( !xmlNode->hasAttribute( "interval_s" ) )
-    {
-        interval_s = interval_o;
-    }
-
-    setIntervalF( interval_f );
-    setIntervalS( interval_s );
-    setIntervalO( interval_o );
+    setFileGlow( xmlNode->attributeNode( "file_glow" ).value().toLatin1().data() );
+    setFileExhaust( xmlNode->attributeNode( "file_exhaust" ).value().toLatin1().data() );
+    setSuffix( xmlNode->attributeNode( "suffix" ).value().toLatin1().data() );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
-LOD::~LOD()
+Nozzle::~Nozzle()
 {
     removeAllChildren();
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
-bool LOD::addChild( Component *child )
+void Nozzle::save( QDomDocument *doc, QDomElement *parentNode )
 {
-    _children.push_back( child );
-
-    inflateLOD();
-
-    return true;
-}
-
-////////////////////////////////////////////////////////////////////////////////
-
-void LOD::save( QDomDocument *doc, QDomElement *parentNode )
-{
-    QDomElement node = doc->createElement( LOD::tagName );
+    QDomElement node = doc->createElement( Nozzle::tagName );
     parentNode->appendChild( node );
 
     saveParameters( doc, &node );
@@ -200,81 +176,145 @@ void LOD::save( QDomDocument *doc, QDomElement *parentNode )
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void LOD::setIntervalF( double interval_f )
+void Nozzle::update()
 {
-    _interval_f = interval_f;
-
-    inflateLOD();
+    //////////////
+    PAT::update();
+    //////////////
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void LOD::setIntervalS( double interval_s )
+void Nozzle::setFileGlow( std::string fileGlow )
 {
-    _interval_s = interval_s;
-
-    inflateLOD();
+    removeAllChildren();
+    _fileGlow = fileGlow;
+    create();
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void LOD::setIntervalO( double interval_o )
+void Nozzle::setFileExhaust( std::string fileExhaust )
 {
-    _interval_o = interval_o;
-
-    inflateLOD();
+    removeAllChildren();
+    _fileExhaust = fileExhaust;
+    create();
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void LOD::inflateLOD()
+void Nozzle::setSuffix( std::string suffix )
 {
-    if ( _lod->getNumChildren() > 0 )
+    removeAllChildren();
+    _suffix = suffix;
+    create();
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void Nozzle::create()
+{
+    std::string temp = "Afterburner";
+    temp += _suffix;
+
+    _switch = new osg::Switch();
+    _switch->setName( temp.c_str() );
+    _pat->addChild( _switch.get() );
+
+    _exhaust = new osg::PositionAttitudeTransform();
+    _exhaust->setName( "Exhaust" );
+    _switch->addChild( _exhaust.get() );
+
+    if ( _fileGlow.length() > 0 ) createGlow();
+    if ( _fileExhaust.length() > 0 ) createExhaust();
+    
+//    osg::ref_ptr<osg::StateSet> stateSet = _switch->getOrCreateStateSet();
+
+//    stateSet->setMode( GL_RESCALE_NORMAL , osg::StateAttribute::ON  );
+//    stateSet->setMode( GL_LIGHTING       , osg::StateAttribute::ON  );
+//    stateSet->setMode( GL_LIGHT0         , osg::StateAttribute::ON  );
+//    stateSet->setMode( GL_BLEND          , osg::StateAttribute::ON  );
+//    stateSet->setMode( GL_ALPHA_TEST     , osg::StateAttribute::ON  );
+//    stateSet->setMode( GL_DEPTH_TEST     , osg::StateAttribute::ON  );
+//    stateSet->setMode( GL_DITHER         , osg::StateAttribute::OFF );
+//    stateSet->setMode( GL_CULL_FACE      , osg::StateAttribute::OFF );
+
+//    osg::ref_ptr<osg::AlphaFunc> alphaFunc = new osg::AlphaFunc();
+//    osg::ref_ptr<osg::BlendFunc> blendFunc = new osg::BlendFunc();
+//    blendFunc->setFunction( GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA );
+//    alphaFunc->setFunction( osg::AlphaFunc::GEQUAL, 0.05 );
+//    stateSet->setRenderingHint( osg::StateSet::TRANSPARENT_BIN );
+//    stateSet->setAttributeAndModes( blendFunc.get(), osg::StateAttribute::ON );
+//    stateSet->setAttributeAndModes( alphaFunc.get(), osg::StateAttribute::ON );
+//    stateSet->setMode( GL_BLEND, osg::StateAttribute::ON | osg::StateAttribute::OVERRIDE );
+
+//    osg::ref_ptr<osg::Depth> depth = new osg::Depth;
+//    depth->setWriteMask( false );
+//    stateSet->setAttributeAndModes( depth.get(), osg::StateAttribute::ON );
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void Nozzle::createGlow()
+{
+    osg::ref_ptr<osg::Node> fileNode = osgDB::readNodeFile( _fileGlow );
+
+    if ( fileNode.valid() )
     {
-        _lod->removeChildren( 0, _lod->getNumChildren() );
+        _switch->addChild( fileNode.get() );
+    }
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void Nozzle::createExhaust()
+{
+    osg::ref_ptr<osg::Node> fileNode = osgDB::readNodeFile( _fileExhaust );
+
+    if ( fileNode.valid() )
+    {
+        _exhaust->addChild( fileNode.get() );
+    }
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void Nozzle::removeAllChildren()
+{
+    if ( _exhaust.valid() )
+    {
+        _exhaust->removeChild( 0, _exhaust->getNumChildren() );
     }
 
-    for ( unsigned int i = 0; i < _children.size(); i++ )
+    if ( _switch.valid() )
     {
-        float r_0 = 0.0f;
-        float r_1 = 0.0f;
-
-        if ( i == 0 )
-        {
-            r_0 = 0.0f;
-            r_1 = _interval_f;
-        }
-        else if ( i == 1 )
-        {
-            r_0 = _interval_f;
-            r_1 = r_0 + _interval_s;
-        }
-        else
-        {
-            r_0 = _interval_f + _interval_s;
-            r_1 = r_0 + ( i - 1 ) * _interval_o;
-        }
-
-        _lod->addChild( _children[ i ]->getNode(), r_0, r_1 );
-        //_lod->setRange( i, r_0, r_1 );
+        _switch->removeChild( 0, _switch->getNumChildren() );
     }
+
+    ///////////////////////////
+    Group::removeAllChildren();
+    ///////////////////////////
+
+    _exhaust = 0;
+    _switch = 0;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void LOD::saveParameters( QDomDocument *doc, QDomElement *xmlNode )
+void Nozzle::saveParameters( QDomDocument *doc, QDomElement *xmlNode )
 {
-    Group::saveParameters( doc, xmlNode );
+    PAT::saveParameters( doc, xmlNode );
 
-    QDomAttr nodeIntervalF = doc->createAttribute( "interval_f" );
-    QDomAttr nodeIntervalS = doc->createAttribute( "interval_s" );
-    QDomAttr nodeIntervalO = doc->createAttribute( "interval_o" );
+    QDomAttr nodeFileGlow = doc->createAttribute( "file_glow" );
+    QDomAttr nodeFileExhaust = doc->createAttribute( "file_exhaust" );
 
-    nodeIntervalF.setValue( QString::number( getIntervalF() ) );
-    nodeIntervalS.setValue( QString::number( getIntervalS() ) );
-    nodeIntervalO.setValue( QString::number( getIntervalO() ) );
+    nodeFileGlow.setValue( getFileGlow().c_str() );
+    nodeFileExhaust.setValue( getFileExhaust().c_str() );
 
-    xmlNode->setAttributeNode( nodeIntervalF );
-    xmlNode->setAttributeNode( nodeIntervalS );
-    xmlNode->setAttributeNode( nodeIntervalO );
+    xmlNode->setAttributeNode( nodeFileGlow );
+    xmlNode->setAttributeNode( nodeFileExhaust );
+
+    QDomAttr nodeSuffix = doc->createAttribute( "suffix" );
+    nodeSuffix.setValue( getSuffix().c_str() );
+    xmlNode->setAttributeNode( nodeSuffix );
 }

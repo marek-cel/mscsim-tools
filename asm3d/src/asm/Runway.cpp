@@ -207,7 +207,7 @@ Runway::~Runway() {}
 
 void Runway::save( QDomDocument *doc, QDomElement *parentNode )
 {
-    QDomElement node = doc->createElement( "runway" );
+    QDomElement node = doc->createElement( Runway::tagName );
     parentNode->appendChild( node );
 
     saveParameters( doc, &node );
@@ -482,7 +482,7 @@ void Runway::saveParameters( QDomDocument *doc, QDomElement *xmlNode )
     xmlNode->setAttributeNode( nodeRCLS );
     xmlNode->setAttributeNode( nodeTDZL );
 
-    for ( Gaps::iterator it = _gaps.begin(); it != _gaps.end(); it++ )
+    for ( Gaps::iterator it = _gaps.begin(); it != _gaps.end(); ++it )
     {
         QDomElement gapNode = doc->createElement( "gap" );
 

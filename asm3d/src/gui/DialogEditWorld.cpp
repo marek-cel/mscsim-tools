@@ -170,7 +170,7 @@ void DialogEditWorld::edit( World *world )
 
 void DialogEditWorld::save()
 {
-    _world->setName( _ui->lineEditName->text().toAscii().data() );
+    _world->setName( _ui->lineEditName->text().toLatin1().data() );
 
     _world->setDepthSortedBinValue( _ui->spinBoxDepthSortedBin->value() );
     _world->setDepthSortedBinState( _ui->checkBoxDepthSortedBin->isChecked() );
@@ -179,7 +179,7 @@ void DialogEditWorld::save()
     _world->setLon( _ui->spinBoxLon->value() );
     _world->setAlt( _ui->spinBoxAlt->value() );
 
-    _world->setFile( _ui->lineEditFile->text().toAscii().data() );
+    _world->setFile( _ui->lineEditFile->text().toLatin1().data() );
 }
 
 ////////////////////////////////////////////////////////////////////////////////

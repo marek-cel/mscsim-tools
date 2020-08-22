@@ -11,6 +11,10 @@ TARGET = mscsim-asm3d
 
 ################################################################################
 
+CONFIG += c++11
+
+################################################################################
+
 DEFINES += \
     QT_DEPRECATED_WARNINGS
 
@@ -49,7 +53,6 @@ win32:CONFIG(release, debug|release): LIBS += \
     -losg \
     -losgDB \
     -losgGA \
-    -losgQt \
     -losgParticle \
     -losgSim \
     -losgText \
@@ -62,7 +65,6 @@ win32:CONFIG(debug, debug|release):  LIBS += \
     -losgd \
     -losgDBd \
     -losgGAd \
-    -losgQtd \
     -losgParticled \
     -losgSimd \
     -losgTextd \
@@ -78,7 +80,6 @@ unix: LIBS += \
     -losg \
     -losgDB \
     -losgGA \
-    -losgQt \
     -losgParticle \
     -losgSim \
     -losgText \

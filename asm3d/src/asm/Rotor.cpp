@@ -153,8 +153,8 @@ Rotor::Rotor( QDomElement *xmlNode ) :
     _bladesOffset ( 0.0 ),
     _direction ( CW )
 {
-    setFileBlade( xmlNode->attributeNode( "file_blade" ).value().toAscii().data() );
-    setFileShaft( xmlNode->attributeNode( "file_shaft" ).value().toAscii().data() );
+    setFileBlade( xmlNode->attributeNode( "file_blade" ).value().toLatin1().data() );
+    setFileShaft( xmlNode->attributeNode( "file_shaft" ).value().toLatin1().data() );
 
     setBladesCount( xmlNode->attributeNode( "blades_count" ).value().toInt() );
     setBladesOffset( xmlNode->attributeNode( "blades_offset" ).value().toDouble() );
@@ -173,7 +173,7 @@ Rotor::~Rotor()
 
 void Rotor::save( QDomDocument *doc, QDomElement *parentNode )
 {
-    QDomElement node = doc->createElement( "rotor" );
+    QDomElement node = doc->createElement( Rotor::tagName );
     parentNode->appendChild( node );
 
     saveParameters( doc, &node );

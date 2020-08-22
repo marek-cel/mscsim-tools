@@ -164,7 +164,7 @@ void DialogEditSwitch::edit( Switch *aswitch )
 
 void DialogEditSwitch::save()
 {
-    _switch->setName( _ui->lineEditName->text().toAscii().data() );
+    _switch->setName( _ui->lineEditName->text().toLatin1().data() );
 
     _switch->setDepthSortedBinValue( _ui->spinBoxDepthSortedBin->value() );
     _switch->setDepthSortedBinState( _ui->checkBoxDepthSortedBin->isChecked() );

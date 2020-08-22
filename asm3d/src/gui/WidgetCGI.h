@@ -128,7 +128,6 @@
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#include <osgQt/GraphicsWindowQt>
 #include <osgViewer/Viewer>
 
 #include <QDateTime>
@@ -139,6 +138,8 @@
 #include <asm/ManipulatorTrack.h>
 
 #include <asm/SceneRoot.h>
+
+#include <gui/GraphicsWindowQt.h>
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -177,13 +178,14 @@ private:
     osg::ref_ptr<ManipulatorOrbit> _manipulatorOrbit;
     osg::ref_ptr<ManipulatorTrack> _manipulatorTrack;
 
-    osg::ref_ptr<osgQt::GraphicsWindowQt> _graphicsWindow;
+    osg::ref_ptr<GraphicsWindowQt> _graphicsWindow;
 
     /** */
-    QWidget* addViewWidget( osgQt::GraphicsWindowQt *graphicsWindow, osg::Node *scene );
+    QWidget* addViewWidget( GraphicsWindowQt *graphicsWindow, osg::Node *scene );
 
     /** */
-    osg::ref_ptr<osgQt::GraphicsWindowQt> createGraphicsWindow( int x, int y, int w, int h, const std::string &name = "", bool windowDecoration = false );
+    osg::ref_ptr<GraphicsWindowQt> createGraphicsWindow( int x, int y, int w, int h,
+                                                         const std::string &name = "", bool windowDecoration = false );
 };
 
 ////////////////////////////////////////////////////////////////////////////////

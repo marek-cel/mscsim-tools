@@ -164,7 +164,7 @@ Switch::~Switch()
 
 void Switch::save( QDomDocument *doc, QDomElement *parentNode )
 {
-    QDomElement node = doc->createElement( "switch" );
+    QDomElement node = doc->createElement( Switch::tagName );
     parentNode->appendChild( node );
 
     saveParameters( doc, &node );

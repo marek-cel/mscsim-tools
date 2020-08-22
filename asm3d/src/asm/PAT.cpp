@@ -191,7 +191,7 @@ PAT::~PAT()
 
 void PAT::save( QDomDocument *doc, QDomElement *parentNode )
 {
-    QDomElement node = doc->createElement( "pat" );
+    QDomElement node = doc->createElement( PAT::tagName );
     parentNode->appendChild( node );
 
     saveParameters( doc, &node );

@@ -1060,7 +1060,7 @@ void Lights::RELS::createRELS( osgSim::LightPointNode *lightPointNode, float run
 
         float x_abs = ( xdel > 0.0 ) ? 2.0 * fabs( xdel ) - xcur : xcur;
 
-        for ( Gaps::const_iterator it = gaps.begin(); it != gaps.end(); it++ )
+        for ( Gaps::const_iterator it = gaps.begin(); it != gaps.end(); ++it )
         {
             if ( x_abs > (*it).from && x_abs < (*it).to )
             {

@@ -123,158 +123,63 @@
  *     party to this document and has no duty or obligation with respect to
  *     this CC0 or use of the Work.
  ******************************************************************************/
-#include <asm/LOD.h>
+#ifndef NOZZLE_H
+#define NOZZLE_H
 
 ////////////////////////////////////////////////////////////////////////////////
 
-const char LOD::tagName[] = "lod";
+#include "PAT.h"
+
+#include <osg/Switch>
 
 ////////////////////////////////////////////////////////////////////////////////
 
-LOD::LOD() :
-    Group( new osg::LOD() ),
-
-    _lod ( dynamic_cast< osg::LOD* >( _node.get() ) ),
-
-    _interval_f ( 1000.0 ),
-    _interval_s ( 1000.0 ),
-    _interval_o ( 1000.0 )
+/** Nozzle afterburner effect. */
+class Nozzle : public PAT
 {
-    _lod->setCenter( osg::Vec3d( 0.0, 0.0, 0.0 ) );
-    _lod->setCenterMode( osg::LOD::USER_DEFINED_CENTER );
-    _lod->setRangeMode( osg::LOD::DISTANCE_FROM_EYE_POINT );
-}
+public:
+
+    static const char tagName[];
+
+    Nozzle();
+
+    Nozzle( QDomElement *xmlNode );
+
+    virtual ~Nozzle();
+
+    virtual void save( QDomDocument *doc, QDomElement *parentNode );
+
+    virtual void update();
+
+    void setFileGlow( std::string fileGlow );
+    void setFileExhaust( std::string fileExhaust );
+
+    void setSuffix( std::string suffix );
+
+    inline std::string getFileGlow() const { return _fileGlow; }
+    inline std::string getFileExhaust() const { return _fileExhaust; }
+
+    inline std::string getSuffix() const { return _suffix; }
+
+protected:
+
+    osg::ref_ptr<osg::Switch> _switch;
+    osg::ref_ptr<osg::PositionAttitudeTransform> _exhaust;
+
+    std::string _fileGlow;
+    std::string _fileExhaust;
+
+    std::string _suffix;
+
+    void create();
+    void createGlow();
+    void createExhaust();
+
+    void removeAllChildren();
+
+    virtual void saveParameters( QDomDocument *doc, QDomElement *xmlNode );
+};
 
 ////////////////////////////////////////////////////////////////////////////////
 
-LOD::LOD( QDomElement *xmlNode ) :
-    Group( xmlNode, new osg::LOD() ),
-
-    _lod ( dynamic_cast< osg::LOD* >( _node.get() ) )
-{
-    _lod->setCenter( osg::Vec3d( 0.0, 0.0, 0.0 ) );
-    _lod->setCenterMode( osg::LOD::USER_DEFINED_CENTER );
-    _lod->setRangeMode( osg::LOD::DISTANCE_FROM_EYE_POINT );
-
-    double interval_f = xmlNode->attributeNode( "interval_f" ).value().toDouble();
-    double interval_s = xmlNode->attributeNode( "interval_s" ).value().toDouble();
-    double interval_o = xmlNode->attributeNode( "interval_o" ).value().toDouble();
-
-    if ( !xmlNode->hasAttribute( "interval_s" ) )
-    {
-        interval_s = interval_o;
-    }
-
-    setIntervalF( interval_f );
-    setIntervalS( interval_s );
-    setIntervalO( interval_o );
-}
-
-////////////////////////////////////////////////////////////////////////////////
-
-LOD::~LOD()
-{
-    removeAllChildren();
-}
-
-////////////////////////////////////////////////////////////////////////////////
-
-bool LOD::addChild( Component *child )
-{
-    _children.push_back( child );
-
-    inflateLOD();
-
-    return true;
-}
-
-////////////////////////////////////////////////////////////////////////////////
-
-void LOD::save( QDomDocument *doc, QDomElement *parentNode )
-{
-    QDomElement node = doc->createElement( LOD::tagName );
-    parentNode->appendChild( node );
-
-    saveParameters( doc, &node );
-}
-
-////////////////////////////////////////////////////////////////////////////////
-
-void LOD::setIntervalF( double interval_f )
-{
-    _interval_f = interval_f;
-
-    inflateLOD();
-}
-
-////////////////////////////////////////////////////////////////////////////////
-
-void LOD::setIntervalS( double interval_s )
-{
-    _interval_s = interval_s;
-
-    inflateLOD();
-}
-
-////////////////////////////////////////////////////////////////////////////////
-
-void LOD::setIntervalO( double interval_o )
-{
-    _interval_o = interval_o;
-
-    inflateLOD();
-}
-
-////////////////////////////////////////////////////////////////////////////////
-
-void LOD::inflateLOD()
-{
-    if ( _lod->getNumChildren() > 0 )
-    {
-        _lod->removeChildren( 0, _lod->getNumChildren() );
-    }
-
-    for ( unsigned int i = 0; i < _children.size(); i++ )
-    {
-        float r_0 = 0.0f;
-        float r_1 = 0.0f;
-
-        if ( i == 0 )
-        {
-            r_0 = 0.0f;
-            r_1 = _interval_f;
-        }
-        else if ( i == 1 )
-        {
-            r_0 = _interval_f;
-            r_1 = r_0 + _interval_s;
-        }
-        else
-        {
-            r_0 = _interval_f + _interval_s;
-            r_1 = r_0 + ( i - 1 ) * _interval_o;
-        }
-
-        _lod->addChild( _children[ i ]->getNode(), r_0, r_1 );
-        //_lod->setRange( i, r_0, r_1 );
-    }
-}
-
-////////////////////////////////////////////////////////////////////////////////
-
-void LOD::saveParameters( QDomDocument *doc, QDomElement *xmlNode )
-{
-    Group::saveParameters( doc, xmlNode );
-
-    QDomAttr nodeIntervalF = doc->createAttribute( "interval_f" );
-    QDomAttr nodeIntervalS = doc->createAttribute( "interval_s" );
-    QDomAttr nodeIntervalO = doc->createAttribute( "interval_o" );
-
-    nodeIntervalF.setValue( QString::number( getIntervalF() ) );
-    nodeIntervalS.setValue( QString::number( getIntervalS() ) );
-    nodeIntervalO.setValue( QString::number( getIntervalO() ) );
-
-    xmlNode->setAttributeNode( nodeIntervalF );
-    xmlNode->setAttributeNode( nodeIntervalS );
-    xmlNode->setAttributeNode( nodeIntervalO );
-}
+#endif // NOZZLE_H

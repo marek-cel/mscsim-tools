@@ -153,7 +153,7 @@ World::World( QDomElement *xmlNode ) :
     setLon( xmlNode->attributeNode( "lon" ).value().toDouble() );
     setAlt( xmlNode->attributeNode( "alt" ).value().toDouble() );
 
-    setFile( xmlNode->attributeNode( "file" ).value().toAscii().data() );
+    setFile( xmlNode->attributeNode( "file" ).value().toLatin1().data() );
 
 //    std::cout << "lat: " << _lat << std::endl;
 //    std::cout << "lon: " << _lon << std::endl;
@@ -170,7 +170,7 @@ World::~World()
 
 void World::save( QDomDocument *doc, QDomElement *parentNode )
 {
-    QDomElement node = doc->createElement( "world" );
+    QDomElement node = doc->createElement( World::tagName );
     parentNode->appendChild( node );
 
     saveParameters( doc, &node );

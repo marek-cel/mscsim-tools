@@ -123,158 +123,137 @@
  *     party to this document and has no duty or obligation with respect to
  *     this CC0 or use of the Work.
  ******************************************************************************/
-#include <asm/LOD.h>
+#ifndef GRAPHICSWINDOWQT_H
+#define GRAPHICSWINDOWQT_H
 
 ////////////////////////////////////////////////////////////////////////////////
 
-const char LOD::tagName[] = "lod";
+#include <osgViewer/GraphicsWindow>
+
+#include <QEvent>
+#include <QGLWidget>
+#include <QInputEvent>
+#include <QMutex>
+#include <QQueue>
+#include <QSet>
 
 ////////////////////////////////////////////////////////////////////////////////
 
-LOD::LOD() :
-    Group( new osg::LOD() ),
-
-    _lod ( dynamic_cast< osg::LOD* >( _node.get() ) ),
-
-    _interval_f ( 1000.0 ),
-    _interval_s ( 1000.0 ),
-    _interval_o ( 1000.0 )
+class GraphicsWindowQt : public osgViewer::GraphicsWindow
 {
-    _lod->setCenter( osg::Vec3d( 0.0, 0.0, 0.0 ) );
-    _lod->setCenterMode( osg::LOD::USER_DEFINED_CENTER );
-    _lod->setRangeMode( osg::LOD::DISTANCE_FROM_EYE_POINT );
-}
+    class GLWidget;
 
-////////////////////////////////////////////////////////////////////////////////
+    friend class GLWidget;
 
-LOD::LOD( QDomElement *xmlNode ) :
-    Group( xmlNode, new osg::LOD() ),
+public:
 
-    _lod ( dynamic_cast< osg::LOD* >( _node.get() ) )
-{
-    _lod->setCenter( osg::Vec3d( 0.0, 0.0, 0.0 ) );
-    _lod->setCenterMode( osg::LOD::USER_DEFINED_CENTER );
-    _lod->setRangeMode( osg::LOD::DISTANCE_FROM_EYE_POINT );
-
-    double interval_f = xmlNode->attributeNode( "interval_f" ).value().toDouble();
-    double interval_s = xmlNode->attributeNode( "interval_s" ).value().toDouble();
-    double interval_o = xmlNode->attributeNode( "interval_o" ).value().toDouble();
-
-    if ( !xmlNode->hasAttribute( "interval_s" ) )
+    struct WinData : public osg::Referenced
     {
-        interval_s = interval_o;
-    }
+        WinData( GLWidget *widget = 0, QWidget *parent = 0 ) :
+            _widget ( widget ),
+            _parent ( parent )
+        {}
 
-    setIntervalF( interval_f );
-    setIntervalS( interval_s );
-    setIntervalO( interval_o );
-}
+        GLWidget *_widget;      ///<
+        QWidget  *_parent;      ///<
+    };
 
-////////////////////////////////////////////////////////////////////////////////
+    /**
+     * Constructor.
+     * @param traits
+     */
+    GraphicsWindowQt( osg::GraphicsContext::Traits *traits );
 
-LOD::~LOD()
-{
-    removeAllChildren();
-}
+    /** Destructor. */
+    virtual ~GraphicsWindowQt();
 
-////////////////////////////////////////////////////////////////////////////////
+    virtual bool setWindowRectangleImplementation( int x, int y, int w, int h );
+    virtual void getWindowRectangle( int &x, int &y, int &w, int &h );
+    virtual void grabFocus();
+    virtual void grabFocusIfPointerInWindow();
+    virtual void raiseWindow();
+    virtual void useCursor( bool cursorOn );
+    virtual void setCursor( MouseCursor cursor );
 
-bool LOD::addChild( Component *child )
-{
-    _children.push_back( child );
+    virtual bool valid() const;
+    virtual bool realizeImplementation();
+    virtual bool isRealizedImplementation() const;
+    virtual void closeImplementation();
+    virtual bool makeCurrentImplementation();
+    virtual bool releaseContextImplementation();
+    virtual void swapBuffersImplementation();
+    virtual void runOperations();
 
-    inflateLOD();
+    virtual void requestWarpPointer( float x, float y );
 
-    return true;
-}
+    inline       GLWidget* getGLWidget()       { return _widget; }
+    inline const GLWidget* getGLWidget() const { return _widget; }
 
-////////////////////////////////////////////////////////////////////////////////
+private:
 
-void LOD::save( QDomDocument *doc, QDomElement *parentNode )
-{
-    QDomElement node = doc->createElement( LOD::tagName );
-    parentNode->appendChild( node );
-
-    saveParameters( doc, &node );
-}
-
-////////////////////////////////////////////////////////////////////////////////
-
-void LOD::setIntervalF( double interval_f )
-{
-    _interval_f = interval_f;
-
-    inflateLOD();
-}
-
-////////////////////////////////////////////////////////////////////////////////
-
-void LOD::setIntervalS( double interval_s )
-{
-    _interval_s = interval_s;
-
-    inflateLOD();
-}
-
-////////////////////////////////////////////////////////////////////////////////
-
-void LOD::setIntervalO( double interval_o )
-{
-    _interval_o = interval_o;
-
-    inflateLOD();
-}
-
-////////////////////////////////////////////////////////////////////////////////
-
-void LOD::inflateLOD()
-{
-    if ( _lod->getNumChildren() > 0 )
+    class GLWidget : public QGLWidget
     {
-        _lod->removeChildren( 0, _lod->getNumChildren() );
-    }
+        friend class GraphicsWindowQt;
 
-    for ( unsigned int i = 0; i < _children.size(); i++ )
-    {
-        float r_0 = 0.0f;
-        float r_1 = 0.0f;
+    public:
 
-        if ( i == 0 )
-        {
-            r_0 = 0.0f;
-            r_1 = _interval_f;
-        }
-        else if ( i == 1 )
-        {
-            r_0 = _interval_f;
-            r_1 = r_0 + _interval_s;
-        }
-        else
-        {
-            r_0 = _interval_f + _interval_s;
-            r_1 = r_0 + ( i - 1 ) * _interval_o;
-        }
+        GLWidget( const QGLFormat &format,
+                  QWidget *parent = 0, const QGLWidget *shareWidget = 0,
+                  Qt::WindowFlags flags = 0 );
 
-        _lod->addChild( _children[ i ]->getNode(), r_0, r_1 );
-        //_lod->setRange( i, r_0, r_1 );
-    }
-}
+        virtual ~GLWidget();
+
+        inline       GraphicsWindowQt* getGraphicsWindow()       { return _gwin; }
+        inline const GraphicsWindowQt* getGraphicsWindow() const { return _gwin; }
+
+        inline void setGraphicsWindow( GraphicsWindowQt *gwin ) { _gwin = gwin; }
+
+        void setKeyboardModifiers( QInputEvent *event );
+
+    protected:
+
+        virtual bool event( QEvent *event );
+
+        virtual void keyPressEvent   ( QKeyEvent *event );
+        virtual void keyReleaseEvent ( QKeyEvent *event );
+
+        virtual void mousePressEvent       ( QMouseEvent *event );
+        virtual void mouseReleaseEvent     ( QMouseEvent *event );
+        virtual void mouseDoubleClickEvent ( QMouseEvent *event );
+        virtual void mouseMoveEvent        ( QMouseEvent *event );
+
+        virtual void moveEvent( QMoveEvent *event );
+
+        virtual void resizeEvent( QResizeEvent *event );
+
+        virtual void wheelEvent( QWheelEvent *event );
+
+        virtual void glDraw();
+
+    private:
+
+        GraphicsWindowQt *_gwin;                        ///<
+
+        QMutex _deferredEventQueueMutex;                ///<
+
+        QQueue < QEvent::Type > _deferredEventQueue;    ///<
+        QSet   < QEvent::Type > _eventCompressor;       ///<
+
+        int getNumDeferredEvents();
+
+        void enqueueDeferredEvent( QEvent::Type eventType,
+                                   QEvent::Type removeEventType = QEvent::None );
+
+        void processDeferredEvents();
+    };
+
+    GLWidget *_widget;          ///<
+    QCursor _currentCursor;     ///<
+
+    bool _ownsWidget;           ///<
+    bool _realized;             ///<
+};
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void LOD::saveParameters( QDomDocument *doc, QDomElement *xmlNode )
-{
-    Group::saveParameters( doc, xmlNode );
-
-    QDomAttr nodeIntervalF = doc->createAttribute( "interval_f" );
-    QDomAttr nodeIntervalS = doc->createAttribute( "interval_s" );
-    QDomAttr nodeIntervalO = doc->createAttribute( "interval_o" );
-
-    nodeIntervalF.setValue( QString::number( getIntervalF() ) );
-    nodeIntervalS.setValue( QString::number( getIntervalS() ) );
-    nodeIntervalO.setValue( QString::number( getIntervalO() ) );
-
-    xmlNode->setAttributeNode( nodeIntervalF );
-    xmlNode->setAttributeNode( nodeIntervalS );
-    xmlNode->setAttributeNode( nodeIntervalO );
-}
+#endif // GRAPHICSWINDOWQT_H

@@ -123,158 +123,252 @@
  *     party to this document and has no duty or obligation with respect to
  *     this CC0 or use of the Work.
  ******************************************************************************/
-#include <asm/LOD.h>
+
+#include <gui/KeyMap.h>
+
+#include <qnamespace.h>
 
 ////////////////////////////////////////////////////////////////////////////////
 
-const char LOD::tagName[] = "lod";
-
-////////////////////////////////////////////////////////////////////////////////
-
-LOD::LOD() :
-    Group( new osg::LOD() ),
-
-    _lod ( dynamic_cast< osg::LOD* >( _node.get() ) ),
-
-    _interval_f ( 1000.0 ),
-    _interval_s ( 1000.0 ),
-    _interval_o ( 1000.0 )
+osgGA::GUIEventAdapter::KeySymbol KeyMap::remapOSG( int key_qt )
 {
-    _lod->setCenter( osg::Vec3d( 0.0, 0.0, 0.0 ) );
-    _lod->setCenterMode( osg::LOD::USER_DEFINED_CENTER );
-    _lod->setRangeMode( osg::LOD::DISTANCE_FROM_EYE_POINT );
-}
-
-////////////////////////////////////////////////////////////////////////////////
-
-LOD::LOD( QDomElement *xmlNode ) :
-    Group( xmlNode, new osg::LOD() ),
-
-    _lod ( dynamic_cast< osg::LOD* >( _node.get() ) )
-{
-    _lod->setCenter( osg::Vec3d( 0.0, 0.0, 0.0 ) );
-    _lod->setCenterMode( osg::LOD::USER_DEFINED_CENTER );
-    _lod->setRangeMode( osg::LOD::DISTANCE_FROM_EYE_POINT );
-
-    double interval_f = xmlNode->attributeNode( "interval_f" ).value().toDouble();
-    double interval_s = xmlNode->attributeNode( "interval_s" ).value().toDouble();
-    double interval_o = xmlNode->attributeNode( "interval_o" ).value().toDouble();
-
-    if ( !xmlNode->hasAttribute( "interval_s" ) )
+    switch ( key_qt )
     {
-        interval_s = interval_o;
+    case Qt::Key_0:
+        return osgGA::GUIEventAdapter::KEY_0;
+
+    case Qt::Key_1:
+        return osgGA::GUIEventAdapter::KEY_1;
+
+    case Qt::Key_2:
+        return osgGA::GUIEventAdapter::KEY_2;
+
+    case Qt::Key_3:
+        return osgGA::GUIEventAdapter::KEY_3;
+
+    case Qt::Key_4:
+        return osgGA::GUIEventAdapter::KEY_4;
+
+    case Qt::Key_5:
+        return osgGA::GUIEventAdapter::KEY_5;
+
+    case Qt::Key_6:
+        return osgGA::GUIEventAdapter::KEY_6;
+
+    case Qt::Key_7:
+        return osgGA::GUIEventAdapter::KEY_7;
+
+    case Qt::Key_8:
+        return osgGA::GUIEventAdapter::KEY_8;
+
+    case Qt::Key_9:
+        return osgGA::GUIEventAdapter::KEY_9;
+
+    case Qt::Key_A:
+        return osgGA::GUIEventAdapter::KEY_A;
+
+    case Qt::Key_B:
+        return osgGA::GUIEventAdapter::KEY_B;
+
+    case Qt::Key_C:
+        return osgGA::GUIEventAdapter::KEY_C;
+
+    case Qt::Key_D:
+        return osgGA::GUIEventAdapter::KEY_D;
+
+    case Qt::Key_E:
+        return osgGA::GUIEventAdapter::KEY_E;
+
+    case Qt::Key_F:
+        return osgGA::GUIEventAdapter::KEY_F;
+
+    case Qt::Key_G:
+        return osgGA::GUIEventAdapter::KEY_G;
+
+    case Qt::Key_H:
+        return osgGA::GUIEventAdapter::KEY_H;
+
+    case Qt::Key_I:
+        return osgGA::GUIEventAdapter::KEY_I;
+
+    case Qt::Key_J:
+        return osgGA::GUIEventAdapter::KEY_J;
+
+    case Qt::Key_K:
+        return osgGA::GUIEventAdapter::KEY_K;
+
+    case Qt::Key_L:
+        return osgGA::GUIEventAdapter::KEY_L;
+
+    case Qt::Key_M:
+        return osgGA::GUIEventAdapter::KEY_M;
+
+    case Qt::Key_N:
+        return osgGA::GUIEventAdapter::KEY_N;
+
+    case Qt::Key_O:
+        return osgGA::GUIEventAdapter::KEY_O;
+
+    case Qt::Key_P:
+        return osgGA::GUIEventAdapter::KEY_P;
+
+    case Qt::Key_Q:
+        return osgGA::GUIEventAdapter::KEY_Q;
+
+    case Qt::Key_R:
+        return osgGA::GUIEventAdapter::KEY_R;
+
+    case Qt::Key_S:
+        return osgGA::GUIEventAdapter::KEY_S;
+
+    case Qt::Key_T:
+        return osgGA::GUIEventAdapter::KEY_T;
+
+    case Qt::Key_U:
+        return osgGA::GUIEventAdapter::KEY_U;
+
+    case Qt::Key_V:
+        return osgGA::GUIEventAdapter::KEY_V;
+
+    case Qt::Key_W:
+        return osgGA::GUIEventAdapter::KEY_W;
+
+    case Qt::Key_X:
+        return osgGA::GUIEventAdapter::KEY_X;
+
+    case Qt::Key_Y:
+        return osgGA::GUIEventAdapter::KEY_Y;
+
+    case Qt::Key_Z:
+        return osgGA::GUIEventAdapter::KEY_Z;
+
+    case Qt::Key_Escape:
+        return osgGA::GUIEventAdapter::KEY_Escape;
+
+    case Qt::Key_Tab:
+        return osgGA::GUIEventAdapter::KEY_Tab;
+
+    case Qt::Key_Backspace:
+        return osgGA::GUIEventAdapter::KEY_BackSpace;
+
+    case Qt::Key_Return:
+        return osgGA::GUIEventAdapter::KEY_Return;
+
+    case Qt::Key_Enter:
+        return osgGA::GUIEventAdapter::KEY_KP_Enter;
+
+    case Qt::Key_QuoteLeft:
+        return osgGA::GUIEventAdapter::KEY_Backquote;
+
+    case Qt::Key_Minus:
+        return osgGA::GUIEventAdapter::KEY_Minus;
+
+    case Qt::Key_Equal:
+        return osgGA::GUIEventAdapter::KEY_Equals;
+
+    case Qt::Key_BracketLeft:
+        return osgGA::GUIEventAdapter::KEY_Leftbracket;
+
+    case Qt::Key_BracketRight:
+        return osgGA::GUIEventAdapter::KEY_Rightbracket;
+
+    case Qt::Key_Semicolon:
+        return osgGA::GUIEventAdapter::KEY_Semicolon;
+
+    case Qt::Key_Apostrophe:
+        return osgGA::GUIEventAdapter::KEY_Quote;
+
+    case Qt::Key_Comma:
+        return osgGA::GUIEventAdapter::KEY_Comma;
+
+    case Qt::Key_Period:
+        return osgGA::GUIEventAdapter::KEY_Period;
+
+    case Qt::Key_Slash:
+        return osgGA::GUIEventAdapter::KEY_Slash;
+
+    case Qt::Key_Space:
+        return osgGA::GUIEventAdapter::KEY_Space;
+
+    case Qt::Key_Left:
+        return osgGA::GUIEventAdapter::KEY_Left;
+
+    case Qt::Key_Right:
+        return osgGA::GUIEventAdapter::KEY_Right;
+
+    case Qt::Key_Up:
+        return osgGA::GUIEventAdapter::KEY_Up;
+
+    case Qt::Key_Down:
+        return osgGA::GUIEventAdapter::KEY_Down;
+
+    case Qt::Key_Insert:
+        return osgGA::GUIEventAdapter::KEY_Insert;
+
+    case Qt::Key_Delete:
+        return osgGA::GUIEventAdapter::KEY_Delete;
+
+    case Qt::Key_Home:
+        return osgGA::GUIEventAdapter::KEY_Home;
+
+    case Qt::Key_End:
+        return osgGA::GUIEventAdapter::KEY_End;
+
+    case Qt::Key_PageUp:
+        return osgGA::GUIEventAdapter::KEY_Page_Up;
+
+    case Qt::Key_PageDown:
+        return osgGA::GUIEventAdapter::KEY_Page_Down;
+
+    case Qt::Key_Shift:
+        return osgGA::GUIEventAdapter::KEY_Shift_L;
+
+    case Qt::Key_Control:
+        return osgGA::GUIEventAdapter::KEY_Control_L;
+
+    case Qt::Key_Meta:
+        return osgGA::GUIEventAdapter::KEY_Meta_L;
+
+    case Qt::Key_Alt:
+        return osgGA::GUIEventAdapter::KEY_Alt_L;
+
+    case Qt::Key_F1:
+        return osgGA::GUIEventAdapter::KEY_F1;
+
+    case Qt::Key_F2:
+        return osgGA::GUIEventAdapter::KEY_F2;
+
+    case Qt::Key_F3:
+        return osgGA::GUIEventAdapter::KEY_F3;
+
+    case Qt::Key_F4:
+        return osgGA::GUIEventAdapter::KEY_F4;
+
+    case Qt::Key_F5:
+        return osgGA::GUIEventAdapter::KEY_F5;
+
+    case Qt::Key_F6:
+        return osgGA::GUIEventAdapter::KEY_F6;
+
+    case Qt::Key_F7:
+        return osgGA::GUIEventAdapter::KEY_F7;
+
+    case Qt::Key_F8:
+        return osgGA::GUIEventAdapter::KEY_F8;
+
+    case Qt::Key_F9:
+        return osgGA::GUIEventAdapter::KEY_F9;
+
+    case Qt::Key_F10:
+        return osgGA::GUIEventAdapter::KEY_F10;
+
+    case Qt::Key_F11:
+        return osgGA::GUIEventAdapter::KEY_F11;
+
+    case Qt::Key_F12:
+        return osgGA::GUIEventAdapter::KEY_F12;
     }
 
-    setIntervalF( interval_f );
-    setIntervalS( interval_s );
-    setIntervalO( interval_o );
+    return (osgGA::GUIEventAdapter::KeySymbol)(-1);
 }
 
-////////////////////////////////////////////////////////////////////////////////
-
-LOD::~LOD()
-{
-    removeAllChildren();
-}
-
-////////////////////////////////////////////////////////////////////////////////
-
-bool LOD::addChild( Component *child )
-{
-    _children.push_back( child );
-
-    inflateLOD();
-
-    return true;
-}
-
-////////////////////////////////////////////////////////////////////////////////
-
-void LOD::save( QDomDocument *doc, QDomElement *parentNode )
-{
-    QDomElement node = doc->createElement( LOD::tagName );
-    parentNode->appendChild( node );
-
-    saveParameters( doc, &node );
-}
-
-////////////////////////////////////////////////////////////////////////////////
-
-void LOD::setIntervalF( double interval_f )
-{
-    _interval_f = interval_f;
-
-    inflateLOD();
-}
-
-////////////////////////////////////////////////////////////////////////////////
-
-void LOD::setIntervalS( double interval_s )
-{
-    _interval_s = interval_s;
-
-    inflateLOD();
-}
-
-////////////////////////////////////////////////////////////////////////////////
-
-void LOD::setIntervalO( double interval_o )
-{
-    _interval_o = interval_o;
-
-    inflateLOD();
-}
-
-////////////////////////////////////////////////////////////////////////////////
-
-void LOD::inflateLOD()
-{
-    if ( _lod->getNumChildren() > 0 )
-    {
-        _lod->removeChildren( 0, _lod->getNumChildren() );
-    }
-
-    for ( unsigned int i = 0; i < _children.size(); i++ )
-    {
-        float r_0 = 0.0f;
-        float r_1 = 0.0f;
-
-        if ( i == 0 )
-        {
-            r_0 = 0.0f;
-            r_1 = _interval_f;
-        }
-        else if ( i == 1 )
-        {
-            r_0 = _interval_f;
-            r_1 = r_0 + _interval_s;
-        }
-        else
-        {
-            r_0 = _interval_f + _interval_s;
-            r_1 = r_0 + ( i - 1 ) * _interval_o;
-        }
-
-        _lod->addChild( _children[ i ]->getNode(), r_0, r_1 );
-        //_lod->setRange( i, r_0, r_1 );
-    }
-}
-
-////////////////////////////////////////////////////////////////////////////////
-
-void LOD::saveParameters( QDomDocument *doc, QDomElement *xmlNode )
-{
-    Group::saveParameters( doc, xmlNode );
-
-    QDomAttr nodeIntervalF = doc->createAttribute( "interval_f" );
-    QDomAttr nodeIntervalS = doc->createAttribute( "interval_s" );
-    QDomAttr nodeIntervalO = doc->createAttribute( "interval_o" );
-
-    nodeIntervalF.setValue( QString::number( getIntervalF() ) );
-    nodeIntervalS.setValue( QString::number( getIntervalS() ) );
-    nodeIntervalO.setValue( QString::number( getIntervalO() ) );
-
-    xmlNode->setAttributeNode( nodeIntervalF );
-    xmlNode->setAttributeNode( nodeIntervalS );
-    xmlNode->setAttributeNode( nodeIntervalO );
-}

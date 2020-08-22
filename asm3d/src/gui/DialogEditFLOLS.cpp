@@ -170,7 +170,7 @@ void DialogEditFLOLS::edit( FLOLS *flols )
 
 void DialogEditFLOLS::save()
 {
-    _flols->setName( _ui->lineEditName->text().toAscii().data() );
+    _flols->setName( _ui->lineEditName->text().toLatin1().data() );
 
     _flols->setDepthSortedBinValue( _ui->spinBoxDepthSortedBin->value() );
     _flols->setDepthSortedBinState( _ui->checkBoxDepthSortedBin->isChecked() );

@@ -134,6 +134,7 @@
 #include <asm/FLOLS.h>
 #include <asm/Runway.h>
 #include <asm/World.h>
+#include <asm/Nozzle.h>
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -184,6 +185,10 @@ Group::Group( QDomElement *xmlNode, osg::Node *osgNode ) :
         {
             compNode = new Switch( &childNode );
         }
+        else if ( childNode.tagName() == Nozzle::tagName )
+        {
+            compNode = new Nozzle( &childNode );
+        }
         else if ( childNode.tagName() == Smoke::tagName )
         {
             compNode = new Smoke( &childNode );
@@ -226,7 +231,7 @@ Group::~Group()
 
 void Group::save( QDomDocument *doc, QDomElement *parentNode )
 {
-    QDomElement node = doc->createElement( "group" );
+    QDomElement node = doc->createElement( Group::tagName );
     parentNode->appendChild( node );
 
     saveParameters( doc, &node );
@@ -240,7 +245,7 @@ void Group::update()
     Component::update();
     ////////////////////
 
-    for ( Children::iterator it = _children.begin(); it != _children.end(); it++ )
+    for ( Children::iterator it = _children.begin(); it != _children.end(); ++it )
     {
         (*it)->update();
     }
@@ -264,7 +269,7 @@ bool Group::removeChild( unsigned int i )
 
         for ( unsigned int j = 0; j < i; j++ )
         {
-            iter++;
+            ++iter;
         }
 
         _children.erase( iter );

@@ -166,12 +166,12 @@ void DialogEditNodeFile::edit( NodeFile *file )
 
 void DialogEditNodeFile::save()
 {
-    _file->setName( _ui->lineEditName->text().toAscii().data() );
+    _file->setName( _ui->lineEditName->text().toLatin1().data() );
 
     _file->setDepthSortedBinValue( _ui->spinBoxDepthSortedBin->value() );
     _file->setDepthSortedBinState( _ui->checkBoxDepthSortedBin->isChecked() );
 
-    _file->setFile( _ui->lineEditFile->text().toAscii().data() );
+    _file->setFile( _ui->lineEditFile->text().toLatin1().data() );
 }
 
 ////////////////////////////////////////////////////////////////////////////////

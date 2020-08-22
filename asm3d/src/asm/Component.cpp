@@ -144,7 +144,7 @@ Component::Component( QDomElement *xmlNode, osg::Node *osgNode ) :
     int  depthSortedBinValue = xmlNode->attributeNode( "depth_sorted_bin_value" ).value().toInt();
     bool depthSortedBinState = xmlNode->attributeNode( "depth_sorted_bin_state" ).value().toInt();
 
-    setName( xmlNode->attributeNode( "name" ).value().toAscii().data() );
+    setName( xmlNode->attributeNode( "name" ).value().toLatin1().data() );
     setDepthSortedBinState( depthSortedBinState ); // State First
     setDepthSortedBinValue( depthSortedBinValue );
 }

@@ -179,7 +179,7 @@ void DialogEditPAT::edit( PAT *pat )
 
 void DialogEditPAT::save()
 {
-    _pat->setName( _ui->lineEditName->text().toAscii().data() );
+    _pat->setName( _ui->lineEditName->text().toLatin1().data() );
 
     _pat->setDepthSortedBinValue( _ui->spinBoxDepthSortedBin->value() );
     _pat->setDepthSortedBinState( _ui->checkBoxDepthSortedBin->isChecked() );

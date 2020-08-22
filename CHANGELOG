@@ -1,6 +1,8 @@
-2020-08-02 Marek M. Cel <marekcel@marekcel.pl>
+2020-08-22 Marek M. Cel <marekcel@marekcel.pl>
+
+    * OpenSceneGraph-Qt integration without using osgQt library
     
-    * Littoral Combat Ship
+    * afterburner flame (nozzle)
 
 
 

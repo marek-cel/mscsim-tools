@@ -4,6 +4,7 @@ HEADERS += \
     $$PWD/DialogEditGroup.h \
     $$PWD/DialogEditLOD.h \
     $$PWD/DialogEditNodeFile.h \
+    $$PWD/DialogEditNozzle.h \
     $$PWD/DialogEditPAT.h \
     $$PWD/DialogEditRotor.h \
     $$PWD/DialogEditRunway.h \
@@ -12,6 +13,8 @@ HEADERS += \
     $$PWD/DialogEditWorld.h \
     $$PWD/DialogRotor.h \
     $$PWD/DialogWGS.h \
+    $$PWD/GraphicsWindowQt.h \
+    $$PWD/KeyMap.h \
     $$PWD/MainWindow.h \
     $$PWD/RecentFileAction.h \
     $$PWD/WidgetCGI.h \
@@ -23,6 +26,7 @@ SOURCES += \
     $$PWD/DialogEditGroup.cpp \
     $$PWD/DialogEditLOD.cpp \
     $$PWD/DialogEditNodeFile.cpp \
+    $$PWD/DialogEditNozzle.cpp \
     $$PWD/DialogEditPAT.cpp \
     $$PWD/DialogEditRotor.cpp \
     $$PWD/DialogEditRunway.cpp \
@@ -31,6 +35,8 @@ SOURCES += \
     $$PWD/DialogEditWorld.cpp \
     $$PWD/DialogRotor.cpp \
     $$PWD/DialogWGS.cpp \
+    $$PWD/GraphicsWindowQt.cpp \
+    $$PWD/KeyMap.cpp \
     $$PWD/MainWindow.cpp \
     $$PWD/RecentFileAction.cpp \
     $$PWD/WidgetCGI.cpp \
@@ -42,6 +48,7 @@ FORMS += \
     $$PWD/DialogEditGroup.ui \
     $$PWD/DialogEditLOD.ui \
     $$PWD/DialogEditNodeFile.ui \
+    $$PWD/DialogEditNozzle.ui \
     $$PWD/DialogEditPAT.ui \
     $$PWD/DialogEditRotor.ui \
     $$PWD/DialogEditRunway.ui \
