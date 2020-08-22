@@ -1,6 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<gen_file>
- <group depth_sorted_bin_state="0" name="Root" depth_sorted_bin_value="1">
-  <node_file depth_sorted_bin_state="0" name="FileCarrier" file="data/ships/lcs/lcs_base.osgt" depth_sorted_bin_value="1"/>
- </group>
-</gen_file>
