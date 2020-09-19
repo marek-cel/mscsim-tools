@@ -1,8 +1,20 @@
-2020-08-22 Marek M. Cel <marekcel@marekcel.pl>
-
-    * OpenSceneGraph-Qt integration without using osgQt library
+2020-09-19 Marek M. Cel <marekcel@marekcel.pl>
     
-    * afterburner flame (nozzle)
+    * PW-5
+    
+    * F-16 new airbrakes
+
+
+
+2020-08-22 Marek M. Cel <marekcel@marekcel.pl>
+    
+    * afterburner flame
+
+
+
+2020-07-25 Marek M. Cel <marekcel@marekcel.pl>
+    
+    * OpenSceneGraph-Qt integration without using osgQt library
 
 
 
