@@ -149,6 +149,8 @@ int write( const std::string &inp, const std::string &out, TYPE *obj )
     double aoa_deg = 0.0;
     double aoa_rad = 0.0;
 
+    const char separator = ';';
+
     FILE *inpFile = fopen( inp.c_str(), "r" );
     FILE *outFile = fopen( out.c_str(), "w" );
 
@@ -160,7 +162,7 @@ int write( const std::string &inp, const std::string &out, TYPE *obj )
             {
                 aoa_rad = deg2rad( aoa_deg );
 
-                fprintf( outFile, "%lf,%lf\n", aoa_deg, obj->get( aoa_rad ) );
+                fprintf( outFile, "%lf%c%lf\n", aoa_deg, separator, obj->get( aoa_rad ) );
             }
             else
             {
