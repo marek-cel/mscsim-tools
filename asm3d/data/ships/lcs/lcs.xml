@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<gen_file>
+ <lod depth_sorted_bin_value="1" depth_sorted_bin_state="0" interval_s="6000" interval_f="4000" interval_o="8000" name="LOD">
+  <group depth_sorted_bin_value="1" depth_sorted_bin_state="0" name="High">
+   <node_file depth_sorted_bin_value="1" depth_sorted_bin_state="0" file="data/ships/lcs/lcs_base.osgt" name="FileBase"/>
+   <lod depth_sorted_bin_value="1" depth_sorted_bin_state="0" interval_s="10000" interval_f="500" interval_o="20000" name="LOD_Helideck">
+    <node_file depth_sorted_bin_value="1" depth_sorted_bin_state="0" file="data/ships/lcs/lcs_helideck_h.osgt" name="FileH"/>
+    <node_file depth_sorted_bin_value="1" depth_sorted_bin_state="0" file="data/ships/lcs/lcs_helideck_l.osgt" name="FileL"/>
+   </lod>
+   <lod depth_sorted_bin_value="1" depth_sorted_bin_state="0" interval_s="10000" interval_f="2000" interval_o="20000" name="LOD_1">
+    <group depth_sorted_bin_value="1" depth_sorted_bin_state="0" name="Group">
+     <lod depth_sorted_bin_value="1" depth_sorted_bin_state="0" interval_s="1000" interval_f="1000" interval_o="1000" name="LOD_2">
+      <group depth_sorted_bin_value="1" depth_sorted_bin_state="0" name="Group">
+       <node_file depth_sorted_bin_value="1" depth_sorted_bin_state="0" file="data/ships/lcs/lcs_mooring.osgt" name="FileMooring"/>
+       <node_file depth_sorted_bin_value="1" depth_sorted_bin_state="0" file="data/ships/lcs/lcs_dock.osgt" name="FileDock"/>
+       <node_file depth_sorted_bin_value="1" depth_sorted_bin_state="0" file="data/ships/lcs/lcs_details.osgt" name="FileDetails"/>
+      </group>
+     </lod>
+     <node_file depth_sorted_bin_value="1" depth_sorted_bin_state="0" file="data/ships/lcs/lcs_sensors.osgt" name="FileSensors"/>
+     <node_file depth_sorted_bin_value="1" depth_sorted_bin_state="0" file="data/ships/lcs/lcs_railing.osgt" name="FileRailing"/>
+     <node_file depth_sorted_bin_value="1" depth_sorted_bin_state="0" file="data/ships/lcs/lcs_7mrb.osgt" name="File7mRB"/>
+     <node_file depth_sorted_bin_value="1" depth_sorted_bin_state="0" file="data/ships/lcs/lcs_lifeboats.osgt" name="FileLifeboats"/>
+     <node_file depth_sorted_bin_value="1" depth_sorted_bin_state="0" file="data/ships/lcs/lcs_panels.osgt" name="FilePanels"/>
+     <node_file depth_sorted_bin_value="1" depth_sorted_bin_state="0" file="data/ships/lcs/lcs_internal.osgt" name="FileInternal"/>
+     <node_file depth_sorted_bin_value="1" depth_sorted_bin_state="0" file="data/ships/lcs/lcs_perimeter.osgt" name="FilePerimeter"/>
+    </group>
+   </lod>
+  </group>
+  <node_file depth_sorted_bin_value="1" depth_sorted_bin_state="0" file="data/ships/lcs/lcs_lod_m.osgt" name="Medium"/>
+  <node_file depth_sorted_bin_value="1" depth_sorted_bin_state="0" file="data/ships/lcs/lcs_lod_l.osgt" name="Low"/>
+ </lod>
+</gen_file>
