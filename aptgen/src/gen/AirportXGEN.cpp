@@ -190,7 +190,7 @@ AirportXGEN::AirportXGEN()
     lod->setRangeMode( osg::LOD::DISTANCE_FROM_EYE_POINT );
     lod->setRange( 0, 0.0f, 50000.0f );
 
-    createGates  ( group.get() );
+    //createGates  ( group.get() );
     createLights ( group.get() );
     createSigns  ( group.get() );
 
@@ -219,6 +219,9 @@ void AirportXGEN::createGates( osg::Group *group )
 
     _switchGatesL->setName( "ApproachGatesL" );
     _switchGatesH->setName( "ApproachGatesH" );
+
+    _switchGatesL->setAllChildrenOff();
+    _switchGatesH->setAllChildrenOff();
 
     group->addChild( _switchGatesL.get() );
     group->addChild( _switchGatesH.get() );

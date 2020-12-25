@@ -134,7 +134,7 @@
 #include <QGridLayout>
 #include <QWidget>
 
-#include <osgQt/GraphicsWindowQt>
+#include <gui/GraphicsWindowQt.h>
 #include <osgViewer/Viewer>
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -165,13 +165,15 @@ private:
     SceneRoot   *_sceneRoot;
     QGridLayout *_gridLayout;
 
-    osg::ref_ptr<osgQt::GraphicsWindowQt> _graphicsWindow;
+    osg::ref_ptr<GraphicsWindowQt> _graphicsWindow;
 
     /** */
-    QWidget* addViewWidget( osgQt::GraphicsWindowQt *graphicsWindow, osg::Node *scene );
+    QWidget* addViewWidget( GraphicsWindowQt *graphicsWindow, osg::Node *scene );
 
     /** */
-    osg::ref_ptr<osgQt::GraphicsWindowQt> createGraphicsWindow( int x, int y, int w, int h, const std::string &name = "", bool windowDecoration = false );
+    osg::ref_ptr<GraphicsWindowQt> createGraphicsWindow( int x, int y, int w, int h,
+                                                         const std::string &name = "",
+                                                         bool windowDecoration = false );
 };
 
 ////////////////////////////////////////////////////////////////////////////////

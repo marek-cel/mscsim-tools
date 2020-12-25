@@ -123,133 +123,139 @@
  *     party to this document and has no duty or obligation with respect to
  *     this CC0 or use of the Work.
  ******************************************************************************/
-#include <gui/WidgetCGI.h>
-
-#include <iostream>
-
-#include <osg/PositionAttitudeTransform>
-#include <osgDB/ReadFile>
-#include <osgGA/TrackballManipulator>
-#include <osgGA/TerrainManipulator>
-#include <osgViewer/ViewerEventHandlers>
-
-#include <QKeyEvent>
+#ifndef GRAPHICSWINDOWQT_H
+#define GRAPHICSWINDOWQT_H
 
 ////////////////////////////////////////////////////////////////////////////////
 
-using namespace std;
+#include <osg/Version>
+
+#include <osgViewer/GraphicsWindow>
+
+#include <QEvent>
+#include <QGLWidget>
+#include <QInputEvent>
+#include <QMutex>
+#include <QQueue>
+#include <QSet>
 
 ////////////////////////////////////////////////////////////////////////////////
 
-WidgetCGI::WidgetCGI( QWidget *parent ) :
-    QWidget ( parent ),
-
-    _sceneRoot  ( 0 ),
-    _gridLayout ( 0 )
+class GraphicsWindowQt : public osgViewer::GraphicsWindow
 {
-#   ifdef SIM_OSGDEBUGINFO
-    osg::setNotifyLevel( osg::DEBUG_INFO );
-#   else
-    osg::setNotifyLevel( osg::WARN );
-#   endif
+    class GLWidget;
 
-    //std::cout << "WidgetCGI::WidgetCGI( QWidget* )" << std::endl;
+    friend class GLWidget;
 
-    _sceneRoot = new SceneRoot();
+public:
 
-    setThreadingModel( osgViewer::ViewerBase::SingleThreaded );
-    //setThreadingModel( osgViewer::ViewerBase::CullDrawThreadPerContext );
+    struct WinData : public osg::Referenced
+    {
+        WinData( GLWidget *widget = 0, QWidget *parent = 0 ) :
+            _widget ( widget ),
+            _parent ( parent )
+        {}
 
-    _graphicsWindow = createGraphicsWindow( x(), y(), width(), height() );
+        GLWidget *_widget;      ///<
+        QWidget  *_parent;      ///<
+    };
 
-    QWidget *widget = addViewWidget( _graphicsWindow, _sceneRoot->getGroup().get() );
+    /**
+     * Constructor.
+     * @param traits
+     */
+    GraphicsWindowQt( osg::GraphicsContext::Traits *traits );
 
-    _gridLayout = new QGridLayout( this );
-    _gridLayout->setContentsMargins( 1, 1, 1, 1 );
+    /** Destructor. */
+    virtual ~GraphicsWindowQt();
 
-    _gridLayout->addWidget( widget, 0, 0 );
+    virtual bool setWindowRectangleImplementation( int x, int y, int w, int h );
+    virtual void getWindowRectangle( int &x, int &y, int &w, int &h );
+    virtual void grabFocus();
+    virtual void grabFocusIfPointerInWindow();
+    virtual void raiseWindow();
+    virtual void useCursor( bool cursorOn );
+    virtual void setCursor( MouseCursor cursor );
 
-    setLayout( _gridLayout );
-}
+    virtual bool valid() const;
+    virtual bool realizeImplementation();
+    virtual bool isRealizedImplementation() const;
+    virtual void closeImplementation();
+    virtual bool makeCurrentImplementation();
+    virtual bool releaseContextImplementation();
+    virtual void swapBuffersImplementation();
+    virtual void runOperations();
+
+    virtual void requestWarpPointer( float x, float y );
+
+    inline       GLWidget* getGLWidget()       { return _widget; }
+    inline const GLWidget* getGLWidget() const { return _widget; }
+
+private:
+
+    class GLWidget : public QGLWidget
+    {
+        friend class GraphicsWindowQt;
+
+    public:
+
+        GLWidget( const QGLFormat &format,
+                  QWidget *parent = 0, const QGLWidget *shareWidget = 0,
+                  Qt::WindowFlags flags = 0 );
+
+        virtual ~GLWidget();
+
+        inline       GraphicsWindowQt* getGraphicsWindow()       { return _gwin; }
+        inline const GraphicsWindowQt* getGraphicsWindow() const { return _gwin; }
+
+        inline void setGraphicsWindow( GraphicsWindowQt *gwin ) { _gwin = gwin; }
+
+        void setKeyboardModifiers( QInputEvent *event );
+
+    protected:
+
+        virtual bool event( QEvent *event );
+
+        virtual void keyPressEvent   ( QKeyEvent *event );
+        virtual void keyReleaseEvent ( QKeyEvent *event );
+
+        virtual void mousePressEvent       ( QMouseEvent *event );
+        virtual void mouseReleaseEvent     ( QMouseEvent *event );
+        virtual void mouseDoubleClickEvent ( QMouseEvent *event );
+        virtual void mouseMoveEvent        ( QMouseEvent *event );
+
+        virtual void moveEvent( QMoveEvent *event );
+
+        virtual void resizeEvent( QResizeEvent *event );
+
+        virtual void wheelEvent( QWheelEvent *event );
+
+        virtual void glDraw();
+
+    private:
+
+        GraphicsWindowQt *_gwin;                        ///<
+
+        QMutex _deferredEventQueueMutex;                ///<
+
+        QQueue < QEvent::Type > _deferredEventQueue;    ///<
+        QSet   < QEvent::Type > _eventCompressor;       ///<
+
+        int getNumDeferredEvents();
+
+        void enqueueDeferredEvent( QEvent::Type eventType,
+                                   QEvent::Type removeEventType = QEvent::None );
+
+        void processDeferredEvents();
+    };
+
+    GLWidget *_widget;          ///<
+    QCursor _currentCursor;     ///<
+
+    bool _ownsWidget;           ///<
+    bool _realized;             ///<
+};
 
 ////////////////////////////////////////////////////////////////////////////////
 
-WidgetCGI::~WidgetCGI()
-{
-    if ( _sceneRoot ) delete _sceneRoot;
-    _sceneRoot = 0;
-}
-
-////////////////////////////////////////////////////////////////////////////////
-
-void WidgetCGI::update()
-{
-    //////////////////
-    QWidget::update();
-    //////////////////
-
-    _sceneRoot->update();
-}
-
-////////////////////////////////////////////////////////////////////////////////
-
-void WidgetCGI::paintEvent( QPaintEvent *event )
-{
-    /////////////////////////////
-    QWidget::paintEvent( event );
-    /////////////////////////////
-
-    frame();
-}
-
-////////////////////////////////////////////////////////////////////////////////
-
-QWidget* WidgetCGI::addViewWidget( GraphicsWindowQt *graphicsWindow, osg::Node *scene )
-{
-    osg::ref_ptr<osg::Camera> camera = getCamera();
-
-    camera->setGraphicsContext( graphicsWindow );
-
-    const osg::GraphicsContext::Traits *traits = graphicsWindow->getTraits();
-
-    camera->setClearColor( osg::Vec4( 0.2, 0.2, 0.6, 1.0 ) );
-    camera->setViewport( new osg::Viewport( 0, 0, traits->width, traits->height ) );
-
-    camera->setComputeNearFarMode( osg::CullSettings::COMPUTE_NEAR_FAR_USING_BOUNDING_VOLUMES );
-    camera->setProjectionMatrixAsPerspective( 30.0f, static_cast<double>(traits->width)/static_cast<double>(traits->height), 1.00, 1000.0 );
-
-    setSceneData( scene );
-    addEventHandler( new osgViewer::StatsHandler );
-    setCameraManipulator( new osgGA::TerrainManipulator() );
-    //setCameraManipulator( new osgGA::TrackballManipulator() );
-
-    setKeyEventSetsDone( 0 );
-
-    assignSceneDataToCameras();
-
-    return graphicsWindow->getGLWidget();
-}
-
-////////////////////////////////////////////////////////////////////////////////
-
-osg::ref_ptr<GraphicsWindowQt> WidgetCGI::createGraphicsWindow( int x, int y, int w, int h, const std::string &name, bool windowDecoration )
-{
-    osg::DisplaySettings *displaySettings = osg::DisplaySettings::instance().get();
-    osg::ref_ptr<osg::GraphicsContext::Traits> traits = new osg::GraphicsContext::Traits();
-
-    traits->windowName       = name;
-    traits->windowDecoration = windowDecoration;
-    traits->x                = x;
-    traits->y                = y;
-    traits->width            = w;
-    traits->height           = h;
-    traits->doubleBuffer     = true;
-    traits->alpha            = displaySettings->getMinimumNumAlphaBits();
-    traits->stencil          = displaySettings->getMinimumNumStencilBits();
-    traits->sampleBuffers    = displaySettings->getMultiSamples();
-    traits->samples          = displaySettings->getNumMultiSamples();
-
-    osg::ref_ptr<GraphicsWindowQt> graphicsWindow =  new GraphicsWindowQt( traits.get() );
-
-    return graphicsWindow;
-}
+#endif // GRAPHICSWINDOWQT_H

@@ -54,7 +54,6 @@ win32:CONFIG(release, debug|release): LIBS += \
     -losg \
     -losgDB \
     -losgGA \
-    -losgQt \
     -losgParticle \
     -losgSim \
     -losgTerrain \
@@ -68,7 +67,6 @@ win32:CONFIG(debug, debug|release):  LIBS += \
     -losgd \
     -losgDBd \
     -losgGAd \
-    -losgQtd \
     -losgParticled \
     -losgSimd \
     -losgTerraind \
@@ -85,7 +83,6 @@ unix: LIBS += \
     -losg \
     -losgDB \
     -losgGA \
-    -losgQt \
     -losgParticle \
     -losgSim \
     -losgTerrain \
