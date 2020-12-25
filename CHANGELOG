@@ -1,3 +1,13 @@
+2020-12-25 Marek M. Cel <marekcel@marekcel.pl>
+    
+    * airports generator OpenSceneGraph-Qt integration without using osgQt library
+    
+    * FlightGear recorder
+    
+    * mscsim-aero and mscsim-mass tools - initial commit
+
+
+
 2020-10-17 Marek M. Cel <marekcel@marekcel.pl>
     
     * X-29 3D model
