@@ -1,4 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <mscsim_aero>
-  <test>TEST</test>
+  
+  <drag>
+                        <cd_0> 0.03 </cd_0>
+    <ad_1> 10.0 </ad_1> <cd_1> 0.06 </cd_1>
+    <ad_2> 15.0 </ad_2> <cd_2> 0.10 </cd_2>
+    <ad_3> 20.0 </ad_3> <cd_3> 0.20 </cd_3>
+    <ad_4> 60.0 </ad_4> <cd_4> 1.60 </cd_4>
+                        <cd_5> 2.10 </cd_5>
+  </drag>
+  
+  <lift>
+  </lift>
+  
 </mscsim_aero>

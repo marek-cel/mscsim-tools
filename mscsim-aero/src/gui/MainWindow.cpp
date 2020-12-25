@@ -131,6 +131,9 @@
 #include <QFileDialog>
 #include <QMessageBox>
 
+#include <qwt/qwt_plot_curve.h>
+#include <qwt/qwt_scale_engine.h>
+
 ////////////////////////////////////////////////////////////////////////////////
 
 MainWindow::MainWindow( QWidget *parent ) :
@@ -140,6 +143,14 @@ MainWindow::MainWindow( QWidget *parent ) :
     _saved ( true )
 {
     _ui->setupUi( this );
+
+    _ui->plotDrag->setAxisTitle( 0, tr( "Drag Coefficient [-]" ) ) ;
+    _ui->plotDrag->setAxisTitle( 2, tr( "Angle of Attack [deg]" ) ) ;
+
+    _ui->plotLift->setAxisTitle( 0, tr( "Lift Coefficient [-]" ) ) ;
+    _ui->plotLift->setAxisTitle( 2, tr( "Angle of Attack [deg]" ) ) ;
+
+    updateGUI();
 
     settingsRead();
 }
@@ -192,7 +203,9 @@ void MainWindow::newFile()
 
     _currentFile = "";
 
-    //TODO
+    _doc.newEmpty();
+
+    updateGUI();
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -218,7 +231,7 @@ void MainWindow::openFile()
         readFile( _currentFile );
     }
 
-//    updateGUI();
+    updateGUI();
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -263,33 +276,33 @@ void MainWindow::exportFileAs() {}
 
 void MainWindow::readFile( QString fileName )
 {
-//    if ( QFileInfo( fileName ).suffix() == QString( "xml" ) )
-//    {
-//        if ( !_ui->widgetDoc->readFile( fileName ) )
-//        {
-//            QMessageBox::warning( this, tr( APP_TITLE ),
-//                                 tr( "Cannot read file %1:." ).arg( fileName ) );
-//        }
-//    }
+    if ( QFileInfo( fileName ).suffix() == QString( "xml" ) )
+    {
+        if ( !_doc.readFile( fileName ) )
+        {
+            QMessageBox::warning( this, tr( APP_TITLE ),
+                                 tr( "Cannot read file %1." ).arg( fileName ) );
+        }
+    }
 
-//    updateGUI();
+    updateGUI();
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
 void MainWindow::saveFile( QString fileName )
 {
-//    if ( _ui->widgetDoc->saveFile( fileName ) )
-//    {
-//        _saved = true;
-//    }
-//    else
-//    {
-//        QMessageBox::warning( this, tr( APP_TITLE ),
-//                             tr( "Cannot save file %1:." ).arg(fileName) );
-//    }
+    if ( _doc.saveFile( fileName ) )
+    {
+        _saved = true;
+    }
+    else
+    {
+        QMessageBox::warning( this, tr( APP_TITLE ),
+                             tr( "Cannot save file %1:." ).arg(fileName) );
+    }
 
-//    updateGUI();
+    updateGUI();
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -314,7 +327,18 @@ void MainWindow::settingsRead()
     restoreState( settings.value( "state" ).toByteArray() );
     restoreGeometry( settings.value( "geometry" ).toByteArray() );
 
+    settingsRead_RecentFiles( settings );
+
     settings.endGroup();
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void MainWindow::settingsRead_RecentFiles( QSettings &settings )
+{
+    _recentFilesList = settings.value( "recent_files" ).toStringList();
+
+    updateRecentFiles();
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -328,7 +352,82 @@ void MainWindow::settingsSave()
     settings.setValue( "state", saveState() );
     settings.setValue( "geometry", saveGeometry() );
 
+    settingsSave_RecentFiles( settings );
+
     settings.endGroup();
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void MainWindow::settingsSave_RecentFiles( QSettings &settings )
+{
+    settings.setValue( "recent_files", _recentFilesList );
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void MainWindow::updateGUI()
+{
+    _ui->spinBoxCD_0->setValue( _doc.getCD_0() );
+    _ui->spinBoxCD_1->setValue( _doc.getCD_1() );
+    _ui->spinBoxCD_2->setValue( _doc.getCD_2() );
+    _ui->spinBoxCD_3->setValue( _doc.getCD_3() );
+    _ui->spinBoxCD_4->setValue( _doc.getCD_4() );
+    _ui->spinBoxCD_5->setValue( _doc.getCD_5() );
+
+    _ui->spinBoxAD_1->setValue( _doc.getAD_1() );
+    _ui->spinBoxAD_2->setValue( _doc.getAD_2() );
+    _ui->spinBoxAD_3->setValue( _doc.getAD_3() );
+    _ui->spinBoxAD_4->setValue( _doc.getAD_4() );
+
+    updatePlotDrag();
+    updatePlotLift();
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void MainWindow::updatePlotDrag()
+{
+    QPolygonF points;
+
+    for ( int i = -180; i <= 180; i++ )
+    {
+        double a = (double)i;
+        points << QPointF( a, a*a*a/1.0e6 );
+    }
+
+    QwtPlotCurve *curve = new QwtPlotCurve( "" );
+
+    curve->setSamples( points );
+    curve->setPen( QPen( Qt::black, 2 ) );
+
+    curve->attach( _ui->plotDrag );
+
+    _ui->plotDrag->replot();
+    _ui->plotDrag->setAxisScale( 2, -180.0, 180.0, 30.0 );
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void MainWindow::updatePlotLift()
+{
+    QPolygonF points;
+
+    for ( int i = -180; i <= 180; i++ )
+    {
+        double a = (double)i;
+        points << QPointF( a, a*a*a/1.0e6 );
+    }
+
+    QwtPlotCurve *curve = new QwtPlotCurve( "" );
+
+    curve->setSamples( points );
+    curve->setPen( QPen( Qt::black, 2 ) );
+
+    curve->attach( _ui->plotLift );
+
+    _ui->plotLift->replot();
+    _ui->plotLift->setAxisScale( 2, -180.0, 180.0, 30.0 );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -424,5 +523,4 @@ void MainWindow::recentFile_triggered( int id )
     _currentFile = _recentFilesList.at( id );
 
     readFile( _currentFile );
-//    updateGUI();
 }

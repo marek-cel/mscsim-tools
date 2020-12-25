@@ -128,9 +128,76 @@
 
 ////////////////////////////////////////////////////////////////////////////////
 
+#include <QDomDocument>
+#include <QDomElement>
+
+#include <defs.h>
+
+////////////////////////////////////////////////////////////////////////////////
+
+/**
+ * @brief The Document class.
+ */
 class Document
 {
+public:
 
+    /**
+     * @brief Constructor.
+     */
+    Document();
+
+    /**
+     * @brief Destructor.
+     */
+    virtual ~Document();
+
+    /** */
+    void newEmpty();
+
+    /** */
+    bool readFile( QString fileName );
+
+    /** */
+    bool saveFile( QString fileName );
+
+    inline double getCD_0() const { return _cd_0; }
+    inline double getCD_1() const { return _cd_1; }
+    inline double getCD_2() const { return _cd_2; }
+    inline double getCD_3() const { return _cd_3; }
+    inline double getCD_4() const { return _cd_4; }
+    inline double getCD_5() const { return _cd_5; }
+
+    inline double getAD_1() const { return _ad_1; }
+    inline double getAD_2() const { return _ad_2; }
+    inline double getAD_3() const { return _ad_3; }
+    inline double getAD_4() const { return _ad_4; }
+
+    void setCD_0( double cd_0 );
+    void setCD_1( double cd_1 );
+    void setCD_2( double cd_2 );
+    void setCD_3( double cd_3 );
+    void setCD_4( double cd_4 );
+    void setCD_5( double cd_5 );
+
+    void setAD_1( double ad_1 );
+    void setAD_2( double ad_2 );
+    void setAD_3( double ad_3 );
+    void setAD_4( double ad_4 );
+
+private:
+
+    double _cd_0;       ///< [-]
+    double _cd_1;       ///< [-]
+    double _cd_2;       ///< [-]
+    double _cd_3;       ///< [-]
+    double _cd_4;       ///< [-]
+    double _cd_5;       ///< [-]
+
+    double _ad_1;       ///< [deg]
+    double _ad_2;       ///< [deg]
+    double _ad_3;       ///< [deg]
+    double _ad_4;       ///< [deg]
 };
 
 ////////////////////////////////////////////////////////////////////////////////

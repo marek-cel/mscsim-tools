@@ -62,7 +62,8 @@ win32: CONFIG(debug, debug|release): LIBS += \
 
 unix: LIBS += \
     -L/lib \
-    -L/usr/lib
+    -L/usr/lib \
+    -lqwt-qt5
 
 ################################################################################
 

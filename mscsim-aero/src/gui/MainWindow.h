@@ -133,6 +133,8 @@
 
 #include <defs.h>
 
+#include <doc/Document.h>
+
 #include <gui/RecentFileAction.h>
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -170,6 +172,8 @@ private:
 
     Ui::MainWindow *_ui;                    ///< UI object
 
+    Document _doc;                          ///<
+
     bool _saved;                            ///<
 
     QString _currentFile;                   ///<
@@ -190,7 +194,15 @@ private:
     void exportAs( QString fileName );
 
     void settingsRead();
+    void settingsRead_RecentFiles( QSettings &settings );
+
     void settingsSave();
+    void settingsSave_RecentFiles( QSettings &settings );
+
+    void updateGUI();
+
+    void updatePlotDrag();
+    void updatePlotLift();
 
     void updateRecentFiles( QString file = "" );
 
