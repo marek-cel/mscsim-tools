@@ -1,5 +1,5 @@
 # mscsim-tools
-Tools for [MScSim](https://github.com/marek-cel/mscsim).
+Tools for [MScSim](http://marekcel.pl/mscsim).
 
 This is collection of small tools and utilities used with flight simulation software as generators and editors of various input data.
 
