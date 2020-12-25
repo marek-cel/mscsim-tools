@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<gen_file>
+ <lod depth_sorted_bin_value="1" depth_sorted_bin_state="0" interval_f="10000" name="LOD" interval_o="10000" interval_s="10000">
+  <node_file depth_sorted_bin_value="1" depth_sorted_bin_state="0" file="data/buildings/phnl_cargo_9/phnl_cargo_9.osgt" name="FileH"/>
+ </lod>
+</gen_file>

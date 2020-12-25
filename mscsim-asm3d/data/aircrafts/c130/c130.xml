@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<gen_file>
+ <group depth_sorted_bin_state="0" name="C130" depth_sorted_bin_value="1">
+  <node_file depth_sorted_bin_state="1" name="FuselageNode" file="data/aircrafts/c130/c130_fuselage.osgt" depth_sorted_bin_value="1"/>
+  <group depth_sorted_bin_state="0" name="Ailerons" depth_sorted_bin_value="1">
+   <pat depth_sorted_bin_state="0" ax="2.392800000000" ay="0.000000000000" px="-1.641700" az="4.450100000000" py="-14.001700" pz="-2.425700" name="AileronPATL" convention="1" depth_sorted_bin_value="1">
+    <pat depth_sorted_bin_state="0" ax="0.000000000000" ay="0.000000000000" px="0.000000" az="0.000000000000" py="0.000000" pz="0.000000" name="AileronL" convention="0" depth_sorted_bin_value="1">
+     <node_file depth_sorted_bin_state="1" name="AileronNodeL" file="data/aircrafts/c130/c130_aileron_l.osgt" depth_sorted_bin_value="1"/>
+    </pat>
+   </pat>
+   <pat depth_sorted_bin_state="0" ax="-2.392800000000" ay="0.000000000000" px="-1.641700" az="-4.450100000000" py="14.001700" pz="-2.425700" name="AileronPATR" convention="1" depth_sorted_bin_value="1">
+    <pat depth_sorted_bin_state="0" ax="0.000000000000" ay="0.000000000000" px="0.000000" az="0.000000000000" py="0.000000" pz="0.000000" name="AileronR" convention="0" depth_sorted_bin_value="1">
+     <node_file depth_sorted_bin_state="1" name="AileronNodeR" file="data/aircrafts/c130/c130_aileron_r.osgt" depth_sorted_bin_value="1"/>
+    </pat>
+   </pat>
+  </group>
+  <group depth_sorted_bin_state="0" name="Flaps" depth_sorted_bin_value="1">
+   <pat depth_sorted_bin_state="0" ax="0.000000000000" ay="0.000000000000" px="-2.678400" az="0.000000000000" py="-2.150000" pz="-1.956500" name="FlapPATIL" convention="1" depth_sorted_bin_value="1">
+    <pat depth_sorted_bin_state="0" ax="0.000000000000" ay="0.000000000000" px="0.000000" az="0.000000000000" py="0.000000" pz="0.000000" name="Flap1" convention="0" depth_sorted_bin_value="1">
+     <node_file depth_sorted_bin_state="1" name="FlapNodeL" file="data/aircrafts/c130/c130_flap_il.osgt" depth_sorted_bin_value="1"/>
+    </pat>
+   </pat>
+   <pat depth_sorted_bin_state="0" ax="0.000000000000" ay="0.000000000000" px="-2.678400" az="0.000000000000" py="2.150000" pz="-1.956500" name="FlapPATIR" convention="1" depth_sorted_bin_value="1">
+    <pat depth_sorted_bin_state="0" ax="0.000000000000" ay="0.000000000000" px="0.000000" az="0.000000000000" py="0.000000" pz="0.000000" name="Flap2" convention="0" depth_sorted_bin_value="1">
+     <node_file depth_sorted_bin_state="1" name="FlapNodeR" file="data/aircrafts/c130/c130_flap_ir.osgt" depth_sorted_bin_value="1"/>
+    </pat>
+   </pat>
+   <pat depth_sorted_bin_state="0" ax="2.322400000000" ay="0.000000000000" px="-2.683200" az="7.133000000000" py="-5.679000" pz="-2.015200" name="FlapPATOL" convention="1" depth_sorted_bin_value="1">
+    <pat depth_sorted_bin_state="0" ax="0.000000000000" ay="0.000000000000" px="0.000000" az="0.000000000000" py="0.000000" pz="0.000000" name="Flap3" convention="0" depth_sorted_bin_value="1">
+     <node_file depth_sorted_bin_state="1" name="FlapNodeL" file="data/aircrafts/c130/c130_flap_ol.osgt" depth_sorted_bin_value="1"/>
+    </pat>
+   </pat>
+   <pat depth_sorted_bin_state="0" ax="-2.322400000000" ay="0.000000000000" px="-2.683200" az="-7.133000000000" py="5.679000" pz="-2.015200" name="FlapPATOR" convention="1" depth_sorted_bin_value="1">
+    <pat depth_sorted_bin_state="0" ax="0.000000000000" ay="0.000000000000" px="0.000000" az="0.000000000000" py="0.000000" pz="0.000000" name="Flap4" convention="0" depth_sorted_bin_value="1">
+     <node_file depth_sorted_bin_state="1" name="FlapNodeR" file="data/aircrafts/c130/c130_flap_or.osgt" depth_sorted_bin_value="1"/>
+    </pat>
+   </pat>
+  </group>
+  <pat depth_sorted_bin_state="0" ax="0.000000000000" ay="0.000000000000" px="-14.360000" az="0.000000000000" py="0.000000" pz="-2.100600" name="ElevatorPAT" convention="0" depth_sorted_bin_value="1">
+   <pat depth_sorted_bin_state="0" ax="0.000000000000" ay="0.000000000000" px="0.000000" az="0.000000000000" py="0.000000" pz="0.000000" name="Elevator" convention="0" depth_sorted_bin_value="1">
+    <node_file depth_sorted_bin_state="1" name="ElevatorNode" file="data/aircrafts/c130/c130_elevator.osgt" depth_sorted_bin_value="1"/>
+   </pat>
+  </pat>
+  <pat depth_sorted_bin_state="0" ax="0.000000000000" ay="0.000000000000" px="-14.959200" az="0.000000000000" py="0.000000" pz="-2.274300" name="RudderPAT" convention="0" depth_sorted_bin_value="1">
+   <pat depth_sorted_bin_state="0" ax="0.000000000000" ay="0.000000000000" px="0.000000" az="0.000000000000" py="0.000000" pz="0.000000" name="Rudder" convention="0" depth_sorted_bin_value="1">
+    <node_file depth_sorted_bin_state="1" name="RudderNode" file="data/aircrafts/c130/c130_rudder.osgt" depth_sorted_bin_value="1"/>
+   </pat>
+  </pat>
+  <group depth_sorted_bin_state="0" name="Propellers" depth_sorted_bin_value="1">
+   <pat depth_sorted_bin_state="0" ax="0.000000000000" ay="0.000000000000" px="3.500000" az="0.000000000000" py="-10.170100" pz="-1.895130" name="PropellerPAT1" convention="0" depth_sorted_bin_value="1">
+    <pat depth_sorted_bin_state="0" ax="0.000000000000" ay="0.000000000000" px="0.000000" az="0.000000000000" py="0.000000" pz="0.000000" name="Propeller1" convention="0" depth_sorted_bin_value="1">
+     <node_file depth_sorted_bin_state="1" name="PropellerNode" file="data/aircrafts/c130/c130_propeller.osgt" depth_sorted_bin_value="7"/>
+    </pat>
+   </pat>
+   <pat depth_sorted_bin_state="0" ax="0.000000000000" ay="0.000000000000" px="3.500000" az="0.000000000000" py="-5.119510" pz="-1.680000" name="PropellerPAT2" convention="0" depth_sorted_bin_value="1">
+    <pat depth_sorted_bin_state="0" ax="0.000000000000" ay="0.000000000000" px="0.000000" az="0.000000000000" py="0.000000" pz="0.000000" name="Propeller2" convention="0" depth_sorted_bin_value="1">
+     <node_file depth_sorted_bin_state="1" name="PropellerNode" file="data/aircrafts/c130/c130_propeller.osgt" depth_sorted_bin_value="7"/>
+    </pat>
+   </pat>
+   <pat depth_sorted_bin_state="0" ax="0.000000000000" ay="0.000000000000" px="3.500000" az="0.000000000000" py="5.119510" pz="-1.680000" name="PropellerPAT3" convention="0" depth_sorted_bin_value="1">
+    <pat depth_sorted_bin_state="0" ax="0.000000000000" ay="0.000000000000" px="0.000000" az="0.000000000000" py="0.000000" pz="0.000000" name="Propeller3" convention="0" depth_sorted_bin_value="1">
+     <node_file depth_sorted_bin_state="1" name="PropellerNode" file="data/aircrafts/c130/c130_propeller.osgt" depth_sorted_bin_value="7"/>
+    </pat>
+   </pat>
+   <pat depth_sorted_bin_state="0" ax="0.000000000000" ay="0.000000000000" px="3.500000" az="0.000000000000" py="10.170100" pz="-1.895130" name="PropellerPAT4" convention="0" depth_sorted_bin_value="1">
+    <pat depth_sorted_bin_state="0" ax="0.000000000000" ay="0.000000000000" px="0.000000" az="0.000000000000" py="0.000000" pz="0.000000" name="Propeller4" convention="0" depth_sorted_bin_value="1">
+     <node_file depth_sorted_bin_state="1" name="PropellerNode" file="data/aircrafts/c130/c130_propeller.osgt" depth_sorted_bin_value="7"/>
+    </pat>
+   </pat>
+  </group>
+  <switch depth_sorted_bin_state="1" visible="1" name="LandingGear" depth_sorted_bin_value="1">
+   <node_file depth_sorted_bin_state="0" name="LandingGearR" file="data/aircrafts/c130/c130_landing_gear_r.osgt" depth_sorted_bin_value="1"/>
+   <group depth_sorted_bin_state="0" name="LandingGearE" depth_sorted_bin_value="1">
+    <node_file depth_sorted_bin_state="0" name="LandingGearBaysNode" file="data/aircrafts/c130/c130_landing_gear_e_bays.osgt" depth_sorted_bin_value="1"/>
+    <pat depth_sorted_bin_state="0" ax="0.000000000000" ay="0.000000000000" px="-1.400000" az="0.000000000000" py="-2.130000" pz="1.800000" name="PAT_Wheel_L" convention="0" depth_sorted_bin_value="1">
+     <pat depth_sorted_bin_state="0" ax="0.000000000000" ay="0.000000000000" px="0.000000" az="0.000000000000" py="0.000000" pz="0.000000" name="LandingGear1" convention="0" depth_sorted_bin_value="1">
+      <node_file depth_sorted_bin_state="0" name="FileNode" file="data/aircrafts/c130/c130_landing_gear_e_wheel_l.osgt" depth_sorted_bin_value="1"/>
+     </pat>
+    </pat>
+    <pat depth_sorted_bin_state="0" ax="0.000000000000" ay="0.000000000000" px="-1.400000" az="0.000000000000" py="2.130000" pz="1.800000" name="PAT_Wheel_R" convention="0" depth_sorted_bin_value="1">
+     <pat depth_sorted_bin_state="0" ax="0.000000000000" ay="0.000000000000" px="0.000000" az="0.000000000000" py="0.000000" pz="0.000000" name="LandingGear2" convention="0" depth_sorted_bin_value="1">
+      <node_file depth_sorted_bin_state="0" name="FileNode" file="data/aircrafts/c130/c130_landing_gear_e_wheel_r.osgt" depth_sorted_bin_value="1"/>
+     </pat>
+    </pat>
+    <pat depth_sorted_bin_state="0" ax="0.000000000000" ay="0.000000000000" px="9.060000" az="0.000000000000" py="0.000000" pz="1.930000" name="PAT_Wheel_N" convention="0" depth_sorted_bin_value="1">
+     <pat depth_sorted_bin_state="0" ax="0.000000000000" ay="0.000000000000" px="0.000000" az="0.000000000000" py="0.000000" pz="0.000000" name="LandingGear3" convention="0" depth_sorted_bin_value="1">
+      <node_file depth_sorted_bin_state="0" name="FileNode" file="data/aircrafts/c130/c130_landing_gear_e_wheel_n.osgt" depth_sorted_bin_value="1"/>
+     </pat>
+    </pat>
+    <pat depth_sorted_bin_state="0" ax="0.000000000000" ay="0.000000000000" px="-0.690000" az="0.000000000000" py="-1.550000" pz="1.760000" name="PAT_Door_L_I" convention="0" depth_sorted_bin_value="1">
+     <pat depth_sorted_bin_state="0" ax="0.000000000000" ay="0.000000000000" px="0.000000" az="0.000000000000" py="0.000000" pz="0.000000" name="LandingGear4" convention="0" depth_sorted_bin_value="1">
+      <node_file depth_sorted_bin_state="0" name="FileNode" file="data/aircrafts/c130/c130_landing_gear_e_door_li.osgt" depth_sorted_bin_value="1"/>
+     </pat>
+    </pat>
+    <pat depth_sorted_bin_state="0" ax="0.000000000000" ay="0.000000000000" px="-0.690000" az="0.000000000000" py="-2.460000" pz="0.900000" name="PAT_Door_L_O" convention="0" depth_sorted_bin_value="1">
+     <pat depth_sorted_bin_state="0" ax="0.000000000000" ay="0.000000000000" px="0.000000" az="0.000000000000" py="0.000000" pz="0.000000" name="LandingGear5" convention="0" depth_sorted_bin_value="1">
+      <node_file depth_sorted_bin_state="0" name="FileNode" file="data/aircrafts/c130/c130_landing_gear_e_door_lo.osgt" depth_sorted_bin_value="1"/>
+     </pat>
+    </pat>
+    <pat depth_sorted_bin_state="0" ax="0.000000000000" ay="0.000000000000" px="-0.690000" az="0.000000000000" py="1.550000" pz="1.760000" name="PAT_Door_R_I" convention="0" depth_sorted_bin_value="1">
+     <pat depth_sorted_bin_state="0" ax="0.000000000000" ay="0.000000000000" px="0.000000" az="0.000000000000" py="0.000000" pz="0.000000" name="LandingGear6" convention="0" depth_sorted_bin_value="1">
+      <node_file depth_sorted_bin_state="0" name="FileNode" file="data/aircrafts/c130/c130_landing_gear_e_door_ri.osgt" depth_sorted_bin_value="1"/>
+     </pat>
+    </pat>
+    <pat depth_sorted_bin_state="0" ax="0.000000000000" ay="0.000000000000" px="-0.690000" az="0.000000000000" py="2.460000" pz="0.900000" name="PAT_Door_R_O" convention="0" depth_sorted_bin_value="1">
+     <pat depth_sorted_bin_state="0" ax="0.000000000000" ay="0.000000000000" px="0.000000" az="0.000000000000" py="0.000000" pz="0.000000" name="LandingGear7" convention="0" depth_sorted_bin_value="1">
+      <node_file depth_sorted_bin_state="0" name="FileNode" file="data/aircrafts/c130/c130_landing_gear_e_door_ro.osgt" depth_sorted_bin_value="1"/>
+     </pat>
+    </pat>
+    <pat depth_sorted_bin_state="0" ax="0.000000000000" ay="0.000000000000" px="7.197000" az="0.000000000000" py="0.000000" pz="1.871000" name="PAT_Door_N" convention="0" depth_sorted_bin_value="1">
+     <pat depth_sorted_bin_state="0" ax="0.000000000000" ay="0.000000000000" px="0.000000" az="0.000000000000" py="0.000000" pz="0.000000" name="LandingGear8" convention="0" depth_sorted_bin_value="1">
+      <node_file depth_sorted_bin_state="0" name="FileNode" file="data/aircrafts/c130/c130_landing_gear_e_door_n.osgt" depth_sorted_bin_value="1"/>
+     </pat>
+    </pat>
+   </group>
+  </switch>
+ </group>
+</gen_file>

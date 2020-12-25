@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<gen_file>
+ <group depth_sorted_bin_state="0" name="P51" depth_sorted_bin_value="1">
+  <node_file depth_sorted_bin_state="1" name="FuselageNode" file="data/aircrafts/p51/p51_fuselage.osgt" depth_sorted_bin_value="1"/>
+  <group depth_sorted_bin_state="0" name="Ailerons" depth_sorted_bin_value="1">
+   <pat depth_sorted_bin_state="0" ax="5.4" ay="0" px="-0.989" az="7.4973" py="-3.3372" pz="0.419" name="AileronPATL" convention="1" depth_sorted_bin_value="1">
+    <pat depth_sorted_bin_state="0" ax="0" ay="0" px="0" az="0" py="0" pz="0" name="AileronL" convention="0" depth_sorted_bin_value="1">
+     <node_file depth_sorted_bin_state="1" name="AileronNodeL" file="data/aircrafts/p51/p51_aileron_l.osgt" depth_sorted_bin_value="1"/>
+    </pat>
+   </pat>
+   <pat depth_sorted_bin_state="0" ax="-5.4" ay="0" px="-0.989" az="-7.5238" py="3.3372" pz="0.419" name="AileronPATR" convention="1" depth_sorted_bin_value="1">
+    <pat depth_sorted_bin_state="0" ax="0" ay="0" px="0" az="0" py="0" pz="0" name="AileronR" convention="0" depth_sorted_bin_value="1">
+     <node_file depth_sorted_bin_state="1" name="AileronNodeR" file="data/aircrafts/p51/p51_aileron_r.osgt" depth_sorted_bin_value="1"/>
+    </pat>
+   </pat>
+  </group>
+  <group depth_sorted_bin_state="0" name="Flaps" depth_sorted_bin_value="1">
+   <pat depth_sorted_bin_state="0" ax="5.4" ay="0" px="-1.329" az="7.125" py="-0.6293" pz="0.675" name="FlapPATL" convention="1" depth_sorted_bin_value="1">
+    <pat depth_sorted_bin_state="0" ax="0" ay="0" px="0" az="0" py="0" pz="0" name="FlapL" convention="0" depth_sorted_bin_value="1">
+     <node_file depth_sorted_bin_state="1" name="FlapNodeL" file="data/aircrafts/p51/p51_flap_l.osgt" depth_sorted_bin_value="1"/>
+    </pat>
+   </pat>
+   <pat depth_sorted_bin_state="0" ax="-5.4" ay="0" px="-1.329" az="-7.125" py="0.6293" pz="0.675" name="FlapPATR" convention="1" depth_sorted_bin_value="1">
+    <pat depth_sorted_bin_state="0" ax="0" ay="0" px="0" az="0" py="0" pz="0" name="FlapR" convention="0" depth_sorted_bin_value="1">
+     <node_file depth_sorted_bin_state="1" name="FlapNodeR" file="data/aircrafts/p51/p51_flap_r.osgt" depth_sorted_bin_value="1"/>
+    </pat>
+   </pat>
+  </group>
+  <pat depth_sorted_bin_state="0" ax="0" ay="0" px="-5.3599" az="0" py="0" pz="-0.42" name="ElevatorPAT" convention="0" depth_sorted_bin_value="1">
+   <pat depth_sorted_bin_state="0" ax="0" ay="0" px="0" az="0" py="0" pz="0" name="Elevator" convention="0" depth_sorted_bin_value="1">
+    <node_file depth_sorted_bin_state="1" name="ElevatorNode" file="data/aircrafts/p51/p51_elevator.osgt" depth_sorted_bin_value="1"/>
+   </pat>
+  </pat>
+  <pat depth_sorted_bin_state="0" ax="0" ay="0" px="-6.03" az="0" py="0" pz="0.08" name="RudderPAT" convention="0" depth_sorted_bin_value="1">
+   <pat depth_sorted_bin_state="0" ax="0" ay="0" px="0" az="0" py="0" pz="0" name="Rudder" convention="0" depth_sorted_bin_value="1">
+    <node_file depth_sorted_bin_state="1" name="RudderNode" file="data/aircrafts/p51/p51_rudder.osgt" depth_sorted_bin_value="1"/>
+   </pat>
+  </pat>
+  <pat depth_sorted_bin_state="0" ax="0" ay="0" px="3.08" az="0" py="0" pz="0" name="PropellerPAT" convention="0" depth_sorted_bin_value="1">
+   <pat depth_sorted_bin_state="0" ax="0" ay="0" px="0" az="0" py="0" pz="0" name="Propeller" convention="0" depth_sorted_bin_value="1">
+    <node_file depth_sorted_bin_state="1" name="PropellerNode" file="data/aircrafts/p51/p51_propeller.osgt" depth_sorted_bin_value="7"/>
+   </pat>
+  </pat>
+  <switch depth_sorted_bin_state="1" visible="1" name="LandingGear" depth_sorted_bin_value="1">
+   <node_file depth_sorted_bin_state="0" name="LandingGearR" file="data/aircrafts/p51/p51_landing_gear_r.osgt" depth_sorted_bin_value="1"/>
+   <group depth_sorted_bin_state="0" name="LandingGearE" depth_sorted_bin_value="1">
+    <node_file depth_sorted_bin_state="0" name="LandingGearBaysNode" file="data/aircrafts/p51/p51_landing_gear_e_bays.osgt" depth_sorted_bin_value="1"/>
+    <pat depth_sorted_bin_state="0" ax="0" ay="0" px="0.355" az="0" py="-1.7" pz="0.49" name="PAT_Wheel_L" convention="0" depth_sorted_bin_value="1">
+     <pat depth_sorted_bin_state="0" ax="0" ay="0" px="0" az="0" py="0" pz="0" name="LandingGear1" convention="0" depth_sorted_bin_value="1">
+      <node_file depth_sorted_bin_state="0" name="FileNode" file="data/aircrafts/p51/p51_landing_gear_e_wheel_left.osgt" depth_sorted_bin_value="1"/>
+     </pat>
+    </pat>
+    <pat depth_sorted_bin_state="0" ax="0" ay="0" px="0.355" az="0" py="1.7" pz="0.49" name="PAT_Wheel_R" convention="0" depth_sorted_bin_value="1">
+     <pat depth_sorted_bin_state="0" ax="0" ay="0" px="0" az="0" py="0" pz="0" name="LandingGear2" convention="0" depth_sorted_bin_value="1">
+      <node_file depth_sorted_bin_state="0" name="FileNode" file="data/aircrafts/p51/p51_landing_gear_e_wheel_right.osgt" depth_sorted_bin_value="1"/>
+     </pat>
+    </pat>
+    <pat depth_sorted_bin_state="0" ax="0" ay="0" px="-4.12" az="0" py="0" pz="0.61" name="PAT_Wheel_T" convention="0" depth_sorted_bin_value="1">
+     <pat depth_sorted_bin_state="0" ax="0" ay="0" px="0" az="0" py="0" pz="0" name="LandingGear3" convention="0" depth_sorted_bin_value="1">
+      <node_file depth_sorted_bin_state="0" name="FileNode" file="data/aircrafts/p51/p51_landing_gear_e_wheel_tail.osgt" depth_sorted_bin_value="1"/>
+     </pat>
+    </pat>
+    <pat depth_sorted_bin_state="0" ax="0" ay="0" px="0.1947" az="0" py="-0.0644" pz="0.8237" name="PAT_Door_L_I" convention="0" depth_sorted_bin_value="1">
+     <pat depth_sorted_bin_state="0" ax="0" ay="0" px="0" az="0" py="0" pz="0" name="LandingGear4" convention="0" depth_sorted_bin_value="1">
+      <node_file depth_sorted_bin_state="0" name="FileNode" file="data/aircrafts/p51/p51_landing_gear_e_door_left_inner.osgt" depth_sorted_bin_value="1"/>
+     </pat>
+    </pat>
+    <pat depth_sorted_bin_state="0" ax="0" ay="0" px="0.355" az="0" py="-1.9136" pz="0.6464" name="PAT_Door_L_O" convention="0" depth_sorted_bin_value="1">
+     <pat depth_sorted_bin_state="0" ax="0" ay="0" px="0" az="0" py="0" pz="0" name="LandingGear5" convention="0" depth_sorted_bin_value="1">
+      <node_file depth_sorted_bin_state="0" name="FileNode" file="data/aircrafts/p51/p51_landing_gear_e_door_left_outer.osgt" depth_sorted_bin_value="1"/>
+     </pat>
+    </pat>
+    <pat depth_sorted_bin_state="0" ax="0" ay="0" px="0.1947" az="0" py="0.0644" pz="0.8237" name="PAT_Door_R_I" convention="0" depth_sorted_bin_value="1">
+     <pat depth_sorted_bin_state="0" ax="0" ay="0" px="0" az="0" py="0" pz="0" name="LandingGear6" convention="0" depth_sorted_bin_value="1">
+      <node_file depth_sorted_bin_state="0" name="FileNode" file="data/aircrafts/p51/p51_landing_gear_e_door_right_inner.osgt" depth_sorted_bin_value="1"/>
+     </pat>
+    </pat>
+    <pat depth_sorted_bin_state="0" ax="0" ay="0" px="0.355" az="0" py="1.9136" pz="0.6464" name="PAT_Door_R_O" convention="0" depth_sorted_bin_value="1">
+     <pat depth_sorted_bin_state="0" ax="0" ay="0" px="0" az="0" py="0" pz="0" name="LandingGear7" convention="0" depth_sorted_bin_value="1">
+      <node_file depth_sorted_bin_state="0" name="FileNode" file="data/aircrafts/p51/p51_landing_gear_e_door_right_outer.osgt" depth_sorted_bin_value="1"/>
+     </pat>
+    </pat>
+    <pat depth_sorted_bin_state="0" ax="0" ay="0" px="-4.3156" az="0" py="-0.1221" pz="0.3189" name="PAT_Door_T_L" convention="0" depth_sorted_bin_value="1">
+     <pat depth_sorted_bin_state="0" ax="0" ay="0" px="0" az="0" py="0" pz="0" name="LandingGear8" convention="0" depth_sorted_bin_value="1">
+      <node_file depth_sorted_bin_state="0" name="FileNode" file="data/aircrafts/p51/p51_landing_gear_e_door_tail_left.osgt" depth_sorted_bin_value="1"/>
+     </pat>
+    </pat>
+    <pat depth_sorted_bin_state="0" ax="0" ay="0" px="-4.3156" az="0" py="0.1221" pz="0.3189" name="PAT_Door_T_R" convention="0" depth_sorted_bin_value="1">
+     <pat depth_sorted_bin_state="0" ax="0" ay="0" px="0" az="0" py="0" pz="0" name="LandingGear9" convention="0" depth_sorted_bin_value="1">
+      <node_file depth_sorted_bin_state="0" name="FileNode" file="data/aircrafts/p51/p51_landing_gear_e_door_tail_right.osgt" depth_sorted_bin_value="1"/>
+     </pat>
+    </pat>
+   </group>
+  </switch>
+ </group>
+</gen_file>

@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<gen_file>
+ <group depth_sorted_bin_value="1" depth_sorted_bin_state="0" name="F16">
+  <node_file file="data/aircrafts/f16c/f16c_fuselage.osgt" depth_sorted_bin_value="1" depth_sorted_bin_state="1" name="FuselageNode"/>
+  <node_file file="data/aircrafts/f16c/f16c_windshield.osgt" depth_sorted_bin_value="7" depth_sorted_bin_state="1" name="WindshieldNode"/>
+  <group depth_sorted_bin_value="1" depth_sorted_bin_state="0" name="Flaperons">
+   <pat px="-1.720000" ay="0.000000000000" ax="0.000000000000" pz="-0.020000" convention="1" depth_sorted_bin_value="1" py="-1.100000" az="-9.761900000000" depth_sorted_bin_state="0" name="FlaperonPATL">
+    <pat px="0.000000" ay="0.000000000000" ax="0.000000000000" pz="0.000000" convention="0" depth_sorted_bin_value="1" py="0.000000" az="0.000000000000" depth_sorted_bin_state="0" name="FlaperonL">
+     <node_file file="data/aircrafts/f16c/f16c_flaperon_l.osgt" depth_sorted_bin_value="1" depth_sorted_bin_state="1" name="FlaperonNodeL"/>
+    </pat>
+   </pat>
+   <pat px="-1.720000" ay="0.000000000000" ax="0.000000000000" pz="-0.020000" convention="1" depth_sorted_bin_value="1" py="1.100000" az="9.761900000000" depth_sorted_bin_state="0" name="FlaperonPATR">
+    <pat px="0.000000" ay="0.000000000000" ax="0.000000000000" pz="0.000000" convention="0" depth_sorted_bin_value="1" py="0.000000" az="0.000000000000" depth_sorted_bin_state="0" name="FlaperonR">
+     <node_file file="data/aircrafts/f16c/f16c_flaperon_r.osgt" depth_sorted_bin_value="1" depth_sorted_bin_state="1" name="FlaperonNodeR"/>
+    </pat>
+   </pat>
+  </group>
+  <group depth_sorted_bin_value="1" depth_sorted_bin_state="0" name="FlapsLE">
+   <pat px="0.670000" ay="0.000000000000" ax="0.000000000000" pz="-0.030000" convention="1" depth_sorted_bin_value="1" py="-1.420000" az="-35.217600000000" depth_sorted_bin_state="0" name="FlapPATLEL">
+    <pat px="0.000000" ay="0.000000000000" ax="0.000000000000" pz="0.000000" convention="0" depth_sorted_bin_value="1" py="0.000000" az="0.000000000000" depth_sorted_bin_state="0" name="FlapLEL">
+     <node_file file="data/aircrafts/f16c/f16c_flap_le_l.osgt" depth_sorted_bin_value="1" depth_sorted_bin_state="1" name="FlapNodeLEL"/>
+    </pat>
+   </pat>
+   <pat px="0.670000" ay="0.000000000000" ax="0.000000000000" pz="-0.030000" convention="1" depth_sorted_bin_value="1" py="1.420000" az="35.217600000000" depth_sorted_bin_state="0" name="FlapPATLER">
+    <pat px="0.000000" ay="0.000000000000" ax="0.000000000000" pz="0.000000" convention="0" depth_sorted_bin_value="1" py="0.000000" az="0.000000000000" depth_sorted_bin_state="0" name="FlapLER">
+     <node_file file="data/aircrafts/f16c/f16c_flap_le_r.osgt" depth_sorted_bin_value="1" depth_sorted_bin_state="1" name="FlapNodeLER"/>
+    </pat>
+   </pat>
+  </group>
+  <pat px="-4.900000" ay="0.000000000000" ax="0.000000000000" pz="0.000000" convention="0" depth_sorted_bin_value="1" py="0.000000" az="0.000000000000" depth_sorted_bin_state="0" name="ElevonPAT">
+   <pat px="0.000000" ay="0.000000000000" ax="0.000000000000" pz="0.000000" convention="0" depth_sorted_bin_value="1" py="0.000000" az="0.000000000000" depth_sorted_bin_state="0" name="ElevonL">
+    <node_file file="data/aircrafts/f16c/f16c_elevon_l.osgt" depth_sorted_bin_value="1" depth_sorted_bin_state="1" name="ElevonNode"/>
+   </pat>
+   <pat px="0.000000" ay="0.000000000000" ax="0.000000000000" pz="0.000000" convention="0" depth_sorted_bin_value="1" py="0.000000" az="0.000000000000" depth_sorted_bin_state="0" name="ElevonR">
+    <node_file file="data/aircrafts/f16c/f16c_elevon_r.osgt" depth_sorted_bin_value="1" depth_sorted_bin_state="1" name="ElevonNode"/>
+   </pat>
+  </pat>
+  <pat px="-5.000000" ay="34.709700000000" ax="0.000000000000" pz="-1.230000" convention="0" depth_sorted_bin_value="1" py="0.000000" az="0.000000000000" depth_sorted_bin_state="0" name="RudderPAT">
+   <pat px="0.000000" ay="0.000000000000" ax="0.000000000000" pz="0.000000" convention="0" depth_sorted_bin_value="1" py="0.000000" az="0.000000000000" depth_sorted_bin_state="0" name="Rudder">
+    <node_file file="data/aircrafts/f16c/f16c_rudder.osgt" depth_sorted_bin_value="1" depth_sorted_bin_state="1" name="RudderNode"/>
+   </pat>
+  </pat>
+  <pat px="-4.950000" ay="0.000000000000" ax="0.000000000000" pz="0.050000" convention="0" depth_sorted_bin_value="1" py="0.000000" az="0.000000000000" depth_sorted_bin_state="0" name="AirbrakePAT1">
+   <pat px="0.000000" ay="0.000000000000" ax="0.000000000000" pz="0.000000" convention="0" depth_sorted_bin_value="1" py="0.000000" az="0.000000000000" depth_sorted_bin_state="0" name="Airbrake1">
+    <node_file file="data/aircrafts/f16c/f16c_airbrake_p.osgt" depth_sorted_bin_value="1" depth_sorted_bin_state="1" name="AirbrakeNode1"/>
+   </pat>
+  </pat>
+  <pat px="-4.950000" ay="0.000000000000" ax="0.000000000000" pz="-0.070000" convention="0" depth_sorted_bin_value="1" py="0.000000" az="0.000000000000" depth_sorted_bin_state="0" name="AirbrakePAT2">
+   <pat px="0.000000" ay="0.000000000000" ax="0.000000000000" pz="0.000000" convention="0" depth_sorted_bin_value="1" py="0.000000" az="0.000000000000" depth_sorted_bin_state="0" name="Airbrake2">
+    <node_file file="data/aircrafts/f16c/f16c_airbrake_n.osgt" depth_sorted_bin_value="1" depth_sorted_bin_state="1" name="AirbrakeNode2"/>
+   </pat>
+  </pat>
+  <switch visible="1" depth_sorted_bin_value="1" depth_sorted_bin_state="1" name="LandingGear">
+   <node_file file="data/aircrafts/f16c/f16c_landing_gear_r.osgt" depth_sorted_bin_value="1" depth_sorted_bin_state="0" name="LandingGearR"/>
+   <group depth_sorted_bin_value="1" depth_sorted_bin_state="0" name="LandingGearE">
+    <node_file file="data/aircrafts/f16c/f16c_landing_gear_e_bays.osgt" depth_sorted_bin_value="1" depth_sorted_bin_state="0" name="LandingGearBaysNode"/>
+    <pat px="-0.105000" ay="0.000000000000" ax="0.000000000000" pz="0.391800" convention="0" depth_sorted_bin_value="1" py="-0.721300" az="180.000000000000" depth_sorted_bin_state="0" name="PAT_Doors_L">
+     <pat px="0.000000" ay="0.000000000000" ax="0.000000000000" pz="0.000000" convention="0" depth_sorted_bin_value="1" py="0.000000" az="0.000000000000" depth_sorted_bin_state="0" name="LandingGear1">
+      <node_file file="data/aircrafts/f16c/f16c_landing_gear_e_door_l.osgt" depth_sorted_bin_value="1" depth_sorted_bin_state="0" name="FileNode"/>
+     </pat>
+    </pat>
+    <pat px="2.539800" ay="0.000000000000" ax="0.000000000000" pz="0.912500" convention="0" depth_sorted_bin_value="1" py="0.239500" az="0.000000000000" depth_sorted_bin_state="0" name="PAT_Doors_N">
+     <pat px="0.000000" ay="0.000000000000" ax="0.000000000000" pz="0.000000" convention="0" depth_sorted_bin_value="1" py="0.000000" az="0.000000000000" depth_sorted_bin_state="0" name="LandingGear2">
+      <node_file file="data/aircrafts/f16c/f16c_landing_gear_e_door_n.osgt" depth_sorted_bin_value="1" depth_sorted_bin_state="0" name="FileNode"/>
+     </pat>
+    </pat>
+    <pat px="-0.105000" ay="0.000000000000" ax="0.000000000000" pz="0.391800" convention="0" depth_sorted_bin_value="1" py="0.721300" az="0.000000000000" depth_sorted_bin_state="0" name="PAT_Doors_R">
+     <pat px="0.000000" ay="0.000000000000" ax="0.000000000000" pz="0.000000" convention="0" depth_sorted_bin_value="1" py="0.000000" az="0.000000000000" depth_sorted_bin_state="0" name="LandingGear3">
+      <node_file file="data/aircrafts/f16c/f16c_landing_gear_e_door_r.osgt" depth_sorted_bin_value="1" depth_sorted_bin_state="0" name="FileNode"/>
+     </pat>
+    </pat>
+    <pat px="-0.940000" ay="0.000000000000" ax="0.000000000000" pz="0.368300" convention="0" depth_sorted_bin_value="1" py="-0.600000" az="0.000000000000" depth_sorted_bin_state="0" name="PAT_Wheel_L">
+     <pat px="0.000000" ay="0.000000000000" ax="0.000000000000" pz="0.000000" convention="0" depth_sorted_bin_value="1" py="0.000000" az="0.000000000000" depth_sorted_bin_state="0" name="LandingGear4">
+      <node_file file="data/aircrafts/f16c/f16c_landing_gear_e_wheel_l.osgt" depth_sorted_bin_value="1" depth_sorted_bin_state="0" name="FileNode"/>
+     </pat>
+    </pat>
+    <pat px="3.250000" ay="0.000000000000" ax="0.000000000000" pz="0.830000" convention="0" depth_sorted_bin_value="1" py="0.000000" az="0.000000000000" depth_sorted_bin_state="0" name="PAT_Wheel_N">
+     <pat px="0.000000" ay="0.000000000000" ax="0.000000000000" pz="0.000000" convention="0" depth_sorted_bin_value="1" py="0.000000" az="0.000000000000" depth_sorted_bin_state="0" name="LandingGear5">
+      <node_file file="data/aircrafts/f16c/f16c_landing_gear_e_strut_n.osgt" depth_sorted_bin_value="1" depth_sorted_bin_state="0" name="FileNode"/>
+      <pat px="0.000000" ay="0.000000000000" ax="0.000000000000" pz="0.000000" convention="0" depth_sorted_bin_value="1" py="0.000000" az="0.000000000000" depth_sorted_bin_state="0" name="LandingGear6">
+       <node_file file="data/aircrafts/f16c/f16c_landing_gear_e_wheel_n.osgt" depth_sorted_bin_value="1" depth_sorted_bin_state="0" name="FileNode"/>
+      </pat>
+     </pat>
+    </pat>
+    <pat px="-0.940000" ay="0.000000000000" ax="0.000000000000" pz="0.368300" convention="0" depth_sorted_bin_value="1" py="0.600000" az="0.000000000000" depth_sorted_bin_state="0" name="PAT_Wheel_R">
+     <pat px="0.000000" ay="0.000000000000" ax="0.000000000000" pz="0.000000" convention="0" depth_sorted_bin_value="1" py="0.000000" az="0.000000000000" depth_sorted_bin_state="0" name="LandingGear7">
+      <node_file file="data/aircrafts/f16c/f16c_landing_gear_e_wheel_r.osgt" depth_sorted_bin_value="1" depth_sorted_bin_state="0" name="FileNode"/>
+     </pat>
+    </pat>
+   </group>
+  </switch>
+  <nozzle px="-6.530000" file_exhaust="data/aircrafts/f16c/f16c_ab_fire.osgt" ay="0.000000000000" suffix="" ax="0.000000000000" pz="0.000000" convention="0" depth_sorted_bin_value="1" py="0.000000" az="0.000000000000" depth_sorted_bin_state="0" file_glow="data/aircrafts/f16c/f16c_ab_glow.osgt" name="Nozzle"/>
+ </group>
+</gen_file>

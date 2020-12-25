@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<gen_file>
+ <group depth_sorted_bin_state="0" name="F35A" depth_sorted_bin_value="1">
+  <node_file depth_sorted_bin_state="1" name="FuselageNode" file="data/aircrafts/f35a/f35a_fuselage.osgt" depth_sorted_bin_value="1"/>
+  <group depth_sorted_bin_state="0" name="Flaperons" depth_sorted_bin_value="1">
+   <pat depth_sorted_bin_state="0" ax="0.000000000000" ay="0.000000000000" px="-2.760000" az="13.978600000000" py="-1.797500" pz="-0.250000" name="FlaperonPATL" convention="1" depth_sorted_bin_value="1">
+    <pat depth_sorted_bin_state="0" ax="0.000000000000" ay="0.000000000000" px="0.000000" az="0.000000000000" py="0.000000" pz="0.000000" name="FlaperonL" convention="0" depth_sorted_bin_value="1">
+     <node_file depth_sorted_bin_state="1" name="FlaperonNodeL" file="data/aircrafts/f35a/f35a_flaperon_l.osgt" depth_sorted_bin_value="1"/>
+    </pat>
+   </pat>
+   <pat depth_sorted_bin_state="0" ax="0.000000000000" ay="0.000000000000" px="-2.760000" az="-13.978600000000" py="1.797500" pz="-0.250000" name="FlaperonPATR" convention="1" depth_sorted_bin_value="1">
+    <pat depth_sorted_bin_state="0" ax="0.000000000000" ay="0.000000000000" px="0.000000" az="0.000000000000" py="0.000000" pz="0.000000" name="FlaperonR" convention="0" depth_sorted_bin_value="1">
+     <node_file depth_sorted_bin_state="1" name="FlaperonNodeR" file="data/aircrafts/f35a/f35a_flaperon_r.osgt" depth_sorted_bin_value="1"/>
+    </pat>
+   </pat>
+  </group>
+  <group depth_sorted_bin_state="0" name="FlapsLE" depth_sorted_bin_value="1">
+   <pat depth_sorted_bin_state="0" ax="0.000000000000" ay="0.000000000000" px="0.600000" az="-33.996500000000" py="-2.350000" pz="-0.250100" name="FlapPATLEL" convention="1" depth_sorted_bin_value="1">
+    <pat depth_sorted_bin_state="0" ax="0.000000000000" ay="0.000000000000" px="0.000000" az="0.000000000000" py="0.000000" pz="0.000000" name="FlapLEL" convention="0" depth_sorted_bin_value="1">
+     <node_file depth_sorted_bin_state="1" name="FlapNodeLEL" file="data/aircrafts/f35a/f35a_flap_le_l.osgt" depth_sorted_bin_value="1"/>
+    </pat>
+   </pat>
+   <pat depth_sorted_bin_state="0" ax="0.000000000000" ay="0.000000000000" px="0.600000" az="33.996500000000" py="2.350000" pz="-0.250100" name="FlapPATLER" convention="1" depth_sorted_bin_value="1">
+    <pat depth_sorted_bin_state="0" ax="0.000000000000" ay="0.000000000000" px="0.000000" az="0.000000000000" py="0.000000" pz="0.000000" name="FlapLER" convention="0" depth_sorted_bin_value="1">
+     <node_file depth_sorted_bin_state="1" name="FlapNodeLER" file="data/aircrafts/f35a/f35a_flap_le_r.osgt" depth_sorted_bin_value="1"/>
+    </pat>
+   </pat>
+  </group>
+  <pat depth_sorted_bin_state="0" ax="0.000000000000" ay="0.000000000000" px="-4.857900" az="0.000000000000" py="0.000000" pz="-0.313400" name="ElevonPAT" convention="0" depth_sorted_bin_value="1">
+   <pat depth_sorted_bin_state="0" ax="0.000000000000" ay="0.000000000000" px="0.000000" az="0.000000000000" py="0.000000" pz="0.000000" name="ElevonL" convention="0" depth_sorted_bin_value="1">
+    <node_file depth_sorted_bin_state="1" name="ElevonNode" file="data/aircrafts/f35a/f35a_elevon_l.osgt" depth_sorted_bin_value="1"/>
+   </pat>
+   <pat depth_sorted_bin_state="0" ax="0.000000000000" ay="0.000000000000" px="0.000000" az="0.000000000000" py="0.000000" pz="0.000000" name="ElevonR" convention="0" depth_sorted_bin_value="1">
+    <node_file depth_sorted_bin_state="1" name="ElevonNode" file="data/aircrafts/f35a/f35a_elevon_r.osgt" depth_sorted_bin_value="1"/>
+   </pat>
+  </pat>
+  <group depth_sorted_bin_state="0" name="Rudders" depth_sorted_bin_value="1">
+   <pat depth_sorted_bin_state="0" ax="-20.400000000000" ay="27.835500000000" px="-4.480000" az="0.000000000000" py="-1.472200" pz="-0.543600" name="RudderPATL" convention="1" depth_sorted_bin_value="1">
+    <pat depth_sorted_bin_state="0" ax="0.000000000000" ay="0.000000000000" px="0.000000" az="0.000000000000" py="0.000000" pz="0.000000" name="RudderL" convention="0" depth_sorted_bin_value="1">
+     <node_file depth_sorted_bin_state="1" name="RudderL" file="data/aircrafts/f35a/f35a_rudder_l.osgt" depth_sorted_bin_value="1"/>
+    </pat>
+   </pat>
+   <pat depth_sorted_bin_state="0" ax="20.400000000000" ay="27.835500000000" px="-4.480000" az="0.000000000000" py="1.472200" pz="-0.543600" name="RudderPATR" convention="1" depth_sorted_bin_value="1">
+    <pat depth_sorted_bin_state="0" ax="0.000000000000" ay="0.000000000000" px="0.000000" az="0.000000000000" py="0.000000" pz="0.000000" name="RudderR" convention="0" depth_sorted_bin_value="1">
+     <node_file depth_sorted_bin_state="1" name="RudderR" file="data/aircrafts/f35a/f35a_rudder_r.osgt" depth_sorted_bin_value="1"/>
+    </pat>
+   </pat>
+  </group>
+  <switch depth_sorted_bin_state="1" visible="1" name="LandingGear" depth_sorted_bin_value="1">
+   <node_file depth_sorted_bin_state="0" name="LandingGearR" file="data/aircrafts/f35a/f35a_landing_gear_r.osgt" depth_sorted_bin_value="1"/>
+   <group depth_sorted_bin_state="0" name="LandingGearE" depth_sorted_bin_value="1">
+    <node_file depth_sorted_bin_state="0" name="LandingGearBaysNode" file="data/aircrafts/f35a/f35a_landing_gear_e_bays.osgt" depth_sorted_bin_value="1"/>
+    <group depth_sorted_bin_state="0" name="LandingGearN" depth_sorted_bin_value="1">
+     <pat depth_sorted_bin_state="0" ax="0.000000000000" ay="0.000000000000" px="4.950000" az="0.000000000000" py="0.000000" pz="0.300000" name="PAT_Wheel" convention="0" depth_sorted_bin_value="1">
+      <pat depth_sorted_bin_state="0" ax="0.000000000000" ay="0.000000000000" px="0.000000" az="0.000000000000" py="0.000000" pz="0.000000" name="LandingGear1" convention="0" depth_sorted_bin_value="1">
+       <node_file depth_sorted_bin_state="0" name="FileNode" file="data/aircrafts/f35a/f35a_landing_gear_e_wheel_n.osgt" depth_sorted_bin_value="1"/>
+      </pat>
+     </pat>
+     <pat depth_sorted_bin_state="0" ax="0.000000000000" ay="0.000000000000" px="5.780000" az="0.000000000000" py="-0.320000" pz="0.468100" name="PAT_Door_L" convention="0" depth_sorted_bin_value="1">
+      <pat depth_sorted_bin_state="0" ax="0.000000000000" ay="0.000000000000" px="0.000000" az="0.000000000000" py="0.000000" pz="0.000000" name="LandingGear2" convention="0" depth_sorted_bin_value="1">
+       <node_file depth_sorted_bin_state="0" name="FileNode" file="data/aircrafts/f35a/f35a_landing_gear_e_door_n_l.osgt" depth_sorted_bin_value="1"/>
+      </pat>
+     </pat>
+     <pat depth_sorted_bin_state="0" ax="0.000000000000" ay="0.000000000000" px="5.780000" az="0.000000000000" py="0.320000" pz="0.468100" name="PAT_Door_R" convention="0" depth_sorted_bin_value="1">
+      <pat depth_sorted_bin_state="0" ax="0.000000000000" ay="0.000000000000" px="0.000000" az="0.000000000000" py="0.000000" pz="0.000000" name="LandingGear3" convention="0" depth_sorted_bin_value="1">
+       <node_file depth_sorted_bin_state="0" name="FileNode" file="data/aircrafts/f35a/f35a_landing_gear_e_door_n_r.osgt" depth_sorted_bin_value="1"/>
+      </pat>
+     </pat>
+    </group>
+    <group depth_sorted_bin_state="0" name="LandingGearL" depth_sorted_bin_value="1">
+     <pat depth_sorted_bin_state="0" ax="0.000000000000" ay="7.000000000000" px="-0.789400" az="0.000000000000" py="-1.850000" pz="-0.231000" name="PAT_Wheel" convention="0" depth_sorted_bin_value="1">
+      <pat depth_sorted_bin_state="0" ax="0.000000000000" ay="0.000000000000" px="0.000000" az="0.000000000000" py="0.000000" pz="0.000000" name="LandingGear4" convention="0" depth_sorted_bin_value="1">
+       <group depth_sorted_bin_state="0" name="Group" depth_sorted_bin_value="1">
+        <node_file depth_sorted_bin_state="0" name="FileNode" file="data/aircrafts/f35a/f35a_landing_gear_e_strut.osgt" depth_sorted_bin_value="1"/>
+        <pat depth_sorted_bin_state="0" ax="0.000000000000" ay="0.000000000000" px="0.000000" az="0.000000000000" py="0.000000" pz="0.000000" name="LandingGear5" convention="0" depth_sorted_bin_value="1">
+         <node_file depth_sorted_bin_state="0" name="FileNode" file="data/aircrafts/f35a/f35a_landing_gear_e_wheel_l.osgt" depth_sorted_bin_value="1"/>
+        </pat>
+        <pat depth_sorted_bin_state="0" ax="0.000000000000" ay="0.000000000000" px="0.051700" az="0.000000000000" py="0.000000" pz="0.918300" name="PAT_BeamStrut" convention="0" depth_sorted_bin_value="1">
+         <pat depth_sorted_bin_state="0" ax="0.000000000000" ay="0.000000000000" px="0.000000" az="0.000000000000" py="0.000000" pz="0.000000" name="LandingGear6" convention="0" depth_sorted_bin_value="1">
+          <node_file depth_sorted_bin_state="0" name="FileNode" file="data/aircrafts/f35a/f35a_landing_gear_e_beam_strut.osgt" depth_sorted_bin_value="1"/>
+         </pat>
+        </pat>
+       </group>
+      </pat>
+      <pat depth_sorted_bin_state="0" ax="0.000000000000" ay="0.000000000000" px="0.627800" az="0.000000000000" py="0.000000" pz="0.072700" name="PAT_BeamFrame" convention="0" depth_sorted_bin_value="1">
+       <pat depth_sorted_bin_state="0" ax="0.000000000000" ay="0.000000000000" px="0.000000" az="0.000000000000" py="0.000000" pz="0.000000" name="LandingGear7" convention="0" depth_sorted_bin_value="1">
+        <node_file depth_sorted_bin_state="0" name="FileNode" file="data/aircrafts/f35a/f35a_landing_gear_e_beam_frame.osgt" depth_sorted_bin_value="1"/>
+       </pat>
+      </pat>
+     </pat>
+     <pat depth_sorted_bin_state="0" ax="0.000000000000" ay="0.000000000000" px="-0.031300" az="0.000000000000" py="-1.757800" pz="0.116900" name="PAT_Door_F" convention="0" depth_sorted_bin_value="1">
+      <pat depth_sorted_bin_state="0" ax="0.000000000000" ay="0.000000000000" px="0.000000" az="0.000000000000" py="0.000000" pz="0.000000" name="LandingGear8" convention="0" depth_sorted_bin_value="1">
+       <pat depth_sorted_bin_state="0" ax="0.000000000000" ay="0.000000000000" px="0.000000" az="0.000000000000" py="0.000000" pz="0.000000" name="LandingGear9" convention="0" depth_sorted_bin_value="1">
+        <node_file depth_sorted_bin_state="0" name="FileNode" file="data/aircrafts/f35a/f35a_landing_gear_e_door_l_f.osgt" depth_sorted_bin_value="1"/>
+       </pat>
+      </pat>
+     </pat>
+     <pat depth_sorted_bin_state="0" ax="0.000000000000" ay="0.000000000000" px="-0.953300" az="0.000000000000" py="-1.589300" pz="0.158300" name="PAT_Door_RI" convention="0" depth_sorted_bin_value="1">
+      <pat depth_sorted_bin_state="0" ax="0.000000000000" ay="0.000000000000" px="0.000000" az="0.000000000000" py="0.000000" pz="0.000000" name="LandingGear10" convention="0" depth_sorted_bin_value="1">
+       <pat depth_sorted_bin_state="0" ax="0.000000000000" ay="0.000000000000" px="0.000000" az="0.000000000000" py="0.000000" pz="0.000000" name="LandingGear11" convention="0" depth_sorted_bin_value="1">
+        <node_file depth_sorted_bin_state="0" name="FileNode" file="data/aircrafts/f35a/f35a_landing_gear_e_door_l_ri.osgt" depth_sorted_bin_value="1"/>
+       </pat>
+      </pat>
+     </pat>
+     <pat depth_sorted_bin_state="0" ax="0.000000000000" ay="0.000000000000" px="-0.749800" az="0.000000000000" py="-2.247300" pz="-0.128500" name="PAT_Door_RO" convention="0" depth_sorted_bin_value="1">
+      <pat depth_sorted_bin_state="0" ax="0.000000000000" ay="0.000000000000" px="0.000000" az="0.000000000000" py="0.000000" pz="0.000000" name="LandingGear12" convention="0" depth_sorted_bin_value="1">
+       <node_file depth_sorted_bin_state="0" name="FileNode" file="data/aircrafts/f35a/f35a_landing_gear_e_door_l_ro.osgt" depth_sorted_bin_value="1"/>
+      </pat>
+     </pat>
+    </group>
+    <group depth_sorted_bin_state="0" name="LandingGearR" depth_sorted_bin_value="1">
+     <pat depth_sorted_bin_state="0" ax="0.000000000000" ay="7.000000000000" px="-0.789400" az="0.000000000000" py="1.850000" pz="-0.231000" name="PAT_Wheel" convention="0" depth_sorted_bin_value="1">
+      <pat depth_sorted_bin_state="0" ax="0.000000000000" ay="0.000000000000" px="0.000000" az="0.000000000000" py="0.000000" pz="0.000000" name="LandingGear13" convention="0" depth_sorted_bin_value="1">
+       <group depth_sorted_bin_state="0" name="Group" depth_sorted_bin_value="1">
+        <node_file depth_sorted_bin_state="0" name="FileNode" file="data/aircrafts/f35a/f35a_landing_gear_e_strut.osgt" depth_sorted_bin_value="1"/>
+        <pat depth_sorted_bin_state="0" ax="0.000000000000" ay="0.000000000000" px="0.000000" az="0.000000000000" py="0.000000" pz="0.000000" name="LandingGear14" convention="0" depth_sorted_bin_value="1">
+         <node_file depth_sorted_bin_state="0" name="FileNode" file="data/aircrafts/f35a/f35a_landing_gear_e_wheel_r.osgt" depth_sorted_bin_value="1"/>
+        </pat>
+        <pat depth_sorted_bin_state="0" ax="0.000000000000" ay="0.000000000000" px="0.051700" az="0.000000000000" py="0.000000" pz="0.918300" name="PAT_BeamStrut" convention="0" depth_sorted_bin_value="1">
+         <pat depth_sorted_bin_state="0" ax="0.000000000000" ay="0.000000000000" px="0.000000" az="0.000000000000" py="0.000000" pz="0.000000" name="LandingGear15" convention="0" depth_sorted_bin_value="1">
+          <node_file depth_sorted_bin_state="0" name="FileNode" file="data/aircrafts/f35a/f35a_landing_gear_e_beam_strut.osgt" depth_sorted_bin_value="1"/>
+         </pat>
+        </pat>
+       </group>
+      </pat>
+      <pat depth_sorted_bin_state="0" ax="0.000000000000" ay="0.000000000000" px="0.627800" az="0.000000000000" py="0.000000" pz="0.072700" name="PAT_BeamFrame" convention="0" depth_sorted_bin_value="1">
+       <pat depth_sorted_bin_state="0" ax="0.000000000000" ay="0.000000000000" px="0.000000" az="0.000000000000" py="0.000000" pz="0.000000" name="LandingGear16" convention="0" depth_sorted_bin_value="1">
+        <node_file depth_sorted_bin_state="0" name="FileNode" file="data/aircrafts/f35a/f35a_landing_gear_e_beam_frame.osgt" depth_sorted_bin_value="1"/>
+       </pat>
+      </pat>
+     </pat>
+     <pat depth_sorted_bin_state="0" ax="0.000000000000" ay="0.000000000000" px="-0.031300" az="0.000000000000" py="1.757800" pz="0.116900" name="PAT_Door_F" convention="0" depth_sorted_bin_value="1">
+      <pat depth_sorted_bin_state="0" ax="0.000000000000" ay="0.000000000000" px="0.000000" az="0.000000000000" py="0.000000" pz="0.000000" name="LandingGear17" convention="0" depth_sorted_bin_value="1">
+       <pat depth_sorted_bin_state="0" ax="0.000000000000" ay="0.000000000000" px="0.000000" az="0.000000000000" py="0.000000" pz="0.000000" name="LandingGear18" convention="0" depth_sorted_bin_value="1">
+        <node_file depth_sorted_bin_state="0" name="FileNode" file="data/aircrafts/f35a/f35a_landing_gear_e_door_r_f.osgt" depth_sorted_bin_value="1"/>
+       </pat>
+      </pat>
+     </pat>
+     <pat depth_sorted_bin_state="0" ax="0.000000000000" ay="0.000000000000" px="-0.953300" az="0.000000000000" py="1.589300" pz="0.158300" name="PAT_Door_RI" convention="0" depth_sorted_bin_value="1">
+      <pat depth_sorted_bin_state="0" ax="0.000000000000" ay="0.000000000000" px="0.000000" az="0.000000000000" py="0.000000" pz="0.000000" name="LandingGear19" convention="0" depth_sorted_bin_value="1">
+       <pat depth_sorted_bin_state="0" ax="0.000000000000" ay="0.000000000000" px="0.000000" az="0.000000000000" py="0.000000" pz="0.000000" name="LandingGear20" convention="0" depth_sorted_bin_value="1">
+        <node_file depth_sorted_bin_state="0" name="FileNode" file="data/aircrafts/f35a/f35a_landing_gear_e_door_r_ri.osgt" depth_sorted_bin_value="1"/>
+       </pat>
+      </pat>
+     </pat>
+     <pat depth_sorted_bin_state="0" ax="0.000000000000" ay="0.000000000000" px="-0.749800" az="0.000000000000" py="2.247300" pz="-0.128500" name="PAT_Door_RO" convention="0" depth_sorted_bin_value="1">
+      <pat depth_sorted_bin_state="0" ax="0.000000000000" ay="0.000000000000" px="0.000000" az="0.000000000000" py="0.000000" pz="0.000000" name="LandingGear21" convention="0" depth_sorted_bin_value="1">
+       <node_file depth_sorted_bin_state="0" name="FileNode" file="data/aircrafts/f35a/f35a_landing_gear_e_door_r_ro.osgt" depth_sorted_bin_value="1"/>
+      </pat>
+     </pat>
+    </group>
+   </group>
+  </switch>
+  <nozzle suffix="" file_glow="data/aircrafts/f35a/f35a_ab_glow.osgt" depth_sorted_bin_state="0" ax="0.000000000000" ay="0.000000000000" px="-5.100000" az="0.000000000000" py="0.000000" pz="-0.150000" file_exhaust="data/aircrafts/f35a/f35a_ab_exhaust.osgt" name="Nozzle" convention="0" depth_sorted_bin_value="1"/>
+ </group>
+</gen_file>

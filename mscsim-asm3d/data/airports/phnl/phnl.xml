@@ -1,0 +1,859 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<gen_file>
+ <lod depth_sorted_bin_state="0" interval_o="1000" interval_s="1000" name="LOD" depth_sorted_bin_value="1" interval_f="20000">
+  <group depth_sorted_bin_state="0" name="PHNL" depth_sorted_bin_value="1">
+   <world alt="3.000" lon="-157.92026300" depth_sorted_bin_state="0" ax="136.072715069688" ay="-59.684352076476" px="14466.760790" az="48.133211712546" lat="21.31782800" py="0.070966" pz="6375317.866602" name="World" file="data/airports/phnl/terrain.osgb" convention="0" depth_sorted_bin_value="1"/>
+   <runway vgsi_x_lo="410" depth_sorted_bin_value="1" depth_sorted_bin_state="0" tdzl="0" ax="0.000000000000" rals_hi="0" ay="0.000000000000" az="90.010000000000" convention="0" vgsi_hi="1" name="Runway_8L_26R" rals_lo="5" vgsi_lo="1" width="45" px="822.000000" py="-510.000000" pz="0.000000" length="3760" rcls="0" vgsi_x_hi="350">
+    <pat depth_sorted_bin_state="0" ax="0.000000000000" ay="0.000000000000" px="-1880.000000" az="0.000000000000" py="0.000000" pz="-0.500000" name="SignsLE" convention="0" depth_sorted_bin_value="1">
+     <pat depth_sorted_bin_state="0" ax="0.000000000000" ay="0.000000000000" px="220.000000" az="0.000000000000" py="-45.000000" pz="0.000000" name="PAT_RWY_8L_L" convention="0" depth_sorted_bin_value="1">
+      <lod depth_sorted_bin_state="0" interval_o="1000" interval_s="1000" name="LOD" depth_sorted_bin_value="1" interval_f="1000">
+       <node_file depth_sorted_bin_state="0" name="File" file="data/signs/sign_rwy_8L.osgt" depth_sorted_bin_value="1"/>
+      </lod>
+     </pat>
+     <pat depth_sorted_bin_state="0" ax="0.000000000000" ay="0.000000000000" px="220.000000" az="0.000000000000" py="45.000000" pz="0.000000" name="PAT_RWY_8L_R" convention="0" depth_sorted_bin_value="1">
+      <lod depth_sorted_bin_state="0" interval_o="1000" interval_s="1000" name="LOD" depth_sorted_bin_value="1" interval_f="1000">
+       <node_file depth_sorted_bin_state="0" name="File" file="data/signs/sign_rwy_8L.osgt" depth_sorted_bin_value="1"/>
+      </lod>
+     </pat>
+     <pat depth_sorted_bin_state="0" ax="0.000000000000" ay="0.000000000000" px="137.000000" az="0.000000000000" py="-40.000000" pz="0.000000" name="PAT_RWY_RB_L" convention="0" depth_sorted_bin_value="1">
+      <lod depth_sorted_bin_state="0" interval_o="1000" interval_s="1000" name="LOD" depth_sorted_bin_value="1" interval_f="1000">
+       <node_file depth_sorted_bin_state="0" name="File" file="data/signs/sign_rwy_RB_L.osgt" depth_sorted_bin_value="1"/>
+      </lod>
+     </pat>
+     <pat depth_sorted_bin_state="0" ax="0.000000000000" ay="0.000000000000" px="1450.000000" az="0.000000000000" py="-42.600000" pz="0.000000" name="PAT_RWY_L_L" convention="0" depth_sorted_bin_value="1">
+      <lod depth_sorted_bin_state="0" interval_o="1000" interval_s="1000" name="LOD" depth_sorted_bin_value="1" interval_f="1000">
+       <node_file depth_sorted_bin_state="0" name="File" file="data/signs/sign_rwy_L_L.osgt" depth_sorted_bin_value="1"/>
+      </lod>
+     </pat>
+     <pat depth_sorted_bin_state="0" ax="0.000000000000" ay="0.000000000000" px="1450.000000" az="0.000000000000" py="-40.000000" pz="0.000000" name="PAT_RWY_N_FL" convention="0" depth_sorted_bin_value="1">
+      <lod depth_sorted_bin_state="0" interval_o="1000" interval_s="1000" name="LOD" depth_sorted_bin_value="1" interval_f="1000">
+       <node_file depth_sorted_bin_state="0" name="File" file="data/signs/sign_rwy_N_FL.osgt" depth_sorted_bin_value="1"/>
+      </lod>
+     </pat>
+     <pat depth_sorted_bin_state="0" ax="0.000000000000" ay="0.000000000000" px="1610.000000" az="0.000000000000" py="-40.000000" pz="0.000000" name="PAT_RWY_G_L" convention="0" depth_sorted_bin_value="1">
+      <lod depth_sorted_bin_state="0" interval_o="1000" interval_s="1000" name="LOD" depth_sorted_bin_value="1" interval_f="1000">
+       <node_file depth_sorted_bin_state="0" name="File" file="data/signs/sign_rwy_G_L.osgt" depth_sorted_bin_value="1"/>
+      </lod>
+     </pat>
+     <pat depth_sorted_bin_state="0" ax="0.000000000000" ay="0.000000000000" px="1610.000000" az="0.000000000000" py="40.000000" pz="0.000000" name="PAT_RWY_G_R" convention="0" depth_sorted_bin_value="1">
+      <lod depth_sorted_bin_state="0" interval_o="1000" interval_s="1000" name="LOD" depth_sorted_bin_value="1" interval_f="1000">
+       <node_file depth_sorted_bin_state="0" name="File" file="data/signs/sign_rwy_G_R.osgt" depth_sorted_bin_value="1"/>
+      </lod>
+     </pat>
+     <pat depth_sorted_bin_state="0" ax="0.000000000000" ay="0.000000000000" px="2060.000000" az="0.000000000000" py="-45.200000" pz="0.000000" name="PAT_RWY_D_BL" convention="0" depth_sorted_bin_value="1">
+      <lod depth_sorted_bin_state="0" interval_o="1000" interval_s="1000" name="LOD" depth_sorted_bin_value="1" interval_f="1000">
+       <node_file depth_sorted_bin_state="0" name="File" file="data/signs/sign_rwy_D_BL.osgt" depth_sorted_bin_value="1"/>
+      </lod>
+     </pat>
+     <pat depth_sorted_bin_state="0" ax="0.000000000000" ay="0.000000000000" px="2060.000000" az="0.000000000000" py="-42.600000" pz="0.000000" name="PAT_RWY_S_L" convention="0" depth_sorted_bin_value="1">
+      <lod depth_sorted_bin_state="0" interval_o="1000" interval_s="1000" name="LOD" depth_sorted_bin_value="1" interval_f="1000">
+       <node_file depth_sorted_bin_state="0" name="File" file="data/signs/sign_rwy_S_L.osgt" depth_sorted_bin_value="1"/>
+      </lod>
+     </pat>
+     <pat depth_sorted_bin_state="0" ax="0.000000000000" ay="0.000000000000" px="2060.000000" az="0.000000000000" py="-40.000000" pz="0.000000" name="PAT_RWY_Y_FL" convention="0" depth_sorted_bin_value="1">
+      <lod depth_sorted_bin_state="0" interval_o="1000" interval_s="1000" name="LOD" depth_sorted_bin_value="1" interval_f="1000">
+       <node_file depth_sorted_bin_state="0" name="File" file="data/signs/sign_rwy_Y_FL.osgt" depth_sorted_bin_value="1"/>
+      </lod>
+     </pat>
+     <pat depth_sorted_bin_state="0" ax="0.000000000000" ay="0.000000000000" px="2060.000000" az="0.000000000000" py="40.000000" pz="0.000000" name="PAT_RWY_S_R" convention="0" depth_sorted_bin_value="1">
+      <lod depth_sorted_bin_state="0" interval_o="1000" interval_s="1000" name="LOD" depth_sorted_bin_value="1" interval_f="1000">
+       <node_file depth_sorted_bin_state="0" name="File" file="data/signs/sign_rwy_S_R.osgt" depth_sorted_bin_value="1"/>
+      </lod>
+     </pat>
+     <pat depth_sorted_bin_state="0" ax="0.000000000000" ay="0.000000000000" px="2160.000000" az="0.000000000000" py="40.000000" pz="0.000000" name="PAT_RWY_D_R" convention="0" depth_sorted_bin_value="1">
+      <lod depth_sorted_bin_state="0" interval_o="1000" interval_s="1000" name="LOD" depth_sorted_bin_value="1" interval_f="1000">
+       <node_file depth_sorted_bin_state="0" name="File" file="data/signs/sign_rwy_D_R.osgt" depth_sorted_bin_value="1"/>
+      </lod>
+     </pat>
+     <pat depth_sorted_bin_state="0" ax="0.000000000000" ay="0.000000000000" px="2410.000000" az="0.000000000000" py="-40.000000" pz="0.000000" name="PAT_RWY_H_L" convention="0" depth_sorted_bin_value="1">
+      <lod depth_sorted_bin_state="0" interval_o="1000" interval_s="1000" name="LOD" depth_sorted_bin_value="1" interval_f="1000">
+       <node_file depth_sorted_bin_state="0" name="File" file="data/signs/sign_rwy_H_L.osgt" depth_sorted_bin_value="1"/>
+      </lod>
+     </pat>
+     <pat depth_sorted_bin_state="0" ax="0.000000000000" ay="0.000000000000" px="2520.000000" az="0.000000000000" py="-40.000000" pz="0.000000" name="PAT_RWY_E_BL" convention="0" depth_sorted_bin_value="1">
+      <lod depth_sorted_bin_state="0" interval_o="1000" interval_s="1000" name="LOD" depth_sorted_bin_value="1" interval_f="1000">
+       <node_file depth_sorted_bin_state="0" name="File" file="data/signs/sign_rwy_E_BL.osgt" depth_sorted_bin_value="1"/>
+      </lod>
+     </pat>
+     <pat depth_sorted_bin_state="0" ax="0.000000000000" ay="0.000000000000" px="2620.000000" az="0.000000000000" py="40.000000" pz="0.000000" name="PAT_RWY_E_FR" convention="0" depth_sorted_bin_value="1">
+      <lod depth_sorted_bin_state="0" interval_o="1000" interval_s="1000" name="LOD" depth_sorted_bin_value="1" interval_f="1000">
+       <node_file depth_sorted_bin_state="0" name="File" file="data/signs/sign_rwy_E_FR.osgt" depth_sorted_bin_value="1"/>
+      </lod>
+     </pat>
+     <pat depth_sorted_bin_state="0" ax="0.000000000000" ay="0.000000000000" px="3070.000000" az="0.000000000000" py="-45.000000" pz="0.000000" name="PAT_RWY_K_L" convention="0" depth_sorted_bin_value="1">
+      <lod depth_sorted_bin_state="0" interval_o="1000" interval_s="1000" name="LOD" depth_sorted_bin_value="1" interval_f="1000">
+       <node_file depth_sorted_bin_state="0" name="File" file="data/signs/sign_rwy_K_L.osgt" depth_sorted_bin_value="1"/>
+      </lod>
+     </pat>
+     <pat depth_sorted_bin_state="0" ax="0.000000000000" ay="0.000000000000" px="3085.000000" az="0.000000000000" py="45.000000" pz="0.000000" name="PAT_RWY_K_R" convention="0" depth_sorted_bin_value="1">
+      <lod depth_sorted_bin_state="0" interval_o="1000" interval_s="1000" name="LOD" depth_sorted_bin_value="1" interval_f="1000">
+       <node_file depth_sorted_bin_state="0" name="File" file="data/signs/sign_rwy_K_R.osgt" depth_sorted_bin_value="1"/>
+      </lod>
+     </pat>
+     <pat depth_sorted_bin_state="0" ax="0.000000000000" ay="0.000000000000" px="3595.000000" az="0.000000000000" py="-45.000000" pz="0.000000" name="PAT_RWY_C_FL" convention="0" depth_sorted_bin_value="1">
+      <lod depth_sorted_bin_state="0" interval_o="1000" interval_s="1000" name="LOD" depth_sorted_bin_value="1" interval_f="1000">
+       <node_file depth_sorted_bin_state="0" name="File" file="data/signs/sign_rwy_C_FL.osgt" depth_sorted_bin_value="1"/>
+      </lod>
+     </pat>
+     <pat depth_sorted_bin_state="0" ax="0.000000000000" ay="0.000000000000" px="3450.000000" az="0.000000000000" py="45.000000" pz="0.000000" name="PAT_RWY_C_BR" convention="0" depth_sorted_bin_value="1">
+      <lod depth_sorted_bin_state="0" interval_o="1000" interval_s="1000" name="LOD" depth_sorted_bin_value="1" interval_f="1000">
+       <node_file depth_sorted_bin_state="0" name="File" file="data/signs/sign_rwy_C_BR.osgt" depth_sorted_bin_value="1"/>
+      </lod>
+     </pat>
+    </pat>
+    <pat depth_sorted_bin_state="0" ax="0.000000000000" ay="0.000000000000" px="1880.000000" az="180.000000000000" py="0.000000" pz="-0.500000" name="SignsHE" convention="0" depth_sorted_bin_value="1">
+     <pat depth_sorted_bin_state="0" ax="0.000000000000" ay="0.000000000000" px="160.000000" az="0.000000000000" py="-45.000000" pz="0.000000" name="PAT_RWY_26R_L" convention="0" depth_sorted_bin_value="1">
+      <lod depth_sorted_bin_state="0" interval_o="1000" interval_s="1000" name="LOD" depth_sorted_bin_value="1" interval_f="1000">
+       <node_file depth_sorted_bin_state="0" name="File" file="data/signs/sign_rwy_26R.osgt" depth_sorted_bin_value="1"/>
+      </lod>
+     </pat>
+     <pat depth_sorted_bin_state="0" ax="0.000000000000" ay="0.000000000000" px="160.000000" az="0.000000000000" py="45.000000" pz="0.000000" name="PAT_RWY_26R_R" convention="0" depth_sorted_bin_value="1">
+      <lod depth_sorted_bin_state="0" interval_o="1000" interval_s="1000" name="LOD" depth_sorted_bin_value="1" interval_f="1000">
+       <node_file depth_sorted_bin_state="0" name="File" file="data/signs/sign_rwy_26R.osgt" depth_sorted_bin_value="1"/>
+      </lod>
+     </pat>
+     <pat depth_sorted_bin_state="0" ax="0.000000000000" ay="0.000000000000" px="620.000000" az="0.000000000000" py="-45.000000" pz="0.000000" name="PAT_RWY_K_L" convention="0" depth_sorted_bin_value="1">
+      <lod depth_sorted_bin_state="0" interval_o="1000" interval_s="1000" name="LOD" depth_sorted_bin_value="1" interval_f="1000">
+       <node_file depth_sorted_bin_state="0" name="File" file="data/signs/sign_rwy_K_L.osgt" depth_sorted_bin_value="1"/>
+      </lod>
+     </pat>
+     <pat depth_sorted_bin_state="0" ax="0.000000000000" ay="0.000000000000" px="980.000000" az="0.000000000000" py="-45.000000" pz="0.000000" name="PAT_RWY_E_BL" convention="0" depth_sorted_bin_value="1">
+      <lod depth_sorted_bin_state="0" interval_o="1000" interval_s="1000" name="LOD" depth_sorted_bin_value="1" interval_f="1000">
+       <node_file depth_sorted_bin_state="0" name="File" file="data/signs/sign_rwy_E_BL.osgt" depth_sorted_bin_value="1"/>
+      </lod>
+     </pat>
+     <pat depth_sorted_bin_state="0" ax="0.000000000000" ay="0.000000000000" px="1080.000000" az="0.000000000000" py="45.000000" pz="0.000000" name="PAT_RWY_E_FR" convention="0" depth_sorted_bin_value="1">
+      <lod depth_sorted_bin_state="0" interval_o="1000" interval_s="1000" name="LOD" depth_sorted_bin_value="1" interval_f="1000">
+       <node_file depth_sorted_bin_state="0" name="File" file="data/signs/sign_rwy_E_FR.osgt" depth_sorted_bin_value="1"/>
+      </lod>
+     </pat>
+     <pat depth_sorted_bin_state="0" ax="0.000000000000" ay="0.000000000000" px="1239.000000" az="0.000000000000" py="40.000000" pz="0.000000" name="PAT_RWY_H_BR" convention="0" depth_sorted_bin_value="1">
+      <lod depth_sorted_bin_state="0" interval_o="1000" interval_s="1000" name="LOD" depth_sorted_bin_value="1" interval_f="1000">
+       <node_file depth_sorted_bin_state="0" name="File" file="data/signs/sign_rwy_H_BR.osgt" depth_sorted_bin_value="1"/>
+      </lod>
+     </pat>
+     <pat depth_sorted_bin_state="0" ax="0.000000000000" ay="0.000000000000" px="1500.000000" az="0.000000000000" py="-45.000000" pz="0.000000" name="PAT_RWY_D_BL" convention="0" depth_sorted_bin_value="1">
+      <lod depth_sorted_bin_state="0" interval_o="1000" interval_s="1000" name="LOD" depth_sorted_bin_value="1" interval_f="1000">
+       <node_file depth_sorted_bin_state="0" name="File" file="data/signs/sign_rwy_D_BL.osgt" depth_sorted_bin_value="1"/>
+      </lod>
+     </pat>
+     <pat depth_sorted_bin_state="0" ax="0.000000000000" ay="0.000000000000" px="1520.000000" az="0.000000000000" py="45.000000" pz="0.000000" name="PAT_RWY_D_FR" convention="0" depth_sorted_bin_value="1">
+      <lod depth_sorted_bin_state="0" interval_o="1000" interval_s="1000" name="LOD" depth_sorted_bin_value="1" interval_f="1000">
+       <node_file depth_sorted_bin_state="0" name="File" file="data/signs/sign_rwy_D_FR.osgt" depth_sorted_bin_value="1"/>
+      </lod>
+     </pat>
+     <pat depth_sorted_bin_state="0" ax="0.000000000000" ay="0.000000000000" px="1520.000000" az="0.000000000000" py="47.800000" pz="0.000000" name="PAT_RWY_S_R" convention="0" depth_sorted_bin_value="1">
+      <lod depth_sorted_bin_state="0" interval_o="1000" interval_s="1000" name="LOD" depth_sorted_bin_value="1" interval_f="1000">
+       <node_file depth_sorted_bin_state="0" name="File" file="data/signs/sign_rwy_S_R.osgt" depth_sorted_bin_value="1"/>
+      </lod>
+     </pat>
+     <pat depth_sorted_bin_state="0" ax="0.000000000000" ay="0.000000000000" px="1520.000000" az="0.000000000000" py="50.400000" pz="0.000000" name="PAT_RWY_Y_BR" convention="0" depth_sorted_bin_value="1">
+      <lod depth_sorted_bin_state="0" interval_o="1000" interval_s="1000" name="LOD" depth_sorted_bin_value="1" interval_f="1000">
+       <node_file depth_sorted_bin_state="0" name="File" file="data/signs/sign_rwy_Y_BR.osgt" depth_sorted_bin_value="1"/>
+      </lod>
+     </pat>
+     <pat depth_sorted_bin_state="0" ax="0.000000000000" ay="0.000000000000" px="1599.000000" az="0.000000000000" py="-40.000000" pz="0.000000" name="PAT_RWY_S_L" convention="0" depth_sorted_bin_value="1">
+      <lod depth_sorted_bin_state="0" interval_o="1000" interval_s="1000" name="LOD" depth_sorted_bin_value="1" interval_f="1000">
+       <node_file depth_sorted_bin_state="0" name="File" file="data/signs/sign_rwy_S_L.osgt" depth_sorted_bin_value="1"/>
+      </lod>
+     </pat>
+     <pat depth_sorted_bin_state="0" ax="0.000000000000" ay="0.000000000000" px="2040.000000" az="0.000000000000" py="45.000000" pz="0.000000" name="PAT_RWY_G_R" convention="0" depth_sorted_bin_value="1">
+      <lod depth_sorted_bin_state="0" interval_o="1000" interval_s="1000" name="LOD" depth_sorted_bin_value="1" interval_f="1000">
+       <node_file depth_sorted_bin_state="0" name="File" file="data/signs/sign_rwy_G_R.osgt" depth_sorted_bin_value="1"/>
+      </lod>
+     </pat>
+     <pat depth_sorted_bin_state="0" ax="0.000000000000" ay="0.000000000000" px="2040.000000" az="0.000000000000" py="-45.000000" pz="0.000000" name="PAT_RWY_G_L" convention="0" depth_sorted_bin_value="1">
+      <lod depth_sorted_bin_state="0" interval_o="1000" interval_s="1000" name="LOD" depth_sorted_bin_value="1" interval_f="1000">
+       <node_file depth_sorted_bin_state="0" name="File" file="data/signs/sign_rwy_G_L.osgt" depth_sorted_bin_value="1"/>
+      </lod>
+     </pat>
+     <pat depth_sorted_bin_state="0" ax="0.000000000000" ay="0.000000000000" px="2149.000000" az="0.000000000000" py="40.000000" pz="0.000000" name="PAT_RWY_L_R" convention="0" depth_sorted_bin_value="1">
+      <lod depth_sorted_bin_state="0" interval_o="1000" interval_s="1000" name="LOD" depth_sorted_bin_value="1" interval_f="1000">
+       <node_file depth_sorted_bin_state="0" name="File" file="data/signs/sign_rwy_L_R.osgt" depth_sorted_bin_value="1"/>
+      </lod>
+     </pat>
+     <pat depth_sorted_bin_state="0" ax="0.000000000000" ay="0.000000000000" px="2149.000000" az="0.000000000000" py="42.600000" pz="0.000000" name="PAT_RWY_N_BR" convention="0" depth_sorted_bin_value="1">
+      <lod depth_sorted_bin_state="0" interval_o="1000" interval_s="1000" name="LOD" depth_sorted_bin_value="1" interval_f="1000">
+       <node_file depth_sorted_bin_state="0" name="File" file="data/signs/sign_rwy_N_BR.osgt" depth_sorted_bin_value="1"/>
+      </lod>
+     </pat>
+     <pat depth_sorted_bin_state="0" ax="0.000000000000" ay="0.000000000000" px="3590.000000" az="0.000000000000" py="-45.000000" pz="0.000000" name="PAT_RWY_RB_FL" convention="0" depth_sorted_bin_value="1">
+      <lod depth_sorted_bin_state="0" interval_o="1000" interval_s="1000" name="LOD" depth_sorted_bin_value="1" interval_f="1000">
+       <node_file depth_sorted_bin_state="0" name="File" file="data/signs/sign_rwy_RB_FL.osgt" depth_sorted_bin_value="1"/>
+      </lod>
+     </pat>
+     <pat depth_sorted_bin_state="0" ax="0.000000000000" ay="0.000000000000" px="3520.000000" az="0.000000000000" py="45.000000" pz="0.000000" name="PAT_RWY_RB_BR" convention="0" depth_sorted_bin_value="1">
+      <lod depth_sorted_bin_state="0" interval_o="1000" interval_s="1000" name="LOD" depth_sorted_bin_value="1" interval_f="1000">
+       <node_file depth_sorted_bin_state="0" name="File" file="data/signs/sign_rwy_RB_BR.osgt" depth_sorted_bin_value="1"/>
+      </lod>
+     </pat>
+     <pat depth_sorted_bin_state="0" ax="0.000000000000" ay="0.000000000000" px="3622.000000" az="0.000000000000" py="40.000000" pz="0.000000" name="PAT_RWY_V_FR" convention="0" depth_sorted_bin_value="1">
+      <lod depth_sorted_bin_state="0" interval_o="1000" interval_s="1000" name="LOD" depth_sorted_bin_value="1" interval_f="1000">
+       <node_file depth_sorted_bin_state="0" name="File" file="data/signs/sign_rwy_V_FR.osgt" depth_sorted_bin_value="1"/>
+      </lod>
+     </pat>
+     <pat depth_sorted_bin_state="0" ax="0.000000000000" ay="0.000000000000" px="3680.000000" az="0.000000000000" py="-40.000000" pz="0.000000" name="PAT_RWY_A_L" convention="0" depth_sorted_bin_value="1">
+      <lod depth_sorted_bin_state="0" interval_o="1000" interval_s="1000" name="LOD" depth_sorted_bin_value="1" interval_f="1000">
+       <node_file depth_sorted_bin_state="0" name="File" file="data/signs/sign_rwy_A_L.osgt" depth_sorted_bin_value="1"/>
+      </lod>
+     </pat>
+     <pat depth_sorted_bin_state="0" ax="0.000000000000" ay="0.000000000000" px="3680.000000" az="0.000000000000" py="-42.600000" pz="0.000000" name="PAT_RWY_T_BL" convention="0" depth_sorted_bin_value="1">
+      <lod depth_sorted_bin_state="0" interval_o="1000" interval_s="1000" name="LOD" depth_sorted_bin_value="1" interval_f="1000">
+       <node_file depth_sorted_bin_state="0" name="File" file="data/signs/sign_rwy_T_BL.osgt" depth_sorted_bin_value="1"/>
+      </lod>
+     </pat>
+     <pat depth_sorted_bin_state="0" ax="0.000000000000" ay="0.000000000000" px="3715.000000" az="0.000000000000" py="40.000000" pz="0.000000" name="PAT_RWY_A_R" convention="0" depth_sorted_bin_value="1">
+      <lod depth_sorted_bin_state="0" interval_o="1000" interval_s="1000" name="LOD" depth_sorted_bin_value="1" interval_f="1000">
+       <node_file depth_sorted_bin_state="0" name="File" file="data/signs/sign_rwy_A_R.osgt" depth_sorted_bin_value="1"/>
+      </lod>
+     </pat>
+     <pat depth_sorted_bin_state="0" ax="0.000000000000" ay="0.000000000000" px="3715.000000" az="0.000000000000" py="42.600000" pz="0.000000" name="PAT_RWY_T_FR" convention="0" depth_sorted_bin_value="1">
+      <lod depth_sorted_bin_state="0" interval_o="1000" interval_s="1000" name="LOD" depth_sorted_bin_value="1" interval_f="1000">
+       <node_file depth_sorted_bin_state="0" name="File" file="data/signs/sign_rwy_T_FR.osgt" depth_sorted_bin_value="1"/>
+      </lod>
+     </pat>
+    </pat>
+    <gap side="0" from="50" to="200"/>
+    <gap side="1" from="90" to="140"/>
+    <gap side="1" from="0" to="61"/>
+    <gap side="0" from="1470" to="1570"/>
+    <gap side="0" from="1600" to="1670"/>
+    <gap side="1" from="1600" to="1670"/>
+    <gap side="2" from="2050" to="2180"/>
+    <gap side="0" from="2421" to="2480"/>
+    <gap side="0" from="2541" to="2681"/>
+    <gap side="1" from="2600" to="2681"/>
+    <gap side="0" from="3030" to="3140"/>
+    <gap side="1" from="3010" to="3090"/>
+    <gap side="0" from="3330" to="3430"/>
+    <gap side="1" from="3240" to="3340"/>
+    <gap side="0" from="3599" to="3650"/>
+    <gap side="1" from="3539" to="3599"/>
+   </runway>
+   <runway vgsi_x_lo="410" depth_sorted_bin_value="1" depth_sorted_bin_state="0" tdzl="0" ax="0.000000000000" rals_hi="4" ay="0.000000000000" az="90.000000000000" convention="1" vgsi_hi="1" name="Runway_8R_26L" rals_lo="0" vgsi_lo="5" width="60" px="-1221.000000" py="-827.000000" pz="0.000000" length="3665" rcls="1" vgsi_x_hi="440">
+    <pat depth_sorted_bin_state="0" ax="0.000000000000" ay="0.000000000000" px="-1832.500000" az="0.000000000000" py="0.000000" pz="-0.500000" name="SignsLE" convention="0" depth_sorted_bin_value="1">
+     <lod depth_sorted_bin_state="0" interval_o="1000" interval_s="1000" name="LOD" depth_sorted_bin_value="1" interval_f="1000">
+      <pat depth_sorted_bin_state="0" ax="0.000000000000" ay="0.000000000000" px="220.000000" az="0.000000000000" py="-50.000000" pz="0.000000" name="PAT_RWY_8R_L" convention="0" depth_sorted_bin_value="1">
+       <node_file depth_sorted_bin_state="0" name="File" file="data/signs/sign_rwy_8R.osgt" depth_sorted_bin_value="1"/>
+      </pat>
+      <pat depth_sorted_bin_state="0" ax="0.000000000000" ay="0.000000000000" px="220.000000" az="0.000000000000" py="50.000000" pz="0.000000" name="PAT_RWY_8R_R" convention="0" depth_sorted_bin_value="1">
+       <node_file depth_sorted_bin_state="0" name="File" file="data/signs/sign_rwy_8R.osgt" depth_sorted_bin_value="1"/>
+      </pat>
+     </lod>
+    </pat>
+    <pat depth_sorted_bin_state="0" ax="0.000000000000" ay="0.000000000000" px="1832.500000" az="180.000000000000" py="0.000000" pz="-0.500000" name="SignsHE" convention="0" depth_sorted_bin_value="1">
+     <pat depth_sorted_bin_state="0" ax="0.000000000000" ay="0.000000000000" px="220.000000" az="0.000000000000" py="-50.000000" pz="0.000000" name="PAT_RWY_26L_L" convention="0" depth_sorted_bin_value="1">
+      <lod depth_sorted_bin_state="0" interval_o="1000" interval_s="1000" name="LOD" depth_sorted_bin_value="1" interval_f="1000">
+       <node_file depth_sorted_bin_state="0" name="File" file="data/signs/sign_rwy_26L.osgt" depth_sorted_bin_value="1"/>
+      </lod>
+     </pat>
+     <pat depth_sorted_bin_state="0" ax="0.000000000000" ay="0.000000000000" px="220.000000" az="0.000000000000" py="50.000000" pz="0.000000" name="PAT_RWY_26L_R" convention="0" depth_sorted_bin_value="1">
+      <lod depth_sorted_bin_state="0" interval_o="1000" interval_s="1000" name="LOD" depth_sorted_bin_value="1" interval_f="1000">
+       <node_file depth_sorted_bin_state="0" name="File" file="data/signs/sign_rwy_26L.osgt" depth_sorted_bin_value="1"/>
+      </lod>
+     </pat>
+    </pat>
+    <gap side="0" from="0" to="60"/>
+    <gap side="0" from="91" to="151"/>
+    <gap side="0" from="1070" to="1270"/>
+    <gap side="0" from="2410" to="2610"/>
+    <gap side="0" from="3605" to="3665"/>
+    <gap side="0" from="3514" to="3575"/>
+   </runway>
+   <runway vgsi_x_lo="300" depth_sorted_bin_value="1" depth_sorted_bin_state="0" tdzl="0" ax="0.000000000000" rals_hi="0" ay="0.000000000000" az="53.000000000000" convention="0" vgsi_hi="0" name="Runway_4L_22R" rals_lo="0" vgsi_lo="1" width="45" px="693.000000" py="530.000000" pz="0.000000" length="2148" rcls="0" vgsi_x_hi="300">
+    <pat depth_sorted_bin_state="0" ax="0.000000000000" ay="0.000000000000" px="-1074.000000" az="0.000000000000" py="0.000000" pz="-0.500000" name="SignsLE" convention="0" depth_sorted_bin_value="1">
+     <pat depth_sorted_bin_state="0" ax="0.000000000000" ay="0.000000000000" px="120.000000" az="0.000000000000" py="-40.000000" pz="0.000000" name="PAT_RWY_4L_L" convention="0" depth_sorted_bin_value="1">
+      <lod depth_sorted_bin_state="0" interval_o="1000" interval_s="1000" name="LOD" depth_sorted_bin_value="1" interval_f="1000">
+       <node_file depth_sorted_bin_state="0" name="File" file="data/signs/sign_rwy_4L.osgt" depth_sorted_bin_value="1"/>
+      </lod>
+     </pat>
+     <pat depth_sorted_bin_state="0" ax="0.000000000000" ay="0.000000000000" px="120.000000" az="0.000000000000" py="40.000000" pz="0.000000" name="PAT_RWY_4L_R" convention="0" depth_sorted_bin_value="1">
+      <lod depth_sorted_bin_state="0" interval_o="1000" interval_s="1000" name="LOD" depth_sorted_bin_value="1" interval_f="1000">
+       <node_file depth_sorted_bin_state="0" name="File" file="data/signs/sign_rwy_4L.osgt" depth_sorted_bin_value="1"/>
+      </lod>
+     </pat>
+     <pat depth_sorted_bin_state="0" ax="0.000000000000" ay="0.000000000000" px="430.000000" az="0.000000000000" py="-40.000000" pz="0.000000" name="PAT_RWY_D_L" convention="0" depth_sorted_bin_value="1">
+      <lod depth_sorted_bin_state="0" interval_o="1000" interval_s="1000" name="LOD" depth_sorted_bin_value="1" interval_f="1000">
+       <node_file depth_sorted_bin_state="0" name="File" file="data/signs/sign_rwy_D_L.osgt" depth_sorted_bin_value="1"/>
+      </lod>
+     </pat>
+     <pat depth_sorted_bin_state="0" ax="0.000000000000" ay="0.000000000000" px="430.000000" az="0.000000000000" py="40.000000" pz="0.000000" name="PAT_RWY_D_R" convention="0" depth_sorted_bin_value="1">
+      <lod depth_sorted_bin_state="0" interval_o="1000" interval_s="1000" name="LOD" depth_sorted_bin_value="1" interval_f="1000">
+       <node_file depth_sorted_bin_state="0" name="File" file="data/signs/sign_rwy_D_R.osgt" depth_sorted_bin_value="1"/>
+      </lod>
+     </pat>
+     <pat depth_sorted_bin_state="0" ax="0.000000000000" ay="0.000000000000" px="880.000000" az="0.000000000000" py="-30.000000" pz="0.000000" name="PAT_RWY_E_L" convention="0" depth_sorted_bin_value="1">
+      <lod depth_sorted_bin_state="0" interval_o="1000" interval_s="1000" name="LOD" depth_sorted_bin_value="1" interval_f="1200">
+       <node_file depth_sorted_bin_state="0" name="File" file="data/signs/sign_rwy_E_L.osgt" depth_sorted_bin_value="1"/>
+      </lod>
+     </pat>
+     <pat depth_sorted_bin_state="0" ax="0.000000000000" ay="0.000000000000" px="880.000000" az="0.000000000000" py="30.000000" pz="0.000000" name="PAT_RWY_E_R" convention="0" depth_sorted_bin_value="1">
+      <lod depth_sorted_bin_state="0" interval_o="1000" interval_s="1000" name="LOD" depth_sorted_bin_value="1" interval_f="1000">
+       <node_file depth_sorted_bin_state="0" name="File" file="data/signs/sign_rwy_E_R.osgt" depth_sorted_bin_value="1"/>
+      </lod>
+     </pat>
+     <pat depth_sorted_bin_state="0" ax="0.000000000000" ay="0.000000000000" px="1320.000000" az="0.000000000000" py="-40.000000" pz="0.000000" name="PAT_RWY_K_FL" convention="0" depth_sorted_bin_value="1">
+      <lod depth_sorted_bin_state="0" interval_o="1000" interval_s="1000" name="LOD" depth_sorted_bin_value="1" interval_f="1200">
+       <node_file depth_sorted_bin_state="0" name="File" file="data/signs/sign_rwy_K_FL.osgt" depth_sorted_bin_value="1"/>
+      </lod>
+     </pat>
+     <pat depth_sorted_bin_state="0" ax="0.000000000000" ay="0.000000000000" px="2060.000000" az="0.000000000000" py="-30.000000" pz="0.000000" name="PAT_RWY_A_L" convention="0" depth_sorted_bin_value="1">
+      <lod depth_sorted_bin_state="0" interval_o="1000" interval_s="1000" name="LOD" depth_sorted_bin_value="1" interval_f="1200">
+       <node_file depth_sorted_bin_state="0" name="File" file="data/signs/sign_rwy_A_L.osgt" depth_sorted_bin_value="1"/>
+      </lod>
+     </pat>
+     <pat depth_sorted_bin_state="0" ax="0.000000000000" ay="0.000000000000" px="2060.000000" az="0.000000000000" py="30.000000" pz="0.000000" name="PAT_RWY_C_R" convention="0" depth_sorted_bin_value="1">
+      <lod depth_sorted_bin_state="0" interval_o="1000" interval_s="1000" name="LOD" depth_sorted_bin_value="1" interval_f="1000">
+       <node_file depth_sorted_bin_state="0" name="File" file="data/signs/sign_rwy_C_R.osgt" depth_sorted_bin_value="1"/>
+      </lod>
+     </pat>
+     <pat depth_sorted_bin_state="0" ax="0.000000000000" ay="0.000000000000" px="35.000000" az="-90.000000000000" py="60.000000" pz="0.000000" name="PAT_TWY_F_4L" convention="0" depth_sorted_bin_value="1">
+      <pat depth_sorted_bin_state="0" ax="0.000000000000" ay="0.000000000000" px="0.000000" az="0.000000000000" py="-30.000000" pz="0.000000" name="PAT_L" convention="0" depth_sorted_bin_value="1">
+       <lod depth_sorted_bin_state="0" interval_o="1000" interval_s="1000" name="LOD" depth_sorted_bin_value="1" interval_f="1000">
+        <node_file depth_sorted_bin_state="0" name="File" file="data/signs/sign_twy_F_4L_L.osgt" depth_sorted_bin_value="1"/>
+       </lod>
+      </pat>
+      <pat depth_sorted_bin_state="0" ax="0.000000000000" ay="0.000000000000" px="0.000000" az="0.000000000000" py="30.000000" pz="0.000000" name="PAT_R" convention="0" depth_sorted_bin_value="1">
+       <lod depth_sorted_bin_state="0" interval_o="1000" interval_s="1000" name="LOD" depth_sorted_bin_value="1" interval_f="1000">
+        <node_file depth_sorted_bin_state="0" name="File" file="data/signs/sign_twy_F_4L_R.osgt" depth_sorted_bin_value="1"/>
+       </lod>
+      </pat>
+     </pat>
+     <pat depth_sorted_bin_state="0" ax="0.000000000000" ay="0.000000000000" px="480.000000" az="-90.000000000000" py="65.000000" pz="0.000000" name="PAT_TWY_D_4L-22R" convention="0" depth_sorted_bin_value="1">
+      <pat depth_sorted_bin_state="0" ax="0.000000000000" ay="0.000000000000" px="0.000000" az="0.000000000000" py="-30.000000" pz="0.000000" name="PAT_L" convention="0" depth_sorted_bin_value="1">
+       <lod depth_sorted_bin_state="0" interval_o="1000" interval_s="1000" name="LOD" depth_sorted_bin_value="1" interval_f="1000">
+        <node_file depth_sorted_bin_state="0" name="File" file="data/signs/sign_twy_D_4L-22R_L.osgt" depth_sorted_bin_value="1"/>
+       </lod>
+      </pat>
+      <pat depth_sorted_bin_state="0" ax="0.000000000000" ay="0.000000000000" px="0.000000" az="0.000000000000" py="30.000000" pz="0.000000" name="PAT_R" convention="0" depth_sorted_bin_value="1">
+       <lod depth_sorted_bin_state="0" interval_o="1000" interval_s="1000" name="LOD" depth_sorted_bin_value="1" interval_f="1000">
+        <node_file depth_sorted_bin_state="0" name="File" file="data/signs/sign_twy_D_4L-22R_R.osgt" depth_sorted_bin_value="1"/>
+       </lod>
+      </pat>
+     </pat>
+     <pat depth_sorted_bin_state="0" ax="0.000000000000" ay="0.000000000000" px="940.000000" az="-90.000000000000" py="65.000000" pz="0.000000" name="PAT_TWY_E_4L-22R" convention="0" depth_sorted_bin_value="1">
+      <pat depth_sorted_bin_state="0" ax="0.000000000000" ay="0.000000000000" px="0.000000" az="0.000000000000" py="-30.000000" pz="0.000000" name="PAT_L" convention="0" depth_sorted_bin_value="1">
+       <lod depth_sorted_bin_state="0" interval_o="1000" interval_s="1000" name="LOD" depth_sorted_bin_value="1" interval_f="1000">
+        <node_file depth_sorted_bin_state="0" name="File" file="data/signs/sign_twy_E_4L-22R_L.osgt" depth_sorted_bin_value="1"/>
+       </lod>
+      </pat>
+      <pat depth_sorted_bin_state="0" ax="0.000000000000" ay="0.000000000000" px="0.000000" az="0.000000000000" py="30.000000" pz="0.000000" name="PAT_R" convention="0" depth_sorted_bin_value="1">
+       <lod depth_sorted_bin_state="0" interval_o="1000" interval_s="1000" name="LOD" depth_sorted_bin_value="1" interval_f="1000">
+        <node_file depth_sorted_bin_state="0" name="File" file="data/signs/sign_twy_E_4L-22R_R.osgt" depth_sorted_bin_value="1"/>
+       </lod>
+      </pat>
+     </pat>
+     <pat depth_sorted_bin_state="0" ax="0.000000000000" ay="0.000000000000" px="1235.000000" az="-55.000000000000" py="70.000000" pz="0.000000" name="PAT_TWY_K_4L-22R" convention="0" depth_sorted_bin_value="1">
+      <pat depth_sorted_bin_state="0" ax="0.000000000000" ay="0.000000000000" px="0.000000" az="0.000000000000" py="-30.000000" pz="0.000000" name="PAT_L" convention="0" depth_sorted_bin_value="1">
+       <lod depth_sorted_bin_state="0" interval_o="1000" interval_s="1000" name="LOD" depth_sorted_bin_value="1" interval_f="1000">
+        <node_file depth_sorted_bin_state="0" name="File" file="data/signs/sign_twy_K_4L-22R_L.osgt" depth_sorted_bin_value="1"/>
+       </lod>
+      </pat>
+      <pat depth_sorted_bin_state="0" ax="0.000000000000" ay="0.000000000000" px="0.000000" az="0.000000000000" py="30.000000" pz="0.000000" name="PAT_R" convention="0" depth_sorted_bin_value="1">
+       <lod depth_sorted_bin_state="0" interval_o="1000" interval_s="1000" name="LOD" depth_sorted_bin_value="1" interval_f="1000">
+        <node_file depth_sorted_bin_state="0" name="File" file="data/signs/sign_twy_K_4L-22R_R.osgt" depth_sorted_bin_value="1"/>
+       </lod>
+      </pat>
+     </pat>
+     <pat depth_sorted_bin_state="0" ax="0.000000000000" ay="0.000000000000" px="2118.000000" az="-90.000000000000" py="65.000000" pz="0.000000" name="PAT_TWY_C_22R" convention="0" depth_sorted_bin_value="1">
+      <pat depth_sorted_bin_state="0" ax="0.000000000000" ay="0.000000000000" px="0.000000" az="0.000000000000" py="-30.000000" pz="0.000000" name="PAT_L" convention="0" depth_sorted_bin_value="1">
+       <lod depth_sorted_bin_state="0" interval_o="1000" interval_s="1000" name="LOD" depth_sorted_bin_value="1" interval_f="1000">
+        <node_file depth_sorted_bin_state="0" name="File" file="data/signs/sign_twy_C_22R_L.osgt" depth_sorted_bin_value="1"/>
+       </lod>
+      </pat>
+      <pat depth_sorted_bin_state="0" ax="0.000000000000" ay="0.000000000000" px="0.000000" az="0.000000000000" py="30.000000" pz="0.000000" name="PAT_R" convention="0" depth_sorted_bin_value="1">
+       <lod depth_sorted_bin_state="0" interval_o="1000" interval_s="1000" name="LOD" depth_sorted_bin_value="1" interval_f="1000">
+        <node_file depth_sorted_bin_state="0" name="File" file="data/signs/sign_twy_C_22R_R.osgt" depth_sorted_bin_value="1"/>
+       </lod>
+      </pat>
+     </pat>
+    </pat>
+    <pat depth_sorted_bin_state="0" ax="0.000000000000" ay="0.000000000000" px="1074.000000" az="180.000000000000" py="0.000000" pz="-0.500000" name="SignsHE" convention="0" depth_sorted_bin_value="1">
+     <pat depth_sorted_bin_state="0" ax="0.000000000000" ay="0.000000000000" px="120.000000" az="0.000000000000" py="-30.000000" pz="0.000000" name="PAT_RWY_22R_L" convention="0" depth_sorted_bin_value="1">
+      <lod depth_sorted_bin_state="0" interval_o="1000" interval_s="1000" name="LOD" depth_sorted_bin_value="1" interval_f="1000">
+       <node_file depth_sorted_bin_state="0" name="File" file="data/signs/sign_rwy_22R.osgt" depth_sorted_bin_value="1"/>
+      </lod>
+     </pat>
+     <pat depth_sorted_bin_state="0" ax="0.000000000000" ay="0.000000000000" px="120.000000" az="0.000000000000" py="30.000000" pz="0.000000" name="PAT_RWY_22R_R" convention="0" depth_sorted_bin_value="1">
+      <lod depth_sorted_bin_state="0" interval_o="1000" interval_s="1000" name="LOD" depth_sorted_bin_value="1" interval_f="1000">
+       <node_file depth_sorted_bin_state="0" name="File" file="data/signs/sign_rwy_22R.osgt" depth_sorted_bin_value="1"/>
+      </lod>
+     </pat>
+     <pat depth_sorted_bin_state="0" ax="0.000000000000" ay="0.000000000000" px="1150.000000" az="0.000000000000" py="-30.000000" pz="0.000000" name="PAT_RWY_E_L" convention="0" depth_sorted_bin_value="1">
+      <lod depth_sorted_bin_state="0" interval_o="1000" interval_s="1000" name="LOD" depth_sorted_bin_value="1" interval_f="1000">
+       <node_file depth_sorted_bin_state="0" name="File" file="data/signs/sign_rwy_E_L.osgt" depth_sorted_bin_value="1"/>
+      </lod>
+     </pat>
+     <pat depth_sorted_bin_state="0" ax="0.000000000000" ay="0.000000000000" px="1150.000000" az="0.000000000000" py="30.000000" pz="0.000000" name="PAT_RWY_E_R" convention="0" depth_sorted_bin_value="1">
+      <lod depth_sorted_bin_state="0" interval_o="1000" interval_s="1000" name="LOD" depth_sorted_bin_value="1" interval_f="1000">
+       <node_file depth_sorted_bin_state="0" name="File" file="data/signs/sign_rwy_E_R.osgt" depth_sorted_bin_value="1"/>
+      </lod>
+     </pat>
+     <pat depth_sorted_bin_state="0" ax="0.000000000000" ay="0.000000000000" px="1620.000000" az="0.000000000000" py="-30.000000" pz="0.000000" name="PAT_RWY_D_L" convention="0" depth_sorted_bin_value="1">
+      <lod depth_sorted_bin_state="0" interval_o="1000" interval_s="1000" name="LOD" depth_sorted_bin_value="1" interval_f="1000">
+       <node_file depth_sorted_bin_state="0" name="File" file="data/signs/sign_rwy_D_L.osgt" depth_sorted_bin_value="1"/>
+      </lod>
+     </pat>
+     <pat depth_sorted_bin_state="0" ax="0.000000000000" ay="0.000000000000" px="1620.000000" az="0.000000000000" py="30.000000" pz="0.000000" name="PAT_RWY_D_R" convention="0" depth_sorted_bin_value="1">
+      <lod depth_sorted_bin_state="0" interval_o="1000" interval_s="1000" name="LOD" depth_sorted_bin_value="1" interval_f="1000">
+       <node_file depth_sorted_bin_state="0" name="File" file="data/signs/sign_rwy_D_R.osgt" depth_sorted_bin_value="1"/>
+      </lod>
+     </pat>
+     <pat depth_sorted_bin_state="0" ax="0.000000000000" ay="0.000000000000" px="2060.000000" az="0.000000000000" py="-40.000000" pz="0.000000" name="PAT_RWY_F_L" convention="0" depth_sorted_bin_value="1">
+      <lod depth_sorted_bin_state="0" interval_o="1000" interval_s="1000" name="LOD" depth_sorted_bin_value="1" interval_f="1000">
+       <node_file depth_sorted_bin_state="0" name="File" file="data/signs/sign_rwy_F_L.osgt" depth_sorted_bin_value="1"/>
+      </lod>
+     </pat>
+     <pat depth_sorted_bin_state="0" ax="0.000000000000" ay="0.000000000000" px="2060.000000" az="0.000000000000" py="40.000000" pz="0.000000" name="PAT_RWY_F_R" convention="0" depth_sorted_bin_value="1">
+      <lod depth_sorted_bin_state="0" interval_o="1000" interval_s="1000" name="LOD" depth_sorted_bin_value="1" interval_f="1000">
+       <node_file depth_sorted_bin_state="0" name="File" file="data/signs/sign_rwy_F_R.osgt" depth_sorted_bin_value="1"/>
+      </lod>
+     </pat>
+     <pat depth_sorted_bin_state="0" ax="0.000000000000" ay="0.000000000000" px="25.000000" az="-90.000000000000" py="65.000000" pz="0.000000" name="PAT_TWY_A_22R" convention="0" depth_sorted_bin_value="1">
+      <pat depth_sorted_bin_state="0" ax="0.000000000000" ay="0.000000000000" px="0.000000" az="0.000000000000" py="-30.000000" pz="0.000000" name="PAT_L" convention="0" depth_sorted_bin_value="1">
+       <lod depth_sorted_bin_state="0" interval_o="1000" interval_s="1000" name="LOD" depth_sorted_bin_value="1" interval_f="1000">
+        <node_file depth_sorted_bin_state="0" name="File" file="data/signs/sign_twy_A_22R_L.osgt" depth_sorted_bin_value="1"/>
+       </lod>
+      </pat>
+      <pat depth_sorted_bin_state="0" ax="0.000000000000" ay="0.000000000000" px="0.000000" az="0.000000000000" py="30.000000" pz="0.000000" name="PAT_R" convention="0" depth_sorted_bin_value="1">
+       <lod depth_sorted_bin_state="0" interval_o="1000" interval_s="1000" name="LOD" depth_sorted_bin_value="1" interval_f="1000">
+        <node_file depth_sorted_bin_state="0" name="File" file="data/signs/sign_twy_A_22R_R.osgt" depth_sorted_bin_value="1"/>
+       </lod>
+      </pat>
+     </pat>
+     <pat depth_sorted_bin_state="0" ax="0.000000000000" ay="0.000000000000" px="760.000000" az="-50.000000000000" py="75.000000" pz="0.000000" name="PAT_TWY_K_22R-4L" convention="0" depth_sorted_bin_value="1">
+      <pat depth_sorted_bin_state="0" ax="0.000000000000" ay="0.000000000000" px="0.000000" az="0.000000000000" py="-30.000000" pz="0.000000" name="PAT_L" convention="0" depth_sorted_bin_value="1">
+       <lod depth_sorted_bin_state="0" interval_o="1000" interval_s="1000" name="LOD" depth_sorted_bin_value="1" interval_f="1000">
+        <node_file depth_sorted_bin_state="0" name="File" file="data/signs/sign_twy_K_22R-4L_L.osgt" depth_sorted_bin_value="1"/>
+       </lod>
+      </pat>
+      <pat depth_sorted_bin_state="0" ax="0.000000000000" ay="0.000000000000" px="0.000000" az="0.000000000000" py="30.000000" pz="0.000000" name="PAT_R" convention="0" depth_sorted_bin_value="1">
+       <lod depth_sorted_bin_state="0" interval_o="1000" interval_s="1000" name="LOD" depth_sorted_bin_value="1" interval_f="1000">
+        <node_file depth_sorted_bin_state="0" name="File" file="data/signs/sign_twy_K_22R-4L_R.osgt" depth_sorted_bin_value="1"/>
+       </lod>
+      </pat>
+     </pat>
+     <pat depth_sorted_bin_state="0" ax="0.000000000000" ay="0.000000000000" px="1212.000000" az="-90.000000000000" py="65.000000" pz="0.000000" name="PAT_TWY_E_22R-4L" convention="0" depth_sorted_bin_value="1">
+      <pat depth_sorted_bin_state="0" ax="0.000000000000" ay="0.000000000000" px="0.000000" az="0.000000000000" py="-30.000000" pz="0.000000" name="PAT_L" convention="0" depth_sorted_bin_value="1">
+       <lod depth_sorted_bin_state="0" interval_o="1000" interval_s="1000" name="LOD" depth_sorted_bin_value="1" interval_f="1000">
+        <node_file depth_sorted_bin_state="0" name="File" file="data/signs/sign_twy_E_22R-4L_L.osgt" depth_sorted_bin_value="1"/>
+       </lod>
+      </pat>
+      <pat depth_sorted_bin_state="0" ax="0.000000000000" ay="0.000000000000" px="0.000000" az="0.000000000000" py="30.000000" pz="0.000000" name="PAT_R" convention="0" depth_sorted_bin_value="1">
+       <lod depth_sorted_bin_state="0" interval_o="1000" interval_s="1000" name="LOD" depth_sorted_bin_value="1" interval_f="1000">
+        <node_file depth_sorted_bin_state="0" name="File" file="data/signs/sign_twy_E_22R-4L_R.osgt" depth_sorted_bin_value="1"/>
+       </lod>
+      </pat>
+     </pat>
+     <pat depth_sorted_bin_state="0" ax="0.000000000000" ay="0.000000000000" px="1650.000000" az="-90.000000000000" py="65.000000" pz="0.000000" name="PAT_TWY_D_22R-4L" convention="0" depth_sorted_bin_value="1">
+      <pat depth_sorted_bin_state="0" ax="0.000000000000" ay="0.000000000000" px="0.000000" az="0.000000000000" py="-30.000000" pz="0.000000" name="PAT_L" convention="0" depth_sorted_bin_value="1">
+       <lod depth_sorted_bin_state="0" interval_o="1000" interval_s="1000" name="LOD" depth_sorted_bin_value="1" interval_f="1000">
+        <node_file depth_sorted_bin_state="0" name="File" file="data/signs/sign_twy_D_22R-4L_L.osgt" depth_sorted_bin_value="1"/>
+       </lod>
+      </pat>
+      <pat depth_sorted_bin_state="0" ax="0.000000000000" ay="0.000000000000" px="0.000000" az="0.000000000000" py="30.000000" pz="0.000000" name="PAT_R" convention="0" depth_sorted_bin_value="1">
+       <lod depth_sorted_bin_state="0" interval_o="1000" interval_s="1000" name="LOD" depth_sorted_bin_value="1" interval_f="1000">
+        <node_file depth_sorted_bin_state="0" name="File" file="data/signs/sign_twy_D_22R-4L_R.osgt" depth_sorted_bin_value="1"/>
+       </lod>
+      </pat>
+     </pat>
+     <pat depth_sorted_bin_state="0" ax="0.000000000000" ay="0.000000000000" px="2115.000000" az="-90.000000000000" py="65.000000" pz="0.000000" name="PAT_TWY_F_4L" convention="0" depth_sorted_bin_value="1">
+      <pat depth_sorted_bin_state="0" ax="0.000000000000" ay="0.000000000000" px="0.000000" az="0.000000000000" py="-30.000000" pz="0.000000" name="PAT_L" convention="0" depth_sorted_bin_value="1">
+       <lod depth_sorted_bin_state="0" interval_o="1000" interval_s="1000" name="LOD" depth_sorted_bin_value="1" interval_f="1000">
+        <node_file depth_sorted_bin_state="0" name="File" file="data/signs/sign_twy_F_4L_L.osgt" depth_sorted_bin_value="1"/>
+       </lod>
+      </pat>
+      <pat depth_sorted_bin_state="0" ax="0.000000000000" ay="0.000000000000" px="0.000000" az="0.000000000000" py="30.000000" pz="0.000000" name="PAT_R" convention="0" depth_sorted_bin_value="1">
+       <lod depth_sorted_bin_state="0" interval_o="1000" interval_s="1000" name="LOD" depth_sorted_bin_value="1" interval_f="1000">
+        <node_file depth_sorted_bin_state="0" name="File" file="data/signs/sign_twy_F_4L_R.osgt" depth_sorted_bin_value="1"/>
+       </lod>
+      </pat>
+     </pat>
+    </pat>
+    <gap side="2" from="0" to="60"/>
+    <gap side="2" from="430" to="520"/>
+    <gap side="2" from="850" to="980"/>
+    <gap side="0" from="1200" to="1280"/>
+    <gap side="1" from="1260" to="1340"/>
+    <gap side="2" from="2060" to="2148"/>
+   </runway>
+   <runway vgsi_x_lo="410" depth_sorted_bin_value="1" depth_sorted_bin_state="0" tdzl="0" ax="0.000000000000" rals_hi="0" ay="0.000000000000" az="53.020000000000" convention="1" vgsi_hi="1" name="Runway_4R_22L" rals_lo="5" vgsi_lo="1" width="45" px="393.000000" py="384.000000" pz="0.000000" length="2752" rcls="0" vgsi_x_hi="406">
+    <pat depth_sorted_bin_state="0" ax="0.000000000000" ay="0.000000000000" px="-1376.000000" az="0.000000000000" py="0.000000" pz="-0.500000" name="SignsLE" convention="0" depth_sorted_bin_value="1">
+     <pat depth_sorted_bin_state="0" ax="0.000000000000" ay="0.000000000000" px="120.000000" az="0.000000000000" py="-40.000000" pz="0.000000" name="PAT_RWY_4R_L" convention="0" depth_sorted_bin_value="1">
+      <lod depth_sorted_bin_state="0" interval_o="1000" interval_s="1000" name="LOD" depth_sorted_bin_value="1" interval_f="1000">
+       <node_file depth_sorted_bin_state="0" name="File" file="data/signs/sign_rwy_4R.osgt" depth_sorted_bin_value="1"/>
+      </lod>
+     </pat>
+     <pat depth_sorted_bin_state="0" ax="0.000000000000" ay="0.000000000000" px="120.000000" az="0.000000000000" py="40.000000" pz="0.000000" name="PAT_RWY_4R_R" convention="0" depth_sorted_bin_value="1">
+      <lod depth_sorted_bin_state="0" interval_o="1000" interval_s="1000" name="LOD" depth_sorted_bin_value="1" interval_f="1000">
+       <node_file depth_sorted_bin_state="0" name="File" file="data/signs/sign_rwy_4R.osgt" depth_sorted_bin_value="1"/>
+      </lod>
+     </pat>
+     <pat depth_sorted_bin_state="0" ax="0.000000000000" ay="0.000000000000" px="580.000000" az="0.000000000000" py="-40.000000" pz="0.000000" name="PAT_RWY_F_L" convention="0" depth_sorted_bin_value="1">
+      <lod depth_sorted_bin_state="0" interval_o="1000" interval_s="1000" name="LOD" depth_sorted_bin_value="1" interval_f="1000">
+       <node_file depth_sorted_bin_state="0" name="File" file="data/signs/sign_rwy_F_L.osgt" depth_sorted_bin_value="1"/>
+      </lod>
+     </pat>
+     <pat depth_sorted_bin_state="0" ax="0.000000000000" ay="0.000000000000" px="580.000000" az="0.000000000000" py="40.000000" pz="0.000000" name="PAT_RWY_F_R" convention="0" depth_sorted_bin_value="1">
+      <lod depth_sorted_bin_state="0" interval_o="1000" interval_s="1000" name="LOD" depth_sorted_bin_value="1" interval_f="1000">
+       <node_file depth_sorted_bin_state="0" name="File" file="data/signs/sign_rwy_F_R.osgt" depth_sorted_bin_value="1"/>
+      </lod>
+     </pat>
+     <pat depth_sorted_bin_state="0" ax="0.000000000000" ay="0.000000000000" px="1010.000000" az="0.000000000000" py="-40.000000" pz="0.000000" name="PAT_RWY_D_L" convention="0" depth_sorted_bin_value="1">
+      <lod depth_sorted_bin_state="0" interval_o="1000" interval_s="1000" name="LOD" depth_sorted_bin_value="1" interval_f="1000">
+       <node_file depth_sorted_bin_state="0" name="File" file="data/signs/sign_rwy_D_L.osgt" depth_sorted_bin_value="1"/>
+      </lod>
+     </pat>
+     <pat depth_sorted_bin_state="0" ax="0.000000000000" ay="0.000000000000" px="1010.000000" az="0.000000000000" py="40.000000" pz="0.000000" name="PAT_RWY_D_R" convention="0" depth_sorted_bin_value="1">
+      <lod depth_sorted_bin_state="0" interval_o="1000" interval_s="1000" name="LOD" depth_sorted_bin_value="1" interval_f="1000">
+       <node_file depth_sorted_bin_state="0" name="File" file="data/signs/sign_rwy_D_R.osgt" depth_sorted_bin_value="1"/>
+      </lod>
+     </pat>
+     <pat depth_sorted_bin_state="0" ax="0.000000000000" ay="0.000000000000" px="1490.000000" az="0.000000000000" py="-40.000000" pz="0.000000" name="PAT_RWY_E_L" convention="0" depth_sorted_bin_value="1">
+      <lod depth_sorted_bin_state="0" interval_o="1000" interval_s="1000" name="LOD" depth_sorted_bin_value="1" interval_f="1000">
+       <node_file depth_sorted_bin_state="0" name="File" file="data/signs/sign_rwy_E_L.osgt" depth_sorted_bin_value="1"/>
+      </lod>
+     </pat>
+     <pat depth_sorted_bin_state="0" ax="0.000000000000" ay="0.000000000000" px="1490.000000" az="0.000000000000" py="40.000000" pz="0.000000" name="PAT_RWY_E_R" convention="0" depth_sorted_bin_value="1">
+      <lod depth_sorted_bin_state="0" interval_o="1000" interval_s="1000" name="LOD" depth_sorted_bin_value="1" interval_f="1000">
+       <node_file depth_sorted_bin_state="0" name="File" file="data/signs/sign_rwy_E_R.osgt" depth_sorted_bin_value="1"/>
+      </lod>
+     </pat>
+     <pat depth_sorted_bin_state="0" ax="0.000000000000" ay="0.000000000000" px="1630.000000" az="0.000000000000" py="-40.000000" pz="0.000000" name="PAT_RWY_K_FL" convention="0" depth_sorted_bin_value="1">
+      <lod depth_sorted_bin_state="0" interval_o="1000" interval_s="1000" name="LOD" depth_sorted_bin_value="1" interval_f="1000">
+       <node_file depth_sorted_bin_state="0" name="File" file="data/signs/sign_rwy_K_FL.osgt" depth_sorted_bin_value="1"/>
+      </lod>
+     </pat>
+     <pat depth_sorted_bin_state="0" ax="0.000000000000" ay="0.000000000000" px="1880.000000" az="0.000000000000" py="40.000000" pz="0.000000" name="PAT_RWY_P_R" convention="0" depth_sorted_bin_value="1">
+      <lod depth_sorted_bin_state="0" interval_o="1000" interval_s="1000" name="LOD" depth_sorted_bin_value="1" interval_f="1000">
+       <node_file depth_sorted_bin_state="0" name="File" file="data/signs/sign_rwy_P_R.osgt" depth_sorted_bin_value="1"/>
+      </lod>
+     </pat>
+     <pat depth_sorted_bin_state="0" ax="0.000000000000" ay="0.000000000000" px="2660.000000" az="0.000000000000" py="-40.000000" pz="0.000000" name="PAT_RWY_A_L" convention="0" depth_sorted_bin_value="1">
+      <lod depth_sorted_bin_state="0" interval_o="1000" interval_s="1000" name="LOD" depth_sorted_bin_value="1" interval_f="1000">
+       <node_file depth_sorted_bin_state="0" name="File" file="data/signs/sign_rwy_A_L.osgt" depth_sorted_bin_value="1"/>
+      </lod>
+     </pat>
+     <pat depth_sorted_bin_state="0" ax="0.000000000000" ay="0.000000000000" px="2660.000000" az="0.000000000000" py="40.000000" pz="0.000000" name="PAT_RWY_C_R" convention="0" depth_sorted_bin_value="1">
+      <lod depth_sorted_bin_state="0" interval_o="1000" interval_s="1000" name="LOD" depth_sorted_bin_value="1" interval_f="1000">
+       <node_file depth_sorted_bin_state="0" name="File" file="data/signs/sign_rwy_C_R.osgt" depth_sorted_bin_value="1"/>
+      </lod>
+     </pat>
+     <pat depth_sorted_bin_state="0" ax="0.000000000000" ay="0.000000000000" px="18.000000" az="-90.000000000000" py="85.000000" pz="0.000000" name="PAT_TWY_C_4R" convention="0" depth_sorted_bin_value="1">
+      <pat depth_sorted_bin_state="0" ax="0.000000000000" ay="0.000000000000" px="0.000000" az="0.000000000000" py="-30.000000" pz="0.000000" name="PAT_L" convention="0" depth_sorted_bin_value="1">
+       <lod depth_sorted_bin_state="0" interval_o="1000" interval_s="1000" name="LOD" depth_sorted_bin_value="1" interval_f="1000">
+        <node_file depth_sorted_bin_state="0" name="File" file="data/signs/sign_twy_C_4R_L.osgt" depth_sorted_bin_value="1"/>
+       </lod>
+      </pat>
+      <pat depth_sorted_bin_state="0" ax="0.000000000000" ay="0.000000000000" px="0.000000" az="0.000000000000" py="30.000000" pz="0.000000" name="PAT_R" convention="0" depth_sorted_bin_value="1">
+       <lod depth_sorted_bin_state="0" interval_o="1000" interval_s="1000" name="LOD" depth_sorted_bin_value="1" interval_f="1000">
+        <node_file depth_sorted_bin_state="0" name="File" file="data/signs/sign_twy_C_4R_R.osgt" depth_sorted_bin_value="1"/>
+       </lod>
+      </pat>
+     </pat>
+     <pat depth_sorted_bin_state="0" ax="0.000000000000" ay="0.000000000000" px="630.000000" az="-90.000000000000" py="65.000000" pz="0.000000" name="PAT_TWY_F_4R-22L" convention="0" depth_sorted_bin_value="1">
+      <pat depth_sorted_bin_state="0" ax="0.000000000000" ay="0.000000000000" px="0.000000" az="0.000000000000" py="-30.000000" pz="0.000000" name="PAT_L" convention="0" depth_sorted_bin_value="1">
+       <lod depth_sorted_bin_state="0" interval_o="1000" interval_s="1000" name="LOD" depth_sorted_bin_value="1" interval_f="1000">
+        <node_file depth_sorted_bin_state="0" name="File" file="data/signs/sign_twy_F_4R-22L_L.osgt" depth_sorted_bin_value="1"/>
+       </lod>
+      </pat>
+      <pat depth_sorted_bin_state="0" ax="0.000000000000" ay="0.000000000000" px="0.000000" az="0.000000000000" py="30.000000" pz="0.000000" name="PAT_R" convention="0" depth_sorted_bin_value="1">
+       <lod depth_sorted_bin_state="0" interval_o="1000" interval_s="1000" name="LOD" depth_sorted_bin_value="1" interval_f="1000">
+        <node_file depth_sorted_bin_state="0" name="File" file="data/signs/sign_twy_F_4R-22L_R.osgt" depth_sorted_bin_value="1"/>
+       </lod>
+      </pat>
+     </pat>
+     <pat depth_sorted_bin_state="0" ax="0.000000000000" ay="0.000000000000" px="1060.000000" az="-90.000000000000" py="65.000000" pz="0.000000" name="PAT_TWY_D_4R-22L" convention="0" depth_sorted_bin_value="1">
+      <pat depth_sorted_bin_state="0" ax="0.000000000000" ay="0.000000000000" px="0.000000" az="0.000000000000" py="-30.000000" pz="0.000000" name="PAT_L" convention="0" depth_sorted_bin_value="1">
+       <lod depth_sorted_bin_state="0" interval_o="1000" interval_s="1000" name="LOD" depth_sorted_bin_value="1" interval_f="1000">
+        <node_file depth_sorted_bin_state="0" name="File" file="data/signs/sign_twy_D_4R-22L_L.osgt" depth_sorted_bin_value="1"/>
+       </lod>
+      </pat>
+      <pat depth_sorted_bin_state="0" ax="0.000000000000" ay="0.000000000000" px="0.000000" az="0.000000000000" py="30.000000" pz="0.000000" name="PAT_R" convention="0" depth_sorted_bin_value="1">
+       <lod depth_sorted_bin_state="0" interval_o="1000" interval_s="1000" name="LOD" depth_sorted_bin_value="1" interval_f="1000">
+        <node_file depth_sorted_bin_state="0" name="File" file="data/signs/sign_twy_D_4R-22L_R.osgt" depth_sorted_bin_value="1"/>
+       </lod>
+      </pat>
+     </pat>
+     <pat depth_sorted_bin_state="0" ax="0.000000000000" ay="0.000000000000" px="1540.000000" az="-90.000000000000" py="65.000000" pz="0.000000" name="PAT_TWY_E_4R-22L" convention="0" depth_sorted_bin_value="1">
+      <pat depth_sorted_bin_state="0" ax="0.000000000000" ay="0.000000000000" px="0.000000" az="0.000000000000" py="-30.000000" pz="0.000000" name="PAT_L" convention="0" depth_sorted_bin_value="1">
+       <lod depth_sorted_bin_state="0" interval_o="1000" interval_s="1000" name="LOD" depth_sorted_bin_value="1" interval_f="1000">
+        <node_file depth_sorted_bin_state="0" name="File" file="data/signs/sign_twy_E_4R-22L_L.osgt" depth_sorted_bin_value="1"/>
+       </lod>
+      </pat>
+      <pat depth_sorted_bin_state="0" ax="0.000000000000" ay="0.000000000000" px="0.000000" az="0.000000000000" py="30.000000" pz="0.000000" name="PAT_R" convention="0" depth_sorted_bin_value="1">
+       <lod depth_sorted_bin_state="0" interval_o="1000" interval_s="1000" name="LOD" depth_sorted_bin_value="1" interval_f="1000">
+        <node_file depth_sorted_bin_state="0" name="File" file="data/signs/sign_twy_E_4R-22L_R.osgt" depth_sorted_bin_value="1"/>
+       </lod>
+      </pat>
+     </pat>
+     <pat depth_sorted_bin_state="0" ax="0.000000000000" ay="0.000000000000" px="1920.000000" az="-90.000000000000" py="65.000000" pz="0.000000" name="PAT_TWY_P_4R-22L" convention="0" depth_sorted_bin_value="1">
+      <pat depth_sorted_bin_state="0" ax="0.000000000000" ay="0.000000000000" px="0.000000" az="0.000000000000" py="-20.000000" pz="0.000000" name="PAT_L" convention="0" depth_sorted_bin_value="1">
+       <lod depth_sorted_bin_state="0" interval_o="1000" interval_s="1000" name="LOD" depth_sorted_bin_value="1" interval_f="1000">
+        <node_file depth_sorted_bin_state="0" name="File" file="data/signs/sign_twy_P_4R-22L_L.osgt" depth_sorted_bin_value="1"/>
+       </lod>
+      </pat>
+      <pat depth_sorted_bin_state="0" ax="0.000000000000" ay="0.000000000000" px="0.000000" az="0.000000000000" py="20.000000" pz="0.000000" name="PAT_R" convention="0" depth_sorted_bin_value="1">
+       <lod depth_sorted_bin_state="0" interval_o="1000" interval_s="1000" name="LOD" depth_sorted_bin_value="1" interval_f="1000">
+        <node_file depth_sorted_bin_state="0" name="File" file="data/signs/sign_twy_P_4R-22L_R.osgt" depth_sorted_bin_value="1"/>
+       </lod>
+      </pat>
+     </pat>
+     <pat depth_sorted_bin_state="0" ax="0.000000000000" ay="0.000000000000" px="2720.000000" az="-90.000000000000" py="85.000000" pz="0.000000" name="PAT_TWY_C_22L" convention="0" depth_sorted_bin_value="1">
+      <pat depth_sorted_bin_state="0" ax="0.000000000000" ay="0.000000000000" px="0.000000" az="0.000000000000" py="-30.000000" pz="0.000000" name="PAT_L" convention="0" depth_sorted_bin_value="1">
+       <lod depth_sorted_bin_state="0" interval_o="1000" interval_s="1000" name="LOD" depth_sorted_bin_value="1" interval_f="1000">
+        <node_file depth_sorted_bin_state="0" name="File" file="data/signs/sign_twy_C_22L_L.osgt" depth_sorted_bin_value="1"/>
+       </lod>
+      </pat>
+      <pat depth_sorted_bin_state="0" ax="0.000000000000" ay="0.000000000000" px="0.000000" az="0.000000000000" py="30.000000" pz="0.000000" name="PAT_R" convention="0" depth_sorted_bin_value="1">
+       <lod depth_sorted_bin_state="0" interval_o="1000" interval_s="1000" name="LOD" depth_sorted_bin_value="1" interval_f="1000">
+        <node_file depth_sorted_bin_state="0" name="File" file="data/signs/sign_twy_C_22L_R.osgt" depth_sorted_bin_value="1"/>
+       </lod>
+      </pat>
+     </pat>
+    </pat>
+    <pat depth_sorted_bin_state="0" ax="0.000000000000" ay="0.000000000000" px="1376.000000" az="180.000000000000" py="0.000000" pz="-0.500000" name="SignsHE" convention="0" depth_sorted_bin_value="1">
+     <pat depth_sorted_bin_state="0" ax="0.000000000000" ay="0.000000000000" px="120.000000" az="0.000000000000" py="-40.000000" pz="0.000000" name="PAT_RWY_22L_L" convention="0" depth_sorted_bin_value="1">
+      <lod depth_sorted_bin_state="0" interval_o="1000" interval_s="1000" name="LOD" depth_sorted_bin_value="1" interval_f="1000">
+       <node_file depth_sorted_bin_state="0" name="File" file="data/signs/sign_rwy_22L.osgt" depth_sorted_bin_value="1"/>
+      </lod>
+     </pat>
+     <pat depth_sorted_bin_state="0" ax="0.000000000000" ay="0.000000000000" px="120.000000" az="0.000000000000" py="40.000000" pz="0.000000" name="PAT_RWY_22L_R" convention="0" depth_sorted_bin_value="1">
+      <lod depth_sorted_bin_state="0" interval_o="1000" interval_s="1000" name="LOD" depth_sorted_bin_value="1" interval_f="1000">
+       <node_file depth_sorted_bin_state="0" name="File" file="data/signs/sign_rwy_22L.osgt" depth_sorted_bin_value="1"/>
+      </lod>
+     </pat>
+     <pat depth_sorted_bin_state="0" ax="0.000000000000" ay="0.000000000000" px="800.000000" az="0.000000000000" py="-40.000000" pz="0.000000" name="PAT_RWY_P_L" convention="0" depth_sorted_bin_value="1">
+      <lod depth_sorted_bin_state="0" interval_o="1000" interval_s="1000" name="LOD" depth_sorted_bin_value="1" interval_f="1000">
+       <node_file depth_sorted_bin_state="0" name="File" file="data/signs/sign_rwy_P_L.osgt" depth_sorted_bin_value="1"/>
+      </lod>
+     </pat>
+     <pat depth_sorted_bin_state="0" ax="0.000000000000" ay="0.000000000000" px="1160.000000" az="0.000000000000" py="-40.000000" pz="0.000000" name="PAT_RWY_E_L" convention="0" depth_sorted_bin_value="1">
+      <lod depth_sorted_bin_state="0" interval_o="1000" interval_s="1000" name="LOD" depth_sorted_bin_value="1" interval_f="1000">
+       <node_file depth_sorted_bin_state="0" name="File" file="data/signs/sign_rwy_E_L.osgt" depth_sorted_bin_value="1"/>
+      </lod>
+     </pat>
+     <pat depth_sorted_bin_state="0" ax="0.000000000000" ay="0.000000000000" px="1160.000000" az="0.000000000000" py="40.000000" pz="0.000000" name="PAT_RWY_E_R" convention="0" depth_sorted_bin_value="1">
+      <lod depth_sorted_bin_state="0" interval_o="1000" interval_s="1000" name="LOD" depth_sorted_bin_value="1" interval_f="1000">
+       <node_file depth_sorted_bin_state="0" name="File" file="data/signs/sign_rwy_E_R.osgt" depth_sorted_bin_value="1"/>
+      </lod>
+     </pat>
+     <pat depth_sorted_bin_state="0" ax="0.000000000000" ay="0.000000000000" px="1630.000000" az="0.000000000000" py="-40.000000" pz="0.000000" name="PAT_RWY_D_L" convention="0" depth_sorted_bin_value="1">
+      <lod depth_sorted_bin_state="0" interval_o="1000" interval_s="1000" name="LOD" depth_sorted_bin_value="1" interval_f="1000">
+       <node_file depth_sorted_bin_state="0" name="File" file="data/signs/sign_rwy_D_L.osgt" depth_sorted_bin_value="1"/>
+      </lod>
+     </pat>
+     <pat depth_sorted_bin_state="0" ax="0.000000000000" ay="0.000000000000" px="1630.000000" az="0.000000000000" py="40.000000" pz="0.000000" name="PAT_RWY_D_R" convention="0" depth_sorted_bin_value="1">
+      <lod depth_sorted_bin_state="0" interval_o="1000" interval_s="1000" name="LOD" depth_sorted_bin_value="1" interval_f="1000">
+       <node_file depth_sorted_bin_state="0" name="File" file="data/signs/sign_rwy_D_R.osgt" depth_sorted_bin_value="1"/>
+      </lod>
+     </pat>
+     <pat depth_sorted_bin_state="0" ax="0.000000000000" ay="0.000000000000" px="2070.000000" az="0.000000000000" py="-40.000000" pz="0.000000" name="PAT_RWY_F_L" convention="0" depth_sorted_bin_value="1">
+      <lod depth_sorted_bin_state="0" interval_o="1000" interval_s="1000" name="LOD" depth_sorted_bin_value="1" interval_f="1000">
+       <node_file depth_sorted_bin_state="0" name="File" file="data/signs/sign_rwy_F_L.osgt" depth_sorted_bin_value="1"/>
+      </lod>
+     </pat>
+     <pat depth_sorted_bin_state="0" ax="0.000000000000" ay="0.000000000000" px="2070.000000" az="0.000000000000" py="40.000000" pz="0.000000" name="PAT_RWY_F_R" convention="0" depth_sorted_bin_value="1">
+      <lod depth_sorted_bin_state="0" interval_o="1000" interval_s="1000" name="LOD" depth_sorted_bin_value="1" interval_f="1000">
+       <node_file depth_sorted_bin_state="0" name="File" file="data/signs/sign_rwy_F_R.osgt" depth_sorted_bin_value="1"/>
+      </lod>
+     </pat>
+     <pat depth_sorted_bin_state="0" ax="0.000000000000" ay="0.000000000000" px="2660.000000" az="0.000000000000" py="-40.000000" pz="0.000000" name="PAT_RWY_C_L" convention="0" depth_sorted_bin_value="1">
+      <lod depth_sorted_bin_state="0" interval_o="1000" interval_s="1000" name="LOD" depth_sorted_bin_value="1" interval_f="1000">
+       <node_file depth_sorted_bin_state="0" name="File" file="data/signs/sign_rwy_C_L.osgt" depth_sorted_bin_value="1"/>
+      </lod>
+     </pat>
+     <pat depth_sorted_bin_state="0" ax="0.000000000000" ay="0.000000000000" px="35.000000" az="-90.000000000000" py="75.000000" pz="0.000000" name="PAT_TWY_A_22L" convention="0" depth_sorted_bin_value="1">
+      <pat depth_sorted_bin_state="0" ax="0.000000000000" ay="0.000000000000" px="0.000000" az="0.000000000000" py="-30.000000" pz="0.000000" name="PAT_L" convention="0" depth_sorted_bin_value="1">
+       <lod depth_sorted_bin_state="0" interval_o="1000" interval_s="1000" name="LOD" depth_sorted_bin_value="1" interval_f="1000">
+        <node_file depth_sorted_bin_state="0" name="File" file="data/signs/sign_twy_A_22L_L.osgt" depth_sorted_bin_value="1"/>
+       </lod>
+      </pat>
+      <pat depth_sorted_bin_state="0" ax="0.000000000000" ay="0.000000000000" px="0.000000" az="0.000000000000" py="30.000000" pz="0.000000" name="PAT_R" convention="0" depth_sorted_bin_value="1">
+       <lod depth_sorted_bin_state="0" interval_o="1000" interval_s="1000" name="LOD" depth_sorted_bin_value="1" interval_f="1000">
+        <node_file depth_sorted_bin_state="0" name="File" file="data/signs/sign_twy_A_22L_R.osgt" depth_sorted_bin_value="1"/>
+       </lod>
+      </pat>
+     </pat>
+     <pat depth_sorted_bin_state="0" ax="0.000000000000" ay="0.000000000000" px="920.000000" az="-40.000000000000" py="80.000000" pz="0.000000" name="PAT_TWY_K_22L-4R" convention="0" depth_sorted_bin_value="1">
+      <pat depth_sorted_bin_state="0" ax="0.000000000000" ay="0.000000000000" px="0.000000" az="0.000000000000" py="-30.000000" pz="0.000000" name="PAT_L" convention="0" depth_sorted_bin_value="1">
+       <lod depth_sorted_bin_state="0" interval_o="1000" interval_s="1000" name="LOD" depth_sorted_bin_value="1" interval_f="1000">
+        <node_file depth_sorted_bin_state="0" name="File" file="data/signs/sign_twy_K_22L-4R_L.osgt" depth_sorted_bin_value="1"/>
+       </lod>
+      </pat>
+      <pat depth_sorted_bin_state="0" ax="0.000000000000" ay="0.000000000000" px="0.000000" az="0.000000000000" py="30.000000" pz="0.000000" name="PAT_R" convention="0" depth_sorted_bin_value="1">
+       <lod depth_sorted_bin_state="0" interval_o="1000" interval_s="1000" name="LOD" depth_sorted_bin_value="1" interval_f="1000">
+        <node_file depth_sorted_bin_state="0" name="File" file="data/signs/sign_twy_K_22L-4R_R.osgt" depth_sorted_bin_value="1"/>
+       </lod>
+      </pat>
+     </pat>
+     <pat depth_sorted_bin_state="0" ax="0.000000000000" ay="0.000000000000" px="1210.000000" az="-90.000000000000" py="65.000000" pz="0.000000" name="PAT_TWY_E_22L-4R" convention="0" depth_sorted_bin_value="1">
+      <pat depth_sorted_bin_state="0" ax="0.000000000000" ay="0.000000000000" px="0.000000" az="0.000000000000" py="-30.000000" pz="0.000000" name="PAT_L" convention="0" depth_sorted_bin_value="1">
+       <lod depth_sorted_bin_state="0" interval_o="1000" interval_s="1000" name="LOD" depth_sorted_bin_value="1" interval_f="1000">
+        <node_file depth_sorted_bin_state="0" name="File" file="data/signs/sign_twy_E_22L-4R_L.osgt" depth_sorted_bin_value="1"/>
+       </lod>
+      </pat>
+      <pat depth_sorted_bin_state="0" ax="0.000000000000" ay="0.000000000000" px="0.000000" az="0.000000000000" py="30.000000" pz="0.000000" name="PAT_R" convention="0" depth_sorted_bin_value="1">
+       <lod depth_sorted_bin_state="0" interval_o="1000" interval_s="1000" name="LOD" depth_sorted_bin_value="1" interval_f="1000">
+        <node_file depth_sorted_bin_state="0" name="File" file="data/signs/sign_twy_E_22L-4R_R.osgt" depth_sorted_bin_value="1"/>
+       </lod>
+      </pat>
+     </pat>
+     <pat depth_sorted_bin_state="0" ax="0.000000000000" ay="0.000000000000" px="1675.000000" az="-90.000000000000" py="65.000000" pz="0.000000" name="PAT_TWY_D_22L-4R" convention="0" depth_sorted_bin_value="1">
+      <pat depth_sorted_bin_state="0" ax="0.000000000000" ay="0.000000000000" px="0.000000" az="0.000000000000" py="-30.000000" pz="0.000000" name="PAT_L" convention="0" depth_sorted_bin_value="1">
+       <lod depth_sorted_bin_state="0" interval_o="1000" interval_s="1000" name="LOD" depth_sorted_bin_value="1" interval_f="1000">
+        <node_file depth_sorted_bin_state="0" name="File" file="data/signs/sign_twy_D_22L-4R_L.osgt" depth_sorted_bin_value="1"/>
+       </lod>
+      </pat>
+      <pat depth_sorted_bin_state="0" ax="0.000000000000" ay="0.000000000000" px="0.000000" az="0.000000000000" py="30.000000" pz="0.000000" name="PAT_R" convention="0" depth_sorted_bin_value="1">
+       <lod depth_sorted_bin_state="0" interval_o="1000" interval_s="1000" name="LOD" depth_sorted_bin_value="1" interval_f="1000">
+        <node_file depth_sorted_bin_state="0" name="File" file="data/signs/sign_twy_D_22L-4R_R.osgt" depth_sorted_bin_value="1"/>
+       </lod>
+      </pat>
+     </pat>
+     <pat depth_sorted_bin_state="0" ax="0.000000000000" ay="0.000000000000" px="2120.000000" az="-90.000000000000" py="65.000000" pz="0.000000" name="PAT_TWY_F_22L-4R" convention="0" depth_sorted_bin_value="1">
+      <pat depth_sorted_bin_state="0" ax="0.000000000000" ay="0.000000000000" px="0.000000" az="0.000000000000" py="-30.000000" pz="0.000000" name="PAT_L" convention="0" depth_sorted_bin_value="1">
+       <lod depth_sorted_bin_state="0" interval_o="1000" interval_s="1000" name="LOD" depth_sorted_bin_value="1" interval_f="1000">
+        <node_file depth_sorted_bin_state="0" name="File" file="data/signs/sign_twy_F_22L-4R_L.osgt" depth_sorted_bin_value="1"/>
+       </lod>
+      </pat>
+      <pat depth_sorted_bin_state="0" ax="0.000000000000" ay="0.000000000000" px="0.000000" az="0.000000000000" py="30.000000" pz="0.000000" name="PAT_R" convention="0" depth_sorted_bin_value="1">
+       <lod depth_sorted_bin_state="0" interval_o="1000" interval_s="1000" name="LOD" depth_sorted_bin_value="1" interval_f="1000">
+        <node_file depth_sorted_bin_state="0" name="File" file="data/signs/sign_twy_F_22L-4R_R.osgt" depth_sorted_bin_value="1"/>
+       </lod>
+      </pat>
+     </pat>
+    </pat>
+    <gap side="1" from="0" to="60"/>
+    <gap side="2" from="570" to="690"/>
+    <gap side="2" from="1010" to="1120"/>
+    <gap side="2" from="1480" to="1590"/>
+    <gap side="0" from="1661" to="1780"/>
+    <gap side="0" from="2030" to="2100"/>
+    <gap side="1" from="2090" to="2160"/>
+    <gap side="2" from="2692" to="2752"/>
+   </runway>
+   <group depth_sorted_bin_state="0" name="Buildings" depth_sorted_bin_value="1">
+    <group depth_sorted_bin_state="0" name="Terminal" depth_sorted_bin_value="1">
+     <pat depth_sorted_bin_state="0" ax="0.000000000000" ay="0.000000000000" px="1665.000000" az="98.800000000000" py="67.000000" pz="0.000000" name="ParkingPAT1" convention="0" depth_sorted_bin_value="1">
+      <node_file depth_sorted_bin_state="0" name="Parking1" file="data/buildings/phnl_parking_1/phnl_parking_1.osgb" depth_sorted_bin_value="1"/>
+     </pat>
+     <pat depth_sorted_bin_state="0" ax="0.000000000000" ay="0.000000000000" px="1430.000000" az="98.800000000000" py="-383.000000" pz="0.000000" name="ParkingPAT2" convention="0" depth_sorted_bin_value="1">
+      <node_file depth_sorted_bin_state="0" name="Parking2" file="data/buildings/phnl_parking_2/phnl_parking_2.osgb" depth_sorted_bin_value="1"/>
+     </pat>
+     <pat depth_sorted_bin_state="0" ax="0.000000000000" ay="0.000000000000" px="1578.000000" az="98.800000000000" py="55.000000" pz="0.000000" name="TerminalPAT1" convention="0" depth_sorted_bin_value="1">
+      <node_file depth_sorted_bin_state="0" name="Terminal1" file="data/buildings/phnl_terminal_1/phnl_terminal_1.osgb" depth_sorted_bin_value="1"/>
+     </pat>
+     <pat depth_sorted_bin_state="0" ax="0.000000000000" ay="0.000000000000" px="1800.000000" az="98.800000000000" py="-397.000000" pz="1.000000" name="TerminalPAT2" convention="0" depth_sorted_bin_value="1">
+      <node_file depth_sorted_bin_state="0" name="Terminal2" file="data/buildings/phnl_terminal_2/phnl_terminal_2.osgb" depth_sorted_bin_value="1"/>
+     </pat>
+     <pat depth_sorted_bin_state="0" ax="0.000000000000" ay="0.000000000000" px="1492.000000" az="98.800000000000" py="-300.000000" pz="0.000000" name="TerminalPAT3" convention="0" depth_sorted_bin_value="1">
+      <node_file depth_sorted_bin_state="0" name="Terminal3" file="data/buildings/phnl_terminal_3/phnl_terminal_3.osgb" depth_sorted_bin_value="1"/>
+     </pat>
+     <pat depth_sorted_bin_state="0" ax="0.000000000000" ay="0.000000000000" px="1390.000000" az="90.000000000000" py="355.000000" pz="0.000000" name="TerminalPAT4" convention="0" depth_sorted_bin_value="1">
+      <node_file depth_sorted_bin_state="0" name="Terminal4" file="data/buildings/phnl_terminal_4/phnl_terminal_4.osgb" depth_sorted_bin_value="1"/>
+     </pat>
+     <pat depth_sorted_bin_state="0" ax="0.000000000000" ay="0.000000000000" px="1988.000000" az="98.800000000000" py="-433.000000" pz="2.000000" name="TerminalPAT5" convention="0" depth_sorted_bin_value="1">
+      <node_file depth_sorted_bin_state="0" name="Terminal5" file="data/buildings/phnl_terminal_5/phnl_terminal_5.osgb" depth_sorted_bin_value="1"/>
+     </pat>
+     <pat depth_sorted_bin_state="0" ax="0.000000000000" ay="0.000000000000" px="1700.000000" az="96.800000000000" py="-794.000000" pz="0.000000" name="TerminalPAT6" convention="0" depth_sorted_bin_value="1">
+      <node_file depth_sorted_bin_state="0" name="Terminal6" file="data/buildings/phnl_terminal_6/phnl_terminal_6.osgb" depth_sorted_bin_value="1"/>
+     </pat>
+    </group>
+    <pat depth_sorted_bin_state="0" ax="0.000000000000" ay="0.000000000000" px="1623.000000" az="-45.000000000000" py="-4110.000000" pz="0.000000" name="HickamPAT" convention="0" depth_sorted_bin_value="1">
+     <pat depth_sorted_bin_state="0" ax="0.000000000000" ay="0.000000000000" px="0.000000" az="0.000000000000" py="0.000000" pz="2.000000" name="HickamPAT1-1" convention="0" depth_sorted_bin_value="1">
+      <node_file depth_sorted_bin_state="0" name="Hickam1-1" file="data/buildings/phnl_hickam_1/phnl_hickam_1.osgb" depth_sorted_bin_value="1"/>
+     </pat>
+     <pat depth_sorted_bin_state="0" ax="0.000000000000" ay="0.000000000000" px="0.000000" az="0.000000000000" py="152.000000" pz="2.000000" name="HickamPAT1-2" convention="0" depth_sorted_bin_value="1">
+      <node_file depth_sorted_bin_state="0" name="Hickam1-2" file="data/buildings/phnl_hickam_1/phnl_hickam_1.osgb" depth_sorted_bin_value="1"/>
+     </pat>
+     <pat depth_sorted_bin_state="0" ax="0.000000000000" ay="0.000000000000" px="0.000000" az="0.000000000000" py="303.000000" pz="2.000000" name="HickamPAT1-3" convention="0" depth_sorted_bin_value="1">
+      <node_file depth_sorted_bin_state="0" name="Hickam1-3" file="data/buildings/phnl_hickam_1/phnl_hickam_1.osgb" depth_sorted_bin_value="1"/>
+     </pat>
+     <pat depth_sorted_bin_state="0" ax="0.000000000000" ay="0.000000000000" px="0.000000" az="0.000000000000" py="454.000000" pz="2.000000" name="HickamPAT1-4" convention="0" depth_sorted_bin_value="1">
+      <node_file depth_sorted_bin_state="0" name="Hickam1-4" file="data/buildings/phnl_hickam_1/phnl_hickam_1.osgb" depth_sorted_bin_value="1"/>
+     </pat>
+     <pat depth_sorted_bin_state="0" ax="0.000000000000" ay="0.000000000000" px="0.000000" az="0.000000000000" py="760.000000" pz="2.000000" name="HickamPAT1-5" convention="0" depth_sorted_bin_value="1">
+      <node_file depth_sorted_bin_state="0" name="Hickam1-5" file="data/buildings/phnl_hickam_1/phnl_hickam_1.osgb" depth_sorted_bin_value="1"/>
+     </pat>
+     <pat depth_sorted_bin_state="0" ax="0.000000000000" ay="0.000000000000" px="85.000000" az="0.000000000000" py="-95.000000" pz="2.000000" name="HickamPAT2-1" convention="0" depth_sorted_bin_value="1">
+      <node_file depth_sorted_bin_state="0" name="Hickam2-1" file="data/buildings/phnl_hickam_2/phnl_hickam_2.osgb" depth_sorted_bin_value="1"/>
+     </pat>
+     <pat depth_sorted_bin_state="0" ax="0.000000000000" ay="0.000000000000" px="85.000000" az="0.000000000000" py="-187.000000" pz="2.000000" name="HickamPAT2-2" convention="0" depth_sorted_bin_value="1">
+      <node_file depth_sorted_bin_state="0" name="Hickam2-2" file="data/buildings/phnl_hickam_2/phnl_hickam_2.osgb" depth_sorted_bin_value="1"/>
+     </pat>
+     <pat depth_sorted_bin_state="0" ax="0.000000000000" ay="0.000000000000" px="-85.000000" az="0.000000000000" py="-182.000000" pz="2.000000" name="HickamPAT3" convention="0" depth_sorted_bin_value="1">
+      <node_file depth_sorted_bin_state="0" name="Hickam3" file="data/buildings/phnl_hickam_3/phnl_hickam_3_v2.osgb" depth_sorted_bin_value="1"/>
+     </pat>
+     <pat depth_sorted_bin_state="0" ax="0.000000000000" ay="0.000000000000" px="85.000000" az="0.000000000000" py="445.000000" pz="2.000000" name="HickamPAT4" convention="0" depth_sorted_bin_value="1">
+      <node_file depth_sorted_bin_state="0" name="Hickam4" file="data/buildings/phnl_hickam_4/phnl_hickam_4.osgb" depth_sorted_bin_value="1"/>
+     </pat>
+     <pat depth_sorted_bin_state="0" ax="0.000000000000" ay="0.000000000000" px="-70.000000" az="0.000000000000" py="637.270000" pz="2.000000" name="HickamPAT5" convention="0" depth_sorted_bin_value="1">
+      <node_file depth_sorted_bin_state="0" name="Hickam5" file="data/buildings/phnl_hickam_5/phnl_hickam_5.osgb" depth_sorted_bin_value="1"/>
+     </pat>
+     <pat depth_sorted_bin_state="0" ax="0.000000000000" ay="0.000000000000" px="-456.000000" az="0.000000000000" py="330.000000" pz="2.000000" name="HickamPAT6-1" convention="0" depth_sorted_bin_value="1">
+      <node_file depth_sorted_bin_state="0" name="Hickam6-1" file="data/buildings/phnl_hickam_6/phnl_hickam_6.osgb" depth_sorted_bin_value="1"/>
+     </pat>
+     <pat depth_sorted_bin_state="0" ax="0.000000000000" ay="0.000000000000" px="-456.000000" az="0.000000000000" py="400.000000" pz="2.000000" name="HickamPAT6-2" convention="0" depth_sorted_bin_value="1">
+      <node_file depth_sorted_bin_state="0" name="Hickam6-2" file="data/buildings/phnl_hickam_6/phnl_hickam_6.osgb" depth_sorted_bin_value="1"/>
+     </pat>
+     <pat depth_sorted_bin_state="0" ax="0.000000000000" ay="0.000000000000" px="-212.000000" az="-45.000000000000" py="-420.000000" pz="0.000000" name="HickamPAT7" convention="0" depth_sorted_bin_value="1">
+      <node_file depth_sorted_bin_state="0" name="Hickam7" file="data/buildings/phnl_hickam_7/phnl_hickam_7.osgb" depth_sorted_bin_value="1"/>
+     </pat>
+     <pat depth_sorted_bin_state="0" ax="0.000000000000" ay="0.000000000000" px="-885.000000" az="33.200000000000" py="114.000000" pz="0.000000" name="HickamPAT8" convention="0" depth_sorted_bin_value="1">
+      <pat depth_sorted_bin_state="0" ax="0.000000000000" ay="0.000000000000" px="0.000000" az="0.000000000000" py="-3.000000" pz="0.000000" name="HickamPAT8-1" convention="0" depth_sorted_bin_value="1">
+       <node_file depth_sorted_bin_state="0" name="Hickam8-1" file="data/buildings/phnl_hickam_8/phnl_hickam_8.osgb" depth_sorted_bin_value="1"/>
+      </pat>
+      <pat depth_sorted_bin_state="0" ax="0.000000000000" ay="0.000000000000" px="0.000000" az="0.000000000000" py="50.000000" pz="0.000000" name="HickamPAT8-2" convention="0" depth_sorted_bin_value="1">
+       <node_file depth_sorted_bin_state="0" name="Hickam8-2" file="data/buildings/phnl_hickam_8/phnl_hickam_8.osgb" depth_sorted_bin_value="1"/>
+      </pat>
+     </pat>
+    </pat>
+    <pat depth_sorted_bin_state="0" ax="0.000000000000" ay="0.000000000000" px="-191.000000" az="52.000000000000" py="219.000000" pz="1.000000" name="CargoPAT" convention="0" depth_sorted_bin_value="1">
+     <pat depth_sorted_bin_state="0" ax="0.000000000000" ay="0.000000000000" px="0.000000" az="0.000000000000" py="0.000000" pz="0.000000" name="CargoPAT1" convention="0" depth_sorted_bin_value="1">
+      <node_file depth_sorted_bin_state="0" name="Cargo1" file="data/buildings/phnl_cargo_1/phnl_cargo_1.osgb" depth_sorted_bin_value="1"/>
+     </pat>
+     <pat depth_sorted_bin_state="0" ax="0.000000000000" ay="0.000000000000" px="-76.500000" az="0.000000000000" py="-23.000000" pz="0.000000" name="CargoPAT2" convention="0" depth_sorted_bin_value="1">
+      <node_file depth_sorted_bin_state="0" name="Cargo2" file="data/buildings/phnl_cargo_2/phnl_cargo_2.osgb" depth_sorted_bin_value="1"/>
+     </pat>
+     <pat depth_sorted_bin_state="0" ax="0.000000000000" ay="0.000000000000" px="112.000000" az="0.000000000000" py="40.000000" pz="0.000000" name="CargoPAT3" convention="0" depth_sorted_bin_value="1">
+      <node_file depth_sorted_bin_state="0" name="Cargo3" file="data/buildings/phnl_cargo_3/phnl_cargo_3.osgb" depth_sorted_bin_value="1"/>
+     </pat>
+     <pat depth_sorted_bin_state="0" ax="0.000000000000" ay="0.000000000000" px="-215.000000" az="0.000000000000" py="4.000000" pz="0.000000" name="CargoPAT4" convention="0" depth_sorted_bin_value="1">
+      <node_file depth_sorted_bin_state="0" name="Cargo4" file="data/buildings/phnl_cargo_4/phnl_cargo_4.osgb" depth_sorted_bin_value="1"/>
+     </pat>
+     <pat depth_sorted_bin_state="0" ax="0.000000000000" ay="0.000000000000" px="251.500000" az="0.000000000000" py="8.000000" pz="0.000000" name="CargoPAT5" convention="0" depth_sorted_bin_value="1">
+      <node_file depth_sorted_bin_state="0" name="Cargo5" file="data/buildings/phnl_cargo_5/phnl_cargo_5.osgb" depth_sorted_bin_value="1"/>
+     </pat>
+     <pat depth_sorted_bin_state="0" ax="0.000000000000" ay="0.000000000000" px="-303.000000" az="0.000000000000" py="-65.000000" pz="0.000000" name="CargoPAT6" convention="0" depth_sorted_bin_value="1">
+      <node_file depth_sorted_bin_state="0" name="Cargo6" file="data/buildings/phnl_cargo_6/phnl_cargo_6.osgb" depth_sorted_bin_value="1"/>
+     </pat>
+     <pat depth_sorted_bin_state="0" ax="0.000000000000" ay="0.000000000000" px="519.500000" az="0.000000000000" py="46.000000" pz="0.000000" name="CargoPAT7" convention="0" depth_sorted_bin_value="1">
+      <node_file depth_sorted_bin_state="0" name="Cargo7" file="data/buildings/phnl_cargo_7/phnl_cargo_7.osgb" depth_sorted_bin_value="1"/>
+     </pat>
+     <pat depth_sorted_bin_state="0" ax="0.000000000000" ay="0.000000000000" px="590.000000" az="0.000000000000" py="-56.000000" pz="0.000000" name="CargoPAT8" convention="0" depth_sorted_bin_value="1">
+      <node_file depth_sorted_bin_state="0" name="Cargo8" file="data/buildings/phnl_cargo_8/phnl_cargo_8.osgb" depth_sorted_bin_value="1"/>
+     </pat>
+     <pat depth_sorted_bin_state="0" ax="0.000000000000" ay="0.000000000000" px="693.000000" az="0.000000000000" py="-52.000000" pz="0.000000" name="CargoPAT9" convention="0" depth_sorted_bin_value="1">
+      <node_file depth_sorted_bin_state="0" name="Cargo9" file="data/buildings/phnl_cargo_9/phnl_cargo_9.osgb" depth_sorted_bin_value="1"/>
+     </pat>
+     <pat depth_sorted_bin_state="0" ax="0.000000000000" ay="0.000000000000" px="869.000000" az="0.000000000000" py="-95.000000" pz="0.000000" name="CargoPAT10" convention="0" depth_sorted_bin_value="1">
+      <node_file depth_sorted_bin_state="0" name="Cargo10" file="data/buildings/phnl_cargo_10/phnl_cargo_10.osgb" depth_sorted_bin_value="1"/>
+     </pat>
+     <pat depth_sorted_bin_state="0" ax="0.000000000000" ay="0.000000000000" px="1029.000000" az="0.000000000000" py="-66.000000" pz="0.000000" name="CargoPAT11" convention="0" depth_sorted_bin_value="1">
+      <node_file depth_sorted_bin_state="0" name="Cargo11" file="data/buildings/phnl_cargo_11/phnl_cargo_11.osgb" depth_sorted_bin_value="1"/>
+     </pat>
+     <pat depth_sorted_bin_state="0" ax="0.000000000000" ay="0.000000000000" px="-480.000000" az="0.000000000000" py="-10.000000" pz="0.000000" name="CargoPAT12" convention="0" depth_sorted_bin_value="1">
+      <node_file depth_sorted_bin_state="0" name="Cargo12" file="data/buildings/phnl_cargo_12/phnl_cargo_12.osgb" depth_sorted_bin_value="1"/>
+     </pat>
+    </pat>
+    <pat depth_sorted_bin_state="0" ax="0.000000000000" ay="0.000000000000" px="336.000000" az="50.000000000000" py="-598.000000" pz="0.000000" name="TowerPAT" convention="0" depth_sorted_bin_value="1">
+     <node_file depth_sorted_bin_state="0" name="Tower" file="data/buildings/phnl_tower/phnl_tower.osgb" depth_sorted_bin_value="1"/>
+    </pat>
+    <pat depth_sorted_bin_state="0" ax="0.000000000000" ay="0.000000000000" px="1695.000000" az="90.000000000000" py="-2342.000000" pz="0.000000" name="TanksPAT" convention="0" depth_sorted_bin_value="1">
+     <node_file depth_sorted_bin_state="0" name="Tanks" file="data/buildings/phnl_tanks_1/phnl_tanks_1.osgb" depth_sorted_bin_value="1"/>
+    </pat>
+   </group>
+  </group>
+ </lod>
+</gen_file>

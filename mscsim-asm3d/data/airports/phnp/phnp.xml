@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<gen_file>
+ <lod name="LOD" interval_o="1000" depth_sorted_bin_value="1" interval_f="25000" depth_sorted_bin_state="0" interval_s="1000">
+  <group name="PHNL" depth_sorted_bin_value="1" depth_sorted_bin_state="0">
+   <world name="World" ax="136.186402446337" depth_sorted_bin_value="1" az="48.020104943209" ay="-59.684305525269" convention="0" alt="0.000" lon="-157.96138900" py="0.074649" lat="21.36055600" depth_sorted_bin_state="0" file="data/airports/phnp/terrain.osgb" px="14490.134641" pz="6375303.953413"/>
+   <group name="Buildings" depth_sorted_bin_value="1" depth_sorted_bin_state="0">
+    <pat name="TowerPAT" ax="0.000000000000" depth_sorted_bin_value="1" az="0.000000000000" ay="0.000000000000" convention="0" py="-25.000000" depth_sorted_bin_state="0" px="15.000000" pz="-4.000000">
+     <node_file name="TowerFile" depth_sorted_bin_value="1" depth_sorted_bin_state="0" file="data/buildings/phnp_tower/phnp_tower.osgb"/>
+    </pat>
+   </group>
+  </group>
+ </lod>
+</gen_file>
