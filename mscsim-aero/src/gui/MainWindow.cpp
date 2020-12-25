@@ -278,7 +278,7 @@ void MainWindow::readFile( QString fileName )
 {
     if ( QFileInfo( fileName ).suffix() == QString( "xml" ) )
     {
-        if ( !_doc.readFile( fileName ) )
+        if ( !_doc.readFile( fileName.toStdString().c_str() ) )
         {
             QMessageBox::warning( this, tr( APP_TITLE ),
                                  tr( "Cannot read file %1." ).arg( fileName ) );
@@ -292,14 +292,14 @@ void MainWindow::readFile( QString fileName )
 
 void MainWindow::saveFile( QString fileName )
 {
-    if ( _doc.saveFile( fileName ) )
+    if ( _doc.saveFile( fileName.toStdString().c_str() ) )
     {
         _saved = true;
     }
     else
     {
         QMessageBox::warning( this, tr( APP_TITLE ),
-                             tr( "Cannot save file %1:." ).arg(fileName) );
+                             tr( "Cannot save file %1." ).arg(fileName) );
     }
 
     updateGUI();
@@ -309,11 +309,11 @@ void MainWindow::saveFile( QString fileName )
 
 void MainWindow::exportAs( QString fileName )
 {
-//    if ( !_ui->widgetDoc->exportAs( fileName ) )
-//    {
-//        QMessageBox::warning( this, tr( APP_TITLE ),
-//                             tr( "Cannot export file %1:." ).arg(fileName) );
-//    }
+    if ( !_doc.exportAs( fileName.toStdString().c_str() ) )
+    {
+        QMessageBox::warning( this, tr( APP_TITLE ),
+                             tr( "Cannot export file %1." ).arg(fileName) );
+    }
 }
 
 ////////////////////////////////////////////////////////////////////////////////

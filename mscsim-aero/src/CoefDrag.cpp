@@ -123,104 +123,72 @@
  *     party to this document and has no duty or obligation with respect to
  *     this CC0 or use of the Work.
  ******************************************************************************/
-#ifndef MAINWINDOW_H
-#define MAINWINDOW_H
+#include "CoefDrag.h"
+
+#include <math.h>
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#include <QMainWindow>
-#include <QSettings>
-
-#include <defs.h>
-
-#include <Document.h>
-
-#include <gui/RecentFileAction.h>
-
-////////////////////////////////////////////////////////////////////////////////
-
-namespace Ui
+CoefDrag::CoefDrag( double cd_0, double cd_1, double cd_2, double cd_3, double cd_4, double cd_5,
+                    double ad_1, double ad_2, double ad_3, double ad_4 )
 {
-    class MainWindow;
+    _cd_0 = cd_0;
+    _cd_1 = cd_1;
+    _cd_2 = cd_2;
+    _cd_3 = cd_3;
+    _cd_4 = cd_4;
+    _cd_5 = cd_5;
+
+    _ad_1 = ad_1;
+    _ad_2 = ad_2;
+    _ad_3 = ad_3;
+    _ad_4 = ad_4;
+
+    _ad_1_2 = _ad_1 * _ad_1;
+    _ad_2_2 = _ad_2 * _ad_2;
+
+    _div_d1_0 = _ad_1_2 * _ad_2_2;
+    _div_d1_1 = ( _ad_1_2 - _ad_2_2 ) * _ad_1_2;
+    _div_d1_2 = ( _ad_2_2 - _ad_1_2 ) * _ad_2_2;
+
+    _div_d2_2 = ( _ad_2  - _ad_3 )*( _ad_2  - _ad_4 )*( _ad_2  - M_PI_2 );
+    _div_d2_3 = ( _ad_3  - _ad_2 )*( _ad_3  - _ad_4 )*( _ad_3  - M_PI_2 );
+    _div_d2_4 = ( _ad_4  - _ad_2 )*( _ad_4  - _ad_3 )*( _ad_4  - M_PI_2 );
+    _div_d2_5 = ( M_PI_2 - _ad_2 )*( M_PI_2 - _ad_3 )*( M_PI_2 - _ad_4  );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
-/**
- * @brief Main window class.
- */
-class MainWindow : public QMainWindow
+double CoefDrag::get( double aoa )
 {
-    Q_OBJECT
+    if ( aoa < -M_PI_2 ) aoa = -M_PI - aoa;
+    if ( aoa >  M_PI_2 ) aoa =  M_PI - aoa;
 
-public:
+    if ( -_ad_2 <= aoa && aoa <= _ad_2 )
+    {
+        double az_2 = aoa*aoa;
 
-    typedef std::vector< RecentFileAction* > RecentFilesActions;
+        double az2_sub_ad12 = az_2 - _ad_1_2;
+        double az2_sub_ad22 = az_2 - _ad_2_2;
 
-    /** @brief Constructor. */
-    explicit MainWindow( QWidget *parent = NULLPTR );
+        return _cd_0 * az2_sub_ad22 * az2_sub_ad12 / _div_d1_0
+             + _cd_1 * az2_sub_ad22 * az_2 / _div_d1_1
+             + _cd_2 * az2_sub_ad12 * az_2 / _div_d1_2;
+    }
+    else
+    {
+        double az = fabs( aoa );
 
-    /** @brief Destructor. */
-    virtual ~MainWindow();
+        double az_sub_ad2 = az - _ad_2;
+        double az_sub_ad3 = az - _ad_3;
+        double az_sub_ad4 = az - _ad_4;
+        double az_sub_pi2 = az - M_PI_2;
 
-protected:
+        return _cd_2 * az_sub_ad3 * az_sub_ad4 * az_sub_pi2 / _div_d2_2
+             + _cd_3 * az_sub_ad2 * az_sub_ad4 * az_sub_pi2 / _div_d2_3
+             + _cd_4 * az_sub_ad2 * az_sub_ad3 * az_sub_pi2 / _div_d2_4
+             + _cd_5 * az_sub_ad2 * az_sub_ad3 * az_sub_ad4 / _div_d2_5;
+    }
 
-    /** */
-    void closeEvent( QCloseEvent *event );
-
-private:
-
-    Ui::MainWindow *_ui;                    ///< UI object
-
-    Document _doc;                          ///<
-
-    bool _saved;                            ///<
-
-    QString _currentFile;                   ///<
-
-    QStringList _recentFilesList;           ///<
-    RecentFilesActions _recentFilesActions; ///<
-
-    void askIfSave();
-
-    void newFile();
-    void openFile();
-    void saveFile();
-    void saveFileAs();
-    void exportFileAs();
-
-    void readFile( QString fileName );
-    void saveFile( QString fileName );
-    void exportAs( QString fileName );
-
-    void settingsRead();
-    void settingsRead_RecentFiles( QSettings &settings );
-
-    void settingsSave();
-    void settingsSave_RecentFiles( QSettings &settings );
-
-    void updateGUI();
-
-    void updatePlotDrag();
-    void updatePlotLift();
-
-    void updateRecentFiles( QString file = "" );
-
-private slots:
-
-    void on_actionNew_triggered();
-    void on_actionOpen_triggered();
-    void on_actionSave_triggered();
-    void on_actionSaveAs_triggered();
-    void on_actionExport_triggered();
-    void on_actionExit_triggered();
-
-    void on_actionClearRecent_triggered();
-
-    void recentFile_triggered( int id );
-
-};
-
-////////////////////////////////////////////////////////////////////////////////
-
-#endif // MAINWINDOW_H
+    return _cd_0;
+}

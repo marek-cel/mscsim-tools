@@ -123,104 +123,88 @@
  *     party to this document and has no duty or obligation with respect to
  *     this CC0 or use of the Work.
  ******************************************************************************/
-#ifndef MAINWINDOW_H
-#define MAINWINDOW_H
+#ifndef DOCUMENT_H
+#define DOCUMENT_H
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#include <QMainWindow>
-#include <QSettings>
+#include <vector>
 
 #include <defs.h>
-
-#include <Document.h>
-
-#include <gui/RecentFileAction.h>
-
-////////////////////////////////////////////////////////////////////////////////
-
-namespace Ui
-{
-    class MainWindow;
-}
 
 ////////////////////////////////////////////////////////////////////////////////
 
 /**
- * @brief Main window class.
+ * @brief The Document class.
  */
-class MainWindow : public QMainWindow
+class Document
 {
-    Q_OBJECT
-
 public:
 
-    typedef std::vector< RecentFileAction* > RecentFilesActions;
+    /**
+     * @brief Constructor.
+     */
+    Document();
 
-    /** @brief Constructor. */
-    explicit MainWindow( QWidget *parent = NULLPTR );
-
-    /** @brief Destructor. */
-    virtual ~MainWindow();
-
-protected:
+    /**
+     * @brief Destructor.
+     */
+    virtual ~Document();
 
     /** */
-    void closeEvent( QCloseEvent *event );
+    void newEmpty();
+
+    /** */
+    bool exportAs( const char *fileName );
+
+    /** */
+    bool readFile( const char *fileName );
+
+    /** */
+    bool saveFile( const char *fileName );
+
+    inline double getCD_0() const { return _cd_0; }
+    inline double getCD_1() const { return _cd_1; }
+    inline double getCD_2() const { return _cd_2; }
+    inline double getCD_3() const { return _cd_3; }
+    inline double getCD_4() const { return _cd_4; }
+    inline double getCD_5() const { return _cd_5; }
+
+    inline double getAD_1() const { return _ad_1; }
+    inline double getAD_2() const { return _ad_2; }
+    inline double getAD_3() const { return _ad_3; }
+    inline double getAD_4() const { return _ad_4; }
+
+    void setCD_0( double cd_0 );
+    void setCD_1( double cd_1 );
+    void setCD_2( double cd_2 );
+    void setCD_3( double cd_3 );
+    void setCD_4( double cd_4 );
+    void setCD_5( double cd_5 );
+
+    void setAD_1( double ad_1 );
+    void setAD_2( double ad_2 );
+    void setAD_3( double ad_3 );
+    void setAD_4( double ad_4 );
 
 private:
 
-    Ui::MainWindow *_ui;                    ///< UI object
+    double _cd_0;       ///< [-]
+    double _cd_1;       ///< [-]
+    double _cd_2;       ///< [-]
+    double _cd_3;       ///< [-]
+    double _cd_4;       ///< [-]
+    double _cd_5;       ///< [-]
 
-    Document _doc;                          ///<
+    double _ad_1;       ///< [deg]
+    double _ad_2;       ///< [deg]
+    double _ad_3;       ///< [deg]
+    double _ad_4;       ///< [deg]
 
-    bool _saved;                            ///<
-
-    QString _currentFile;                   ///<
-
-    QStringList _recentFilesList;           ///<
-    RecentFilesActions _recentFilesActions; ///<
-
-    void askIfSave();
-
-    void newFile();
-    void openFile();
-    void saveFile();
-    void saveFileAs();
-    void exportFileAs();
-
-    void readFile( QString fileName );
-    void saveFile( QString fileName );
-    void exportAs( QString fileName );
-
-    void settingsRead();
-    void settingsRead_RecentFiles( QSettings &settings );
-
-    void settingsSave();
-    void settingsSave_RecentFiles( QSettings &settings );
-
-    void updateGUI();
-
-    void updatePlotDrag();
-    void updatePlotLift();
-
-    void updateRecentFiles( QString file = "" );
-
-private slots:
-
-    void on_actionNew_triggered();
-    void on_actionOpen_triggered();
-    void on_actionSave_triggered();
-    void on_actionSaveAs_triggered();
-    void on_actionExport_triggered();
-    void on_actionExit_triggered();
-
-    void on_actionClearRecent_triggered();
-
-    void recentFile_triggered( int id );
-
+    std::vector< double > _drag_angles_list;
+    std::vector< double > _lift_angles_list;
 };
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#endif // MAINWINDOW_H
+#endif // DOCUMENT_H

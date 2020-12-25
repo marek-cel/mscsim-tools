@@ -123,83 +123,67 @@
  *     party to this document and has no duty or obligation with respect to
  *     this CC0 or use of the Work.
  ******************************************************************************/
-#ifndef DOCUMENT_H
-#define DOCUMENT_H
+#include "CoefLift.h"
+
+#include <iostream>
+#include <math.h>
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#include <QDomDocument>
-#include <QDomElement>
-
-#include <defs.h>
-
-////////////////////////////////////////////////////////////////////////////////
-
-/**
- * @brief The Document class.
- */
-class Document
+CoefLift::CoefLift( double cl_s, double cl_1, double cl_2,
+                    double al_s, double al_1, double al_2 )
 {
-public:
+    _cl_0 = 0.0;
+    _cl_s = cl_s;
+    _cl_1 = cl_1;
+    _cl_2 = cl_2;
 
-    /**
-     * @brief Constructor.
-     */
-    Document();
+    _al_s = al_s;
+    _al_1 = al_1;
+    _al_2 = al_2;
 
-    /**
-     * @brief Destructor.
-     */
-    virtual ~Document();
+    _dcl_da_s = _cl_s / _al_s;
+    _dcl_da_1 = ( _cl_1 - _cl_s ) / ( _al_1 - _al_s );
 
-    /** */
-    void newEmpty();
-
-    /** */
-    bool readFile( QString fileName );
-
-    /** */
-    bool saveFile( QString fileName );
-
-    inline double getCD_0() const { return _cd_0; }
-    inline double getCD_1() const { return _cd_1; }
-    inline double getCD_2() const { return _cd_2; }
-    inline double getCD_3() const { return _cd_3; }
-    inline double getCD_4() const { return _cd_4; }
-    inline double getCD_5() const { return _cd_5; }
-
-    inline double getAD_1() const { return _ad_1; }
-    inline double getAD_2() const { return _ad_2; }
-    inline double getAD_3() const { return _ad_3; }
-    inline double getAD_4() const { return _ad_4; }
-
-    void setCD_0( double cd_0 );
-    void setCD_1( double cd_1 );
-    void setCD_2( double cd_2 );
-    void setCD_3( double cd_3 );
-    void setCD_4( double cd_4 );
-    void setCD_5( double cd_5 );
-
-    void setAD_1( double ad_1 );
-    void setAD_2( double ad_2 );
-    void setAD_3( double ad_3 );
-    void setAD_4( double ad_4 );
-
-private:
-
-    double _cd_0;       ///< [-]
-    double _cd_1;       ///< [-]
-    double _cd_2;       ///< [-]
-    double _cd_3;       ///< [-]
-    double _cd_4;       ///< [-]
-    double _cd_5;       ///< [-]
-
-    double _ad_1;       ///< [deg]
-    double _ad_2;       ///< [deg]
-    double _ad_3;       ///< [deg]
-    double _ad_4;       ///< [deg]
-};
+    _div_l1_1 = ( _al_1 - _al_2 ) * ( _al_1 - M_PI_2 );
+    _div_l1_2 = ( _al_2 - _al_1 ) * ( _al_2 - M_PI_2 );
+}
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#endif // DOCUMENT_H
+double CoefLift::get( double aoa )
+{
+    double coef = ( aoa < -M_PI_2 || aoa > M_PI_2 ) ? -1.0 : 1.0;
+
+    if ( aoa < -M_PI_2 ) aoa = -M_PI - aoa;
+    if ( aoa >  M_PI_2 ) aoa =  M_PI - aoa;
+
+    double cl = _cl_0;
+
+    if ( aoa < -_al_1 )
+    {
+        cl =  - _cl_1 * ( aoa + _al_2 ) * ( aoa + M_PI_2 ) / _div_l1_1
+              - _cl_2 * ( aoa + _al_1 ) * ( aoa + M_PI_2 ) / _div_l1_2
+              + _cl_0;
+    }
+    else if ( aoa < -_al_s )
+    {
+        cl =  _dcl_da_1 * ( aoa + _al_s ) - _cl_s + _cl_0;
+    }
+    else if ( aoa < _al_s )
+    {
+        cl =  _dcl_da_s * aoa + _cl_0;
+    }
+    else if ( aoa < _al_1 )
+    {
+        cl =  _dcl_da_1 * ( aoa - _al_s ) + _cl_s + _cl_0;
+    }
+    else
+    {
+        cl =  _cl_1 * ( aoa - _al_2 ) * ( aoa - M_PI_2 ) / _div_l1_1
+            + _cl_2 * ( aoa - _al_1 ) * ( aoa - M_PI_2 ) / _div_l1_2
+            + _cl_0;
+    }
+
+    return coef * cl;
+}

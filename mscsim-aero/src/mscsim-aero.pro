@@ -68,14 +68,19 @@ unix: LIBS += \
 ################################################################################
 
 HEADERS += \
-    $$PWD/defs.h
+    $$PWD/defs.h \
+    $$PWD/CoefDrag.h \
+    $$PWD/CoefLift.h \
+    $$PWD/Document.h
 
 SOURCES += \
-    $$PWD/main.cpp
+    $$PWD/main.cpp \
+    $$PWD/CoefDrag.cpp \
+    $$PWD/CoefLift.cpp \
+    $$PWD/Document.cpp
 
 RESOURCES += \
 
 ################################################################################
 
-include($$PWD/doc/doc.pri)
 include($$PWD/gui/gui.pri)

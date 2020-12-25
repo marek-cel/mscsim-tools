@@ -123,104 +123,233 @@
  *     party to this document and has no duty or obligation with respect to
  *     this CC0 or use of the Work.
  ******************************************************************************/
-#ifndef MAINWINDOW_H
-#define MAINWINDOW_H
-
-////////////////////////////////////////////////////////////////////////////////
-
-#include <QMainWindow>
-#include <QSettings>
-
-#include <defs.h>
 
 #include <Document.h>
 
-#include <gui/RecentFileAction.h>
+#include <QDomDocument>
+#include <QDomElement>
+#include <QFileInfo>
+#include <QTextStream>
 
 ////////////////////////////////////////////////////////////////////////////////
 
-namespace Ui
+Document::Document()
 {
-    class MainWindow;
+    newEmpty();
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
-/**
- * @brief Main window class.
- */
-class MainWindow : public QMainWindow
-{
-    Q_OBJECT
-
-public:
-
-    typedef std::vector< RecentFileAction* > RecentFilesActions;
-
-    /** @brief Constructor. */
-    explicit MainWindow( QWidget *parent = NULLPTR );
-
-    /** @brief Destructor. */
-    virtual ~MainWindow();
-
-protected:
-
-    /** */
-    void closeEvent( QCloseEvent *event );
-
-private:
-
-    Ui::MainWindow *_ui;                    ///< UI object
-
-    Document _doc;                          ///<
-
-    bool _saved;                            ///<
-
-    QString _currentFile;                   ///<
-
-    QStringList _recentFilesList;           ///<
-    RecentFilesActions _recentFilesActions; ///<
-
-    void askIfSave();
-
-    void newFile();
-    void openFile();
-    void saveFile();
-    void saveFileAs();
-    void exportFileAs();
-
-    void readFile( QString fileName );
-    void saveFile( QString fileName );
-    void exportAs( QString fileName );
-
-    void settingsRead();
-    void settingsRead_RecentFiles( QSettings &settings );
-
-    void settingsSave();
-    void settingsSave_RecentFiles( QSettings &settings );
-
-    void updateGUI();
-
-    void updatePlotDrag();
-    void updatePlotLift();
-
-    void updateRecentFiles( QString file = "" );
-
-private slots:
-
-    void on_actionNew_triggered();
-    void on_actionOpen_triggered();
-    void on_actionSave_triggered();
-    void on_actionSaveAs_triggered();
-    void on_actionExport_triggered();
-    void on_actionExit_triggered();
-
-    void on_actionClearRecent_triggered();
-
-    void recentFile_triggered( int id );
-
-};
+Document::~Document() {}
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#endif // MAINWINDOW_H
+void Document::newEmpty()
+{
+    _cd_0 = 0.0;
+    _cd_1 = 0.0;
+    _cd_2 = 0.0;
+    _cd_3 = 0.0;
+    _cd_4 = 0.0;
+    _cd_5 = 0.0;
+
+    _ad_1 = 0.0;
+    _ad_2 = 0.0;
+    _ad_3 = 0.0;
+    _ad_4 = 0.0;
+
+    _drag_angles_list.clear();
+    _lift_angles_list.clear();
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+bool Document::exportAs( const char *fileName )
+{
+    return false;
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+bool Document::readFile( const char *fileName )
+{
+    bool status = false;
+
+    newEmpty();
+
+    QFile devFile( fileName );
+
+    if ( devFile.open( QFile::ReadOnly | QFile::Text ) )
+    {
+        QDomDocument doc;
+
+        doc.setContent( &devFile, false );
+
+        QDomElement rootNode = doc.documentElement();
+
+        if ( rootNode.tagName() == "mscsim_aero" )
+        {
+            QDomElement dragNode = rootNode.firstChildElement( "drag" );
+            QDomElement liftNode = rootNode.firstChildElement( "lift" );
+
+            if ( !dragNode.isNull() && !liftNode.isNull() )
+            {
+                QDomElement nodeCD_0 = dragNode.firstChildElement( "cd_0" );
+                QDomElement nodeCD_1 = dragNode.firstChildElement( "cd_1" );
+                QDomElement nodeCD_2 = dragNode.firstChildElement( "cd_2" );
+                QDomElement nodeCD_3 = dragNode.firstChildElement( "cd_3" );
+                QDomElement nodeCD_4 = dragNode.firstChildElement( "cd_4" );
+                QDomElement nodeCD_5 = dragNode.firstChildElement( "cd_5" );
+
+                QDomElement nodeAD_1 = dragNode.firstChildElement( "ad_1" );
+                QDomElement nodeAD_2 = dragNode.firstChildElement( "ad_2" );
+                QDomElement nodeAD_3 = dragNode.firstChildElement( "ad_3" );
+                QDomElement nodeAD_4 = dragNode.firstChildElement( "ad_4" );
+
+                QDomElement nodeDragAngleList = dragNode.firstChildElement( "angles_list" );
+
+                if ( !nodeCD_0.isNull()
+                  && !nodeCD_1.isNull()
+                  && !nodeCD_2.isNull()
+                  && !nodeCD_3.isNull()
+                  && !nodeCD_4.isNull()
+                  && !nodeCD_5.isNull()
+                  && !nodeAD_1.isNull()
+                  && !nodeAD_2.isNull()
+                  && !nodeAD_3.isNull()
+                  && !nodeAD_4.isNull()
+                  && !nodeDragAngleList.isNull() )
+                {
+                    _cd_0 = nodeCD_0.text().toDouble();
+                    _cd_1 = nodeCD_1.text().toDouble();
+                    _cd_2 = nodeCD_2.text().toDouble();
+                    _cd_3 = nodeCD_3.text().toDouble();
+                    _cd_4 = nodeCD_4.text().toDouble();
+                    _cd_5 = nodeCD_5.text().toDouble();
+
+                    _ad_1 = nodeAD_1.text().toDouble();
+                    _ad_2 = nodeAD_2.text().toDouble();
+                    _ad_3 = nodeAD_3.text().toDouble();
+                    _ad_4 = nodeAD_4.text().toDouble();
+
+                    status = true;
+                }
+            }
+        }
+
+        devFile.close();
+    }
+
+    return status;
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+bool Document::saveFile( const char *fileName )
+{
+    QString fileTemp = fileName;
+
+    if ( QFileInfo( fileTemp ).suffix() != QString( "xml" ) )
+    {
+        fileTemp += ".xml";
+    }
+
+    QFile devFile( fileTemp );
+
+    if ( devFile.open( QFile::WriteOnly | QFile::Truncate | QFile::Text ) )
+    {
+        QTextStream out;
+        out.setDevice( &devFile );
+        out.setCodec("UTF-8");
+        out << "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n";
+
+        QDomDocument doc( "mscsim_aero" );
+
+        doc.setContent( &devFile, false );
+
+        QDomElement rootNode = doc.createElement( "mscsim_aero" );
+        doc.appendChild( rootNode );
+
+        // drag
+        QDomElement dragNode = doc.createElement( "drag" );
+        rootNode.appendChild( dragNode );
+
+        out << doc.toString();
+
+        devFile.close();
+
+        return true;
+    }
+
+    return false;
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void Document::setCD_0( double cd_0 )
+{
+    _cd_0 = cd_0;
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void Document::setCD_1( double cd_1 )
+{
+    _cd_1 = cd_1;
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void Document::setCD_2( double cd_2 )
+{
+    _cd_2 = cd_2;
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void Document::setCD_3( double cd_3 )
+{
+    _cd_3 = cd_3;
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void Document::setCD_4( double cd_4 )
+{
+    _cd_4 = cd_4;
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void Document::setCD_5( double cd_5 )
+{
+    _cd_5 = cd_5;
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void Document::setAD_1( double ad_1 )
+{
+    _ad_1 = ad_1;
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void Document::setAD_2( double ad_2 )
+{
+    _ad_2 = ad_2;
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void Document::setAD_3( double ad_3 )
+{
+    _ad_3 = ad_3;
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void Document::setAD_4( double ad_4 )
+{
+    _ad_4 = ad_4;
+}

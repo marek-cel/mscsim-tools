@@ -123,104 +123,43 @@
  *     party to this document and has no duty or obligation with respect to
  *     this CC0 or use of the Work.
  ******************************************************************************/
-#ifndef MAINWINDOW_H
-#define MAINWINDOW_H
-
-////////////////////////////////////////////////////////////////////////////////
-
-#include <QMainWindow>
-#include <QSettings>
-
-#include <defs.h>
-
-#include <Document.h>
-
-#include <gui/RecentFileAction.h>
-
-////////////////////////////////////////////////////////////////////////////////
-
-namespace Ui
-{
-    class MainWindow;
-}
+#ifndef COEFLIFT_H
+#define COEFLIFT_H
 
 ////////////////////////////////////////////////////////////////////////////////
 
 /**
- * @brief Main window class.
+ * Lift coefficient approximation class.
+ * @see Takahashi M.: A Flight-Dynamic Helicopter Mathematical Model with a Single Flap-Lag-Torsion Main Rotor, NASA, TM-102267, p.68
  */
-class MainWindow : public QMainWindow
+class CoefLift
 {
-    Q_OBJECT
-
 public:
 
-    typedef std::vector< RecentFileAction* > RecentFilesActions;
+    CoefLift( double cl_s, double cl_1, double cl_2,
+              double al_s, double al_1, double al_2 );
 
-    /** @brief Constructor. */
-    explicit MainWindow( QWidget *parent = NULLPTR );
-
-    /** @brief Destructor. */
-    virtual ~MainWindow();
-
-protected:
-
-    /** */
-    void closeEvent( QCloseEvent *event );
+    double get( double aoa );
 
 private:
 
-    Ui::MainWindow *_ui;                    ///< UI object
+    double _cl_0;       ///< [-]
 
-    Document _doc;                          ///<
+    double _cl_s;       ///< [-]
+    double _cl_1;       ///< [-]
+    double _cl_2;       ///< [-]
 
-    bool _saved;                            ///<
+    double _al_s;       ///< [rad]
+    double _al_1;       ///< [rad]
+    double _al_2;       ///< [rad]
 
-    QString _currentFile;                   ///<
+    double _dcl_da_s;   ///< [1/rad]
+    double _dcl_da_1;   ///< [1/rad]
 
-    QStringList _recentFilesList;           ///<
-    RecentFilesActions _recentFilesActions; ///<
-
-    void askIfSave();
-
-    void newFile();
-    void openFile();
-    void saveFile();
-    void saveFileAs();
-    void exportFileAs();
-
-    void readFile( QString fileName );
-    void saveFile( QString fileName );
-    void exportAs( QString fileName );
-
-    void settingsRead();
-    void settingsRead_RecentFiles( QSettings &settings );
-
-    void settingsSave();
-    void settingsSave_RecentFiles( QSettings &settings );
-
-    void updateGUI();
-
-    void updatePlotDrag();
-    void updatePlotLift();
-
-    void updateRecentFiles( QString file = "" );
-
-private slots:
-
-    void on_actionNew_triggered();
-    void on_actionOpen_triggered();
-    void on_actionSave_triggered();
-    void on_actionSaveAs_triggered();
-    void on_actionExport_triggered();
-    void on_actionExit_triggered();
-
-    void on_actionClearRecent_triggered();
-
-    void recentFile_triggered( int id );
-
+    double _div_l1_1;   ///<
+    double _div_l1_2;   ///<
 };
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#endif // MAINWINDOW_H
+#endif // COEFLIFT_H
