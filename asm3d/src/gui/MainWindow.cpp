@@ -237,7 +237,7 @@ void MainWindow::askIfSave()
     if ( !_saved )
     {
         QString title = windowTitle();
-        QString text = "File have unsaved changes.";
+        QString text = tr( "File have unsaved changes." );
 
         QMessageBox::StandardButton result = QMessageBox::question( this, title, text,
                                                                     QMessageBox::Save | QMessageBox::Discard,
