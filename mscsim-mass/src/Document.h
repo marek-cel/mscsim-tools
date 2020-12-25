@@ -123,50 +123,50 @@
  *     party to this document and has no duty or obligation with respect to
  *     this CC0 or use of the Work.
  ******************************************************************************/
-#ifndef DEFS_H
-#define DEFS_H
+#ifndef DOCUMENT_H
+#define DOCUMENT_H
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#define APP_NAME   "mscsim-mass"
-#define APP_VER    "0.1"
-#define ORG_NAME   "Marek_Cel"
-#define ORG_DOMAIN "marekcel.pl"
+#include <vector>
+
+#include <defs.h>
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#define APP_TITLE "MScSim-Mass"
+/**
+ * @brief The Document class.
+ */
+class Document
+{
+public:
+
+    /**
+     * @brief Constructor.
+     */
+    Document();
+
+    /**
+     * @brief Destructor.
+     */
+    virtual ~Document();
+
+    /** */
+    void newEmpty();
+
+    /** */
+    bool exportAs( const char *fileName );
+
+    /** */
+    bool readFile( const char *fileName );
+
+    /** */
+    bool saveFile( const char *fileName );
+
+private:
+
+};
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#ifndef NULLPTR
-#   if __cplusplus >= 201103L
-#       define NULLPTR nullptr
-#   else
-#       define NULLPTR 0
-#   endif
-#endif
-
-////////////////////////////////////////////////////////////////////////////////
-
-#ifndef DELPTR
-#define DELPTR( ptr ) \
-{ \
-    if ( ptr ) delete ptr; \
-    ptr = NULLPTR; \
-}
-#endif
-
-////////////////////////////////////////////////////////////////////////////////
-
-#ifndef DELTAB
-#define DELTAB( ptr ) \
-{ \
-    if ( ptr ) delete [] ptr; \
-    ptr = NULLPTR; \
-}
-#endif
-
-////////////////////////////////////////////////////////////////////////////////
-
-#endif // DEFS_H
+#endif // DOCUMENT_H

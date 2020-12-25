@@ -124,338 +124,102 @@
  *     this CC0 or use of the Work.
  ******************************************************************************/
 
-#include <gui/MainWindow.h>
-#include <ui_MainWindow.h>
+#include <Document.h>
 
-#include <QCloseEvent>
-#include <QFileDialog>
-#include <QMessageBox>
-
-#include <qwt/qwt_plot_curve.h>
-#include <qwt/qwt_scale_engine.h>
+#include <QDomDocument>
+#include <QDomElement>
+#include <QFileInfo>
+#include <QTextStream>
 
 ////////////////////////////////////////////////////////////////////////////////
 
-MainWindow::MainWindow( QWidget *parent ) :
-    QMainWindow ( parent ),
-    _ui ( new Ui::MainWindow ),
-
-    _saved ( true )
+Document::Document()
 {
-    _ui->setupUi( this );
-
-    updateGUI();
-
-    settingsRead();
+    newEmpty();
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
-MainWindow::~MainWindow()
-{
-    settingsSave();
-
-    DELPTR( _ui );
-}
+Document::~Document() {}
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void MainWindow::closeEvent( QCloseEvent *event )
-{
-    askIfSave();
-
-    /////////////////////////////////
-    QMainWindow::closeEvent( event );
-    /////////////////////////////////
-}
-
-////////////////////////////////////////////////////////////////////////////////
-
-void MainWindow::askIfSave()
-{
-    if ( !_saved )
-    {
-        QString title = windowTitle();
-        QString text = tr( "File have unsaved changes." );
-
-        QMessageBox::StandardButton result = QMessageBox::question( this, title, text,
-                                                                    QMessageBox::Save | QMessageBox::Discard,
-                                                                    QMessageBox::Save );
-
-        if ( result == QMessageBox::Save )
-        {
-            saveFile();
-        }
-    }
-}
-
-////////////////////////////////////////////////////////////////////////////////
-
-void MainWindow::newFile()
-{
-    askIfSave();
-
-    _currentFile = "";
-
-    _doc.newEmpty();
-
-    updateGUI();
-}
-
-////////////////////////////////////////////////////////////////////////////////
-
-void MainWindow::openFile()
-{
-    askIfSave();
-
-    QString caption = "Open...";
-    QString dir = ( _currentFile.length() > 0 ) ? QFileInfo( _currentFile ).absolutePath() : "";
-    QString filter;
-    QString selectedFilter;
-
-    filter += selectedFilter = "XML (*.xml)";
-
-    QString file = QFileDialog::getOpenFileName( this, caption, dir, filter, &selectedFilter );
-
-    if ( file.length() > 0 )
-    {
-        _currentFile = file;
-
-        updateRecentFiles( _currentFile );
-        readFile( _currentFile );
-    }
-
-    updateGUI();
-}
-
-////////////////////////////////////////////////////////////////////////////////
-
-void MainWindow::saveFile()
-{
-    if ( _currentFile.length() > 0 )
-    {
-        saveFile( _currentFile );
-    }
-    else
-    {
-        saveFileAs();
-    }
-}
-
-////////////////////////////////////////////////////////////////////////////////
-
-void MainWindow::saveFileAs()
-{
-    QString caption = "Save as...";
-    QString dir = ( _currentFile.length() > 0 ) ? QFileInfo( _currentFile ).absolutePath() : ".";
-    QString filter;
-    QString selectedFilter;
-
-    filter += selectedFilter = "XML (*.xml)";
-
-    QString newFile = QFileDialog::getSaveFileName( this, caption, dir, filter, &selectedFilter );
-
-    if ( newFile.length() > 0 )
-    {
-        _currentFile = newFile;
-        saveFile( _currentFile );
-    }
-}
-
-////////////////////////////////////////////////////////////////////////////////
-
-void MainWindow::exportFileAs() {}
-
-////////////////////////////////////////////////////////////////////////////////
-
-void MainWindow::readFile( QString fileName )
-{
-    if ( QFileInfo( fileName ).suffix() == QString( "xml" ) )
-    {
-        if ( !_doc.readFile( fileName.toStdString().c_str() ) )
-        {
-            QMessageBox::warning( this, tr( APP_TITLE ),
-                                 tr( "Cannot read file %1." ).arg( fileName ) );
-        }
-    }
-
-    updateGUI();
-}
-
-////////////////////////////////////////////////////////////////////////////////
-
-void MainWindow::saveFile( QString fileName )
-{
-    if ( _doc.saveFile( fileName.toStdString().c_str() ) )
-    {
-        _saved = true;
-    }
-    else
-    {
-        QMessageBox::warning( this, tr( APP_TITLE ),
-                             tr( "Cannot save file %1." ).arg(fileName) );
-    }
-
-    updateGUI();
-}
-
-////////////////////////////////////////////////////////////////////////////////
-
-void MainWindow::exportAs( QString fileName )
-{
-    if ( !_doc.exportAs( fileName.toStdString().c_str() ) )
-    {
-        QMessageBox::warning( this, tr( APP_TITLE ),
-                             tr( "Cannot export file %1." ).arg(fileName) );
-    }
-}
-
-////////////////////////////////////////////////////////////////////////////////
-
-void MainWindow::settingsRead()
-{
-    QSettings settings( ORG_NAME, APP_NAME );
-    
-    settings.beginGroup( "main_window" );
-
-    restoreState( settings.value( "state" ).toByteArray() );
-    restoreGeometry( settings.value( "geometry" ).toByteArray() );
-
-    settingsRead_RecentFiles( settings );
-
-    settings.endGroup();
-}
-
-////////////////////////////////////////////////////////////////////////////////
-
-void MainWindow::settingsRead_RecentFiles( QSettings &settings )
-{
-    _recentFilesList = settings.value( "recent_files" ).toStringList();
-
-    updateRecentFiles();
-}
-
-////////////////////////////////////////////////////////////////////////////////
-
-void MainWindow::settingsSave()
-{
-    QSettings settings( ORG_NAME, APP_NAME );
-    
-    settings.beginGroup( "main_window" );
-
-    settings.setValue( "state", saveState() );
-    settings.setValue( "geometry", saveGeometry() );
-
-    settingsSave_RecentFiles( settings );
-
-    settings.endGroup();
-}
-
-////////////////////////////////////////////////////////////////////////////////
-
-void MainWindow::settingsSave_RecentFiles( QSettings &settings )
-{
-    settings.setValue( "recent_files", _recentFilesList );
-}
-
-////////////////////////////////////////////////////////////////////////////////
-
-void MainWindow::updateGUI()
+void Document::newEmpty()
 {
     // TODO
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void MainWindow::updateRecentFiles( QString file )
+bool Document::exportAs( const char *fileName )
 {
-    for ( unsigned int i = 0; i < _recentFilesActions.size(); i++ )
+    return false;
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+bool Document::readFile( const char *fileName )
+{
+    bool status = false;
+
+    newEmpty();
+
+    QFile devFile( fileName );
+
+    if ( devFile.open( QFile::ReadOnly | QFile::Text ) )
     {
-        disconnect( _recentFilesActions.at( i ), SIGNAL(triggered(int)), this, SLOT(recentFile_triggered(int)) );
-    }
+        QDomDocument doc;
 
-    _recentFilesActions.clear();
+        doc.setContent( &devFile, false );
 
-    if ( file.length() > 0 )
-    {
-        QStringList temp;
+        QDomElement rootNode = doc.documentElement();
 
-        temp.push_back( file );
-
-        for ( int i = 0; i < _recentFilesList.size() && i < 4; i++ )
+        if ( rootNode.tagName() == "mscsim_mass" )
         {
-            temp.push_back( _recentFilesList.at( i ) );
+            // TODO
         }
 
-        _recentFilesList = temp;
+        devFile.close();
     }
 
-    _ui->menuRecentFiles->clear();
+    return status;
+}
 
-    for ( int i = 0; i < _recentFilesList.size(); i++ )
+////////////////////////////////////////////////////////////////////////////////
+
+bool Document::saveFile( const char *fileName )
+{
+    QString fileTemp = fileName;
+
+    if ( QFileInfo( fileTemp ).suffix() != QString( "xml" ) )
     {
-        _recentFilesActions.push_back( new RecentFileAction( i, _recentFilesList.at( i ), _ui->menuRecentFiles ) );
-        connect( _recentFilesActions.at( i ), SIGNAL(triggered(int)), this, SLOT(recentFile_triggered(int)) );
-        _ui->menuRecentFiles->addAction( _recentFilesActions.at( i ) );
+        fileTemp += ".xml";
     }
-}
 
-////////////////////////////////////////////////////////////////////////////////
+    QFile devFile( fileTemp );
 
-void MainWindow::on_actionNew_triggered()
-{
-    newFile();
-}
+    if ( devFile.open( QFile::WriteOnly | QFile::Truncate | QFile::Text ) )
+    {
+        QTextStream out;
+        out.setDevice( &devFile );
+        out.setCodec("UTF-8");
+        out << "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n";
 
-////////////////////////////////////////////////////////////////////////////////
+        QDomDocument doc( "mscsim_aero" );
 
-void MainWindow::on_actionOpen_triggered()
-{
-    openFile();
-}
+        doc.setContent( &devFile, false );
 
-////////////////////////////////////////////////////////////////////////////////
+        QDomElement rootNode = doc.createElement( "mscsim_mass" );
+        doc.appendChild( rootNode );
 
-void MainWindow::on_actionSave_triggered()
-{
-    saveFile();
-}
+        // TODO
 
-////////////////////////////////////////////////////////////////////////////////
+        out << doc.toString();
 
-void MainWindow::on_actionSaveAs_triggered()
-{
-    saveFileAs();
-}
+        devFile.close();
 
-////////////////////////////////////////////////////////////////////////////////
+        return true;
+    }
 
-void MainWindow::on_actionExport_triggered()
-{
-    exportFileAs();
-}
-
-////////////////////////////////////////////////////////////////////////////////
-
-void MainWindow::on_actionExit_triggered()
-{
-    close();
-}
-
-////////////////////////////////////////////////////////////////////////////////
-
-void MainWindow::on_actionClearRecent_triggered()
-{
-    _recentFilesList.clear();
-
-    updateRecentFiles();
-}
-
-////////////////////////////////////////////////////////////////////////////////
-
-void MainWindow::recentFile_triggered( int id )
-{
-    _currentFile = _recentFilesList.at( id );
-
-    readFile( _currentFile );
+    return false;
 }

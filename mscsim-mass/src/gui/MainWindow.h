@@ -133,6 +133,10 @@
 
 #include <defs.h>
 
+#include <Document.h>
+
+#include <gui/RecentFileAction.h>
+
 ////////////////////////////////////////////////////////////////////////////////
 
 namespace Ui
@@ -151,6 +155,8 @@ class MainWindow : public QMainWindow
 
 public:
 
+    typedef std::vector< RecentFileAction* > RecentFilesActions;
+
     /** @brief Constructor. */
     explicit MainWindow( QWidget *parent = NULLPTR );
 
@@ -164,12 +170,51 @@ protected:
 
 private:
 
-    Ui::MainWindow *_ui;                ///< UI object
+    Ui::MainWindow *_ui;                    ///< UI object
+
+    Document _doc;                          ///<
+
+    bool _saved;                            ///<
+
+    QString _currentFile;                   ///<
+
+    QStringList _recentFilesList;           ///<
+    RecentFilesActions _recentFilesActions; ///<
+
+    void askIfSave();
+
+    void newFile();
+    void openFile();
+    void saveFile();
+    void saveFileAs();
+    void exportFileAs();
+
+    void readFile( QString fileName );
+    void saveFile( QString fileName );
+    void exportAs( QString fileName );
 
     void settingsRead();
+    void settingsRead_RecentFiles( QSettings &settings );
+
     void settingsSave();
+    void settingsSave_RecentFiles( QSettings &settings );
+
+    void updateGUI();
+
+    void updateRecentFiles( QString file = "" );
 
 private slots:
+
+    void on_actionNew_triggered();
+    void on_actionOpen_triggered();
+    void on_actionSave_triggered();
+    void on_actionSaveAs_triggered();
+    void on_actionExport_triggered();
+    void on_actionExit_triggered();
+
+    void on_actionClearRecent_triggered();
+
+    void recentFile_triggered( int id );
 
 };
 

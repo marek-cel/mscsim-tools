@@ -67,10 +67,12 @@ unix: LIBS += \
 ################################################################################
 
 HEADERS += \
-    $$PWD/defs.h
+    $$PWD/defs.h    \
+    $$PWD/Document.h
 
 SOURCES += \
-    $$PWD/main.cpp
+    $$PWD/main.cpp \
+    $$PWD/Document.cpp
 
 RESOURCES += \
 
