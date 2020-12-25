@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<gen_file>
- <lod depth_sorted_bin_state="0" interval_o="4000" interval_s="4000" name="LOD" depth_sorted_bin_value="1" interval_f="1000">
-  <node_file depth_sorted_bin_state="0" name="FileH" file="data/buildings/xgen_vor/xgen_vor_h.osgt" depth_sorted_bin_value="1"/>
-  <node_file depth_sorted_bin_state="0" name="FileL" file="data/buildings/xgen_vor/xgen_vor_l.osgt" depth_sorted_bin_value="1"/>
- </lod>
-</gen_file>
