@@ -147,9 +147,6 @@ int main(int argc, char *argv[])
     app->setOrganizationDomain ( ORG_DOMAIN );
     app->setOrganizationName   ( ORG_NAME   );
 
-//    TexturesGenerator tgen;
-//    tgen.generateTextures();
-
     MainWindow *win = new MainWindow();
     win->show();
     
