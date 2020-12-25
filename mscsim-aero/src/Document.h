@@ -128,9 +128,13 @@
 
 ////////////////////////////////////////////////////////////////////////////////
 
+#include <string>
 #include <vector>
 
 #include <defs.h>
+
+#include <CoefDrag.h>
+#include <CoefLift.h>
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -163,6 +167,9 @@ public:
     /** */
     bool saveFile( const char *fileName );
 
+    double getCoefDrag( double angle_deg ) const;
+    double getCoefLift( double angle_deg ) const;
+
     inline double getCD_0() const { return _cd_0; }
     inline double getCD_1() const { return _cd_1; }
     inline double getCD_2() const { return _cd_2; }
@@ -174,6 +181,21 @@ public:
     inline double getAD_2() const { return _ad_2; }
     inline double getAD_3() const { return _ad_3; }
     inline double getAD_4() const { return _ad_4; }
+
+    inline double getCL_S() const { return _cl_s; }
+    inline double getCL_0() const { return _cl_0; }
+    inline double getCL_1() const { return _cl_1; }
+    inline double getCL_2() const { return _cl_2; }
+
+    inline double getAL_S() const { return _al_s; }
+    inline double getAL_1() const { return _al_1; }
+    inline double getAL_2() const { return _al_2; }
+
+    inline const char* getDragAngles() const { return _drag_angles.c_str(); }
+    inline const char* getLiftAngles() const { return _lift_angles.c_str(); }
+
+    inline std::vector< double > getDragAnglesList() const { return _drag_angles_list; }
+    inline std::vector< double > getLiftAnglesList() const { return _lift_angles_list; }
 
     void setCD_0( double cd_0 );
     void setCD_1( double cd_1 );
@@ -187,7 +209,22 @@ public:
     void setAD_3( double ad_3 );
     void setAD_4( double ad_4 );
 
+    void setCL_0( double cl_0 );
+    void setCL_S( double cl_s );
+    void setCL_1( double cl_1 );
+    void setCL_2( double cl_2 );
+
+    void setAL_S( double al_s );
+    void setAL_1( double al_1 );
+    void setAL_2( double al_2 );
+
+    void setDragAngles( const char *angles );
+    void setLiftAngles( const char *angles );
+
 private:
+
+    CoefDrag _coefDrag;
+    CoefLift _coefLift;
 
     double _cd_0;       ///< [-]
     double _cd_1;       ///< [-]
@@ -201,8 +238,24 @@ private:
     double _ad_3;       ///< [deg]
     double _ad_4;       ///< [deg]
 
+    double _cl_0;       ///< [-]
+    double _cl_s;       ///< [-]
+    double _cl_1;       ///< [-]
+    double _cl_2;       ///< [-]
+
+    double _al_s;       ///< [deg]
+    double _al_1;       ///< [deg]
+    double _al_2;       ///< [deg]
+
+    std::string _drag_angles;
+    std::string _lift_angles;
+
     std::vector< double > _drag_angles_list;
     std::vector< double > _lift_angles_list;
+
+    void readAnglesList( const char *angles, std::vector< double > *angles_list );
+
+    void update();
 };
 
 ////////////////////////////////////////////////////////////////////////////////

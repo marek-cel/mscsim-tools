@@ -136,10 +136,15 @@ class CoefLift
 {
 public:
 
+    CoefLift();
+
     CoefLift( double cl_s, double cl_1, double cl_2,
               double al_s, double al_1, double al_2 );
 
-    double get( double aoa );
+    double get( double aoa ) const;
+
+    void set( double cl_s, double cl_1, double cl_2,
+              double al_s, double al_1, double al_2 );
 
 private:
 

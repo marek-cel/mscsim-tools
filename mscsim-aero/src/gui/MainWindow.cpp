@@ -127,6 +127,8 @@
 #include <gui/MainWindow.h>
 #include <ui_MainWindow.h>
 
+#include <iostream>
+
 #include <QCloseEvent>
 #include <QFileDialog>
 #include <QMessageBox>
@@ -146,13 +148,36 @@ MainWindow::MainWindow( QWidget *parent ) :
 
     _ui->plotDrag->setAxisTitle( 0, tr( "Drag Coefficient [-]" ) ) ;
     _ui->plotDrag->setAxisTitle( 2, tr( "Angle of Attack [deg]" ) ) ;
+    _ui->plotDrag->setAxisScale( 2, -180.0, 180.0, 30.0 );
 
     _ui->plotLift->setAxisTitle( 0, tr( "Lift Coefficient [-]" ) ) ;
     _ui->plotLift->setAxisTitle( 2, tr( "Angle of Attack [deg]" ) ) ;
+    _ui->plotLift->setAxisScale( 2, -180.0, 180.0, 30.0 );
 
-    updateGUI();
+    connect( _ui->spinBoxAD_1, SIGNAL(editingFinished()), this, SLOT(parametersChanged()) );
+    connect( _ui->spinBoxAD_2, SIGNAL(editingFinished()), this, SLOT(parametersChanged()) );
+    connect( _ui->spinBoxAD_3, SIGNAL(editingFinished()), this, SLOT(parametersChanged()) );
+    connect( _ui->spinBoxAD_4, SIGNAL(editingFinished()), this, SLOT(parametersChanged()) );
+
+    connect( _ui->spinBoxCD_0, SIGNAL(editingFinished()), this, SLOT(parametersChanged()) );
+    connect( _ui->spinBoxCD_1, SIGNAL(editingFinished()), this, SLOT(parametersChanged()) );
+    connect( _ui->spinBoxCD_2, SIGNAL(editingFinished()), this, SLOT(parametersChanged()) );
+    connect( _ui->spinBoxCD_3, SIGNAL(editingFinished()), this, SLOT(parametersChanged()) );
+    connect( _ui->spinBoxCD_4, SIGNAL(editingFinished()), this, SLOT(parametersChanged()) );
+    connect( _ui->spinBoxCD_5, SIGNAL(editingFinished()), this, SLOT(parametersChanged()) );
+
+    connect( _ui->spinBoxCL_0, SIGNAL(editingFinished()), this, SLOT(parametersChanged()) );
+    connect( _ui->spinBoxCL_S, SIGNAL(editingFinished()), this, SLOT(parametersChanged()) );
+    connect( _ui->spinBoxCL_1, SIGNAL(editingFinished()), this, SLOT(parametersChanged()) );
+    connect( _ui->spinBoxCL_2, SIGNAL(editingFinished()), this, SLOT(parametersChanged()) );
+
+    connect( _ui->spinBoxAL_S, SIGNAL(editingFinished()), this, SLOT(parametersChanged()) );
+    connect( _ui->spinBoxAL_1, SIGNAL(editingFinished()), this, SLOT(parametersChanged()) );
+    connect( _ui->spinBoxAL_2, SIGNAL(editingFinished()), this, SLOT(parametersChanged()) );
 
     settingsRead();
+
+    updateGUI();
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -380,6 +405,33 @@ void MainWindow::updateGUI()
     _ui->spinBoxAD_3->setValue( _doc.getAD_3() );
     _ui->spinBoxAD_4->setValue( _doc.getAD_4() );
 
+    _ui->spinBoxCL_0->setValue( _doc.getCL_0() );
+    _ui->spinBoxCL_S->setValue( _doc.getCL_S() );
+    _ui->spinBoxCL_1->setValue( _doc.getCL_1() );
+    _ui->spinBoxCL_2->setValue( _doc.getCL_2() );
+
+    _ui->spinBoxAL_S->setValue( _doc.getAL_S() );
+    _ui->spinBoxAL_1->setValue( _doc.getAL_1() );
+    _ui->spinBoxAL_2->setValue( _doc.getAL_2() );
+
+    _ui->listDragAngles->clear();
+    _ui->listLiftAngles->clear();
+
+    std::vector< double > ad = _doc.getDragAnglesList();
+    std::vector< double > al = _doc.getLiftAnglesList();
+
+    for ( std::vector< double >::iterator it = ad.begin(); it != ad.end(); it++ )
+    {
+        QString ang = QString::number( *it, 'f', 1 );
+        _ui->listDragAngles->addItem( new QListWidgetItem( ang, _ui->listDragAngles ) );
+    }
+
+    for ( std::vector< double >::iterator it = al.begin(); it != al.end(); it++ )
+    {
+        QString ang = QString::number( *it, 'f', 1 );
+        _ui->listLiftAngles->addItem( new QListWidgetItem( ang, _ui->listLiftAngles ) );
+    }
+
     updatePlotDrag();
     updatePlotLift();
 }
@@ -388,46 +440,116 @@ void MainWindow::updateGUI()
 
 void MainWindow::updatePlotDrag()
 {
-    QPolygonF points;
+    _ui->plotDrag->detachItems( QwtPlotItem::Rtti_PlotCurve, true );
 
-    for ( int i = -180; i <= 180; i++ )
+    std::vector< double > ad = _doc.getDragAnglesList();
+
+    QVector< double > vx1;
+    QVector< double > vy1;
+
+    QVector< double > vx2;
+    QVector< double > vy2;
+
+    for ( std::vector< double >::iterator it = ad.begin(); it != ad.end(); it++ )
     {
-        double a = (double)i;
-        points << QPointF( a, a*a*a/1.0e6 );
+        double x = (*it);
+        double y = _doc.getCoefDrag( x );
+
+        if ( x == x && y == y )
+        {
+            vx1.push_back( x );
+            vy1.push_back( y );
+        }
     }
 
-    QwtPlotCurve *curve = new QwtPlotCurve( "" );
+    for ( int i = -180; i <=180; i++ )
+    {
+        double x = i;
+        double y = _doc.getCoefDrag( x );
 
-    curve->setSamples( points );
-    curve->setPen( QPen( Qt::black, 2 ) );
+        vx2.push_back( x );
+        vy2.push_back( y );
+    }
 
-    curve->attach( _ui->plotDrag );
+    if ( vx1.length() > 0 && vy1.length() > 0 && vx1.length() == vy1.length() )
+    {
+        QwtPlotCurve *curve = new QwtPlotCurve( "" );
+
+        curve->setSamples( vx1, vy1 );
+        curve->setPen( QPen( Qt::gray, 2 ) );
+
+        curve->attach( _ui->plotDrag );
+    }
+
+    if ( vx2.length() > 0 && vy2.length() > 0 && vx2.length() == vy2.length() )
+    {
+        QwtPlotCurve *curve = new QwtPlotCurve( "" );
+
+        curve->setSamples( vx2, vy2 );
+        curve->setPen( QPen( Qt::black, 2 ) );
+
+        curve->attach( _ui->plotDrag );
+    }
 
     _ui->plotDrag->replot();
-    _ui->plotDrag->setAxisScale( 2, -180.0, 180.0, 30.0 );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
 void MainWindow::updatePlotLift()
 {
-    QPolygonF points;
+    _ui->plotLift->detachItems( QwtPlotItem::Rtti_PlotCurve, true );
 
-    for ( int i = -180; i <= 180; i++ )
+    std::vector< double > al = _doc.getLiftAnglesList();
+
+    QVector< double > vx1;
+    QVector< double > vy1;
+
+    QVector< double > vx2;
+    QVector< double > vy2;
+
+    for ( std::vector< double >::iterator it = al.begin(); it != al.end(); it++ )
     {
-        double a = (double)i;
-        points << QPointF( a, a*a*a/1.0e6 );
+        double x = (*it);
+        double y = _doc.getCoefLift( x );
+
+        if ( x == x && y == y )
+        {
+            vx1.push_back( x );
+            vy1.push_back( y );
+        }
     }
 
-    QwtPlotCurve *curve = new QwtPlotCurve( "" );
+    for ( int i = -180; i <=180; i++ )
+    {
+        double x = i;
+        double y = _doc.getCoefLift( x );
 
-    curve->setSamples( points );
-    curve->setPen( QPen( Qt::black, 2 ) );
+        vx2.push_back( x );
+        vy2.push_back( y );
+    }
 
-    curve->attach( _ui->plotLift );
+    if ( vx1.length() > 0 && vy1.length() > 0 && vx1.length() == vy1.length() )
+    {
+        QwtPlotCurve *curve = new QwtPlotCurve( "" );
+
+        curve->setSamples( vx1, vy1 );
+        curve->setPen( QPen( Qt::gray, 2 ) );
+
+        curve->attach( _ui->plotLift );
+    }
+
+    if ( vx2.length() > 0 && vy2.length() > 0 && vx2.length() == vy2.length() )
+    {
+        QwtPlotCurve *curve = new QwtPlotCurve( "" );
+
+        curve->setSamples( vx2, vy2 );
+        curve->setPen( QPen( Qt::black, 2 ) );
+
+        curve->attach( _ui->plotLift );
+    }
 
     _ui->plotLift->replot();
-    _ui->plotLift->setAxisScale( 2, -180.0, 180.0, 30.0 );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -514,6 +636,35 @@ void MainWindow::on_actionClearRecent_triggered()
     _recentFilesList.clear();
 
     updateRecentFiles();
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void MainWindow::parametersChanged()
+{
+    _doc.setCD_0( _ui->spinBoxCD_0->value() );
+    _doc.setCD_1( _ui->spinBoxCD_1->value() );
+    _doc.setCD_2( _ui->spinBoxCD_2->value() );
+    _doc.setCD_3( _ui->spinBoxCD_3->value() );
+    _doc.setCD_4( _ui->spinBoxCD_4->value() );
+    _doc.setCD_5( _ui->spinBoxCD_5->value() );
+
+    _doc.setAD_1( _ui->spinBoxAD_1->value() );
+    _doc.setAD_2( _ui->spinBoxAD_2->value() );
+    _doc.setAD_3( _ui->spinBoxAD_3->value() );
+    _doc.setAD_4( _ui->spinBoxAD_4->value() );
+
+    _doc.setCL_0( _ui->spinBoxCL_0->value() );
+    _doc.setCL_S( _ui->spinBoxCL_S->value() );
+    _doc.setCL_1( _ui->spinBoxCL_1->value() );
+    _doc.setCL_2( _ui->spinBoxCL_2->value() );
+
+    _doc.setAL_S( _ui->spinBoxAL_S->value() );
+    _doc.setAL_1( _ui->spinBoxAL_1->value() );
+    _doc.setAL_2( _ui->spinBoxAL_2->value() );
+
+    updatePlotDrag();
+    updatePlotLift();
 }
 
 ////////////////////////////////////////////////////////////////////////////////

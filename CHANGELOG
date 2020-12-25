@@ -4,7 +4,9 @@
     
     * FlightGear recorder
     
-    * mscsim-aero and mscsim-mass tools - initial commit
+    * mscsim-mass tool - initial commit
+    
+    * mscsim-aero tool - reading data file, plotting results, parameters modification GUI
 
 
 

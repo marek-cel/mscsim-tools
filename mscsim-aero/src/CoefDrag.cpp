@@ -123,43 +123,29 @@
  *     party to this document and has no duty or obligation with respect to
  *     this CC0 or use of the Work.
  ******************************************************************************/
-#include "CoefDrag.h"
+
+#include <CoefDrag.h>
 
 #include <math.h>
+
+////////////////////////////////////////////////////////////////////////////////
+
+CoefDrag::CoefDrag()
+{
+    set( 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0 );
+}
 
 ////////////////////////////////////////////////////////////////////////////////
 
 CoefDrag::CoefDrag( double cd_0, double cd_1, double cd_2, double cd_3, double cd_4, double cd_5,
                     double ad_1, double ad_2, double ad_3, double ad_4 )
 {
-    _cd_0 = cd_0;
-    _cd_1 = cd_1;
-    _cd_2 = cd_2;
-    _cd_3 = cd_3;
-    _cd_4 = cd_4;
-    _cd_5 = cd_5;
-
-    _ad_1 = ad_1;
-    _ad_2 = ad_2;
-    _ad_3 = ad_3;
-    _ad_4 = ad_4;
-
-    _ad_1_2 = _ad_1 * _ad_1;
-    _ad_2_2 = _ad_2 * _ad_2;
-
-    _div_d1_0 = _ad_1_2 * _ad_2_2;
-    _div_d1_1 = ( _ad_1_2 - _ad_2_2 ) * _ad_1_2;
-    _div_d1_2 = ( _ad_2_2 - _ad_1_2 ) * _ad_2_2;
-
-    _div_d2_2 = ( _ad_2  - _ad_3 )*( _ad_2  - _ad_4 )*( _ad_2  - M_PI_2 );
-    _div_d2_3 = ( _ad_3  - _ad_2 )*( _ad_3  - _ad_4 )*( _ad_3  - M_PI_2 );
-    _div_d2_4 = ( _ad_4  - _ad_2 )*( _ad_4  - _ad_3 )*( _ad_4  - M_PI_2 );
-    _div_d2_5 = ( M_PI_2 - _ad_2 )*( M_PI_2 - _ad_3 )*( M_PI_2 - _ad_4  );
+    set( cd_0, cd_1, cd_2, cd_3, cd_4, cd_5, ad_1, ad_2, ad_3, ad_4 );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
-double CoefDrag::get( double aoa )
+double CoefDrag::get( double aoa ) const
 {
     if ( aoa < -M_PI_2 ) aoa = -M_PI - aoa;
     if ( aoa >  M_PI_2 ) aoa =  M_PI - aoa;
@@ -191,4 +177,34 @@ double CoefDrag::get( double aoa )
     }
 
     return _cd_0;
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void CoefDrag::set( double cd_0, double cd_1, double cd_2, double cd_3, double cd_4, double cd_5,
+                    double ad_1, double ad_2, double ad_3, double ad_4 )
+{
+    _cd_0 = cd_0;
+    _cd_1 = cd_1;
+    _cd_2 = cd_2;
+    _cd_3 = cd_3;
+    _cd_4 = cd_4;
+    _cd_5 = cd_5;
+
+    _ad_1 = ad_1;
+    _ad_2 = ad_2;
+    _ad_3 = ad_3;
+    _ad_4 = ad_4;
+
+    _ad_1_2 = _ad_1 * _ad_1;
+    _ad_2_2 = _ad_2 * _ad_2;
+
+    _div_d1_0 = _ad_1_2 * _ad_2_2;
+    _div_d1_1 = ( _ad_1_2 - _ad_2_2 ) * _ad_1_2;
+    _div_d1_2 = ( _ad_2_2 - _ad_1_2 ) * _ad_2_2;
+
+    _div_d2_2 = ( _ad_2  - _ad_3 )*( _ad_2  - _ad_4 )*( _ad_2  - M_PI_2 );
+    _div_d2_3 = ( _ad_3  - _ad_2 )*( _ad_3  - _ad_4 )*( _ad_3  - M_PI_2 );
+    _div_d2_4 = ( _ad_4  - _ad_2 )*( _ad_4  - _ad_3 )*( _ad_4  - M_PI_2 );
+    _div_d2_5 = ( M_PI_2 - _ad_2 )*( M_PI_2 - _ad_3 )*( M_PI_2 - _ad_4  );
 }

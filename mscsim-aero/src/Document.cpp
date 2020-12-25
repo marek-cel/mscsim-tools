@@ -126,6 +126,10 @@
 
 #include <Document.h>
 
+#include <cmath>
+#include <iostream>
+#include <sstream>
+
 #include <QDomDocument>
 #include <QDomElement>
 #include <QFileInfo>
@@ -158,8 +162,32 @@ void Document::newEmpty()
     _ad_3 = 0.0;
     _ad_4 = 0.0;
 
+    _cl_0 = 0.0;
+    _cl_s = 0.0;
+    _cl_1 = 0.0;
+    _cl_2 = 0.0;
+
+    _al_s = 0.0;
+    _al_1 = 0.0;
+    _al_2 = 0.0;
+
+    std::string a =
+            "-180.0,-150.0,-120.0,-90.0,-60.0,-30.0,"
+            "-25.0,-20.0,-17.0,-14.0,-12.0,"
+            "-10.0,-9.0,-8.0,-7.0,-6.0,-5.0,-4.0,-3.0,-2.0,-1.0,0.0,1.0,2.0,3.0,4.0,5.0,6.0,7.0,8.0,9.0,10.0,"
+            "12.0,14.0,17.0,20.0,25.0,"
+            "30.0,60.0,90.0,120.0,150.0,180.0";
+
+    _drag_angles = a;
+    _lift_angles = a;
+
     _drag_angles_list.clear();
     _lift_angles_list.clear();
+
+    readAnglesList( _drag_angles.c_str(), &_drag_angles_list );
+    readAnglesList( _lift_angles.c_str(), &_lift_angles_list );
+
+    update();
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -206,7 +234,17 @@ bool Document::readFile( const char *fileName )
                 QDomElement nodeAD_3 = dragNode.firstChildElement( "ad_3" );
                 QDomElement nodeAD_4 = dragNode.firstChildElement( "ad_4" );
 
-                QDomElement nodeDragAngleList = dragNode.firstChildElement( "angles_list" );
+                QDomElement nodeCL_0 = liftNode.firstChildElement( "cl_0" );
+                QDomElement nodeCL_S = liftNode.firstChildElement( "cl_s" );
+                QDomElement nodeCL_1 = liftNode.firstChildElement( "cl_1" );
+                QDomElement nodeCL_2 = liftNode.firstChildElement( "cl_2" );
+
+                QDomElement nodeAL_S = liftNode.firstChildElement( "al_s" );
+                QDomElement nodeAL_1 = liftNode.firstChildElement( "al_1" );
+                QDomElement nodeAL_2 = liftNode.firstChildElement( "al_2" );
+
+                QDomElement nodeDragAngles = dragNode.firstChildElement( "angles" );
+                QDomElement nodeLiftAngles = liftNode.firstChildElement( "angles" );
 
                 if ( !nodeCD_0.isNull()
                   && !nodeCD_1.isNull()
@@ -218,7 +256,15 @@ bool Document::readFile( const char *fileName )
                   && !nodeAD_2.isNull()
                   && !nodeAD_3.isNull()
                   && !nodeAD_4.isNull()
-                  && !nodeDragAngleList.isNull() )
+                  && !nodeCL_0.isNull()
+                  && !nodeCL_S.isNull()
+                  && !nodeCL_1.isNull()
+                  && !nodeCL_2.isNull()
+                  && !nodeAL_S.isNull()
+                  && !nodeAL_1.isNull()
+                  && !nodeAL_2.isNull()
+                  && !nodeDragAngles.isNull()
+                  && !nodeLiftAngles.isNull())
                 {
                     _cd_0 = nodeCD_0.text().toDouble();
                     _cd_1 = nodeCD_1.text().toDouble();
@@ -231,6 +277,23 @@ bool Document::readFile( const char *fileName )
                     _ad_2 = nodeAD_2.text().toDouble();
                     _ad_3 = nodeAD_3.text().toDouble();
                     _ad_4 = nodeAD_4.text().toDouble();
+
+                    _cl_0 = nodeCL_0.text().toDouble();
+                    _cl_s = nodeCL_S.text().toDouble();
+                    _cl_1 = nodeCL_1.text().toDouble();
+                    _cl_2 = nodeCL_2.text().toDouble();
+
+                    _al_s = nodeAL_S.text().toDouble();
+                    _al_1 = nodeAL_1.text().toDouble();
+                    _al_2 = nodeAL_2.text().toDouble();
+
+                    _drag_angles = nodeDragAngles.text().toStdString();
+                    _lift_angles = nodeLiftAngles.text().toStdString();
+
+                    readAnglesList( _drag_angles.c_str(), &_drag_angles_list );
+                    readAnglesList( _lift_angles.c_str(), &_lift_angles_list );
+
+                    update();
 
                     status = true;
                 }
@@ -286,9 +349,24 @@ bool Document::saveFile( const char *fileName )
 
 ////////////////////////////////////////////////////////////////////////////////
 
+double Document::getCoefDrag( double angle_deg ) const
+{
+    return _coefDrag.get( M_PI * angle_deg / 180.0 );
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+double Document::getCoefLift( double angle_deg ) const
+{
+    return _coefLift.get( M_PI * angle_deg / 180.0 );
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
 void Document::setCD_0( double cd_0 )
 {
     _cd_0 = cd_0;
+    update();
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -296,6 +374,7 @@ void Document::setCD_0( double cd_0 )
 void Document::setCD_1( double cd_1 )
 {
     _cd_1 = cd_1;
+    update();
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -303,6 +382,7 @@ void Document::setCD_1( double cd_1 )
 void Document::setCD_2( double cd_2 )
 {
     _cd_2 = cd_2;
+    update();
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -310,6 +390,7 @@ void Document::setCD_2( double cd_2 )
 void Document::setCD_3( double cd_3 )
 {
     _cd_3 = cd_3;
+    update();
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -317,6 +398,7 @@ void Document::setCD_3( double cd_3 )
 void Document::setCD_4( double cd_4 )
 {
     _cd_4 = cd_4;
+    update();
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -324,6 +406,7 @@ void Document::setCD_4( double cd_4 )
 void Document::setCD_5( double cd_5 )
 {
     _cd_5 = cd_5;
+    update();
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -331,6 +414,7 @@ void Document::setCD_5( double cd_5 )
 void Document::setAD_1( double ad_1 )
 {
     _ad_1 = ad_1;
+    update();
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -338,6 +422,7 @@ void Document::setAD_1( double ad_1 )
 void Document::setAD_2( double ad_2 )
 {
     _ad_2 = ad_2;
+    update();
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -345,6 +430,7 @@ void Document::setAD_2( double ad_2 )
 void Document::setAD_3( double ad_3 )
 {
     _ad_3 = ad_3;
+    update();
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -352,4 +438,140 @@ void Document::setAD_3( double ad_3 )
 void Document::setAD_4( double ad_4 )
 {
     _ad_4 = ad_4;
+    update();
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void Document::setCL_0( double cl_0 )
+{
+    _cl_0 = cl_0;
+    update();
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void Document::setCL_S( double cl_s )
+{
+    _cl_s = cl_s;
+    update();
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void Document::setCL_1( double cl_1 )
+{
+    _cl_1 = cl_1;
+    update();
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void Document::setCL_2( double cl_2 )
+{
+    _cl_2 = cl_2;
+    update();
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void Document::setAL_S( double al_s )
+{
+    _al_s = al_s;
+    update();
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void Document::setAL_1( double al_1 )
+{
+    _al_1 = al_1;
+    update();
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void Document::setAL_2( double al_2 )
+{
+    _al_2 = al_2;
+    update();
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void Document::setDragAngles( const char *angles )
+{
+    _drag_angles = angles;
+
+    _drag_angles_list.clear();
+
+    readAnglesList( angles, &_drag_angles_list );
+
+    update();
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void Document::setLiftAngles( const char *angles )
+{
+    _lift_angles = angles;
+
+    _lift_angles_list.clear();
+
+    readAnglesList( angles, &_lift_angles_list );
+
+    update();
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void Document::readAnglesList( const char *angles, std::vector< double > *angles_list )
+{
+    unsigned int offset = 0;
+    unsigned int result = 0;
+
+    do
+    {
+        double temp = 0.0;
+
+        unsigned int ch_read = 0;
+
+        if ( offset > 0 )
+        {
+            result = sscanf( angles + offset, ",%lf%n", &temp, &ch_read );
+        }
+        else
+        {
+            result = sscanf( angles + offset,  "%lf%n", &temp, &ch_read );
+        }
+
+        offset += ch_read;
+
+        if ( result == 1 )
+        {
+            //std::cout << temp << std::endl;
+            angles_list->push_back( temp );
+        }
+    }
+    while ( result == 1 );
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void Document::update()
+{
+    double ad_1_rad = M_PI * _ad_1 / 180.0;
+    double ad_2_rad = M_PI * _ad_2 / 180.0;
+    double ad_3_rad = M_PI * _ad_3 / 180.0;
+    double ad_4_rad = M_PI * _ad_4 / 180.0;
+
+    double al_s_rad = M_PI * _al_s / 180.0;
+    double al_1_rad = M_PI * _al_1 / 180.0;
+    double al_2_rad = M_PI * _al_2 / 180.0;
+
+    _coefDrag.set( _cd_0, _cd_1, _cd_2, _cd_3, _cd_4, _cd_5,
+                   ad_1_rad, ad_2_rad, ad_3_rad, ad_4_rad );
+
+    _coefLift.set( _cl_s, _cl_1, _cl_2,
+                   al_s_rad, al_1_rad, al_2_rad );
 }

@@ -217,8 +217,8 @@ private slots:
 
     void on_actionClearRecent_triggered();
 
+    void parametersChanged();
     void recentFile_triggered( int id );
-
 };
 
 ////////////////////////////////////////////////////////////////////////////////

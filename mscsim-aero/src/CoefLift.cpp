@@ -123,35 +123,30 @@
  *     party to this document and has no duty or obligation with respect to
  *     this CC0 or use of the Work.
  ******************************************************************************/
-#include "CoefLift.h"
+
+#include <CoefLift.h>
 
 #include <iostream>
 #include <math.h>
 
 ////////////////////////////////////////////////////////////////////////////////
 
-CoefLift::CoefLift( double cl_s, double cl_1, double cl_2,
-                    double al_s, double al_1, double al_2 )
+CoefLift::CoefLift()
 {
-    _cl_0 = 0.0;
-    _cl_s = cl_s;
-    _cl_1 = cl_1;
-    _cl_2 = cl_2;
-
-    _al_s = al_s;
-    _al_1 = al_1;
-    _al_2 = al_2;
-
-    _dcl_da_s = _cl_s / _al_s;
-    _dcl_da_1 = ( _cl_1 - _cl_s ) / ( _al_1 - _al_s );
-
-    _div_l1_1 = ( _al_1 - _al_2 ) * ( _al_1 - M_PI_2 );
-    _div_l1_2 = ( _al_2 - _al_1 ) * ( _al_2 - M_PI_2 );
+    set( 0.0, 0.0, 0.0, 0.0, 0.0, 0.0 );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
-double CoefLift::get( double aoa )
+CoefLift::CoefLift( double cl_s, double cl_1, double cl_2,
+                    double al_s, double al_1, double al_2 )
+{
+    set( cl_s, cl_1, cl_2, al_s, al_1, al_2 );
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+double CoefLift::get( double aoa ) const
 {
     double coef = ( aoa < -M_PI_2 || aoa > M_PI_2 ) ? -1.0 : 1.0;
 
@@ -186,4 +181,25 @@ double CoefLift::get( double aoa )
     }
 
     return coef * cl;
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void CoefLift::set( double cl_s, double cl_1, double cl_2,
+                    double al_s, double al_1, double al_2 )
+{
+    _cl_0 = 0.0;
+    _cl_s = cl_s;
+    _cl_1 = cl_1;
+    _cl_2 = cl_2;
+
+    _al_s = al_s;
+    _al_1 = al_1;
+    _al_2 = al_2;
+
+    _dcl_da_s = _cl_s / _al_s;
+    _dcl_da_1 = ( _cl_1 - _cl_s ) / ( _al_1 - _al_s );
+
+    _div_l1_1 = ( _al_1 - _al_2 ) * ( _al_1 - M_PI_2 );
+    _div_l1_2 = ( _al_2 - _al_1 ) * ( _al_2 - M_PI_2 );
 }

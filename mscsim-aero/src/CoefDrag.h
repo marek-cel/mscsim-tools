@@ -136,10 +136,15 @@ class CoefDrag
 {
 public:
 
+    CoefDrag();
+
     CoefDrag( double cd_0, double cd_1, double cd_2, double cd_3, double cd_4, double cd_5,
               double ad_1, double ad_2, double ad_3, double ad_4 );
 
-    double get( double aoa );
+    double get( double aoa ) const;
+
+    void set( double cd_0, double cd_1, double cd_2, double cd_3, double cd_4, double cd_5,
+              double ad_1, double ad_2, double ad_3, double ad_4 );
 
 private:
 
