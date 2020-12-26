@@ -217,7 +217,7 @@ bool Document::exportAs( const char *fileName )
         for ( std::vector< double >::iterator it = _drag_angles_list.begin(); it != _drag_angles_list.end(); it++ )
         {
             indent = "       ";
-            sapcer = "   ";
+            sapcer = "    ";
 
             double a_deg = *it;
             double a_rad = M_PI * a_deg / 180.0;
@@ -225,7 +225,6 @@ bool Document::exportAs( const char *fileName )
 
             if ( a_deg > -100.0 ) indent += " ";
             if ( a_deg < 100.0 && a_deg > -10.0 ) indent += " ";
-            if ( cx >= 0.0 ) sapcer += " ";
 
             fprintf( file, "%s%4.1f%s%8.4f\n", indent.c_str(), a_deg, sapcer.c_str(), cx );
         }
@@ -243,7 +242,6 @@ bool Document::exportAs( const char *fileName )
 
             if ( a_deg > -100.0 ) indent += " ";
             if ( a_deg < 100.0 && a_deg > -10.0 ) indent += " ";
-            //if ( cz >= 0.0 ) sapcer += " ";
 
             fprintf( file, "%s%4.1f%s%8.3f\n", indent.c_str(), a_deg, sapcer.c_str(), cz );
         }

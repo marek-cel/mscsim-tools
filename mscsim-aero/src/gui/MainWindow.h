@@ -224,6 +224,9 @@ private slots:
 
     void on_actionClearRecent_triggered();
 
+    void on_actionAbout_triggered();
+    void on_actionShowNASATM102267_triggered();
+
     void on_listDragAngles_currentRowChanged( int currentRow );
     void on_listLiftAngles_currentRowChanged( int currentRow );
 

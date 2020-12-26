@@ -130,11 +130,14 @@
 #include <iostream>
 
 #include <QCloseEvent>
+#include <QDesktopServices>
 #include <QFileDialog>
 #include <QMessageBox>
 
-#include <qwt/qwt_plot_curve.h>
-#include <qwt/qwt_scale_engine.h>
+#include <qwt_plot_curve.h>
+#include <qwt_plot_marker.h>
+#include <qwt_scale_engine.h>
+#include <qwt_symbol.h>
 
 #include <gui/DialogAddAngle.h>
 
@@ -156,6 +159,9 @@ MainWindow::MainWindow( QWidget *parent ) :
 
     _scSave   = new QShortcut( QKeySequence(Qt::CTRL + Qt::Key_S), this, SLOT(on_actionSave_triggered())   );
     _scExport = new QShortcut( QKeySequence(Qt::CTRL + Qt::Key_E), this, SLOT(on_actionExport_triggered()) );
+
+    _ui->labelCL_0->hide();
+    _ui->spinBoxCL_0->hide();
 
     _ui->plotDrag->setAxisTitle( 0, tr( "Drag Coefficient [-]" ) ) ;
     _ui->plotDrag->setAxisTitle( 2, tr( "Angle of Attack [deg]" ) ) ;
@@ -482,15 +488,13 @@ void MainWindow::updateGUI()
 
 void MainWindow::updatePlotDrag()
 {
-    _ui->plotDrag->detachItems( QwtPlotItem::Rtti_PlotCurve, true );
+    _ui->plotDrag->detachItems( QwtPlotItem::Rtti_PlotCurve  , true );
+    _ui->plotDrag->detachItems( QwtPlotItem::Rtti_PlotMarker , true );
 
     std::vector< double > ad = _doc.getDragAnglesList();
 
     QVector< double > vx1;
     QVector< double > vy1;
-
-    QVector< double > vx2;
-    QVector< double > vy2;
 
     for ( std::vector< double >::iterator it = ad.begin(); it != ad.end(); it++ )
     {
@@ -504,15 +508,6 @@ void MainWindow::updatePlotDrag()
         }
     }
 
-    for ( int i = -180; i <=180; i++ )
-    {
-        double x = i;
-        double y = _doc.getCoefDrag( x );
-
-        vx2.push_back( x );
-        vy2.push_back( y );
-    }
-
     if ( vx1.length() > 0 && vy1.length() > 0 && vx1.length() == vy1.length() )
     {
         QwtPlotCurve *curve = new QwtPlotCurve( "" );
@@ -521,6 +516,18 @@ void MainWindow::updatePlotDrag()
         curve->setPen( QPen( Qt::gray, 2 ) );
 
         curve->attach( _ui->plotDrag );
+    }
+
+    QVector< double > vx2;
+    QVector< double > vy2;
+
+    for ( int i = -180; i <=180; i++ )
+    {
+        double x = i;
+        double y = _doc.getCoefDrag( x );
+
+        vx2.push_back( x );
+        vy2.push_back( y );
     }
 
     if ( vx2.length() > 0 && vy2.length() > 0 && vx2.length() == vy2.length() )
@@ -533,6 +540,51 @@ void MainWindow::updatePlotDrag()
         curve->attach( _ui->plotDrag );
     }
 
+    if ( vx1.length() > 0 && vy1.length() > 0 && vx1.length() == vy1.length() )
+    {
+        QwtPlotMarker *m0 = new QwtPlotMarker();
+        QwtPlotMarker *m1 = new QwtPlotMarker();
+        QwtPlotMarker *m2 = new QwtPlotMarker();
+        QwtPlotMarker *m3 = new QwtPlotMarker();
+        QwtPlotMarker *m4 = new QwtPlotMarker();
+        QwtPlotMarker *m5 = new QwtPlotMarker();
+
+        m0->setSymbol( new QwtSymbol( QwtSymbol::Diamond, Qt::red, Qt::NoPen, QSize( 6, 6 ) ) );
+        m1->setSymbol( new QwtSymbol( QwtSymbol::Diamond, Qt::red, Qt::NoPen, QSize( 6, 6 ) ) );
+        m2->setSymbol( new QwtSymbol( QwtSymbol::Diamond, Qt::red, Qt::NoPen, QSize( 6, 6 ) ) );
+        m3->setSymbol( new QwtSymbol( QwtSymbol::Diamond, Qt::red, Qt::NoPen, QSize( 6, 6 ) ) );
+        m4->setSymbol( new QwtSymbol( QwtSymbol::Diamond, Qt::red, Qt::NoPen, QSize( 6, 6 ) ) );
+        m5->setSymbol( new QwtSymbol( QwtSymbol::Diamond, Qt::red, Qt::NoPen, QSize( 6, 6 ) ) );
+
+        m0->setLabel( QwtText( "CD_0" ) );
+        m1->setLabel( QwtText( "CD_1" ) );
+        m2->setLabel( QwtText( "CD_2" ) );
+        m3->setLabel( QwtText( "CD_3" ) );
+        m4->setLabel( QwtText( "CD_4" ) );
+        m5->setLabel( QwtText( "CD_5" ) );
+
+        m0->setLabelAlignment( Qt::AlignLeft  | Qt::AlignVCenter );
+        m1->setLabelAlignment( Qt::AlignRight | Qt::AlignVCenter );
+        m2->setLabelAlignment( Qt::AlignRight | Qt::AlignVCenter );
+        m3->setLabelAlignment( Qt::AlignRight | Qt::AlignVCenter );
+        m4->setLabelAlignment( Qt::AlignRight | Qt::AlignVCenter );
+        m5->setLabelAlignment( Qt::AlignRight | Qt::AlignVCenter );
+
+        m0->setValue( QPointF(            0.0, _doc.getCD_0() ) );
+        m1->setValue( QPointF( _doc.getAD_1(), _doc.getCD_1() ) );
+        m2->setValue( QPointF( _doc.getAD_2(), _doc.getCD_2() ) );
+        m3->setValue( QPointF( _doc.getAD_3(), _doc.getCD_3() ) );
+        m4->setValue( QPointF( _doc.getAD_4(), _doc.getCD_4() ) );
+        m5->setValue( QPointF(           90.0, _doc.getCD_5() ) );
+
+        m0->attach( _ui->plotDrag );
+        m1->attach( _ui->plotDrag );
+        m2->attach( _ui->plotDrag );
+        m3->attach( _ui->plotDrag );
+        m4->attach( _ui->plotDrag );
+        m5->attach( _ui->plotDrag );
+    }
+
     _ui->plotDrag->replot();
 }
 
@@ -540,15 +592,13 @@ void MainWindow::updatePlotDrag()
 
 void MainWindow::updatePlotLift()
 {
-    _ui->plotLift->detachItems( QwtPlotItem::Rtti_PlotCurve, true );
+    _ui->plotLift->detachItems( QwtPlotItem::Rtti_PlotCurve  , true );
+    _ui->plotLift->detachItems( QwtPlotItem::Rtti_PlotMarker , true );
 
     std::vector< double > al = _doc.getLiftAnglesList();
 
     QVector< double > vx1;
     QVector< double > vy1;
-
-    QVector< double > vx2;
-    QVector< double > vy2;
 
     for ( std::vector< double >::iterator it = al.begin(); it != al.end(); it++ )
     {
@@ -562,15 +612,6 @@ void MainWindow::updatePlotLift()
         }
     }
 
-    for ( int i = -180; i <=180; i++ )
-    {
-        double x = i;
-        double y = _doc.getCoefLift( x );
-
-        vx2.push_back( x );
-        vy2.push_back( y );
-    }
-
     if ( vx1.length() > 0 && vy1.length() > 0 && vx1.length() == vy1.length() )
     {
         QwtPlotCurve *curve = new QwtPlotCurve( "" );
@@ -581,6 +622,18 @@ void MainWindow::updatePlotLift()
         curve->attach( _ui->plotLift );
     }
 
+    QVector< double > vx2;
+    QVector< double > vy2;
+
+    for ( int i = -180; i <=180; i++ )
+    {
+        double x = i;
+        double y = _doc.getCoefLift( x );
+
+        vx2.push_back( x );
+        vy2.push_back( y );
+    }
+
     if ( vx2.length() > 0 && vy2.length() > 0 && vx2.length() == vy2.length() )
     {
         QwtPlotCurve *curve = new QwtPlotCurve( "" );
@@ -589,6 +642,33 @@ void MainWindow::updatePlotLift()
         curve->setPen( QPen( Qt::black, 2 ) );
 
         curve->attach( _ui->plotLift );
+    }
+
+    if ( vx1.length() > 0 && vy1.length() > 0 && vx1.length() == vy1.length() )
+    {
+        QwtPlotMarker *ms = new QwtPlotMarker();
+        QwtPlotMarker *m1 = new QwtPlotMarker();
+        QwtPlotMarker *m2 = new QwtPlotMarker();
+
+        ms->setSymbol( new QwtSymbol( QwtSymbol::Diamond, Qt::red, Qt::NoPen, QSize( 6, 6 ) ) );
+        m1->setSymbol( new QwtSymbol( QwtSymbol::Diamond, Qt::red, Qt::NoPen, QSize( 6, 6 ) ) );
+        m2->setSymbol( new QwtSymbol( QwtSymbol::Diamond, Qt::red, Qt::NoPen, QSize( 6, 6 ) ) );
+
+        ms->setLabel( QwtText( "CL_S" ) );
+        m1->setLabel( QwtText( "CL_1" ) );
+        m2->setLabel( QwtText( "CL_2" ) );
+
+        ms->setLabelAlignment( Qt::AlignLeft  | Qt::AlignVCenter );
+        m1->setLabelAlignment( Qt::AlignRight | Qt::AlignVCenter );
+        m2->setLabelAlignment( Qt::AlignRight | Qt::AlignVCenter );
+
+        ms->setValue( QPointF( _doc.getAL_S(), _doc.getCL_S() ) );
+        m1->setValue( QPointF( _doc.getAL_1(), _doc.getCL_1() ) );
+        m2->setValue( QPointF( _doc.getAL_2(), _doc.getCL_2() ) );
+
+        ms->attach( _ui->plotLift );
+        m1->attach( _ui->plotLift );
+        m2->attach( _ui->plotLift );
     }
 
     _ui->plotLift->replot();
@@ -678,6 +758,33 @@ void MainWindow::on_actionClearRecent_triggered()
     _recentFilesList.clear();
 
     updateRecentFiles();
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void MainWindow::on_actionAbout_triggered()
+{
+    QFile aboutHtmlFile( ":/gui/html/about.html" );
+
+    QString aboutWinTitle;
+    QString aboutInfoText;
+
+    aboutWinTitle = tr( "About" );
+
+    if ( aboutHtmlFile.open( QIODevice::ReadOnly ) )
+    {
+        aboutInfoText = aboutHtmlFile.readAll();
+        aboutHtmlFile.close();
+    }
+
+    QMessageBox::about( this, aboutWinTitle, aboutInfoText );
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void MainWindow::on_actionShowNASATM102267_triggered()
+{
+    QDesktopServices::openUrl( QUrl( "https://ntrs.nasa.gov/api/citations/19910009728/downloads/19910009728.pdf#page=77" ) );
 }
 
 ////////////////////////////////////////////////////////////////////////////////

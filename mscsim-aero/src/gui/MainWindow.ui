@@ -306,7 +306,7 @@
             </widget>
            </item>
            <item row="7" column="0" colspan="4">
-            <spacer name="verticalSpacer">
+            <spacer name="verticalSpacer_CD">
              <property name="orientation">
               <enum>Qt::Vertical</enum>
              </property>
@@ -339,7 +339,10 @@
          <widget class="QWidget" name="widgetLift" native="true">
           <layout class="QGridLayout" name="gridLayout_6">
            <item row="1" column="2">
-            <widget class="QLabel" name="label">
+            <widget class="QLabel" name="labelCL_0">
+             <property name="enabled">
+              <bool>false</bool>
+             </property>
              <property name="text">
               <string>CL_0</string>
              </property>
@@ -378,7 +381,7 @@
             </widget>
            </item>
            <item row="2" column="0">
-            <widget class="QLabel" name="label_2">
+            <widget class="QLabel" name="labelAL_S">
              <property name="text">
               <string>AL_S</string>
              </property>
@@ -391,7 +394,7 @@
             </widget>
            </item>
            <item row="3" column="0">
-            <widget class="QLabel" name="label_4">
+            <widget class="QLabel" name="labelAL_1">
              <property name="text">
               <string>AL_1</string>
              </property>
@@ -417,7 +420,7 @@
             </widget>
            </item>
            <item row="4" column="2">
-            <widget class="QLabel" name="label_7">
+            <widget class="QLabel" name="labelCL_2">
              <property name="text">
               <string>CL_2</string>
              </property>
@@ -430,7 +433,7 @@
             </widget>
            </item>
            <item row="3" column="2">
-            <widget class="QLabel" name="label_6">
+            <widget class="QLabel" name="labelCL_1">
              <property name="text">
               <string>CL_1</string>
              </property>
@@ -498,7 +501,7 @@
             </widget>
            </item>
            <item row="2" column="2">
-            <widget class="QLabel" name="label_3">
+            <widget class="QLabel" name="labelCL_S">
              <property name="text">
               <string>CL_S</string>
              </property>
@@ -511,7 +514,7 @@
             </widget>
            </item>
            <item row="4" column="0">
-            <widget class="QLabel" name="label_5">
+            <widget class="QLabel" name="labelAL_2">
              <property name="text">
               <string>AL_2</string>
              </property>
@@ -525,6 +528,9 @@
            </item>
            <item row="1" column="3">
             <widget class="QDoubleSpinBox" name="spinBoxCL_0">
+             <property name="enabled">
+              <bool>false</bool>
+             </property>
              <property name="alignment">
               <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
              </property>
@@ -550,7 +556,7 @@
             </widget>
            </item>
            <item row="5" column="0" colspan="4">
-            <spacer name="verticalSpacer_2">
+            <spacer name="verticalSpacer_CL">
              <property name="orientation">
               <enum>Qt::Vertical</enum>
              </property>
@@ -612,9 +618,16 @@
     <addaction name="separator"/>
     <addaction name="actionExit"/>
    </widget>
+   <widget class="QMenu" name="menuHelp">
+    <property name="title">
+     <string>Help</string>
+    </property>
+    <addaction name="actionAbout"/>
+    <addaction name="actionShowNASATM102267"/>
+   </widget>
    <addaction name="menuFile"/>
+   <addaction name="menuHelp"/>
   </widget>
-  <widget class="QStatusBar" name="statusBar"/>
   <action name="actionNew">
    <property name="text">
     <string>New</string>
@@ -648,6 +661,16 @@
   <action name="actionExit">
    <property name="text">
     <string>Exit</string>
+   </property>
+  </action>
+  <action name="actionShowNASATM102267">
+   <property name="text">
+    <string>Show NASA-TM-102267</string>
+   </property>
+  </action>
+  <action name="actionAbout">
+   <property name="text">
+    <string>About</string>
    </property>
   </action>
  </widget>
