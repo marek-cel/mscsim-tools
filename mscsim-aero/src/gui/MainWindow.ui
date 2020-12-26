@@ -359,6 +359,9 @@
              <property name="decimals">
               <number>3</number>
              </property>
+             <property name="minimum">
+              <double>-99.989999999999995</double>
+             </property>
             </widget>
            </item>
            <item row="2" column="1">
@@ -407,6 +410,9 @@
              </property>
              <property name="decimals">
               <number>3</number>
+             </property>
+             <property name="minimum">
+              <double>-99.989999999999995</double>
              </property>
             </widget>
            </item>
@@ -525,6 +531,9 @@
              <property name="decimals">
               <number>3</number>
              </property>
+             <property name="minimum">
+              <double>-99.989999999999995</double>
+             </property>
             </widget>
            </item>
            <item row="4" column="3">
@@ -534,6 +543,9 @@
              </property>
              <property name="decimals">
               <number>3</number>
+             </property>
+             <property name="minimum">
+              <double>-99.989999999999995</double>
              </property>
             </widget>
            </item>
