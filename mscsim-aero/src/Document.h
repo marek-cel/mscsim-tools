@@ -131,6 +131,9 @@
 #include <string>
 #include <vector>
 
+#include <QDomDocument>
+#include <QDomElement>
+
 #include <defs.h>
 
 #include <CoefDrag.h>
@@ -144,6 +147,9 @@
 class Document
 {
 public:
+
+    static void saveTextNode( QDomDocument *doc, QDomElement *parent,
+                              const char *tag_name, const char *text );
 
     /**
      * @brief Constructor.
@@ -220,6 +226,9 @@ public:
 
     void setDragAngles( const char *angles );
     void setLiftAngles( const char *angles );
+
+    void setDragAnglesList( const std::vector< double > &list );
+    void setLiftAnglesList( const std::vector< double > &list );
 
 private:
 

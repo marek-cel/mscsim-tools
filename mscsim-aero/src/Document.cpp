@@ -130,10 +130,20 @@
 #include <iostream>
 #include <sstream>
 
-#include <QDomDocument>
-#include <QDomElement>
 #include <QFileInfo>
 #include <QTextStream>
+
+////////////////////////////////////////////////////////////////////////////////
+
+void Document::saveTextNode( QDomDocument *doc, QDomElement *parent,
+                             const char *tag_name, const char *text )
+{
+    QDomElement node = doc->createElement( tag_name );
+    parent->appendChild( node );
+
+    QDomNode textNode = doc->createTextNode( text );
+    node.appendChild( textNode );
+}
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -194,6 +204,54 @@ void Document::newEmpty()
 
 bool Document::exportAs( const char *fileName )
 {
+    FILE *file = fopen( fileName, "w" );
+
+    if ( file )
+    {
+        std::string indent = "";
+        std::string sapcer = "";
+
+        fprintf( file, "drag coef:\n" );
+        for ( std::vector< double >::iterator it = _drag_angles_list.begin(); it != _drag_angles_list.end(); it++ )
+        {
+            indent = "       ";
+            sapcer = "   ";
+
+            double a_deg = *it;
+            double a_rad = M_PI * a_deg / 180.0;
+            double cx = _coefDrag.get( a_rad );
+
+            if ( a_deg > -100.0 ) indent += " ";
+            if ( a_deg < 100.0 && a_deg > -10.0 ) indent += " ";
+            if ( cx >= 0.0 ) sapcer += " ";
+
+            fprintf( file, "%s%4.1f%s%8.4f\n", indent.c_str(), a_deg, sapcer.c_str(), cx );
+        }
+        fprintf( file, "\n" );
+
+        fprintf( file, "lift coef:\n" );
+        for ( std::vector< double >::iterator it = _lift_angles_list.begin(); it != _lift_angles_list.end(); it++ )
+        {
+            indent = "       ";
+            sapcer = "   ";
+
+            double a_deg = *it;
+            double a_rad = M_PI * a_deg / 180.0;
+            double cz = _coefLift.get( a_rad );
+
+            if ( a_deg > -100.0 ) indent += " ";
+            if ( a_deg < 100.0 && a_deg > -10.0 ) indent += " ";
+            //if ( cz >= 0.0 ) sapcer += " ";
+
+            fprintf( file, "%s%4.1f%s%8.3f\n", indent.c_str(), a_deg, sapcer.c_str(), cz );
+        }
+        fprintf( file, "\n" );
+
+        fclose( file );
+
+        return true;
+    }
+
     return false;
 }
 
@@ -335,7 +393,34 @@ bool Document::saveFile( const char *fileName )
 
         // drag
         QDomElement dragNode = doc.createElement( "drag" );
+        QDomElement liftNode = doc.createElement( "lift" );
+
         rootNode.appendChild( dragNode );
+        rootNode.appendChild( liftNode );
+
+        saveTextNode( &doc, &dragNode, "cd_0", QString::number( _cd_0, 'f', 4 ).toStdString().c_str() );
+        saveTextNode( &doc, &dragNode, "cd_1", QString::number( _cd_1, 'f', 4 ).toStdString().c_str() );
+        saveTextNode( &doc, &dragNode, "cd_2", QString::number( _cd_2, 'f', 4 ).toStdString().c_str() );
+        saveTextNode( &doc, &dragNode, "cd_3", QString::number( _cd_3, 'f', 4 ).toStdString().c_str() );
+        saveTextNode( &doc, &dragNode, "cd_4", QString::number( _cd_4, 'f', 4 ).toStdString().c_str() );
+        saveTextNode( &doc, &dragNode, "cd_5", QString::number( _cd_5, 'f', 4 ).toStdString().c_str() );
+
+        saveTextNode( &doc, &dragNode, "ad_1", QString::number( _ad_1, 'f', 1 ).toStdString().c_str() );
+        saveTextNode( &doc, &dragNode, "ad_2", QString::number( _ad_2, 'f', 1 ).toStdString().c_str() );
+        saveTextNode( &doc, &dragNode, "ad_3", QString::number( _ad_3, 'f', 1 ).toStdString().c_str() );
+        saveTextNode( &doc, &dragNode, "ad_4", QString::number( _ad_4, 'f', 1 ).toStdString().c_str() );
+
+        saveTextNode( &doc, &liftNode, "cl_0", QString::number( _cl_0, 'f', 3 ).toStdString().c_str() );
+        saveTextNode( &doc, &liftNode, "cl_s", QString::number( _cl_s, 'f', 3 ).toStdString().c_str() );
+        saveTextNode( &doc, &liftNode, "cl_1", QString::number( _cl_1, 'f', 3 ).toStdString().c_str() );
+        saveTextNode( &doc, &liftNode, "cl_2", QString::number( _cl_2, 'f', 3 ).toStdString().c_str() );
+
+        saveTextNode( &doc, &liftNode, "al_s", QString::number( _al_s, 'f', 1 ).toStdString().c_str() );
+        saveTextNode( &doc, &liftNode, "al_1", QString::number( _al_1, 'f', 1 ).toStdString().c_str() );
+        saveTextNode( &doc, &liftNode, "al_2", QString::number( _al_2, 'f', 1 ).toStdString().c_str() );
+
+        saveTextNode( &doc, &dragNode, "angles", _drag_angles.c_str() );
+        saveTextNode( &doc, &liftNode, "angles", _lift_angles.c_str() );
 
         out << doc.toString();
 
@@ -525,8 +610,50 @@ void Document::setLiftAngles( const char *angles )
 
 ////////////////////////////////////////////////////////////////////////////////
 
+void Document::setDragAnglesList( const std::vector< double > &list )
+{
+    _drag_angles_list.clear();
+    _drag_angles_list = list;
+
+    _drag_angles = "";
+
+    for ( unsigned int i = 0; i < _drag_angles_list.size(); i++ )
+    {
+        if ( i > 0 ) _drag_angles += ",";
+
+        char temp[10];
+        sprintf( temp, "%.1f", _drag_angles_list[ i ] );
+
+        _drag_angles += temp;
+    }
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void Document::setLiftAnglesList( const std::vector< double > &list )
+{
+    _lift_angles_list.clear();
+    _lift_angles_list = list;
+
+    _lift_angles = "";
+
+    for ( unsigned int i = 0; i < _lift_angles_list.size(); i++ )
+    {
+        if ( i > 0 ) _lift_angles += ",";
+
+        char temp[10];
+        sprintf( temp, "%.1f", _lift_angles_list[ i ] );
+
+        _lift_angles += temp;
+    }
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
 void Document::readAnglesList( const char *angles, std::vector< double > *angles_list )
 {
+    angles_list->clear();
+
     unsigned int offset = 0;
     unsigned int result = 0;
 

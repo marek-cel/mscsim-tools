@@ -136,15 +136,26 @@
 #include <qwt/qwt_plot_curve.h>
 #include <qwt/qwt_scale_engine.h>
 
+#include <gui/DialogAddAngle.h>
+
 ////////////////////////////////////////////////////////////////////////////////
 
 MainWindow::MainWindow( QWidget *parent ) :
     QMainWindow ( parent ),
     _ui ( new Ui::MainWindow ),
 
+    _scSave   ( NULLPTR ),
+    _scExport ( NULLPTR ),
+
+    _currentDragAngleIndex ( -1 ),
+    _currentLiftAngleIndex ( -1 ),
+
     _saved ( true )
 {
     _ui->setupUi( this );
+
+    _scSave   = new QShortcut( QKeySequence(Qt::CTRL + Qt::Key_S), this, SLOT(on_actionSave_triggered())   );
+    _scExport = new QShortcut( QKeySequence(Qt::CTRL + Qt::Key_E), this, SLOT(on_actionExport_triggered()) );
 
     _ui->plotDrag->setAxisTitle( 0, tr( "Drag Coefficient [-]" ) ) ;
     _ui->plotDrag->setAxisTitle( 2, tr( "Angle of Attack [deg]" ) ) ;
@@ -185,6 +196,9 @@ MainWindow::MainWindow( QWidget *parent ) :
 MainWindow::~MainWindow()
 {
     settingsSave();
+
+    DELPTR( _scSave   );
+    DELPTR( _scExport );
 
     DELPTR( _ui );
 }
@@ -295,7 +309,24 @@ void MainWindow::saveFileAs()
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void MainWindow::exportFileAs() {}
+void MainWindow::exportFileAs()
+{
+    QString fileName = "";
+
+    QString caption = "Export as...";
+    QString dir = ( fileName.length() > 0 ) ? QFileInfo( fileName ).absolutePath() : ".";
+    QString filter;
+    QString selectedFilter;
+
+    filter += selectedFilter = "DAT (*.dat)";
+
+    fileName = QFileDialog::getSaveFileName( this, caption, dir, filter, &selectedFilter );
+
+    if ( fileName.length() > 0 )
+    {
+        exportAs( fileName );
+    }
+}
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -434,6 +465,17 @@ void MainWindow::updateGUI()
 
     updatePlotDrag();
     updatePlotLift();
+
+    QString title = tr( APP_TITLE );
+
+    if ( _currentFile.length() > 0 )
+    {
+        title += " - " + QFileInfo( _currentFile ).fileName();
+    }
+
+    if ( !_saved ) title += " (*)";
+
+    setWindowTitle( title );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -640,8 +682,167 @@ void MainWindow::on_actionClearRecent_triggered()
 
 ////////////////////////////////////////////////////////////////////////////////
 
+void MainWindow::on_listDragAngles_currentRowChanged( int currentRow )
+{
+    if ( currentRow >= 0 && currentRow < (int)_doc.getDragAnglesList().size() )
+    {
+        _ui->pushButtonDragDel->setEnabled( true );
+        _currentDragAngleIndex = currentRow;
+    }
+    else
+    {
+        _ui->pushButtonDragDel->setEnabled( false );
+        _currentDragAngleIndex = -1;
+    }
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void MainWindow::on_listLiftAngles_currentRowChanged( int currentRow )
+{
+    if ( currentRow >= 0 && currentRow < (int)_doc.getLiftAnglesList().size() )
+    {
+        _ui->pushButtonLiftDel->setEnabled( true );
+        _currentLiftAngleIndex = currentRow;
+    }
+    else
+    {
+        _ui->pushButtonLiftDel->setEnabled( false );
+        _currentLiftAngleIndex = -1;
+    }
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void MainWindow::on_pushButtonDragDel_clicked()
+{
+    if ( _currentDragAngleIndex >= 0 && _currentDragAngleIndex < (int)_doc.getDragAnglesList().size() )
+    {
+        std::vector< double > list = _doc.getDragAnglesList();
+
+        list.erase( list.begin() + _currentDragAngleIndex );
+        _doc.setDragAnglesList( list );
+
+        _saved = false;
+
+        updateGUI();
+    }
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void MainWindow::on_pushButtonLiftDel_clicked()
+{
+    if ( _currentLiftAngleIndex >= 0 && _currentLiftAngleIndex < (int)_doc.getLiftAnglesList().size() )
+    {
+        std::vector< double > list = _doc.getLiftAnglesList();
+
+        list.erase( list.begin() + _currentLiftAngleIndex );
+        _doc.setLiftAnglesList( list );
+
+        _saved = false;
+
+        updateGUI();
+    }
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void MainWindow::on_pushButtonDragAdd_clicked()
+{
+    DialogAddAngle *dialog = new DialogAddAngle( this );
+
+    if ( dialog->exec() == QDialog::Accepted )
+    {
+        double angle = dialog->getAngle();
+
+        std::vector< double > list = _doc.getDragAnglesList();
+
+        bool inserted = false;
+
+        for ( std::vector< double >::iterator it = list.begin(); it != list.end(); it++ )
+        {
+            if ( angle < *it )
+            {
+                list.insert( it, angle );
+                inserted = true;
+                break;
+            }
+        }
+
+        if ( !inserted ) list.push_back( angle );
+
+        _doc.setDragAnglesList( list );
+
+        _saved = false;
+
+        updateGUI();
+    }
+
+    DELPTR( dialog );
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void MainWindow::on_pushButtonLiftAdd_clicked()
+{
+    DialogAddAngle *dialog = new DialogAddAngle( this );
+
+    if ( dialog->exec() == QDialog::Accepted )
+    {
+        double angle = dialog->getAngle();
+
+        std::vector< double > list = _doc.getLiftAnglesList();
+
+        bool inserted = false;
+
+        for ( std::vector< double >::iterator it = list.begin(); it != list.end(); it++ )
+        {
+            if ( angle < *it )
+            {
+                list.insert( it, angle );
+                inserted = true;
+                break;
+            }
+        }
+
+        if ( !inserted ) list.push_back( angle );
+
+        _doc.setLiftAnglesList( list );
+
+        _saved = false;
+
+        updateGUI();
+    }
+
+    DELPTR( dialog );
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
 void MainWindow::parametersChanged()
 {
+    if ( _doc.getCD_0() != _ui->spinBoxCD_0->value()
+      || _doc.getCD_1() != _ui->spinBoxCD_1->value()
+      || _doc.getCD_2() != _ui->spinBoxCD_2->value()
+      || _doc.getCD_3() != _ui->spinBoxCD_3->value()
+      || _doc.getCD_4() != _ui->spinBoxCD_4->value()
+      || _doc.getCD_5() != _ui->spinBoxCD_5->value()
+      || _doc.getAD_1() != _ui->spinBoxAD_1->value()
+      || _doc.getAD_2() != _ui->spinBoxAD_2->value()
+      || _doc.getAD_3() != _ui->spinBoxAD_3->value()
+      || _doc.getAD_4() != _ui->spinBoxAD_4->value()
+      || _doc.getCL_0() != _ui->spinBoxCL_0->value()
+      || _doc.getCL_S() != _ui->spinBoxCL_S->value()
+      || _doc.getCL_1() != _ui->spinBoxCL_1->value()
+      || _doc.getCL_2() != _ui->spinBoxCL_2->value()
+      || _doc.getAL_S() != _ui->spinBoxAL_S->value()
+      || _doc.getAL_1() != _ui->spinBoxAL_1->value()
+      || _doc.getAL_2() != _ui->spinBoxAL_2->value() )
+    {
+        _saved = false;
+    }
+
     _doc.setCD_0( _ui->spinBoxCD_0->value() );
     _doc.setCD_1( _ui->spinBoxCD_1->value() );
     _doc.setCD_2( _ui->spinBoxCD_2->value() );
@@ -663,8 +864,7 @@ void MainWindow::parametersChanged()
     _doc.setAL_1( _ui->spinBoxAL_1->value() );
     _doc.setAL_2( _ui->spinBoxAL_2->value() );
 
-    updatePlotDrag();
-    updatePlotLift();
+    updateGUI();
 }
 
 ////////////////////////////////////////////////////////////////////////////////

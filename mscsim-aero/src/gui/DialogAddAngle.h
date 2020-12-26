@@ -123,120 +123,41 @@
  *     party to this document and has no duty or obligation with respect to
  *     this CC0 or use of the Work.
  ******************************************************************************/
-#ifndef MAINWINDOW_H
-#define MAINWINDOW_H
+#ifndef DIALOGADDANGLE_H
+#define DIALOGADDANGLE_H
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#include <QMainWindow>
-#include <QSettings>
-#include <QShortcut>
+#include <QDialog>
 
 #include <defs.h>
-
-#include <Document.h>
-
-#include <gui/RecentFileAction.h>
 
 ////////////////////////////////////////////////////////////////////////////////
 
 namespace Ui
 {
-    class MainWindow;
+    class DialogAddAngle;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
-/**
- * @brief Main window class.
- */
-class MainWindow : public QMainWindow
+class DialogAddAngle : public QDialog
 {
     Q_OBJECT
 
 public:
 
-    typedef std::vector< RecentFileAction* > RecentFilesActions;
+    DialogAddAngle( QWidget *parent = NULLPTR );
 
-    /** @brief Constructor. */
-    explicit MainWindow( QWidget *parent = NULLPTR );
+    ~DialogAddAngle();
 
-    /** @brief Destructor. */
-    virtual ~MainWindow();
-
-protected:
-
-    /** */
-    void closeEvent( QCloseEvent *event );
+    double getAngle() const;
 
 private:
 
-    Ui::MainWindow *_ui;                    ///< UI object
-
-    QShortcut *_scSave;                     ///< key shortcut - save
-    QShortcut *_scExport;                   ///< key shortcut - export
-
-    Document _doc;                          ///< document object
-
-    QString _currentFile;                   ///< current file name
-
-    QStringList _recentFilesList;           ///< recent files list
-    RecentFilesActions _recentFilesActions; ///< recent fiels actions objects
-
-    int _currentDragAngleIndex;             ///<
-    int _currentLiftAngleIndex;             ///<
-
-    bool _saved;                            ///< specifies if document is saved
-
-    void askIfSave();
-
-    void newFile();
-    void openFile();
-    void saveFile();
-    void saveFileAs();
-    void exportFileAs();
-
-    void readFile( QString fileName );
-    void saveFile( QString fileName );
-    void exportAs( QString fileName );
-
-    void settingsRead();
-    void settingsRead_RecentFiles( QSettings &settings );
-
-    void settingsSave();
-    void settingsSave_RecentFiles( QSettings &settings );
-
-    void updateGUI();
-
-    void updatePlotDrag();
-    void updatePlotLift();
-
-    void updateRecentFiles( QString file = "" );
-
-private slots:
-
-    void on_actionNew_triggered();
-    void on_actionOpen_triggered();
-    void on_actionSave_triggered();
-    void on_actionSaveAs_triggered();
-    void on_actionExport_triggered();
-    void on_actionExit_triggered();
-
-    void on_actionClearRecent_triggered();
-
-    void on_listDragAngles_currentRowChanged( int currentRow );
-    void on_listLiftAngles_currentRowChanged( int currentRow );
-
-    void on_pushButtonDragDel_clicked();
-    void on_pushButtonLiftDel_clicked();
-
-    void on_pushButtonDragAdd_clicked();
-    void on_pushButtonLiftAdd_clicked();
-
-    void parametersChanged();
-    void recentFile_triggered( int id );
+    Ui::DialogAddAngle *_ui;
 };
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#endif // MAINWINDOW_H
+#endif // DIALOGADDANGLE_H
