@@ -324,7 +324,7 @@ void MainWindow::exportFileAs()
     QString filter;
     QString selectedFilter;
 
-    filter += selectedFilter = "DAT (*.dat)";
+    filter += selectedFilter = "Text File (*.txt)";
 
     fileName = QFileDialog::getSaveFileName( this, caption, dir, filter, &selectedFilter );
 
