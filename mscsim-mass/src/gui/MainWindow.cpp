@@ -1,5 +1,5 @@
 /****************************************************************************//*
- * Copyright (C) 2020 Marek M. Cel
+ * Copyright (C) 2021 Marek M. Cel
  *
  * Creative Commons Legal Code
  *
@@ -264,7 +264,24 @@ void MainWindow::saveFileAs()
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void MainWindow::exportFileAs() {}
+void MainWindow::exportFileAs()
+{
+    QString fileName = "";
+
+    QString caption = "Export as...";
+    QString dir = ( fileName.length() > 0 ) ? QFileInfo( fileName ).absolutePath() : ".";
+    QString filter;
+    QString selectedFilter;
+
+    filter += selectedFilter = "Text File (*.txt)";
+
+    fileName = QFileDialog::getSaveFileName( this, caption, dir, filter, &selectedFilter );
+
+    if ( fileName.length() > 0 )
+    {
+        exportAs( fileName );
+    }
+}
 
 ////////////////////////////////////////////////////////////////////////////////
 

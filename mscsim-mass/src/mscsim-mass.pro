@@ -67,12 +67,20 @@ unix: LIBS += \
 ################################################################################
 
 HEADERS += \
-    $$PWD/defs.h    \
-    $$PWD/Document.h
+    $$PWD/defs.h \
+    $$PWD/Document.h \
+    $$PWD/Inertia.h \
+    $$PWD/MassComponents.h \
+    $$PWD/Matrix3x3.h \
+    $$PWD/Vector3.h
 
 SOURCES += \
     $$PWD/main.cpp \
-    $$PWD/Document.cpp
+    $$PWD/Document.cpp \
+    $$PWD/Inertia.cpp \
+    $$PWD/MassComponents.cpp \
+    $$PWD/Matrix3x3.cpp \
+    $$PWD/Vector3.cpp
 
 RESOURCES += \
 

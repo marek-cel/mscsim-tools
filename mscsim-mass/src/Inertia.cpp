@@ -123,48 +123,26 @@
  *     party to this document and has no duty or obligation with respect to
  *     this CC0 or use of the Work.
  ******************************************************************************/
-#ifndef DIALOGEDITFLOLS_H
-#define DIALOGEDITFLOLS_H
+
+#include <Inertia.h>
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#include <QDialog>
-
-#include <asm/FLOLS.h>
-
-////////////////////////////////////////////////////////////////////////////////
-
-namespace Ui
+Matrix3x3 Inertia::getInertiaOfCuboid( double m, double lx, double ly, double lz )
 {
-    class DialogEditFLOLS;
+    Matrix3x3 result;
+
+    result.xx() = m * ( ly*ly + lz*lz ) / 12.0;
+    result.xy() = 0.0;
+    result.xz() = 0.0;
+
+    result.yx() = 0.0;
+    result.yy() = m * ( lx*lx + lz*lz ) / 12.0;
+    result.yz() = 0.0;
+
+    result.zx() = 0.0;
+    result.zy() = 0.0;
+    result.zz() = m * ( lx*lx + ly*ly ) / 12.0;
+
+    return result;
 }
-
-////////////////////////////////////////////////////////////////////////////////
-
-/** Fresnel Lens Optical Landing System - FLOLS */
-class DialogEditFLOLS : public QDialog
-{
-    Q_OBJECT
-
-public:
-
-    explicit DialogEditFLOLS( QWidget *parent = nullptr );
-
-    ~DialogEditFLOLS();
-
-    void edit( FLOLS *flols );
-    void save();
-
-private slots:
-
-    void on_checkBoxDepthSortedBin_toggled(bool checked);
-
-private:
-    Ui::DialogEditFLOLS *_ui;
-
-    FLOLS *_flols;
-};
-
-////////////////////////////////////////////////////////////////////////////////
-
-#endif // DIALOGEDITFLOLS_H

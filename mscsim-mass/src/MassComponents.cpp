@@ -123,48 +123,7 @@
  *     party to this document and has no duty or obligation with respect to
  *     this CC0 or use of the Work.
  ******************************************************************************/
-#ifndef DIALOGEDITFLOLS_H
-#define DIALOGEDITFLOLS_H
+
+#include <MassComponents.h>
 
 ////////////////////////////////////////////////////////////////////////////////
-
-#include <QDialog>
-
-#include <asm/FLOLS.h>
-
-////////////////////////////////////////////////////////////////////////////////
-
-namespace Ui
-{
-    class DialogEditFLOLS;
-}
-
-////////////////////////////////////////////////////////////////////////////////
-
-/** Fresnel Lens Optical Landing System - FLOLS */
-class DialogEditFLOLS : public QDialog
-{
-    Q_OBJECT
-
-public:
-
-    explicit DialogEditFLOLS( QWidget *parent = nullptr );
-
-    ~DialogEditFLOLS();
-
-    void edit( FLOLS *flols );
-    void save();
-
-private slots:
-
-    void on_checkBoxDepthSortedBin_toggled(bool checked);
-
-private:
-    Ui::DialogEditFLOLS *_ui;
-
-    FLOLS *_flols;
-};
-
-////////////////////////////////////////////////////////////////////////////////
-
-#endif // DIALOGEDITFLOLS_H
