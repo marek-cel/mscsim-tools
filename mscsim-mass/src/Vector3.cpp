@@ -124,213 +124,202 @@
  *     this CC0 or use of the Work.
  ******************************************************************************/
 
-#include <Document.h>
-
-#include <QFileInfo>
-#include <QTextStream>
+#include <Vector3.h>
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void Document::saveTextNode( QDomDocument *doc, QDomElement *parent,
-                             const char *tag_name, const char *text )
+const int Vector3::_size = 3;
+
+////////////////////////////////////////////////////////////////////////////////
+
+Vector3::Vector3() :
+    _x ( _items[ 0 ] ),
+    _y ( _items[ 1 ] ),
+    _z ( _items[ 2 ] )
 {
-    QDomElement node = doc->createElement( tag_name );
-    parent->appendChild( node );
-
-    QDomNode textNode = doc->createTextNode( text );
-    node.appendChild( textNode );
-}
-
-////////////////////////////////////////////////////////////////////////////////
-
-Document::Document()
-{
-    newEmpty();
-}
-
-////////////////////////////////////////////////////////////////////////////////
-
-Document::~Document() {}
-
-////////////////////////////////////////////////////////////////////////////////
-
-void Document::newEmpty()
-{
-    _aircraft.reset();
-
-    update();
-}
-
-////////////////////////////////////////////////////////////////////////////////
-
-bool Document::exportAs( const char *fileName )
-{
-    return false;
-}
-
-////////////////////////////////////////////////////////////////////////////////
-
-bool Document::readFile( const char *fileName )
-{
-    bool status = false;
-
-    newEmpty();
-
-    QFile devFile( fileName );
-
-    if ( devFile.open( QFile::ReadOnly | QFile::Text ) )
+    for ( unsigned int i = 0; i < _size; i++ )
     {
-        QDomDocument doc;
-
-        doc.setContent( &devFile, false );
-
-        QDomElement rootNode = doc.documentElement();
-
-        if ( rootNode.tagName() == "mscsim_mass" )
-        {
-            int type_temp = rootNode.attributeNode( "type" ).value().toInt();
-            Type type = FighterAttack;
-
-            switch ( type_temp )
-            {
-                case FighterAttack   : type = FighterAttack   ; break;
-                case CargoTransport  : type = CargoTransport  ; break;
-                case GeneralAviation : type = GeneralAviation ; break;
-            }
-
-            _aircraft.setType( type );
-
-            QDomElement nodeM_empty = rootNode.firstChildElement( "m_empty" );
-            QDomElement nodeM_maxto = rootNode.firstChildElement( "m_maxto" );
-
-            QDomElement nodeComponents = rootNode.firstChildElement( "components" );
-
-            if ( !nodeM_empty.isNull() && !nodeM_maxto.isNull() && !nodeComponents.isNull() )
-            {
-                double m_empty = nodeM_empty.text().toDouble();
-                double m_maxto = nodeM_maxto.text().toDouble();
-
-                _aircraft.setM_empty( m_empty );
-                _aircraft.setM_maxto( m_maxto );
-
-                // TODO
-
-                status = true;
-
-                update();
-            }
-        }
-
-        devFile.close();
+        _items[ i ] = 0.0;
     }
-
-    return status;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
-bool Document::saveFile( const char *fileName )
+Vector3::Vector3( const Vector3 &vect ) :
+    _x ( _items[ 0 ] ),
+    _y ( _items[ 1 ] ),
+    _z ( _items[ 2 ] )
 {
-    QString fileTemp = fileName;
-
-    if ( QFileInfo( fileTemp ).suffix() != QString( "xml" ) )
+    for ( unsigned int i = 0; i < _size; i++ )
     {
-        fileTemp += ".xml";
+        _items[ i ] = vect._items[ i ];
     }
-
-    QFile devFile( fileTemp );
-
-    if ( devFile.open( QFile::WriteOnly | QFile::Truncate | QFile::Text ) )
-    {
-        QTextStream out;
-        out.setDevice( &devFile );
-        out.setCodec("UTF-8");
-        out << "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n";
-
-        QDomDocument doc( "mscsim_mass" );
-
-        doc.setContent( &devFile, false );
-
-        QDomElement rootNode = doc.createElement( "mscsim_mass" );
-        doc.appendChild( rootNode );
-
-        QDomAttr nodeType = doc.createAttribute( "type" );
-        nodeType.setValue( QString::number( _aircraft.getType() ) );
-        rootNode.setAttributeNode( nodeType );
-
-        saveTextNode( &doc, &rootNode, "m_empty", QString::number( _aircraft.getM_empty(), 'f', 1 ).toStdString().c_str() );
-        saveTextNode( &doc, &rootNode, "m_maxto", QString::number( _aircraft.getM_maxto(), 'f', 1 ).toStdString().c_str() );
-
-        QDomElement componentsNode = doc.createElement( "components" );
-        rootNode.appendChild( componentsNode );
-
-        // TODO
-
-        out << doc.toString();
-
-        devFile.close();
-
-        return true;
-    }
-
-    return false;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void Document::addComponent( Component *component )
+Vector3::Vector3( double x, double y, double z ) :
+    _x ( _items[ 0 ] ),
+    _y ( _items[ 1 ] ),
+    _z ( _items[ 2 ] )
 {
-    _aircraft.addComponent( component );
-
-    update();
+    set( x, y, z );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void Document::delComponent( int index )
+void Vector3::set( double x, double y, double z )
 {
-    _aircraft.delComponent( index );
-
-    update();
+    _x = x;
+    _y = y;
+    _z = z;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
-Component* Document::getComponent( int index )
+const Vector3& Vector3::operator= ( const Vector3 &vect )
 {
-    return _aircraft.getComponent( index );
+    _x = vect._x;
+    _y = vect._y;
+    _z = vect._z;
+
+    return (*this);
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void Document::setType( Type type )
+Vector3 Vector3::operator+ ( const Vector3 &vect ) const
 {
-    _aircraft.setType( type );
+    Vector3 result;
 
-    update();
+    result._x = _x + vect._x;
+    result._y = _y + vect._y;
+    result._z = _z + vect._z;
+
+    return result;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void Document::setM_empty( double m_empty )
+Vector3 Vector3::operator- () const
 {
-    _aircraft.setM_empty( m_empty );
+    Vector3 result;
 
-    update();
+    result._x = -_x;
+    result._y = -_y;
+    result._z = -_z;
+
+    return result;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void Document::setM_maxto( double m_maxto )
+Vector3 Vector3::operator- ( const Vector3 &vect ) const
 {
-    _aircraft.setM_maxto( m_maxto );
+    Vector3 result;
 
-    update();
+    result._x = _x - vect._x;
+    result._y = _y - vect._y;
+    result._z = _z - vect._z;
+
+    return result;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void Document::update()
+Vector3 Vector3::operator* ( double val ) const
 {
-    _aircraft.update();
+    Vector3 result;
+
+    result._x = _x * val;
+    result._y = _y * val;
+    result._z = _z * val;
+
+    return result;
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+Vector3 Vector3::operator/ ( double val ) const
+{
+    Vector3 result;
+
+    result._x = _x / val;
+    result._y = _y / val;
+    result._z = _z / val;
+
+    return result;
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+double Vector3::operator* ( const Vector3 &vect ) const
+{
+    return ( _x*vect._x + _y*vect._y + _z*vect._z );
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+Vector3 Vector3::operator% ( const Vector3 &vect ) const
+{
+    Vector3 result;
+
+    result._x = _y * vect._z - _z * vect._y;
+    result._y = _z * vect._x - _x * vect._z;
+    result._z = _x * vect._y - _y * vect._x;
+
+    return result;
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+Vector3& Vector3::operator+= ( const Vector3 &vect )
+{
+    _x += vect._x;
+    _y += vect._y;
+    _z += vect._z;
+
+    return (*this);
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+Vector3& Vector3::operator-= ( const Vector3 &vect )
+{
+    _x -= vect._x;
+    _y -= vect._y;
+    _z -= vect._z;
+
+    return (*this);
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+Vector3& Vector3::operator*= ( double val )
+{
+    _x *= val;
+    _y *= val;
+    _z *= val;
+
+    return (*this);
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+Vector3& Vector3::operator/= ( double val )
+{
+    _x /= val;
+    _y /= val;
+    _z /= val;
+
+    return (*this);
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+Vector3& Vector3::operator%= ( const Vector3 &vect )
+{
+    (*this) = (*this) % vect;
+
+    return (*this);
 }

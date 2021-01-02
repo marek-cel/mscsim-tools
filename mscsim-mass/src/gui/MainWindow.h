@@ -170,16 +170,16 @@ protected:
 
 private:
 
-    Ui::MainWindow *_ui;                    ///< UI object
+    Ui::MainWindow *_ui;                        ///< UI object
 
-    Document _doc;                          ///<
+    Document _doc;                              ///<
 
-    bool _saved;                            ///<
+    bool _saved;                                ///<
 
-    QString _currentFile;                   ///<
+    QString _currentFile;                       ///<
 
-    QStringList _recentFilesList;           ///<
-    RecentFilesActions _recentFilesActions; ///<
+    QStringList _recentFilesList;               ///<
+    RecentFilesActions _recentFilesActions;     ///<
 
     void askIfSave();
 
@@ -199,6 +199,8 @@ private:
     void settingsSave();
     void settingsSave_RecentFiles( QSettings &settings );
 
+    void editComponent();
+
     void updateGUI();
 
     void updateRecentFiles( QString file = "" );
@@ -216,6 +218,17 @@ private slots:
 
     void recentFile_triggered( int id );
 
+    void on_comboBoxType_currentIndexChanged( int index );
+
+    void on_spinBoxMassEmpty_valueChanged( double arg1 );
+    void on_spinBoxMassMaxTO_valueChanged( double arg1 );
+
+    void on_listComponents_currentRowChanged( int currentRow );
+    void on_listComponents_doubleClicked( const QModelIndex & );
+
+    void on_pushButtonAdd_clicked();
+    void on_pushButtonDel_clicked();
+    void on_pushButtonEdit_clicked();
 };
 
 ////////////////////////////////////////////////////////////////////////////////

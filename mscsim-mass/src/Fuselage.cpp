@@ -124,213 +124,90 @@
  *     this CC0 or use of the Work.
  ******************************************************************************/
 
-#include <Document.h>
+#include <Fuselage.h>
 
-#include <QFileInfo>
-#include <QTextStream>
+#include <Units.h>
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void Document::saveTextNode( QDomDocument *doc, QDomElement *parent,
-                             const char *tag_name, const char *text )
+const char Fuselage::xml_tag[] = "fuselage";
+
+////////////////////////////////////////////////////////////////////////////////
+
+double Fuselage::computeMass( Type type )
 {
-    QDomElement node = doc->createElement( tag_name );
-    parent->appendChild( node );
-
-    QDomNode textNode = doc->createTextNode( text );
-    node.appendChild( textNode );
-}
-
-////////////////////////////////////////////////////////////////////////////////
-
-Document::Document()
-{
-    newEmpty();
-}
-
-////////////////////////////////////////////////////////////////////////////////
-
-Document::~Document() {}
-
-////////////////////////////////////////////////////////////////////////////////
-
-void Document::newEmpty()
-{
-    _aircraft.reset();
-
-    update();
-}
-
-////////////////////////////////////////////////////////////////////////////////
-
-bool Document::exportAs( const char *fileName )
-{
-    return false;
-}
-
-////////////////////////////////////////////////////////////////////////////////
-
-bool Document::readFile( const char *fileName )
-{
-    bool status = false;
-
-    newEmpty();
-
-    QFile devFile( fileName );
-
-    if ( devFile.open( QFile::ReadOnly | QFile::Text ) )
+    switch ( type )
     {
-        QDomDocument doc;
-
-        doc.setContent( &devFile, false );
-
-        QDomElement rootNode = doc.documentElement();
-
-        if ( rootNode.tagName() == "mscsim_mass" )
-        {
-            int type_temp = rootNode.attributeNode( "type" ).value().toInt();
-            Type type = FighterAttack;
-
-            switch ( type_temp )
-            {
-                case FighterAttack   : type = FighterAttack   ; break;
-                case CargoTransport  : type = CargoTransport  ; break;
-                case GeneralAviation : type = GeneralAviation ; break;
-            }
-
-            _aircraft.setType( type );
-
-            QDomElement nodeM_empty = rootNode.firstChildElement( "m_empty" );
-            QDomElement nodeM_maxto = rootNode.firstChildElement( "m_maxto" );
-
-            QDomElement nodeComponents = rootNode.firstChildElement( "components" );
-
-            if ( !nodeM_empty.isNull() && !nodeM_maxto.isNull() && !nodeComponents.isNull() )
-            {
-                double m_empty = nodeM_empty.text().toDouble();
-                double m_maxto = nodeM_maxto.text().toDouble();
-
-                _aircraft.setM_empty( m_empty );
-                _aircraft.setM_maxto( m_maxto );
-
-                // TODO
-
-                status = true;
-
-                update();
-            }
-        }
-
-        devFile.close();
+        //case FighterAttack   : return computeMassFA(); break;
+        case CargoTransport  : return computeMassCT(); break;
+        case GeneralAviation : return computeMassGA(); break;
     }
 
-    return status;
+    return 0.0;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
-bool Document::saveFile( const char *fileName )
+double Fuselage::computeMassFA( bool delta_wing,
+                                double mtow,
+                                double n_z_max,
+                                double l,
+                                double d,
+                                double w )
 {
-    QString fileTemp = fileName;
 
-    if ( QFileInfo( fileTemp ).suffix() != QString( "xml" ) )
+    // Rayner: Aircraft Design, p.401, eq.15.4
+    double m1 = 0.0;
     {
-        fileTemp += ".xml";
+        double k_dwf = delta_wing ? 0.774 : 1.0;
+        double w_dg = Units::kg2lb( mtow );
+        double n_z = 1.5 * n_z_max;
+        double l_ft = Units::m2ft( l );
+        double d_ft = Units::m2ft( d );
+        double w_ft = Units::m2ft( w );
+
+        m1 = Units::lb2kg( 0.499 * k_dwf * pow( w_dg, 0.35 ) * pow( n_z, 0.25 )
+                * pow( l_ft, 0.5 ) * pow( d_ft, 0.849 ) * pow( w_ft, 0.685 ) );
     }
 
-    QFile devFile( fileTemp );
-
-    if ( devFile.open( QFile::WriteOnly | QFile::Truncate | QFile::Text ) )
+    // Rayner: Aircraft Design, p.398, table 15.2
+    double m2 = 0.0;
     {
-        QTextStream out;
-        out.setDevice( &devFile );
-        out.setCodec("UTF-8");
-        out << "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n";
-
-        QDomDocument doc( "mscsim_mass" );
-
-        doc.setContent( &devFile, false );
-
-        QDomElement rootNode = doc.createElement( "mscsim_mass" );
-        doc.appendChild( rootNode );
-
-        QDomAttr nodeType = doc.createAttribute( "type" );
-        nodeType.setValue( QString::number( _aircraft.getType() ) );
-        rootNode.setAttributeNode( nodeType );
-
-        saveTextNode( &doc, &rootNode, "m_empty", QString::number( _aircraft.getM_empty(), 'f', 1 ).toStdString().c_str() );
-        saveTextNode( &doc, &rootNode, "m_maxto", QString::number( _aircraft.getM_maxto(), 'f', 1 ).toStdString().c_str() );
-
-        QDomElement componentsNode = doc.createElement( "components" );
-        rootNode.appendChild( componentsNode );
-
-        // TODO
-
-        out << doc.toString();
-
-        devFile.close();
-
-        return true;
+        double s_f = Units::sqm2sqft( 0.5 * ( d + w ) * M_PI * l );
+        m2 = Units::lb2kg( 4.8 * s_f );
     }
 
-    return false;
+    // Torenbeek: Advanced Aircraft Design, p.236, eq. 8.3
+    //double m3 = 0.0;
+    //{
+    //    m3 = c_shell * pow( d_fus, 2.0 ) * ( l_fus + l_ref )
+    //            + omega_fl * pow( n_ult, 0.5 ) * d_suf * l_fus;
+    //}
+
+    return ( m1 + m2 ) / 2.0;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void Document::addComponent( Component *component )
+double Fuselage::computeMassCT()
 {
-    _aircraft.addComponent( component );
-
-    update();
+    return 0.3280;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void Document::delComponent( int index )
+double Fuselage::computeMassGA()
 {
-    _aircraft.delComponent( index );
-
-    update();
+    return 0.0;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
-Component* Document::getComponent( int index )
+Fuselage::Fuselage()
 {
-    return _aircraft.getComponent( index );
+    setName( "Fuselage" );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void Document::setType( Type type )
-{
-    _aircraft.setType( type );
-
-    update();
-}
-
-////////////////////////////////////////////////////////////////////////////////
-
-void Document::setM_empty( double m_empty )
-{
-    _aircraft.setM_empty( m_empty );
-
-    update();
-}
-
-////////////////////////////////////////////////////////////////////////////////
-
-void Document::setM_maxto( double m_maxto )
-{
-    _aircraft.setM_maxto( m_maxto );
-
-    update();
-}
-
-////////////////////////////////////////////////////////////////////////////////
-
-void Document::update()
-{
-    _aircraft.update();
-}
+Fuselage::~Fuselage() {}

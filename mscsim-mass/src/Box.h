@@ -123,214 +123,59 @@
  *     party to this document and has no duty or obligation with respect to
  *     this CC0 or use of the Work.
  ******************************************************************************/
-
-#include <Document.h>
-
-#include <QFileInfo>
-#include <QTextStream>
+#ifndef BOX_H
+#define BOX_H
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void Document::saveTextNode( QDomDocument *doc, QDomElement *parent,
-                             const char *tag_name, const char *text )
+#include <Component.h>
+
+#include <Matrix3x3.h>
+#include <Vector3.h>
+
+////////////////////////////////////////////////////////////////////////////////
+
+/**
+ * @brief The Cuboid class.
+ */
+class Box : public Component
 {
-    QDomElement node = doc->createElement( tag_name );
-    parent->appendChild( node );
+public:
 
-    QDomNode textNode = doc->createTextNode( text );
-    node.appendChild( textNode );
-}
+    static const char xml_tag[];
 
-////////////////////////////////////////////////////////////////////////////////
+    /**
+     * @brief Returns cuboid matrix of inertia.
+     * @param m [kg] mass
+     * @param l [m] length (dimension x-component)
+     * @param w [m] width  (dimension y-component)
+     * @param h [m] height (dimension z-component)
+     * @return matrix of inertia [kg*m^2]
+     */
+    static Matrix3x3 getInertia( double m, double l, double w, double h );
 
-Document::Document()
-{
-    newEmpty();
-}
+    Box();
 
-////////////////////////////////////////////////////////////////////////////////
+    virtual ~Box();
 
-Document::~Document() {}
+    virtual Matrix3x3 getInertia() const;
 
-////////////////////////////////////////////////////////////////////////////////
+    inline double getLength () const { return _l; }
+    inline double getWidth  () const { return _w; }
+    inline double getHeight () const { return _h; }
 
-void Document::newEmpty()
-{
-    _aircraft.reset();
+    void setLength ( double l );
+    void setWidth  ( double w );
+    void setHeight ( double h );
 
-    update();
-}
+protected:
 
-////////////////////////////////////////////////////////////////////////////////
+    double _l;      ///< [m] length
+    double _w;      ///< [m] width
+    double _h;      ///< [m] height
 
-bool Document::exportAs( const char *fileName )
-{
-    return false;
-}
-
-////////////////////////////////////////////////////////////////////////////////
-
-bool Document::readFile( const char *fileName )
-{
-    bool status = false;
-
-    newEmpty();
-
-    QFile devFile( fileName );
-
-    if ( devFile.open( QFile::ReadOnly | QFile::Text ) )
-    {
-        QDomDocument doc;
-
-        doc.setContent( &devFile, false );
-
-        QDomElement rootNode = doc.documentElement();
-
-        if ( rootNode.tagName() == "mscsim_mass" )
-        {
-            int type_temp = rootNode.attributeNode( "type" ).value().toInt();
-            Type type = FighterAttack;
-
-            switch ( type_temp )
-            {
-                case FighterAttack   : type = FighterAttack   ; break;
-                case CargoTransport  : type = CargoTransport  ; break;
-                case GeneralAviation : type = GeneralAviation ; break;
-            }
-
-            _aircraft.setType( type );
-
-            QDomElement nodeM_empty = rootNode.firstChildElement( "m_empty" );
-            QDomElement nodeM_maxto = rootNode.firstChildElement( "m_maxto" );
-
-            QDomElement nodeComponents = rootNode.firstChildElement( "components" );
-
-            if ( !nodeM_empty.isNull() && !nodeM_maxto.isNull() && !nodeComponents.isNull() )
-            {
-                double m_empty = nodeM_empty.text().toDouble();
-                double m_maxto = nodeM_maxto.text().toDouble();
-
-                _aircraft.setM_empty( m_empty );
-                _aircraft.setM_maxto( m_maxto );
-
-                // TODO
-
-                status = true;
-
-                update();
-            }
-        }
-
-        devFile.close();
-    }
-
-    return status;
-}
+};
 
 ////////////////////////////////////////////////////////////////////////////////
 
-bool Document::saveFile( const char *fileName )
-{
-    QString fileTemp = fileName;
-
-    if ( QFileInfo( fileTemp ).suffix() != QString( "xml" ) )
-    {
-        fileTemp += ".xml";
-    }
-
-    QFile devFile( fileTemp );
-
-    if ( devFile.open( QFile::WriteOnly | QFile::Truncate | QFile::Text ) )
-    {
-        QTextStream out;
-        out.setDevice( &devFile );
-        out.setCodec("UTF-8");
-        out << "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n";
-
-        QDomDocument doc( "mscsim_mass" );
-
-        doc.setContent( &devFile, false );
-
-        QDomElement rootNode = doc.createElement( "mscsim_mass" );
-        doc.appendChild( rootNode );
-
-        QDomAttr nodeType = doc.createAttribute( "type" );
-        nodeType.setValue( QString::number( _aircraft.getType() ) );
-        rootNode.setAttributeNode( nodeType );
-
-        saveTextNode( &doc, &rootNode, "m_empty", QString::number( _aircraft.getM_empty(), 'f', 1 ).toStdString().c_str() );
-        saveTextNode( &doc, &rootNode, "m_maxto", QString::number( _aircraft.getM_maxto(), 'f', 1 ).toStdString().c_str() );
-
-        QDomElement componentsNode = doc.createElement( "components" );
-        rootNode.appendChild( componentsNode );
-
-        // TODO
-
-        out << doc.toString();
-
-        devFile.close();
-
-        return true;
-    }
-
-    return false;
-}
-
-////////////////////////////////////////////////////////////////////////////////
-
-void Document::addComponent( Component *component )
-{
-    _aircraft.addComponent( component );
-
-    update();
-}
-
-////////////////////////////////////////////////////////////////////////////////
-
-void Document::delComponent( int index )
-{
-    _aircraft.delComponent( index );
-
-    update();
-}
-
-////////////////////////////////////////////////////////////////////////////////
-
-Component* Document::getComponent( int index )
-{
-    return _aircraft.getComponent( index );
-}
-
-////////////////////////////////////////////////////////////////////////////////
-
-void Document::setType( Type type )
-{
-    _aircraft.setType( type );
-
-    update();
-}
-
-////////////////////////////////////////////////////////////////////////////////
-
-void Document::setM_empty( double m_empty )
-{
-    _aircraft.setM_empty( m_empty );
-
-    update();
-}
-
-////////////////////////////////////////////////////////////////////////////////
-
-void Document::setM_maxto( double m_maxto )
-{
-    _aircraft.setM_maxto( m_maxto );
-
-    update();
-}
-
-////////////////////////////////////////////////////////////////////////////////
-
-void Document::update()
-{
-    _aircraft.update();
-}
+#endif // BOX_H

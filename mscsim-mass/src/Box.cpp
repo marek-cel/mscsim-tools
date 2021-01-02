@@ -124,213 +124,73 @@
  *     this CC0 or use of the Work.
  ******************************************************************************/
 
-#include <Document.h>
+#include <Box.h>
 
-#include <QFileInfo>
-#include <QTextStream>
+#include <Steiner.h>
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void Document::saveTextNode( QDomDocument *doc, QDomElement *parent,
-                             const char *tag_name, const char *text )
-{
-    QDomElement node = doc->createElement( tag_name );
-    parent->appendChild( node );
+const char Box::xml_tag[] = "box";
 
-    QDomNode textNode = doc->createTextNode( text );
-    node.appendChild( textNode );
+////////////////////////////////////////////////////////////////////////////////
+
+Matrix3x3 Box::getInertia( double m, double l, double w, double h )
+{
+    Matrix3x3 result;
+
+    result.xx() = m * ( w*w + h*h ) / 12.0;
+    result.xy() = 0.0;
+    result.xz() = 0.0;
+
+    result.yx() = 0.0;
+    result.yy() = m * ( l*l + h*h ) / 12.0;
+    result.yz() = 0.0;
+
+    result.zx() = 0.0;
+    result.zy() = 0.0;
+    result.zz() = m * ( l*l + w*w ) / 12.0;
+
+    return result;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
-Document::Document()
+Box::Box() :
+    _l ( 0.0 ),
+    _w ( 0.0 ),
+    _h ( 0.0 )
 {
-    newEmpty();
+    setName( "Box" );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
-Document::~Document() {}
+Box::~Box() {}
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void Document::newEmpty()
+Matrix3x3 Box::getInertia() const
 {
-    _aircraft.reset();
-
-    update();
+    return Steiner::getInertia( _m, getInertia( _m, _l, _w, _h ), _r );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
-bool Document::exportAs( const char *fileName )
+void Box::setLength( double l )
 {
-    return false;
+    _l = l;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
-bool Document::readFile( const char *fileName )
+void Box::setWidth( double w )
 {
-    bool status = false;
-
-    newEmpty();
-
-    QFile devFile( fileName );
-
-    if ( devFile.open( QFile::ReadOnly | QFile::Text ) )
-    {
-        QDomDocument doc;
-
-        doc.setContent( &devFile, false );
-
-        QDomElement rootNode = doc.documentElement();
-
-        if ( rootNode.tagName() == "mscsim_mass" )
-        {
-            int type_temp = rootNode.attributeNode( "type" ).value().toInt();
-            Type type = FighterAttack;
-
-            switch ( type_temp )
-            {
-                case FighterAttack   : type = FighterAttack   ; break;
-                case CargoTransport  : type = CargoTransport  ; break;
-                case GeneralAviation : type = GeneralAviation ; break;
-            }
-
-            _aircraft.setType( type );
-
-            QDomElement nodeM_empty = rootNode.firstChildElement( "m_empty" );
-            QDomElement nodeM_maxto = rootNode.firstChildElement( "m_maxto" );
-
-            QDomElement nodeComponents = rootNode.firstChildElement( "components" );
-
-            if ( !nodeM_empty.isNull() && !nodeM_maxto.isNull() && !nodeComponents.isNull() )
-            {
-                double m_empty = nodeM_empty.text().toDouble();
-                double m_maxto = nodeM_maxto.text().toDouble();
-
-                _aircraft.setM_empty( m_empty );
-                _aircraft.setM_maxto( m_maxto );
-
-                // TODO
-
-                status = true;
-
-                update();
-            }
-        }
-
-        devFile.close();
-    }
-
-    return status;
+    _w = w;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
-bool Document::saveFile( const char *fileName )
+void Box::setHeight( double h )
 {
-    QString fileTemp = fileName;
-
-    if ( QFileInfo( fileTemp ).suffix() != QString( "xml" ) )
-    {
-        fileTemp += ".xml";
-    }
-
-    QFile devFile( fileTemp );
-
-    if ( devFile.open( QFile::WriteOnly | QFile::Truncate | QFile::Text ) )
-    {
-        QTextStream out;
-        out.setDevice( &devFile );
-        out.setCodec("UTF-8");
-        out << "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n";
-
-        QDomDocument doc( "mscsim_mass" );
-
-        doc.setContent( &devFile, false );
-
-        QDomElement rootNode = doc.createElement( "mscsim_mass" );
-        doc.appendChild( rootNode );
-
-        QDomAttr nodeType = doc.createAttribute( "type" );
-        nodeType.setValue( QString::number( _aircraft.getType() ) );
-        rootNode.setAttributeNode( nodeType );
-
-        saveTextNode( &doc, &rootNode, "m_empty", QString::number( _aircraft.getM_empty(), 'f', 1 ).toStdString().c_str() );
-        saveTextNode( &doc, &rootNode, "m_maxto", QString::number( _aircraft.getM_maxto(), 'f', 1 ).toStdString().c_str() );
-
-        QDomElement componentsNode = doc.createElement( "components" );
-        rootNode.appendChild( componentsNode );
-
-        // TODO
-
-        out << doc.toString();
-
-        devFile.close();
-
-        return true;
-    }
-
-    return false;
-}
-
-////////////////////////////////////////////////////////////////////////////////
-
-void Document::addComponent( Component *component )
-{
-    _aircraft.addComponent( component );
-
-    update();
-}
-
-////////////////////////////////////////////////////////////////////////////////
-
-void Document::delComponent( int index )
-{
-    _aircraft.delComponent( index );
-
-    update();
-}
-
-////////////////////////////////////////////////////////////////////////////////
-
-Component* Document::getComponent( int index )
-{
-    return _aircraft.getComponent( index );
-}
-
-////////////////////////////////////////////////////////////////////////////////
-
-void Document::setType( Type type )
-{
-    _aircraft.setType( type );
-
-    update();
-}
-
-////////////////////////////////////////////////////////////////////////////////
-
-void Document::setM_empty( double m_empty )
-{
-    _aircraft.setM_empty( m_empty );
-
-    update();
-}
-
-////////////////////////////////////////////////////////////////////////////////
-
-void Document::setM_maxto( double m_maxto )
-{
-    _aircraft.setM_maxto( m_maxto );
-
-    update();
-}
-
-////////////////////////////////////////////////////////////////////////////////
-
-void Document::update()
-{
-    _aircraft.update();
+    _h = h;
 }

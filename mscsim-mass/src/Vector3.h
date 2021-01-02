@@ -123,214 +123,105 @@
  *     party to this document and has no duty or obligation with respect to
  *     this CC0 or use of the Work.
  ******************************************************************************/
-
-#include <Document.h>
-
-#include <QFileInfo>
-#include <QTextStream>
+#ifndef VECTOR3_H
+#define VECTOR3_H
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void Document::saveTextNode( QDomDocument *doc, QDomElement *parent,
-                             const char *tag_name, const char *text )
+/** */
+class Vector3
 {
-    QDomElement node = doc->createElement( tag_name );
-    parent->appendChild( node );
+public:
 
-    QDomNode textNode = doc->createTextNode( text );
-    node.appendChild( textNode );
-}
+    static const int _size;
 
-////////////////////////////////////////////////////////////////////////////////
+    /** @brief Constructor. */
+    Vector3();
 
-Document::Document()
-{
-    newEmpty();
-}
+    /** @brief Copy constructor. */
+    Vector3( const Vector3 &vect );
 
-////////////////////////////////////////////////////////////////////////////////
+    /** @brief Constructor. */
+    Vector3( double x, double y, double z );
 
-Document::~Document() {}
+    inline double  x() const { return _x; }
+    inline double  y() const { return _y; }
+    inline double  z() const { return _z; }
+    inline double& x()       { return _x; }
+    inline double& y()       { return _y; }
+    inline double& z()       { return _z; }
 
-////////////////////////////////////////////////////////////////////////////////
+    /** @brief Sets vector values. */
+    void set( double x, double y, double z );
 
-void Document::newEmpty()
-{
-    _aircraft.reset();
-
-    update();
-}
-
-////////////////////////////////////////////////////////////////////////////////
-
-bool Document::exportAs( const char *fileName )
-{
-    return false;
-}
-
-////////////////////////////////////////////////////////////////////////////////
-
-bool Document::readFile( const char *fileName )
-{
-    bool status = false;
-
-    newEmpty();
-
-    QFile devFile( fileName );
-
-    if ( devFile.open( QFile::ReadOnly | QFile::Text ) )
+    /** @brief Items accessor. */
+    inline double operator() ( unsigned int index ) const
     {
-        QDomDocument doc;
-
-        doc.setContent( &devFile, false );
-
-        QDomElement rootNode = doc.documentElement();
-
-        if ( rootNode.tagName() == "mscsim_mass" )
-        {
-            int type_temp = rootNode.attributeNode( "type" ).value().toInt();
-            Type type = FighterAttack;
-
-            switch ( type_temp )
-            {
-                case FighterAttack   : type = FighterAttack   ; break;
-                case CargoTransport  : type = CargoTransport  ; break;
-                case GeneralAviation : type = GeneralAviation ; break;
-            }
-
-            _aircraft.setType( type );
-
-            QDomElement nodeM_empty = rootNode.firstChildElement( "m_empty" );
-            QDomElement nodeM_maxto = rootNode.firstChildElement( "m_maxto" );
-
-            QDomElement nodeComponents = rootNode.firstChildElement( "components" );
-
-            if ( !nodeM_empty.isNull() && !nodeM_maxto.isNull() && !nodeComponents.isNull() )
-            {
-                double m_empty = nodeM_empty.text().toDouble();
-                double m_maxto = nodeM_maxto.text().toDouble();
-
-                _aircraft.setM_empty( m_empty );
-                _aircraft.setM_maxto( m_maxto );
-
-                // TODO
-
-                status = true;
-
-                update();
-            }
-        }
-
-        devFile.close();
+        return _items[ index ];
     }
 
-    return status;
-}
-
-////////////////////////////////////////////////////////////////////////////////
-
-bool Document::saveFile( const char *fileName )
-{
-    QString fileTemp = fileName;
-
-    if ( QFileInfo( fileTemp ).suffix() != QString( "xml" ) )
+    /** @brief Items accessor. */
+    inline double& operator() ( unsigned int index )
     {
-        fileTemp += ".xml";
+        return _items[ index ];
     }
 
-    QFile devFile( fileTemp );
+    /** @brief Assignment operator. */
+    const Vector3& operator= ( const Vector3 &vect );
 
-    if ( devFile.open( QFile::WriteOnly | QFile::Truncate | QFile::Text ) )
-    {
-        QTextStream out;
-        out.setDevice( &devFile );
-        out.setCodec("UTF-8");
-        out << "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n";
+    /** @brief Addition operator. */
+    Vector3 operator+ ( const Vector3 &vect ) const;
 
-        QDomDocument doc( "mscsim_mass" );
+    /** @brief Negation operator. */
+    Vector3 operator- () const;
 
-        doc.setContent( &devFile, false );
+    /** @brief Subtraction operator. */
+    Vector3 operator- ( const Vector3 &vect ) const;
 
-        QDomElement rootNode = doc.createElement( "mscsim_mass" );
-        doc.appendChild( rootNode );
+    /** @brief Multiplication operator (by scalar). */
+    Vector3 operator* ( double val ) const;
 
-        QDomAttr nodeType = doc.createAttribute( "type" );
-        nodeType.setValue( QString::number( _aircraft.getType() ) );
-        rootNode.setAttributeNode( nodeType );
+    /** @brief Division operator (by scalar). */
+    Vector3 operator/ ( double val ) const;
 
-        saveTextNode( &doc, &rootNode, "m_empty", QString::number( _aircraft.getM_empty(), 'f', 1 ).toStdString().c_str() );
-        saveTextNode( &doc, &rootNode, "m_maxto", QString::number( _aircraft.getM_maxto(), 'f', 1 ).toStdString().c_str() );
+    /** @brief Dot product operator. */
+    double operator* ( const Vector3 &vect ) const;
 
-        QDomElement componentsNode = doc.createElement( "components" );
-        rootNode.appendChild( componentsNode );
+    /** @brief Cross product operator. */
+    Vector3 operator% ( const Vector3 &vect ) const;
 
-        // TODO
+    /** @brief Unary addition operator. */
+    Vector3& operator+= ( const Vector3 &vect );
 
-        out << doc.toString();
+    /** @brief Unary subtraction operator. */
+    Vector3& operator-= ( const Vector3 &vect );
 
-        devFile.close();
+    /** @brief Unary multiplication operator (by scalar). */
+    Vector3& operator*= ( double val );
 
-        return true;
-    }
+    /** @brief Unary division operator (by scalar). */
+    Vector3& operator/= ( double val );
 
-    return false;
+    /** @brief Unary cross product operator. */
+    Vector3& operator%= ( const Vector3 &vect );
+
+private:
+
+    double _items[ 3 ];     ///< vector items
+
+    double &_x;             ///< x element
+    double &_y;             ///< y element
+    double &_z;             ///< z element
+};
+
+////////////////////////////////////////////////////////////////////////////////
+
+/** @brief Multiplication operator (by scalar). */
+inline Vector3 operator* ( double val, const Vector3 &vect )
+{
+    return ( vect * val );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void Document::addComponent( Component *component )
-{
-    _aircraft.addComponent( component );
-
-    update();
-}
-
-////////////////////////////////////////////////////////////////////////////////
-
-void Document::delComponent( int index )
-{
-    _aircraft.delComponent( index );
-
-    update();
-}
-
-////////////////////////////////////////////////////////////////////////////////
-
-Component* Document::getComponent( int index )
-{
-    return _aircraft.getComponent( index );
-}
-
-////////////////////////////////////////////////////////////////////////////////
-
-void Document::setType( Type type )
-{
-    _aircraft.setType( type );
-
-    update();
-}
-
-////////////////////////////////////////////////////////////////////////////////
-
-void Document::setM_empty( double m_empty )
-{
-    _aircraft.setM_empty( m_empty );
-
-    update();
-}
-
-////////////////////////////////////////////////////////////////////////////////
-
-void Document::setM_maxto( double m_maxto )
-{
-    _aircraft.setM_maxto( m_maxto );
-
-    update();
-}
-
-////////////////////////////////////////////////////////////////////////////////
-
-void Document::update()
-{
-    _aircraft.update();
-}
+#endif // VECTOR3_H

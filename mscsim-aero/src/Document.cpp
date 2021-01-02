@@ -391,7 +391,6 @@ bool Document::saveFile( const char *fileName )
         QDomElement rootNode = doc.createElement( "mscsim_aero" );
         doc.appendChild( rootNode );
 
-        // drag
         QDomElement dragNode = doc.createElement( "drag" );
         QDomElement liftNode = doc.createElement( "lift" );
 

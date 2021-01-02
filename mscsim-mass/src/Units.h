@@ -123,214 +123,113 @@
  *     party to this document and has no duty or obligation with respect to
  *     this CC0 or use of the Work.
  ******************************************************************************/
-
-#include <Document.h>
-
-#include <QFileInfo>
-#include <QTextStream>
+#ifndef UNITS_H
+#define UNITS_H
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void Document::saveTextNode( QDomDocument *doc, QDomElement *parent,
-                             const char *tag_name, const char *text )
+#include <cmath>
+
+////////////////////////////////////////////////////////////////////////////////
+
+/**
+ * @brief Units conversion class.
+ */
+class Units
 {
-    QDomElement node = doc->createElement( tag_name );
-    parent->appendChild( node );
+public:
 
-    QDomNode textNode = doc->createTextNode( text );
-    node.appendChild( textNode );
-}
+    // ANGLE
 
-////////////////////////////////////////////////////////////////////////////////
-
-Document::Document()
-{
-    newEmpty();
-}
-
-////////////////////////////////////////////////////////////////////////////////
-
-Document::~Document() {}
-
-////////////////////////////////////////////////////////////////////////////////
-
-void Document::newEmpty()
-{
-    _aircraft.reset();
-
-    update();
-}
-
-////////////////////////////////////////////////////////////////////////////////
-
-bool Document::exportAs( const char *fileName )
-{
-    return false;
-}
-
-////////////////////////////////////////////////////////////////////////////////
-
-bool Document::readFile( const char *fileName )
-{
-    bool status = false;
-
-    newEmpty();
-
-    QFile devFile( fileName );
-
-    if ( devFile.open( QFile::ReadOnly | QFile::Text ) )
+    /**
+     * @brief Converts given angle from degrees to radians.
+     * @param ang angle expressed in degrees
+     * @return angle expressed in radians
+     */
+    static inline double deg2rad( double ang = 1.0 )
     {
-        QDomDocument doc;
-
-        doc.setContent( &devFile, false );
-
-        QDomElement rootNode = doc.documentElement();
-
-        if ( rootNode.tagName() == "mscsim_mass" )
-        {
-            int type_temp = rootNode.attributeNode( "type" ).value().toInt();
-            Type type = FighterAttack;
-
-            switch ( type_temp )
-            {
-                case FighterAttack   : type = FighterAttack   ; break;
-                case CargoTransport  : type = CargoTransport  ; break;
-                case GeneralAviation : type = GeneralAviation ; break;
-            }
-
-            _aircraft.setType( type );
-
-            QDomElement nodeM_empty = rootNode.firstChildElement( "m_empty" );
-            QDomElement nodeM_maxto = rootNode.firstChildElement( "m_maxto" );
-
-            QDomElement nodeComponents = rootNode.firstChildElement( "components" );
-
-            if ( !nodeM_empty.isNull() && !nodeM_maxto.isNull() && !nodeComponents.isNull() )
-            {
-                double m_empty = nodeM_empty.text().toDouble();
-                double m_maxto = nodeM_maxto.text().toDouble();
-
-                _aircraft.setM_empty( m_empty );
-                _aircraft.setM_maxto( m_maxto );
-
-                // TODO
-
-                status = true;
-
-                update();
-            }
-        }
-
-        devFile.close();
+        return ang * M_PI / 180.0;
     }
 
-    return status;
-}
-
-////////////////////////////////////////////////////////////////////////////////
-
-bool Document::saveFile( const char *fileName )
-{
-    QString fileTemp = fileName;
-
-    if ( QFileInfo( fileTemp ).suffix() != QString( "xml" ) )
+    /**
+     * @brief Converts given angle from radians to degrees.
+     * @param ang angle expressed in radians
+     * @return angle expressed in degrees
+     */
+    static inline double rad2deg( double ang = 1.0 )
     {
-        fileTemp += ".xml";
+        return ang * 180.0 / M_PI;
     }
 
-    QFile devFile( fileTemp );
+    // LENGTH
 
-    if ( devFile.open( QFile::WriteOnly | QFile::Truncate | QFile::Text ) )
+    /**
+     * @brief Converts given length from metres to feet.
+     * @param len length expressed in metres
+     * @return length expressed in feet
+     */
+    static inline double m2ft( double len = 1.0 )
     {
-        QTextStream out;
-        out.setDevice( &devFile );
-        out.setCodec("UTF-8");
-        out << "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n";
-
-        QDomDocument doc( "mscsim_mass" );
-
-        doc.setContent( &devFile, false );
-
-        QDomElement rootNode = doc.createElement( "mscsim_mass" );
-        doc.appendChild( rootNode );
-
-        QDomAttr nodeType = doc.createAttribute( "type" );
-        nodeType.setValue( QString::number( _aircraft.getType() ) );
-        rootNode.setAttributeNode( nodeType );
-
-        saveTextNode( &doc, &rootNode, "m_empty", QString::number( _aircraft.getM_empty(), 'f', 1 ).toStdString().c_str() );
-        saveTextNode( &doc, &rootNode, "m_maxto", QString::number( _aircraft.getM_maxto(), 'f', 1 ).toStdString().c_str() );
-
-        QDomElement componentsNode = doc.createElement( "components" );
-        rootNode.appendChild( componentsNode );
-
-        // TODO
-
-        out << doc.toString();
-
-        devFile.close();
-
-        return true;
+        return len * 3.2808399;
     }
 
-    return false;
-}
+    /**
+     * @brief Converts given length from feet to metres.
+     * @param len length expressed in feet
+     * @return length expressed in metres
+     */
+    static inline double ft2m( double len = 1.0 )
+    {
+        return len * 0.3048;
+    }
+
+    // AREA
+
+    static inline double sqm2sqft( double area = 1.0 )
+    {
+        return area * 10.7639104;
+    }
+
+    static inline double sqft2sqm( double area = 1.0 )
+    {
+        return area * 0.09290304;
+    }
+
+    // VOLUME
+
+    /**
+     * @brief Converts given volume from cubic inches to cubic metres.
+     * @param vol volume expressed in cubic inches
+     * @return volume expressed in cubic metres
+     */
+    static inline double cuin2m3( double vol = 1.0 )
+    {
+        return vol * 0.000016387064;
+    }
+
+    // MASS
+
+    /**
+     * @brief Converts given mass from kilograms to pounds.
+     * @param mass mass expressed in kilograms
+     * @return mass expressed in pounds
+     */
+    static inline double kg2lb( double mass = 1.0 )
+    {
+        return mass * 2.20462262;
+    }
+
+    /**
+     * @brief Converts given mass from pounds to kilograms.
+     * @param mass mass expressed in pounds
+     * @return mass expressed in kilograms
+     */
+    static inline double lb2kg( double mass = 1.0 )
+    {
+        return mass * 0.45359237;
+    }
+};
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void Document::addComponent( Component *component )
-{
-    _aircraft.addComponent( component );
-
-    update();
-}
-
-////////////////////////////////////////////////////////////////////////////////
-
-void Document::delComponent( int index )
-{
-    _aircraft.delComponent( index );
-
-    update();
-}
-
-////////////////////////////////////////////////////////////////////////////////
-
-Component* Document::getComponent( int index )
-{
-    return _aircraft.getComponent( index );
-}
-
-////////////////////////////////////////////////////////////////////////////////
-
-void Document::setType( Type type )
-{
-    _aircraft.setType( type );
-
-    update();
-}
-
-////////////////////////////////////////////////////////////////////////////////
-
-void Document::setM_empty( double m_empty )
-{
-    _aircraft.setM_empty( m_empty );
-
-    update();
-}
-
-////////////////////////////////////////////////////////////////////////////////
-
-void Document::setM_maxto( double m_maxto )
-{
-    _aircraft.setM_maxto( m_maxto );
-
-    update();
-}
-
-////////////////////////////////////////////////////////////////////////////////
-
-void Document::update()
-{
-    _aircraft.update();
-}
+#endif // UNITS_H

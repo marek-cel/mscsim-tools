@@ -130,7 +130,15 @@
 
 #include <vector>
 
+#include <QDomDocument>
+#include <QDomElement>
+
 #include <defs.h>
+
+#include <Aircraft.h>
+
+#include <Matrix3x3.h>
+#include <Vector3.h>
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -140,6 +148,9 @@
 class Document
 {
 public:
+
+    static void saveTextNode( QDomDocument *doc, QDomElement *parent,
+                              const char *tag_name, const char *text );
 
     /**
      * @brief Constructor.
@@ -163,8 +174,32 @@ public:
     /** */
     bool saveFile( const char *fileName );
 
+    inline const Aircraft::Components& getComponents() const { return _aircraft.getComponents(); }
+
+    inline Type getType() const { return _aircraft.getType(); }
+
+    inline double getM_empty() const { return _aircraft.getM_empty(); }
+    inline double getM_maxto() const { return _aircraft.getM_maxto(); }
+
+    inline Vector3   getCenterOfMass  () const { return _aircraft.getCenterOfMass  (); }
+    inline Matrix3x3 getInertiaMatrix () const { return _aircraft.getInertiaMatrix (); }
+
+    void addComponent( Component *component );
+
+    void delComponent( int index );
+
+    Component* getComponent( int index );
+
+    void setType( Type type );
+
+    void setM_empty( double m_empty );
+    void setM_maxto( double m_maxto );
+
 private:
 
+    Aircraft _aircraft;     ///<
+
+    void update();
 };
 
 ////////////////////////////////////////////////////////////////////////////////

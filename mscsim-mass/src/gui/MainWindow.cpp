@@ -134,6 +134,9 @@
 #include <qwt/qwt_plot_curve.h>
 #include <qwt/qwt_scale_engine.h>
 
+#include <gui/DialogEditBox.h>
+#include <gui/DialogEditFuselage.h>
+
 ////////////////////////////////////////////////////////////////////////////////
 
 MainWindow::MainWindow( QWidget *parent ) :
@@ -377,9 +380,61 @@ void MainWindow::settingsSave_RecentFiles( QSettings &settings )
 
 ////////////////////////////////////////////////////////////////////////////////
 
+void MainWindow::editComponent()
+{
+    Component *temp = _doc.getComponent( _ui->listComponents->currentRow() );
+
+    Box      *box      = dynamic_cast< Box*      >( temp );
+    Fuselage *fuselage = dynamic_cast< Fuselage* >( temp );
+
+    if      ( fuselage ) DialogEditFuselage ::edit( this, fuselage );
+    else if ( box      ) DialogEditBox      ::edit( this, box      );
+
+    updateGUI();
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
 void MainWindow::updateGUI()
 {
-    // TODO
+    switch ( _doc.getType() )
+    {
+        case FighterAttack   : _ui->comboBoxType->setCurrentIndex( 0 ); break;
+        case CargoTransport  : _ui->comboBoxType->setCurrentIndex( 1 ); break;
+        case GeneralAviation : _ui->comboBoxType->setCurrentIndex( 2 ); break;
+    }
+
+    _ui->spinBoxMassEmpty->setValue( _doc.getM_empty() );
+    _ui->spinBoxMassMaxTO->setValue( _doc.getM_maxto() );
+
+    _ui->listComponents->clear();
+
+    Aircraft::Components components = _doc.getComponents();
+    Aircraft::Components::iterator it = components.begin();
+
+    while ( it != components.end() )
+    {
+        QString name = (*it)->getName();
+        _ui->listComponents->addItem( new QListWidgetItem( name, _ui->listComponents ) );
+
+        it++;
+    }
+
+    Vector3 centerOfMass = _doc.getCenterOfMass();
+
+    _ui->spinBox_CG_X->setValue( centerOfMass.x() );
+    _ui->spinBox_CG_Y->setValue( centerOfMass.y() );
+    _ui->spinBox_CG_Z->setValue( centerOfMass.z() );
+
+    Matrix3x3 inertiaMatrix = _doc.getInertiaMatrix();
+
+    _ui->spinBox_I_XX->setValue( inertiaMatrix.xx() );
+    _ui->spinBox_I_YY->setValue( inertiaMatrix.yy() );
+    _ui->spinBox_I_ZZ->setValue( inertiaMatrix.zz() );
+
+    _ui->spinBox_I_XY->setValue( inertiaMatrix.xy() );
+    _ui->spinBox_I_XZ->setValue( inertiaMatrix.xz() );
+    _ui->spinBox_I_YZ->setValue( inertiaMatrix.yz() );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -475,4 +530,112 @@ void MainWindow::recentFile_triggered( int id )
     _currentFile = _recentFilesList.at( id );
 
     readFile( _currentFile );
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void MainWindow::on_comboBoxType_currentIndexChanged( int index )
+{
+    Type type = FighterAttack;
+
+    switch ( index )
+    {
+        case 0: type = FighterAttack;   break;
+        case 1: type = CargoTransport;  break;
+        case 2: type = GeneralAviation; break;
+    }
+
+    _doc.setType( type );
+
+    updateGUI();
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void MainWindow::on_spinBoxMassEmpty_valueChanged( double arg1 )
+{
+    _ui->spinBoxMassMaxTO->setMinimum( arg1 );
+
+    _doc.setM_empty( arg1 );
+
+    updateGUI();
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void MainWindow::on_spinBoxMassMaxTO_valueChanged( double arg1 )
+{
+    _doc.setM_maxto( arg1 );
+
+    updateGUI();
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void MainWindow::on_listComponents_currentRowChanged( int currentRow )
+{
+    Aircraft::Components components = _doc.getComponents();
+
+    if ( currentRow >=0 && currentRow < components.size() )
+    {
+        _ui->pushButtonDel  ->setEnabled( true );
+        _ui->pushButtonEdit ->setEnabled( true );
+    }
+    else
+    {
+        _ui->pushButtonDel  ->setEnabled( false );
+        _ui->pushButtonEdit ->setEnabled( false );
+    }
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void MainWindow::on_listComponents_doubleClicked( const QModelIndex & )
+{
+    editComponent();
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void MainWindow::on_pushButtonAdd_clicked()
+{
+    Component *component = 0;
+
+    if ( _ui->comboBoxComponents->currentIndex() == 0 )
+    {
+        component = new Box();
+    }
+    else if ( _ui->comboBoxComponents->currentIndex() == 1 )
+    {
+        component = new Fuselage();
+    }
+
+    if ( component )
+    {
+        _doc.addComponent( component );
+    }
+
+    updateGUI();
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void MainWindow::on_pushButtonDel_clicked()
+{
+    Aircraft::Components components = _doc.getComponents();
+    int currentRow = _ui->listComponents->currentRow();
+
+    if ( currentRow >=0 && currentRow < components.size() )
+    {
+        _doc.delComponent( currentRow );
+    }
+
+    updateGUI();
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void MainWindow::on_pushButtonEdit_clicked()
+{
+    editComponent();
 }

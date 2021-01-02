@@ -123,214 +123,129 @@
  *     party to this document and has no duty or obligation with respect to
  *     this CC0 or use of the Work.
  ******************************************************************************/
-
-#include <Document.h>
-
-#include <QFileInfo>
-#include <QTextStream>
+#ifndef MATRIX3X3_H
+#define MATRIX3X3_H
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void Document::saveTextNode( QDomDocument *doc, QDomElement *parent,
-                             const char *tag_name, const char *text )
+#include <Vector3.h>
+
+////////////////////////////////////////////////////////////////////////////////
+
+/** */
+class Matrix3x3
 {
-    QDomElement node = doc->createElement( tag_name );
-    parent->appendChild( node );
+public:
 
-    QDomNode textNode = doc->createTextNode( text );
-    node.appendChild( textNode );
-}
+    static const int _rows;
+    static const int _cols;
+    static const int _size;
 
-////////////////////////////////////////////////////////////////////////////////
+    /** @brief Constructor. */
+    Matrix3x3();
 
-Document::Document()
-{
-    newEmpty();
-}
+    /** @brief Copy constructor. */
+    Matrix3x3( const Matrix3x3 &mtrx );
 
-////////////////////////////////////////////////////////////////////////////////
+    /** @brief Constructor. */
+    Matrix3x3( double xx, double xy, double xz,
+               double yx, double yy, double yz,
+               double zx, double zy, double zz );
 
-Document::~Document() {}
+    inline double xx() const { return _xx; }
+    inline double xy() const { return _xy; }
+    inline double xz() const { return _xz; }
+    inline double yx() const { return _yx; }
+    inline double yy() const { return _yy; }
+    inline double yz() const { return _yz; }
+    inline double zx() const { return _zx; }
+    inline double zy() const { return _zy; }
+    inline double zz() const { return _zz; }
 
-////////////////////////////////////////////////////////////////////////////////
+    inline double& xx() { return _xx; }
+    inline double& xy() { return _xy; }
+    inline double& xz() { return _xz; }
+    inline double& yx() { return _yx; }
+    inline double& yy() { return _yy; }
+    inline double& yz() { return _yz; }
+    inline double& zx() { return _zx; }
+    inline double& zy() { return _zy; }
+    inline double& zz() { return _zz; }
 
-void Document::newEmpty()
-{
-    _aircraft.reset();
+    void set( double xx, double xy, double xz,
+              double yx, double yy, double yz,
+              double zx, double zy, double zz );
 
-    update();
-}
-
-////////////////////////////////////////////////////////////////////////////////
-
-bool Document::exportAs( const char *fileName )
-{
-    return false;
-}
-
-////////////////////////////////////////////////////////////////////////////////
-
-bool Document::readFile( const char *fileName )
-{
-    bool status = false;
-
-    newEmpty();
-
-    QFile devFile( fileName );
-
-    if ( devFile.open( QFile::ReadOnly | QFile::Text ) )
+    /** @brief @brief Items accessor. */
+    inline double operator() ( unsigned int row, unsigned int col ) const
     {
-        QDomDocument doc;
-
-        doc.setContent( &devFile, false );
-
-        QDomElement rootNode = doc.documentElement();
-
-        if ( rootNode.tagName() == "mscsim_mass" )
-        {
-            int type_temp = rootNode.attributeNode( "type" ).value().toInt();
-            Type type = FighterAttack;
-
-            switch ( type_temp )
-            {
-                case FighterAttack   : type = FighterAttack   ; break;
-                case CargoTransport  : type = CargoTransport  ; break;
-                case GeneralAviation : type = GeneralAviation ; break;
-            }
-
-            _aircraft.setType( type );
-
-            QDomElement nodeM_empty = rootNode.firstChildElement( "m_empty" );
-            QDomElement nodeM_maxto = rootNode.firstChildElement( "m_maxto" );
-
-            QDomElement nodeComponents = rootNode.firstChildElement( "components" );
-
-            if ( !nodeM_empty.isNull() && !nodeM_maxto.isNull() && !nodeComponents.isNull() )
-            {
-                double m_empty = nodeM_empty.text().toDouble();
-                double m_maxto = nodeM_maxto.text().toDouble();
-
-                _aircraft.setM_empty( m_empty );
-                _aircraft.setM_maxto( m_maxto );
-
-                // TODO
-
-                status = true;
-
-                update();
-            }
-        }
-
-        devFile.close();
+        return _items[ row * _cols + col ];
     }
 
-    return status;
-}
-
-////////////////////////////////////////////////////////////////////////////////
-
-bool Document::saveFile( const char *fileName )
-{
-    QString fileTemp = fileName;
-
-    if ( QFileInfo( fileTemp ).suffix() != QString( "xml" ) )
+    /** @brief @brief Items accessor. */
+    inline double& operator() ( unsigned int row, unsigned int col )
     {
-        fileTemp += ".xml";
+        return _items[ row * _cols + col ];
     }
 
-    QFile devFile( fileTemp );
+    /** @brief Assignment operator. */
+    const Matrix3x3& operator= ( const Matrix3x3 &mtrx );
 
-    if ( devFile.open( QFile::WriteOnly | QFile::Truncate | QFile::Text ) )
-    {
-        QTextStream out;
-        out.setDevice( &devFile );
-        out.setCodec("UTF-8");
-        out << "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n";
+    /** @brief Addition operator. */
+    Matrix3x3 operator+ ( const Matrix3x3 &mtrx ) const;
 
-        QDomDocument doc( "mscsim_mass" );
+    /** @brief Subtraction operator. */
+    Matrix3x3 operator- ( const Matrix3x3 &mtrx ) const;
 
-        doc.setContent( &devFile, false );
+    /** @brief Multiplication operator (by scalar). */
+    Matrix3x3 operator* ( double value ) const;
 
-        QDomElement rootNode = doc.createElement( "mscsim_mass" );
-        doc.appendChild( rootNode );
+    /** @brief Multiplication operator (by matrix). */
+    Matrix3x3 operator* ( const Matrix3x3 &mtrx ) const;
 
-        QDomAttr nodeType = doc.createAttribute( "type" );
-        nodeType.setValue( QString::number( _aircraft.getType() ) );
-        rootNode.setAttributeNode( nodeType );
+    /** @brief Multiplication operator (by vector). */
+    Vector3 operator* ( const Vector3 &vect ) const;
 
-        saveTextNode( &doc, &rootNode, "m_empty", QString::number( _aircraft.getM_empty(), 'f', 1 ).toStdString().c_str() );
-        saveTextNode( &doc, &rootNode, "m_maxto", QString::number( _aircraft.getM_maxto(), 'f', 1 ).toStdString().c_str() );
+    /** @brief Division operator (by scalar). */
+    Matrix3x3 operator/ ( double value ) const;
 
-        QDomElement componentsNode = doc.createElement( "components" );
-        rootNode.appendChild( componentsNode );
+    /** @brief Unary addition operator. */
+    Matrix3x3& operator+= ( const Matrix3x3 &mtrx );
 
-        // TODO
+    /** @brief Unary subtraction operator. */
+    Matrix3x3& operator-= ( const Matrix3x3 &mtrx );
 
-        out << doc.toString();
+    /** @brief Unary multiplication operator (by scalar). */
+    Matrix3x3& operator*= ( double value );
 
-        devFile.close();
+    /** @brief Unary division operator (by scalar). */
+    Matrix3x3& operator/= ( double value );
 
-        return true;
-    }
+private:
 
-    return false;
+    double _items[ 9 ];     ///< matrix items
+
+    double &_xx;            ///< xx element
+    double &_xy;            ///< xy element
+    double &_xz;            ///< xz element
+
+    double &_yx;            ///< yx element
+    double &_yy;            ///< yy element
+    double &_yz;            ///< yz element
+
+    double &_zx;            ///< zx element
+    double &_zy;            ///< zy element
+    double &_zz;            ///< zz element
+};
+
+////////////////////////////////////////////////////////////////////////////////
+
+/** @brief Multiplication operator (by scalar). */
+inline Matrix3x3 operator* ( double value, const Matrix3x3 &mtrx )
+{
+    return ( mtrx * value );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void Document::addComponent( Component *component )
-{
-    _aircraft.addComponent( component );
-
-    update();
-}
-
-////////////////////////////////////////////////////////////////////////////////
-
-void Document::delComponent( int index )
-{
-    _aircraft.delComponent( index );
-
-    update();
-}
-
-////////////////////////////////////////////////////////////////////////////////
-
-Component* Document::getComponent( int index )
-{
-    return _aircraft.getComponent( index );
-}
-
-////////////////////////////////////////////////////////////////////////////////
-
-void Document::setType( Type type )
-{
-    _aircraft.setType( type );
-
-    update();
-}
-
-////////////////////////////////////////////////////////////////////////////////
-
-void Document::setM_empty( double m_empty )
-{
-    _aircraft.setM_empty( m_empty );
-
-    update();
-}
-
-////////////////////////////////////////////////////////////////////////////////
-
-void Document::setM_maxto( double m_maxto )
-{
-    _aircraft.setM_maxto( m_maxto );
-
-    update();
-}
-
-////////////////////////////////////////////////////////////////////////////////
-
-void Document::update()
-{
-    _aircraft.update();
-}
+#endif // MATRIX3X3_H
