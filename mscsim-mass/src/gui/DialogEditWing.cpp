@@ -188,6 +188,8 @@ void DialogEditWing::init( const Wing &wing )
     _ui->spinBoxAR         ->setValue( wing.getAR       () );
     _ui->spinBoxAreaCtrl   ->setValue( wing.getAreaCtrl () );
     _ui->spinBoxTCRoot     ->setValue( wing.getTCRoot   () );
+
+    setType( wing.getAircraft()->getType() );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -225,7 +227,102 @@ void DialogEditWing::getData( Wing *wing ) const
 
 void DialogEditWing::setType( Type type )
 {
+    _ui->labelArea     ->hide();
+    _ui->labelMTOW     ->hide();
+    _ui->labelNz       ->hide();
+    _ui->labelSweep    ->hide();
+    _ui->labelLambda   ->hide();
+    _ui->labelAR       ->hide();
+    _ui->labelAreaCtrl ->hide();
+    _ui->labelTCRoot   ->hide();
+    _ui->labelFuel     ->hide();
+    _ui->labelCruiseV  ->hide();
+    _ui->labelCruiseH  ->hide();
 
+    _ui->spinBoxArea     ->hide();
+    _ui->spinBoxMTOW     ->hide();
+    _ui->spinBoxNz       ->hide();
+    _ui->spinBoxSweep    ->hide();
+    _ui->spinBoxLambda   ->hide();
+    _ui->spinBoxAR       ->hide();
+    _ui->spinBoxAreaCtrl ->hide();
+    _ui->spinBoxTCRoot   ->hide();
+    _ui->spinBoxFuel     ->hide();
+    _ui->spinBoxCruiseV  ->hide();
+    _ui->spinBoxCruiseH  ->hide();
+
+    _ui->checkBoxDelta->hide();
+    _ui->checkBoxVariable->hide();
+
+    switch ( type )
+    {
+    case FighterAttack:
+        _ui->labelArea     ->show();
+        _ui->labelMTOW     ->show();
+        _ui->labelNz       ->show();
+        _ui->labelSweep    ->show();
+        _ui->labelLambda   ->show();
+        _ui->labelAR       ->show();
+        _ui->labelAreaCtrl ->show();
+        _ui->labelTCRoot   ->show();
+
+        _ui->spinBoxArea     ->show();
+        _ui->spinBoxMTOW     ->show();
+        _ui->spinBoxNz       ->show();
+        _ui->spinBoxSweep    ->show();
+        _ui->spinBoxLambda   ->show();
+        _ui->spinBoxAR       ->show();
+        _ui->spinBoxAreaCtrl ->show();
+        _ui->spinBoxTCRoot   ->show();
+
+        _ui->checkBoxDelta->show();
+        _ui->checkBoxVariable->show();
+        break;
+
+    case CargoTransport:
+        _ui->labelArea     ->show();
+        _ui->labelMTOW     ->show();
+        _ui->labelNz       ->show();
+        _ui->labelSweep    ->show();
+        _ui->labelLambda   ->show();
+        _ui->labelAR       ->show();
+        _ui->labelAreaCtrl ->show();
+        _ui->labelTCRoot   ->show();
+
+        _ui->spinBoxArea     ->show();
+        _ui->spinBoxMTOW     ->show();
+        _ui->spinBoxNz       ->show();
+        _ui->spinBoxSweep    ->show();
+        _ui->spinBoxLambda   ->show();
+        _ui->spinBoxAR       ->show();
+        _ui->spinBoxAreaCtrl ->show();
+        _ui->spinBoxTCRoot   ->show();
+        break;
+
+    case GeneralAviation:
+        _ui->labelArea     ->show();
+        _ui->labelMTOW     ->show();
+        _ui->labelNz       ->show();
+        _ui->labelSweep    ->show();
+        _ui->labelLambda   ->show();
+        _ui->labelAR       ->show();
+        _ui->labelTCRoot   ->show();
+        _ui->labelFuel     ->show();
+        _ui->labelCruiseV  ->show();
+        _ui->labelCruiseH  ->show();
+
+        _ui->spinBoxArea     ->show();
+        _ui->spinBoxMTOW     ->show();
+        _ui->spinBoxNz       ->show();
+        _ui->spinBoxSweep    ->show();
+        _ui->spinBoxLambda   ->show();
+        _ui->spinBoxAR       ->show();
+        _ui->spinBoxTCRoot   ->show();
+        _ui->spinBoxFuel     ->show();
+        _ui->spinBoxCruiseV  ->show();
+        _ui->spinBoxCruiseH  ->show();
+        break;
+    }
 }
 
 ////////////////////////////////////////////////////////////////////////////////
