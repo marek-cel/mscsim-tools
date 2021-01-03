@@ -126,14 +126,15 @@
 
 #include <Aircraft.h>
 
+#include <Component.h>
+
 ////////////////////////////////////////////////////////////////////////////////
 
 Aircraft::Aircraft() :
-    _type ( FighterAttack ),
-
-    _m_empty ( 0.0 ),
-    _m_maxto ( 0.0 )
-{}
+    _type ( FighterAttack )
+{
+    reset();
+}
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -157,6 +158,8 @@ void Aircraft::reset()
                         0.0, 0.0, 0.0,
                         0.0, 0.0, 0.0 );
 
+    _massTotal = 0.0;
+
     deleteAllComponents();
 }
 
@@ -175,8 +178,9 @@ void Aircraft::update()
         i += (*it)->getInertia();
     }
 
-    _centerOfMass = s * ( 1.0 / m );
+    _centerOfMass = ( m > 0.0 ) ? ( s * ( 1.0 / m ) ) : Vector3();
     _inertiaMatrix = i;
+    _massTotal = m;
 }
 
 ////////////////////////////////////////////////////////////////////////////////

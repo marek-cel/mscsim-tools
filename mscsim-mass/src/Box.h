@@ -154,9 +154,13 @@ public:
      */
     static Matrix3x3 getInertia( double m, double l, double w, double h );
 
-    Box();
+    Box( const Aircraft *aircraft );
 
     virtual ~Box();
+
+    virtual void read( QDomElement *parentNode );
+
+    virtual void save( QDomDocument *doc, QDomElement *parentNode );
 
     virtual Matrix3x3 getInertia() const;
 
@@ -172,7 +176,9 @@ protected:
 
     double _l;      ///< [m] length
     double _w;      ///< [m] width
-    double _h;      ///< [m] height
+    double _h;      ///< [m] height,
+
+    virtual void saveParameters( QDomDocument *doc, QDomElement *node );
 
 };
 

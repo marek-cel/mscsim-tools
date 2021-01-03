@@ -130,6 +130,7 @@
 
 #include <QMainWindow>
 #include <QSettings>
+#include <QShortcut>
 
 #include <defs.h>
 
@@ -172,6 +173,9 @@ private:
 
     Ui::MainWindow *_ui;                        ///< UI object
 
+    QShortcut *_scSave;                         ///< key shortcut - save
+    QShortcut *_scExport;                       ///< key shortcut - export
+
     Document _doc;                              ///<
 
     bool _saved;                                ///<
@@ -199,6 +203,7 @@ private:
     void settingsSave();
     void settingsSave_RecentFiles( QSettings &settings );
 
+    void addComponent();
     void editComponent();
 
     void updateGUI();
@@ -217,6 +222,8 @@ private slots:
     void on_actionClearRecent_triggered();
 
     void recentFile_triggered( int id );
+
+    void on_actionAbout_triggered();
 
     void on_comboBoxType_currentIndexChanged( int index );
 

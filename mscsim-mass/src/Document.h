@@ -174,6 +174,11 @@ public:
     /** */
     bool saveFile( const char *fileName );
 
+    /** */
+    void update();
+
+    inline const Aircraft* getAircraft() const { return &_aircraft; }
+
     inline const Aircraft::Components& getComponents() const { return _aircraft.getComponents(); }
 
     inline Type getType() const { return _aircraft.getType(); }
@@ -183,6 +188,7 @@ public:
 
     inline Vector3   getCenterOfMass  () const { return _aircraft.getCenterOfMass  (); }
     inline Matrix3x3 getInertiaMatrix () const { return _aircraft.getInertiaMatrix (); }
+    inline double    getMassTotal     () const { return _aircraft.getMassTotal     (); }
 
     void addComponent( Component *component );
 
@@ -198,8 +204,6 @@ public:
 private:
 
     Aircraft _aircraft;     ///<
-
-    void update();
 };
 
 ////////////////////////////////////////////////////////////////////////////////

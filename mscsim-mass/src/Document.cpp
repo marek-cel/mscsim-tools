@@ -129,6 +129,10 @@
 #include <QFileInfo>
 #include <QTextStream>
 
+#include <Box.h>
+#include <Fuselage.h>
+#include <Wing.h>
+
 ////////////////////////////////////////////////////////////////////////////////
 
 void Document::saveTextNode( QDomDocument *doc, QDomElement *parent,
@@ -213,7 +217,33 @@ bool Document::readFile( const char *fileName )
                 _aircraft.setM_empty( m_empty );
                 _aircraft.setM_maxto( m_maxto );
 
-                // TODO
+                QDomElement nodeComponent = nodeComponents.firstChildElement();
+
+                while ( !nodeComponent.isNull() )
+                {
+                    Component *temp = NULLPTR;
+
+                    if      ( nodeComponent.tagName() == Box::xml_tag )
+                    {
+                        temp = new Box( &_aircraft );
+                    }
+                    else if ( nodeComponent.tagName() == Fuselage::xml_tag )
+                    {
+                        temp = new Fuselage( &_aircraft );
+                    }
+                    else if ( nodeComponent.tagName() == Wing::xml_tag )
+                    {
+                        temp = new Wing( &_aircraft );
+                    }
+
+                    if ( temp )
+                    {
+                        temp->read( &nodeComponent );
+                        _aircraft.addComponent( temp );
+                    }
+
+                    nodeComponent = nodeComponent.nextSiblingElement();
+                }
 
                 status = true;
 
@@ -264,7 +294,12 @@ bool Document::saveFile( const char *fileName )
         QDomElement componentsNode = doc.createElement( "components" );
         rootNode.appendChild( componentsNode );
 
-        // TODO
+        Aircraft::Components components = _aircraft.getComponents();
+
+        for ( Aircraft::Components::iterator it = components.begin(); it != components.end(); it++ )
+        {
+            (*it)->save( &doc, &componentsNode );
+        }
 
         out << doc.toString();
 
@@ -274,6 +309,13 @@ bool Document::saveFile( const char *fileName )
     }
 
     return false;
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void Document::update()
+{
+    _aircraft.update();
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -326,11 +368,4 @@ void Document::setM_maxto( double m_maxto )
     _aircraft.setM_maxto( m_maxto );
 
     update();
-}
-
-////////////////////////////////////////////////////////////////////////////////
-
-void Document::update()
-{
-    _aircraft.update();
 }

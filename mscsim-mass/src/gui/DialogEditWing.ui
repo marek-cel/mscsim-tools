@@ -1,24 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>DialogEditFuselage</class>
- <widget class="QDialog" name="DialogEditFuselage">
+ <class>DialogEditWing</class>
+ <widget class="QDialog" name="DialogEditWing">
   <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
     <width>431</width>
-    <height>644</height>
+    <height>740</height>
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Fuselage</string>
+   <string>Wing</string>
   </property>
   <property name="modal">
    <bool>true</bool>
   </property>
   <layout class="QGridLayout" name="gridLayout">
-   <item row="3" column="2">
-    <widget class="QDoubleSpinBox" name="spinBox_W">
+   <item row="2" column="3">
+    <widget class="QDoubleSpinBox" name="spinBox_Z">
      <property name="alignment">
       <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
      </property>
@@ -33,8 +33,18 @@
      </property>
     </widget>
    </item>
-   <item row="2" column="3">
-    <widget class="QDoubleSpinBox" name="spinBox_Z">
+   <item row="7" column="0" colspan="4">
+    <widget class="QDialogButtonBox" name="buttonBox">
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
+     </property>
+     <property name="standardButtons">
+      <set>QDialogButtonBox::Cancel|QDialogButtonBox::Ok</set>
+     </property>
+    </widget>
+   </item>
+   <item row="2" column="1">
+    <widget class="QDoubleSpinBox" name="spinBox_X">
      <property name="alignment">
       <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
      </property>
@@ -46,6 +56,19 @@
      </property>
      <property name="maximum">
       <double>99.989999999999995</double>
+     </property>
+    </widget>
+   </item>
+   <item row="0" column="0">
+    <widget class="QLabel" name="labelName">
+     <property name="text">
+      <string>Name:</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+     </property>
+     <property name="buddy">
+      <cstring>lineEditName</cstring>
      </property>
     </widget>
    </item>
@@ -65,8 +88,8 @@
      </property>
     </widget>
    </item>
-   <item row="3" column="1">
-    <widget class="QDoubleSpinBox" name="spinBox_L">
+   <item row="3" column="2">
+    <widget class="QDoubleSpinBox" name="spinBox_W">
      <property name="alignment">
       <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
      </property>
@@ -97,6 +120,19 @@
      </property>
     </widget>
    </item>
+   <item row="6" column="2">
+    <spacer name="verticalSpacer">
+     <property name="orientation">
+      <enum>Qt::Vertical</enum>
+     </property>
+     <property name="sizeHint" stdset="0">
+      <size>
+       <width>20</width>
+       <height>108</height>
+      </size>
+     </property>
+    </spacer>
+   </item>
    <item row="2" column="0">
     <widget class="QLabel" name="labelXYZ">
      <property name="text">
@@ -107,16 +143,6 @@
      </property>
      <property name="buddy">
       <cstring>spinBox_X</cstring>
-     </property>
-    </widget>
-   </item>
-   <item row="7" column="0" colspan="4">
-    <widget class="QDialogButtonBox" name="buttonBox">
-     <property name="orientation">
-      <enum>Qt::Horizontal</enum>
-     </property>
-     <property name="standardButtons">
-      <set>QDialogButtonBox::Cancel|QDialogButtonBox::Ok</set>
      </property>
     </widget>
    </item>
@@ -133,48 +159,6 @@
      </property>
     </widget>
    </item>
-   <item row="1" column="0">
-    <widget class="QLabel" name="labelMass">
-     <property name="text">
-      <string>Mass [kg]:</string>
-     </property>
-     <property name="alignment">
-      <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-     </property>
-     <property name="buddy">
-      <cstring>spinBox_Mass</cstring>
-     </property>
-    </widget>
-   </item>
-   <item row="0" column="0">
-    <widget class="QLabel" name="labelName">
-     <property name="text">
-      <string>Name:</string>
-     </property>
-     <property name="alignment">
-      <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-     </property>
-     <property name="buddy">
-      <cstring>lineEditName</cstring>
-     </property>
-    </widget>
-   </item>
-   <item row="0" column="1" colspan="3">
-    <widget class="QLineEdit" name="lineEditName"/>
-   </item>
-   <item row="6" column="2">
-    <spacer name="verticalSpacer">
-     <property name="orientation">
-      <enum>Qt::Vertical</enum>
-     </property>
-     <property name="sizeHint" stdset="0">
-      <size>
-       <width>20</width>
-       <height>108</height>
-      </size>
-     </property>
-    </spacer>
-   </item>
    <item row="1" column="1">
     <widget class="QDoubleSpinBox" name="spinBox_Mass">
      <property name="alignment">
@@ -188,8 +172,21 @@
      </property>
     </widget>
    </item>
-   <item row="2" column="1">
-    <widget class="QDoubleSpinBox" name="spinBox_X">
+   <item row="1" column="0">
+    <widget class="QLabel" name="labelMass">
+     <property name="text">
+      <string>Mass [kg]:</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+     </property>
+     <property name="buddy">
+      <cstring>spinBox_Mass</cstring>
+     </property>
+    </widget>
+   </item>
+   <item row="3" column="1">
+    <widget class="QDoubleSpinBox" name="spinBox_L">
      <property name="alignment">
       <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
      </property>
@@ -204,128 +201,28 @@
      </property>
     </widget>
    </item>
+   <item row="0" column="1" colspan="3">
+    <widget class="QLineEdit" name="lineEditName"/>
+   </item>
    <item row="5" column="0" colspan="4">
     <widget class="QGroupBox" name="groupBox">
+     <property name="minimumSize">
+      <size>
+       <width>0</width>
+       <height>0</height>
+      </size>
+     </property>
      <property name="title">
-      <string>Fuselage</string>
+      <string>Wing</string>
      </property>
      <layout class="QGridLayout" name="gridLayout_2">
-      <item row="2" column="1">
-       <widget class="QDoubleSpinBox" name="spinBoxNz">
-        <property name="alignment">
-         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-        </property>
-        <property name="minimum">
-         <double>1.000000000000000</double>
-        </property>
-        <property name="maximum">
-         <double>10.000000000000000</double>
-        </property>
-       </widget>
-      </item>
-      <item row="7" column="0">
-       <widget class="QLabel" name="labelSpan">
+      <item row="0" column="0">
+       <widget class="QLabel" name="labelOutputMass">
         <property name="text">
-         <string>Span [m]:</string>
+         <string>Mass [kg]:</string>
         </property>
         <property name="alignment">
          <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-        </property>
-        <property name="buddy">
-         <cstring>spinBoxSpan</cstring>
-        </property>
-       </widget>
-      </item>
-      <item row="4" column="1">
-       <widget class="QCheckBox" name="checkBoxDelta">
-        <property name="text">
-         <string>Delta Wing</string>
-        </property>
-       </widget>
-      </item>
-      <item row="11" column="1">
-       <widget class="QDoubleSpinBox" name="spinBoxPressVol">
-        <property name="alignment">
-         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-        </property>
-        <property name="maximum">
-         <double>99999.990000000005239</double>
-        </property>
-       </widget>
-      </item>
-      <item row="10" column="1">
-       <widget class="QDoubleSpinBox" name="spinBoxTailLength">
-        <property name="alignment">
-         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-        </property>
-       </widget>
-      </item>
-      <item row="8" column="1">
-       <widget class="QDoubleSpinBox" name="spinBoxSweep">
-        <property name="alignment">
-         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-        </property>
-        <property name="maximum">
-         <double>90.000000000000000</double>
-        </property>
-       </widget>
-      </item>
-      <item row="2" column="0">
-       <widget class="QLabel" name="labelNz">
-        <property name="text">
-         <string>Nz [-]:</string>
-        </property>
-        <property name="alignment">
-         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-        </property>
-        <property name="buddy">
-         <cstring>spinBoxNz</cstring>
-        </property>
-       </widget>
-      </item>
-      <item row="8" column="0">
-       <widget class="QLabel" name="labelSweep">
-        <property name="text">
-         <string>Sweep at 25% [deg]:</string>
-        </property>
-        <property name="alignment">
-         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-        </property>
-        <property name="buddy">
-         <cstring>spinBoxSweep</cstring>
-        </property>
-       </widget>
-      </item>
-      <item row="7" column="1">
-       <widget class="QDoubleSpinBox" name="spinBoxSpan">
-        <property name="alignment">
-         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-        </property>
-       </widget>
-      </item>
-      <item row="3" column="0">
-       <widget class="QLabel" name="labelMTOW">
-        <property name="text">
-         <string>MTOW [kg]:</string>
-        </property>
-        <property name="alignment">
-         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-        </property>
-        <property name="buddy">
-         <cstring>spinBoxMTOW</cstring>
-        </property>
-       </widget>
-      </item>
-      <item row="5" column="0">
-       <widget class="QLabel" name="labelDoor">
-        <property name="text">
-         <string>Cargo Door:</string>
-        </property>
-        <property name="alignment">
-         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-        </property>
-        <property name="buddy">
-         <cstring>comboBoxDoor</cstring>
         </property>
        </widget>
       </item>
@@ -357,50 +254,65 @@
         </property>
        </widget>
       </item>
-      <item row="9" column="0">
-       <widget class="QLabel" name="labelLambda">
+      <item row="1" column="0">
+       <widget class="QLabel" name="labelArea">
         <property name="text">
-         <string>Taper Ratio [-]:</string>
+         <string>Area [m^2]:</string>
         </property>
         <property name="alignment">
          <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
         </property>
         <property name="buddy">
-         <cstring>spinBoxLambda</cstring>
+         <cstring>spinBoxArea</cstring>
         </property>
        </widget>
       </item>
-      <item row="9" column="1">
-       <widget class="QDoubleSpinBox" name="spinBoxLambda">
+      <item row="1" column="1">
+       <widget class="QDoubleSpinBox" name="spinBoxArea">
         <property name="alignment">
          <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
         </property>
-       </widget>
-      </item>
-      <item row="11" column="0">
-       <widget class="QLabel" name="labelPressVol">
-        <property name="text">
-         <string>Press. section vol [m^3]:</string>
-        </property>
-        <property name="alignment">
-         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+        <property name="maximum">
+         <double>9999.989999999999782</double>
         </property>
        </widget>
       </item>
-      <item row="10" column="0">
-       <widget class="QLabel" name="labelTailLength">
+      <item row="2" column="0">
+       <widget class="QLabel" name="labelNz">
         <property name="text">
-         <string>Tail Length [m]:</string>
+         <string>Nz [-]:</string>
         </property>
         <property name="alignment">
          <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
         </property>
+        <property name="buddy">
+         <cstring>spinBoxNz</cstring>
+        </property>
        </widget>
       </item>
-      <item row="6" column="1">
-       <widget class="QCheckBox" name="checkBoxMount">
+      <item row="2" column="1">
+       <widget class="QDoubleSpinBox" name="spinBoxNz">
+        <property name="alignment">
+         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+        </property>
+        <property name="minimum">
+         <double>1.000000000000000</double>
+        </property>
+        <property name="maximum">
+         <double>10.000000000000000</double>
+        </property>
+       </widget>
+      </item>
+      <item row="3" column="0">
+       <widget class="QLabel" name="labelMTOW">
         <property name="text">
-         <string>Fuselage mounted Main LG</string>
+         <string>MTOW [kg]:</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+        </property>
+        <property name="buddy">
+         <cstring>spinBoxMTOW</cstring>
         </property>
        </widget>
       </item>
@@ -417,6 +329,174 @@
         </property>
        </widget>
       </item>
+      <item row="4" column="1">
+       <widget class="QCheckBox" name="checkBoxDelta">
+        <property name="text">
+         <string>Delta Wing</string>
+        </property>
+       </widget>
+      </item>
+      <item row="5" column="0">
+       <widget class="QLabel" name="labelSweep">
+        <property name="text">
+         <string>Sweep at 25% [deg]:</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+        </property>
+        <property name="buddy">
+         <cstring>spinBoxSweep</cstring>
+        </property>
+       </widget>
+      </item>
+      <item row="5" column="1">
+       <widget class="QDoubleSpinBox" name="spinBoxSweep">
+        <property name="alignment">
+         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+        </property>
+        <property name="maximum">
+         <double>90.000000000000000</double>
+        </property>
+       </widget>
+      </item>
+      <item row="6" column="0">
+       <widget class="QLabel" name="labelLambda">
+        <property name="text">
+         <string>Taper Ratio [-]:</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+        </property>
+        <property name="buddy">
+         <cstring>spinBoxLambda</cstring>
+        </property>
+       </widget>
+      </item>
+      <item row="6" column="1">
+       <widget class="QDoubleSpinBox" name="spinBoxLambda">
+        <property name="alignment">
+         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+        </property>
+       </widget>
+      </item>
+      <item row="7" column="0">
+       <widget class="QLabel" name="labelAR">
+        <property name="text">
+         <string>Aspect Ratio [-]:</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+        </property>
+        <property name="buddy">
+         <cstring>spinBoxAR</cstring>
+        </property>
+       </widget>
+      </item>
+      <item row="7" column="1">
+       <widget class="QDoubleSpinBox" name="spinBoxAR">
+        <property name="alignment">
+         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+        </property>
+       </widget>
+      </item>
+      <item row="8" column="1">
+       <widget class="QCheckBox" name="checkBoxVariable">
+        <property name="text">
+         <string>Variable Sweep</string>
+        </property>
+       </widget>
+      </item>
+      <item row="9" column="0">
+       <widget class="QLabel" name="labelAreaCtrl">
+        <property name="toolTip">
+         <string>wing mounted control surface area</string>
+        </property>
+        <property name="text">
+         <string>Controls Area [m^2]:</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+        </property>
+        <property name="buddy">
+         <cstring>spinBoxAreaCtrl</cstring>
+        </property>
+       </widget>
+      </item>
+      <item row="9" column="1">
+       <widget class="QDoubleSpinBox" name="spinBoxAreaCtrl">
+        <property name="toolTip">
+         <string>wing mounted control surface area</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+        </property>
+        <property name="maximum">
+         <double>9999.989999999999782</double>
+        </property>
+       </widget>
+      </item>
+      <item row="10" column="0">
+       <widget class="QLabel" name="labelTCRoot">
+        <property name="text">
+         <string>Thickness Ratio at Root [-]:</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+        </property>
+        <property name="buddy">
+         <cstring>spinBoxTCRoot</cstring>
+        </property>
+       </widget>
+      </item>
+      <item row="10" column="1">
+       <widget class="QDoubleSpinBox" name="spinBoxTCRoot">
+        <property name="alignment">
+         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+        </property>
+        <property name="maximum">
+         <double>1.000000000000000</double>
+        </property>
+       </widget>
+      </item>
+      <item row="11" column="0">
+       <widget class="QLabel" name="label">
+        <property name="text">
+         <string>Wing Fuel Capacity [kg]:</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+        </property>
+        <property name="buddy">
+         <cstring>spinBoxFuel</cstring>
+        </property>
+       </widget>
+      </item>
+      <item row="11" column="1">
+       <widget class="QDoubleSpinBox" name="spinBoxFuel">
+        <property name="alignment">
+         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+        </property>
+        <property name="decimals">
+         <number>0</number>
+        </property>
+        <property name="maximum">
+         <double>999999.000000000000000</double>
+        </property>
+       </widget>
+      </item>
+      <item row="12" column="0">
+       <widget class="QLabel" name="labelCruiseV">
+        <property name="text">
+         <string>Cruise Speed [kts]:</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+        </property>
+        <property name="buddy">
+         <cstring>spinBoxCruiseV</cstring>
+        </property>
+       </widget>
+      </item>
       <item row="12" column="1">
        <widget class="QDoubleSpinBox" name="spinBoxCruiseV">
         <property name="alignment">
@@ -430,43 +510,17 @@
         </property>
        </widget>
       </item>
-      <item row="0" column="0">
-       <widget class="QLabel" name="labelOutputMass">
+      <item row="13" column="0">
+       <widget class="QLabel" name="labelCruiseH">
         <property name="text">
-         <string>Mass [kg]:</string>
+         <string>Cruise Altitude [ft]:</string>
         </property>
         <property name="alignment">
          <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
         </property>
-       </widget>
-      </item>
-      <item row="5" column="1">
-       <widget class="QComboBox" name="comboBoxDoor">
-        <item>
-         <property name="text">
-          <string>No Cargo Door</string>
-         </property>
-        </item>
-        <item>
-         <property name="text">
-          <string>One Side Cargo Door</string>
-         </property>
-        </item>
-        <item>
-         <property name="text">
-          <string>Two Side Cargo Door</string>
-         </property>
-        </item>
-        <item>
-         <property name="text">
-          <string>Aft Clamshell Door</string>
-         </property>
-        </item>
-        <item>
-         <property name="text">
-          <string>Two Side and Aft Door</string>
-         </property>
-        </item>
+        <property name="buddy">
+         <cstring>spinBoxCruiseH</cstring>
+        </property>
        </widget>
       </item>
       <item row="13" column="1">
@@ -479,26 +533,6 @@
         </property>
         <property name="maximum">
          <double>99999.000000000000000</double>
-        </property>
-       </widget>
-      </item>
-      <item row="12" column="0">
-       <widget class="QLabel" name="labelCruiseV">
-        <property name="text">
-         <string>Cruise Speed [kts]:</string>
-        </property>
-        <property name="alignment">
-         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-        </property>
-       </widget>
-      </item>
-      <item row="13" column="0">
-       <widget class="QLabel" name="labelCruiseH">
-        <property name="text">
-         <string>Cruise Altitude [ft]:</string>
-        </property>
-        <property name="alignment">
-         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
         </property>
        </widget>
       </item>
@@ -516,16 +550,17 @@
   <tabstop>spinBox_L</tabstop>
   <tabstop>spinBox_W</tabstop>
   <tabstop>spinBox_H</tabstop>
+  <tabstop>spinBoxArea</tabstop>
   <tabstop>spinBoxNz</tabstop>
   <tabstop>spinBoxMTOW</tabstop>
   <tabstop>checkBoxDelta</tabstop>
-  <tabstop>comboBoxDoor</tabstop>
-  <tabstop>checkBoxMount</tabstop>
-  <tabstop>spinBoxSpan</tabstop>
   <tabstop>spinBoxSweep</tabstop>
   <tabstop>spinBoxLambda</tabstop>
-  <tabstop>spinBoxTailLength</tabstop>
-  <tabstop>spinBoxPressVol</tabstop>
+  <tabstop>spinBoxAR</tabstop>
+  <tabstop>checkBoxVariable</tabstop>
+  <tabstop>spinBoxAreaCtrl</tabstop>
+  <tabstop>spinBoxTCRoot</tabstop>
+  <tabstop>spinBoxFuel</tabstop>
   <tabstop>spinBoxCruiseV</tabstop>
   <tabstop>spinBoxCruiseH</tabstop>
  </tabstops>
@@ -534,7 +569,7 @@
   <connection>
    <sender>buttonBox</sender>
    <signal>accepted()</signal>
-   <receiver>DialogEditFuselage</receiver>
+   <receiver>DialogEditWing</receiver>
    <slot>accept()</slot>
    <hints>
     <hint type="sourcelabel">
@@ -550,7 +585,7 @@
   <connection>
    <sender>buttonBox</sender>
    <signal>rejected()</signal>
-   <receiver>DialogEditFuselage</receiver>
+   <receiver>DialogEditWing</receiver>
    <slot>reject()</slot>
    <hints>
     <hint type="sourcelabel">

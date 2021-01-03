@@ -126,6 +126,7 @@
 
 #include <Box.h>
 
+#include <Document.h>
 #include <Steiner.h>
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -155,7 +156,8 @@ Matrix3x3 Box::getInertia( double m, double l, double w, double h )
 
 ////////////////////////////////////////////////////////////////////////////////
 
-Box::Box() :
+Box::Box( const Aircraft *aircraft ) :
+    Component( aircraft ),
     _l ( 0.0 ),
     _w ( 0.0 ),
     _h ( 0.0 )
@@ -166,6 +168,33 @@ Box::Box() :
 ////////////////////////////////////////////////////////////////////////////////
 
 Box::~Box() {}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void Box::read( QDomElement *parentNode )
+{
+    //////////////////////////////
+    Component::read( parentNode );
+    //////////////////////////////
+
+    QDomElement nodeL = parentNode->firstChildElement( "length" );
+    QDomElement nodeW = parentNode->firstChildElement( "width"  );
+    QDomElement nodeH = parentNode->firstChildElement( "height" );
+
+    if ( !nodeL.isNull() ) _l = nodeL.text().toDouble();
+    if ( !nodeW.isNull() ) _w = nodeW.text().toDouble();
+    if ( !nodeH.isNull() ) _h = nodeH.text().toDouble();
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void Box::save( QDomDocument *doc, QDomElement *parentNode )
+{
+    QDomElement node = doc->createElement( Box::xml_tag );
+    parentNode->appendChild( node );
+
+    saveParameters( doc, &node );
+}
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -193,4 +222,17 @@ void Box::setWidth( double w )
 void Box::setHeight( double h )
 {
     _h = h;
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void Box::saveParameters( QDomDocument *doc, QDomElement *node )
+{
+    ///////////////////////////////////////
+    Component::saveParameters( doc, node );
+    ///////////////////////////////////////
+
+    Document::saveTextNode( doc, node, "length" , QString::number( _l, 'f', 2 ).toStdString().c_str() );
+    Document::saveTextNode( doc, node, "width"  , QString::number( _w, 'f', 2 ).toStdString().c_str() );
+    Document::saveTextNode( doc, node, "height" , QString::number( _h, 'f', 2 ).toStdString().c_str() );
 }

@@ -183,6 +183,28 @@ public:
         return len * 0.3048;
     }
 
+    // VELOCITY
+
+    /**
+     * @brief Converts given velocity from m/s to knots.
+     * @param vel velocity expressed in m/s
+     * @return velocity expressed in knots
+     */
+    static inline double mps2kts( double vel = 1.0 )
+    {
+        return vel * 1.943844491;
+    }
+
+    /**
+     * @brief Converts given velocity from kntos to m/s.
+     * @param vel velocity expressed in knots
+     * @return velocity expressed in m/s
+     */
+    static inline double kts2mps( double vel = 1.0 )
+    {
+        return vel * 0.5144444444444;
+    }
+
     // AREA
 
     static inline double sqm2sqft( double area = 1.0 )
@@ -197,14 +219,9 @@ public:
 
     // VOLUME
 
-    /**
-     * @brief Converts given volume from cubic inches to cubic metres.
-     * @param vol volume expressed in cubic inches
-     * @return volume expressed in cubic metres
-     */
-    static inline double cuin2m3( double vol = 1.0 )
+    static inline double cum2cuft( double vol = 1.0 )
     {
-        return vol * 0.000016387064;
+        return vol * 35.3146667;
     }
 
     // MASS
@@ -227,6 +244,13 @@ public:
     static inline double lb2kg( double mass = 1.0 )
     {
         return mass * 0.45359237;
+    }
+
+    // PRESSURE
+
+    static inline double pa2psf( double mass = 1.0 )
+    {
+        return mass * 0.020885434273039;
     }
 };
 

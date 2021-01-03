@@ -123,19 +123,216 @@
  *     party to this document and has no duty or obligation with respect to
  *     this CC0 or use of the Work.
  ******************************************************************************/
-#ifndef MASSCOMPONENTS_H
-#define MASSCOMPONENTS_H
-
+#include <gui/DialogEditWing.h>
+#include <ui_DialogEditWing.h>
 
 ////////////////////////////////////////////////////////////////////////////////
 
-/** */
-class MassComponents
+void DialogEditWing::edit( QWidget *parent, Wing *wing )
+{
+    DialogEditWing *dialog = new DialogEditWing( parent );
+
+    dialog->init( *wing );
+
+    if ( dialog->exec() == QDialog::Accepted )
+    {
+        dialog->getData( wing );
+    }
+
+    DELPTR( dialog );
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+DialogEditWing::DialogEditWing( QWidget *parent ) :
+    QDialog( parent ),
+    _ui( new Ui::DialogEditWing )
+{
+    _ui->setupUi( this );
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+DialogEditWing::~DialogEditWing()
+{
+    DELPTR( _ui );
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void DialogEditWing::init( const Wing &wing )
+{
+    _wing = &wing;
+
+    _ui->lineEditName->setText( wing.getName() );
+
+    _ui->spinBox_Mass->setValue( wing.getMass() );
+
+    _ui->spinBox_X->setValue( wing.getPosition().x() );
+    _ui->spinBox_Y->setValue( wing.getPosition().y() );
+    _ui->spinBox_Z->setValue( wing.getPosition().z() );
+
+    _ui->spinBox_L->setValue( wing.getLength () );
+    _ui->spinBox_W->setValue( wing.getWidth  () );
+    _ui->spinBox_H->setValue( wing.getHeight () );
+
+
+    _ui->checkBoxDelta->setChecked( wing.getDelta() );
+    _ui->checkBoxVariable->setCheckable( wing.getVariable() );
+
+    _ui->spinBoxArea       ->setValue( wing.getArea     () );
+    _ui->spinBoxMTOW       ->setValue( wing.getMTOW     () );
+    _ui->spinBoxNz         ->setValue( wing.getNzMax    () );
+    _ui->spinBoxSweep      ->setValue( wing.getSweep    () );
+    _ui->spinBoxLambda     ->setValue( wing.getLambda   () );
+    _ui->spinBoxAR         ->setValue( wing.getAR       () );
+    _ui->spinBoxAreaCtrl   ->setValue( wing.getAreaCtrl () );
+    _ui->spinBoxTCRoot     ->setValue( wing.getTCRoot   () );
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void DialogEditWing::getData( Wing *wing ) const
+{
+    wing->setName( _ui->lineEditName->text().toStdString().c_str() );
+
+    wing->setMass( _ui->spinBox_Mass->value() );
+
+    Vector3 position( _ui->spinBox_X->value(),
+                      _ui->spinBox_Y->value(),
+                      _ui->spinBox_Z->value() );
+
+    wing->setPosition( position );
+
+    wing->setLength ( _ui->spinBox_L->value() );
+    wing->setWidth  ( _ui->spinBox_W->value() );
+    wing->setHeight ( _ui->spinBox_H->value() );
+
+    wing->setDelta( _ui->checkBoxDelta->isChecked() );
+    wing->setVariable( _ui->checkBoxVariable->isChecked() );
+
+    wing->setArea     ( _ui->spinBoxArea     ->value() );
+    wing->setMTOW     ( _ui->spinBoxMTOW     ->value() );
+    wing->setNzMax    ( _ui->spinBoxNz       ->value() );
+    wing->setSweep    ( _ui->spinBoxSweep    ->value() );
+    wing->setLambda   ( _ui->spinBoxLambda   ->value() );
+    wing->setAR       ( _ui->spinBoxAR       ->value() );
+    wing->setAreaCtrl ( _ui->spinBoxAreaCtrl ->value() );
+    wing->setTCRoot   ( _ui->spinBoxTCRoot   ->value() );
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void DialogEditWing::setType( Type type )
 {
 
-
-};
+}
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#endif // MASSCOMPONENTS_H
+void DialogEditWing::updateWing()
+{
+    double mass = Wing::computeMass( _wing->getAircraft()->getType(),
+                                     _ui->spinBoxArea->value(),
+                                     _ui->spinBoxMTOW->value(),
+                                     _ui->spinBoxNz->value(),
+                                     _ui->checkBoxDelta->isChecked(),
+                                     _ui->spinBoxSweep->value(),
+                                     _ui->spinBoxLambda->value(),
+                                     _ui->spinBoxAR->value(),
+                                     _ui->checkBoxVariable->isChecked(),
+                                     _ui->spinBoxAreaCtrl->value(),
+                                     _ui->spinBoxTCRoot->value(),
+                                     _ui->spinBoxFuel->value(),
+                                     _ui->spinBoxCruiseV->value(),
+                                     _ui->spinBoxCruiseH->value()
+                                       );
+
+    _ui->spinBoxOutputMass->setValue( mass );
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void DialogEditWing::on_spinBox_L_valueChanged(double )
+{
+    updateWing();
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void DialogEditWing::on_spinBox_W_valueChanged(double )
+{
+    updateWing();
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void DialogEditWing::on_spinBox_H_valueChanged(double )
+{
+    updateWing();
+}
+
+void DialogEditWing::on_spinBoxArea_valueChanged(double )
+{
+    updateWing();
+}
+
+void DialogEditWing::on_spinBoxNz_valueChanged(double )
+{
+    updateWing();
+}
+
+void DialogEditWing::on_spinBoxMTOW_valueChanged(double )
+{
+    updateWing();
+}
+
+void DialogEditWing::on_spinBoxSweep_valueChanged(double )
+{
+    updateWing();
+}
+
+void DialogEditWing::on_spinBoxLambda_valueChanged(double )
+{
+    updateWing();
+}
+
+void DialogEditWing::on_spinBoxAR_valueChanged(double )
+{
+    updateWing();
+}
+
+void DialogEditWing::on_spinBoxAreaCtrl_valueChanged(double )
+{
+    updateWing();
+}
+
+void DialogEditWing::on_spinBoxTCRoot_valueChanged(double )
+{
+    updateWing();
+}
+
+void DialogEditWing::on_checkBoxDelta_toggled(bool )
+{
+    updateWing();
+}
+
+void DialogEditWing::on_checkBoxVariable_toggled(bool )
+{
+    updateWing();
+}
+
+void DialogEditWing::on_spinBoxFuel_valueChanged(double )
+{
+    updateWing();
+}
+
+void DialogEditWing::on_spinBoxCruiseV_valueChanged(double )
+{
+    updateWing();
+}
+
+void DialogEditWing::on_spinBoxCruiseH_valueChanged(double )
+{
+    updateWing();
+}

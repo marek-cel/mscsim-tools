@@ -123,26 +123,161 @@
  *     party to this document and has no duty or obligation with respect to
  *     this CC0 or use of the Work.
  ******************************************************************************/
-
-#include <Inertia.h>
+#ifndef WING_H
+#define WING_H
 
 ////////////////////////////////////////////////////////////////////////////////
 
-Matrix3x3 Inertia::getInertiaOfCuboid( double m, double lx, double ly, double lz )
+#include <Box.h>
+
+////////////////////////////////////////////////////////////////////////////////
+
+/**
+ * @brief The Wing class.
+ *
+ * @see Raymer D. P.: Aircraft Design: A Conceptual Approach, AIAA, 1992, p.398-407
+ */
+class Wing : public Box
 {
-    Matrix3x3 result;
+public:
 
-    result.xx() = m * ( ly*ly + lz*lz ) / 12.0;
-    result.xy() = 0.0;
-    result.xz() = 0.0;
+    static const char xml_tag[];
 
-    result.yx() = 0.0;
-    result.yy() = m * ( lx*lx + lz*lz ) / 12.0;
-    result.yz() = 0.0;
+    static double computeMass( Type type,
+                               double area,
+                               double mtow,
+                               double nz_max,
+                               bool delta,
+                               double sweep,
+                               double lambda,
+                               double ar,
+                               bool variable,
+                               double area_ctrl,
+                               double tc_root,
+                               double fuel,
+                               double v_cruise,
+                               double h_cruise );
 
-    result.zx() = 0.0;
-    result.zy() = 0.0;
-    result.zz() = m * ( lx*lx + ly*ly ) / 12.0;
+    /**
+     * @brief computeMassFA
+     * @param area [m^2] wing area
+     * @param mtow [kg] maximum take-off weight
+     * @param nz_max [-] maximum allowed load factor
+     * @param delta specifies if aircraft has delta wing
+     * @param sweep [deg] wing sweep at 25% chord
+     * @param lambda [-] taper ratio
+     * @param ar [-]  aspect ratio
+     * @param variable specifies if wing has variable sweep
+     * @param area_ctrl [m^2] wing mounted control surface area
+     * @param tc_root [-] thickness ratio at root
+     * @return [kg] wing mass
+     */
+    static double computeMassFA( double area,
+                                 double mtow,
+                                 double nz_max,
+                                 bool delta,
+                                 double sweep,
+                                 double lambda,
+                                 double ar,
+                                 bool variable,
+                                 double area_ctrl,
+                                 double tc_root );
 
-    return result;
-}
+    /**
+     * @brief computeMassCT
+     * @param area [m^2] wing area
+     * @param mtow [kg] maximum take-off weight
+     * @param nz_max [-] maximum allowed load factor
+     * @param sweep [deg] wing sweep at 25% chord
+     * @param lambda [-] taper ratio
+     * @param ar [-]  aspect ratio
+     * @param area_ctrl [m^2] wing mounted control surface area
+     * @param tc_root [-] thickness ratio at root
+     * @return
+     */
+    static double computeMassCT( double area,
+                                 double mtow,
+                                 double nz_max,
+                                 double sweep,
+                                 double lambda,
+                                 double ar,
+                                 double area_ctrl,
+                                 double tc_root );
+
+    /**
+     * @brief computeMassGA
+     * @param area [m^2] wing area
+     * @param mtow [kg] maximum take-off weight
+     * @param nz_max [-] maximum allowed load factor
+     * @param sweep [deg] wing sweep at 25% chord
+     * @param lambda [-] taper ratio
+     * @param ar [-]  aspect ratio
+     * @param area_ctrl [m^2] wing mounted control surface area
+     * @param tc_root [-] thickness ratio at root
+     * @param fuel [kg]
+     * @param v_cruise [kts]
+     * @param h_cruise [ft]
+     * @return
+     */
+    static double computeMassGA( double area,
+                                 double mtow,
+                                 double nz_max,
+                                 double sweep,
+                                 double lambda,
+                                 double ar,
+                                 double tc_root,
+                                 double fuel,
+                                 double v_cruise,
+                                 double h_cruise );
+
+    Wing( const Aircraft *aircraft );
+
+    virtual ~Wing();
+
+    virtual void read( QDomElement *parentNode );
+
+    virtual void save( QDomDocument *doc, QDomElement *parentNode );
+
+    inline double    getArea     () const { return _area;      }
+    inline double    getMTOW     () const { return _mtow;      }
+    inline double    getNzMax    () const { return _nz_max;    }
+    inline bool      getDelta    () const { return _delta;     }
+    inline double    getSweep    () const { return _sweep;     }
+    inline double    getLambda   () const { return _lambda;    }
+    inline double    getAR       () const { return _ar;        }
+    inline bool      getVariable () const { return _variable;  }
+    inline double    getAreaCtrl () const { return _area_ctrl; }
+    inline double    getTCRoot   () const { return _t_c_root;  }
+
+
+    void setArea     ( double area      );
+    void setMTOW     ( double mtow      );
+    void setNzMax    ( double nz_max    );
+    void setDelta    ( bool   delta     );
+    void setSweep    ( double sweep     );
+    void setLambda   ( double lambda    );
+    void setAR       ( double ar        );
+    void setVariable ( bool   variable  );
+    void setAreaCtrl ( double area_ctrl );
+    void setTCRoot   ( double t_c_root  );
+
+private:
+
+    double _area;
+    double _mtow;
+    double _nz_max;
+    bool   _delta;
+    double _sweep;
+    double _lambda;
+    double _ar;
+    bool   _variable;
+    double _area_ctrl;
+    double _t_c_root;
+
+    virtual void saveParameters( QDomDocument *doc, QDomElement *node );
+
+};
+
+////////////////////////////////////////////////////////////////////////////////
+
+#endif // WING_H

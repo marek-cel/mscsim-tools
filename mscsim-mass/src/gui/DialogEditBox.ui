@@ -6,12 +6,15 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>419</width>
-    <height>350</height>
+    <width>400</width>
+    <height>300</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Box</string>
+  </property>
+  <property name="modal">
+   <bool>true</bool>
   </property>
   <layout class="QGridLayout" name="gridLayout">
    <item row="2" column="2">
@@ -188,14 +191,14 @@
    <item row="0" column="1" colspan="3">
     <widget class="QLineEdit" name="lineEditName"/>
    </item>
-   <item row="4" column="0" colspan="4">
+   <item row="4" column="2">
     <spacer name="verticalSpacer">
      <property name="orientation">
       <enum>Qt::Vertical</enum>
      </property>
      <property name="sizeHint" stdset="0">
       <size>
-       <width>396</width>
+       <width>20</width>
        <height>158</height>
       </size>
      </property>

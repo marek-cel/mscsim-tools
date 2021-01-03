@@ -130,10 +130,14 @@
 
 #include <string>
 
+#include <QDomDocument>
+#include <QDomElement>
+
 #include <defs.h>
 
 #include <Type.h>
 
+#include <Aircraft.h>
 #include <Matrix3x3.h>
 #include <Vector3.h>
 
@@ -146,9 +150,15 @@ class Component
 {
 public:
 
-    Component();
+    Component( const Aircraft *aircraft );
 
     virtual ~Component();
+
+    virtual void read( QDomElement *parentNode );
+
+    virtual void save( QDomDocument *doc, QDomElement *parentNode ) = 0;
+
+    inline const Aircraft* getAircraft() const { return _aircraft; }
 
     inline const char* getName() const { return _name.c_str(); }
 
@@ -168,13 +178,15 @@ public:
 
 protected:
 
-    Type _type;         ///< aircraft type
+    const Aircraft *_aircraft;         ///< aircraft
 
     std::string _name;  ///< component name
 
     Vector3 _r;         ///< [m] position
 
     double _m;          ///< [kg] mass
+
+    virtual void saveParameters( QDomDocument *doc, QDomElement *node );
 };
 
 ////////////////////////////////////////////////////////////////////////////////

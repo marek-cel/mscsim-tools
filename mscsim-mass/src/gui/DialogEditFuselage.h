@@ -157,9 +157,34 @@ public:
 
     void getData( Fuselage *fuselage ) const;
 
+    void setType( Type type );
+
 private:
 
     Ui::DialogEditFuselage *_ui;
+
+    const Fuselage *_fuselage;
+
+    void updateFuselage();
+
+private slots:
+
+    void on_spinBox_L_valueChanged(double arg1);
+    void on_spinBox_W_valueChanged(double arg1);
+    void on_spinBox_H_valueChanged(double arg1);
+
+    void on_spinBoxNz_valueChanged(double arg1);
+    void on_spinBoxMTOW_valueChanged(double arg1);
+    void on_checkBoxDelta_toggled(bool checked);
+    void on_comboBoxDoor_currentIndexChanged(int index);
+    void on_checkBoxMount_toggled(bool checked);
+    void on_spinBoxSpan_valueChanged(double arg1);
+    void on_spinBoxSweep_valueChanged(double arg1);
+    void on_spinBoxLambda_valueChanged(double arg1);
+    void on_spinBoxTailLength_valueChanged(double arg1);
+    void on_spinBoxPressVol_valueChanged(double arg1);
+    void on_spinBoxCruiseV_valueChanged(double arg1);
+    void on_spinBoxCruiseH_valueChanged(double arg1);
 };
 
 ////////////////////////////////////////////////////////////////////////////////

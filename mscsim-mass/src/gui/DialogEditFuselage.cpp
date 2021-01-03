@@ -162,13 +162,287 @@ DialogEditFuselage::~DialogEditFuselage()
 
 void DialogEditFuselage::init( const Fuselage &fuselage )
 {
+    _fuselage = &fuselage;
 
+    _ui->lineEditName->setText( fuselage.getName() );
+
+    _ui->spinBox_Mass->setValue( fuselage.getMass() );
+
+    _ui->spinBox_X->setValue( fuselage.getPosition().x() );
+    _ui->spinBox_Y->setValue( fuselage.getPosition().y() );
+    _ui->spinBox_Z->setValue( fuselage.getPosition().z() );
+
+    _ui->spinBox_L->setValue( fuselage.getLength () );
+    _ui->spinBox_W->setValue( fuselage.getWidth  () );
+    _ui->spinBox_H->setValue( fuselage.getHeight () );
+
+    setType( _fuselage->getAircraft()->getType() );
+
+    _ui->spinBoxMTOW       ->setValue( fuselage.getMTOW() );
+    _ui->spinBoxNz         ->setValue( fuselage.getNzMax() );
+    _ui->checkBoxDelta     ->setChecked( fuselage.getDelta() );
+    _ui->comboBoxDoor      ->setCurrentIndex( fuselage.getDoor() );
+    _ui->checkBoxMount     ->setChecked( fuselage.getMount() );
+    _ui->spinBoxSpan       ->setValue( fuselage.getSpan     () );
+    _ui->spinBoxSweep      ->setValue( fuselage.getSweep    () );
+    _ui->spinBoxLambda     ->setValue( fuselage.getLambda   () );
+    _ui->spinBoxTailLength ->setValue( fuselage.getLTail    () );
+    _ui->spinBoxPressVol   ->setValue( fuselage.getVolPress () );
+    _ui->spinBoxCruiseV    ->setValue( fuselage.getVCruise  () );
+    _ui->spinBoxCruiseH    ->setValue( fuselage.getHCruise  () );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
 void DialogEditFuselage::getData( Fuselage *fuselage ) const
 {
+    fuselage->setName( _ui->lineEditName->text().toStdString().c_str() );
 
+    fuselage->setMass( _ui->spinBox_Mass->value() );
+
+    Vector3 position( _ui->spinBox_X->value(),
+                      _ui->spinBox_Y->value(),
+                      _ui->spinBox_Z->value() );
+
+    fuselage->setPosition( position );
+
+    fuselage->setLength ( _ui->spinBox_L->value() );
+    fuselage->setWidth  ( _ui->spinBox_W->value() );
+    fuselage->setHeight ( _ui->spinBox_H->value() );
+
+
+    Fuselage::CargoDoor door = Fuselage::NoCargoDoor;
+
+    switch ( _ui->comboBoxDoor->currentIndex() )
+    {
+        case Fuselage::NoCargoDoor       : door = Fuselage::NoCargoDoor       ; break;
+        case Fuselage::OneSideCargoDoor  : door = Fuselage::OneSideCargoDoor  ; break;
+        case Fuselage::TwoSideCargoDoor  : door = Fuselage::TwoSideCargoDoor  ; break;
+        case Fuselage::AftClamshellDoor  : door = Fuselage::AftClamshellDoor  ; break;
+        case Fuselage::TwoSideAndAftDoor : door = Fuselage::TwoSideAndAftDoor ; break;
+    }
+
+    fuselage->setMTOW      ( _ui->spinBoxMTOW       ->value() );
+    fuselage->setNzMax     ( _ui->spinBoxNz         ->value() );
+    fuselage->setDelta( _ui->checkBoxDelta->isChecked() );
+    fuselage->setDoor( door );
+    fuselage->setMount( _ui->checkBoxMount->isChecked() );
+    fuselage->setSpan     ( _ui->spinBoxSpan       ->value() );
+    fuselage->setSweep    ( _ui->spinBoxSweep      ->value() );
+    fuselage->setLambda   ( _ui->spinBoxLambda     ->value() );
+    fuselage->setLTail    ( _ui->spinBoxTailLength ->value() );
+    fuselage->setVolPress ( _ui->spinBoxPressVol   ->value() );
+    fuselage->setVCruise  ( _ui->spinBoxCruiseV    ->value() );
+    fuselage->setHCruise  ( _ui->spinBoxCruiseH    ->value() );
 }
 
+////////////////////////////////////////////////////////////////////////////////
+
+void DialogEditFuselage::setType( Type type )
+{
+    _ui->labelMTOW       ->hide();
+    _ui->labelNz         ->hide();
+    _ui->labelDoor       ->hide();
+    _ui->labelSpan       ->hide();
+    _ui->labelSweep      ->hide();
+    _ui->labelLambda     ->hide();
+    _ui->labelTailLength ->hide();
+    _ui->labelPressVol   ->hide();
+    _ui->labelCruiseV    ->hide();
+    _ui->labelCruiseH    ->hide();
+
+    _ui->spinBoxMTOW       ->hide();
+    _ui->spinBoxNz         ->hide();
+    _ui->checkBoxDelta     ->hide();
+    _ui->comboBoxDoor      ->hide();
+    _ui->checkBoxMount     ->hide();
+    _ui->spinBoxSpan       ->hide();
+    _ui->spinBoxSweep      ->hide();
+    _ui->spinBoxLambda     ->hide();
+    _ui->spinBoxTailLength ->hide();
+    _ui->spinBoxPressVol   ->hide();
+    _ui->spinBoxCruiseV    ->hide();
+    _ui->spinBoxCruiseH    ->hide();
+
+    switch ( type )
+    {
+    case FighterAttack:
+        _ui->labelMTOW ->show();
+        _ui->labelNz   ->show();
+
+        _ui->spinBoxMTOW   ->show();
+        _ui->spinBoxNz     ->show();
+        _ui->checkBoxDelta ->show();
+        break;
+
+    case CargoTransport:
+        _ui->labelMTOW   ->show();
+        _ui->labelNz     ->show();
+        _ui->labelDoor   ->show();
+        _ui->labelSpan   ->show();
+        _ui->labelSweep  ->show();
+        _ui->labelLambda ->show();
+
+        _ui->spinBoxMTOW   ->show();
+        _ui->spinBoxNz     ->show();
+        _ui->comboBoxDoor  ->show();
+        _ui->checkBoxMount ->show();
+        _ui->spinBoxSpan   ->show();
+        _ui->spinBoxSweep  ->show();
+        _ui->spinBoxLambda ->show();
+        break;
+
+    case GeneralAviation:
+        _ui->labelMTOW       ->show();
+        _ui->labelNz         ->show();
+        _ui->labelTailLength ->show();
+        _ui->labelPressVol   ->show();
+        _ui->labelCruiseV    ->show();
+        _ui->labelCruiseH    ->show();
+
+        _ui->spinBoxMTOW       ->show();
+        _ui->spinBoxNz         ->show();
+        _ui->spinBoxTailLength ->show();
+        _ui->spinBoxPressVol   ->show();
+        _ui->spinBoxCruiseV    ->show();
+        _ui->spinBoxCruiseH    ->show();
+        break;
+    }
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void DialogEditFuselage::updateFuselage()
+{
+    Fuselage::CargoDoor door = Fuselage::NoCargoDoor;
+
+    switch( _ui->comboBoxDoor->currentIndex() )
+    {
+        case Fuselage::NoCargoDoor       : door = Fuselage::NoCargoDoor       ; break;
+        case Fuselage::OneSideCargoDoor  : door = Fuselage::OneSideCargoDoor  ; break;
+        case Fuselage::TwoSideCargoDoor  : door = Fuselage::TwoSideCargoDoor  ; break;
+        case Fuselage::AftClamshellDoor  : door = Fuselage::AftClamshellDoor  ; break;
+        case Fuselage::TwoSideAndAftDoor : door = Fuselage::TwoSideAndAftDoor ; break;
+    }
+
+    double mass = Fuselage::computeMass( _fuselage->getAircraft()->getType(),
+                                         _ui->spinBox_L->value(),
+                                         _ui->spinBox_W->value(),
+                                         _ui->spinBox_H->value(),
+                                         _ui->spinBoxMTOW->value(),
+                                         _ui->spinBoxNz->value(),
+                                         _ui->checkBoxDelta->isChecked(),
+                                         door,
+                                         _ui->checkBoxMount->isChecked(),
+                                         _ui->spinBoxSpan->value(),
+                                         _ui->spinBoxSweep->value(),
+                                         _ui->spinBoxLambda->value(),
+                                         _ui->spinBoxTailLength->value(),
+                                         _ui->spinBoxPressVol->value(),
+                                         _ui->spinBoxCruiseV->value(),
+                                         _ui->spinBoxCruiseH->value()
+                                       );
+
+    _ui->spinBoxOutputMass->setValue( mass );
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void DialogEditFuselage::on_spinBox_L_valueChanged(double )
+{
+    updateFuselage();
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void DialogEditFuselage::on_spinBox_W_valueChanged(double )
+{
+    updateFuselage();
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void DialogEditFuselage::on_spinBox_H_valueChanged(double )
+{
+    updateFuselage();
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void DialogEditFuselage::on_spinBoxNz_valueChanged(double )
+{
+    updateFuselage();
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void DialogEditFuselage::on_spinBoxMTOW_valueChanged(double )
+{
+    updateFuselage();
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void DialogEditFuselage::on_checkBoxDelta_toggled(bool checked)
+{
+    updateFuselage();
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void DialogEditFuselage::on_comboBoxDoor_currentIndexChanged(int )
+{
+    updateFuselage();
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void DialogEditFuselage::on_checkBoxMount_toggled(bool )
+{
+    updateFuselage();
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void DialogEditFuselage::on_spinBoxSpan_valueChanged(double )
+{
+    updateFuselage();
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void DialogEditFuselage::on_spinBoxSweep_valueChanged(double )
+{
+    updateFuselage();
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void DialogEditFuselage::on_spinBoxLambda_valueChanged(double )
+{
+    updateFuselage();
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void DialogEditFuselage::on_spinBoxTailLength_valueChanged(double )
+{
+    updateFuselage();
+}
+
+void DialogEditFuselage::on_spinBoxPressVol_valueChanged(double )
+{
+    updateFuselage();
+}
+
+void DialogEditFuselage::on_spinBoxCruiseV_valueChanged(double )
+{
+    updateFuselage();
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void DialogEditFuselage::on_spinBoxCruiseH_valueChanged(double )
+{
+    updateFuselage();
+}

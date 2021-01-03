@@ -69,6 +69,7 @@ unix: LIBS += \
 HEADERS += \
     $$PWD/defs.h \
     $$PWD/Aircraft.h \
+    $$PWD/Atmosphere.h \
     $$PWD/Box.h \
     $$PWD/Component.h \
     $$PWD/Document.h \
@@ -77,20 +78,24 @@ HEADERS += \
     $$PWD/Steiner.h \
     $$PWD/Type.h \
     $$PWD/Units.h \
-    $$PWD/Vector3.h
+    $$PWD/Vector3.h \
+    $$PWD/Wing.h
 
 SOURCES += \
     $$PWD/main.cpp \
     $$PWD/Aircraft.cpp \
+    $$PWD/Atmosphere.cpp \
     $$PWD/Box.cpp \
     $$PWD/Component.cpp \
     $$PWD/Document.cpp \
     $$PWD/Fuselage.cpp \
     $$PWD/Matrix3x3.cpp \
     $$PWD/Steiner.cpp \
-    $$PWD/Vector3.cpp
+    $$PWD/Vector3.cpp \
+    $$PWD/Wing.cpp
 
 RESOURCES += \
+    $$PWD/mscsim-mass.qrc
 
 ################################################################################
 

@@ -132,12 +132,13 @@
 
 #include <defs.h>
 
-#include <Component.h>
-
 #include <Matrix3x3.h>
+#include <Type.h>
 #include <Vector3.h>
 
 ////////////////////////////////////////////////////////////////////////////////
+
+class Component;
 
 /**
  * @brief The Aircraft class.
@@ -167,6 +168,7 @@ public:
 
     inline Vector3   getCenterOfMass  () const { return _centerOfMass;  }
     inline Matrix3x3 getInertiaMatrix () const { return _inertiaMatrix; }
+    inline double    getMassTotal     () const { return _massTotal;     }
 
     void addComponent( Component *component );
 
@@ -188,6 +190,7 @@ private:
 
     Vector3   _centerOfMass;    ///< [m] center of mass position
     Matrix3x3 _inertiaMatrix;   ///< [kg*m^2] inertia
+    double _massTotal;          ///< [kg]
 
 
     void deleteAllComponents();

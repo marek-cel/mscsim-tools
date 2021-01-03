@@ -136,6 +136,7 @@
 
 #include <gui/DialogEditBox.h>
 #include <gui/DialogEditFuselage.h>
+#include <gui/DialogEditWing.h>
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -147,6 +148,9 @@ MainWindow::MainWindow( QWidget *parent ) :
 {
     _ui->setupUi( this );
 
+    _scSave   = new QShortcut( QKeySequence(Qt::CTRL + Qt::Key_S), this, SLOT(on_actionSave_triggered())   );
+    _scExport = new QShortcut( QKeySequence(Qt::CTRL + Qt::Key_E), this, SLOT(on_actionExport_triggered()) );
+
     updateGUI();
 
     settingsRead();
@@ -157,6 +161,9 @@ MainWindow::MainWindow( QWidget *parent ) :
 MainWindow::~MainWindow()
 {
     settingsSave();
+
+    DELPTR( _scSave   );
+    DELPTR( _scExport );
 
     DELPTR( _ui );
 }
@@ -380,17 +387,55 @@ void MainWindow::settingsSave_RecentFiles( QSettings &settings )
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void MainWindow::editComponent()
+void MainWindow::addComponent()
 {
-    Component *temp = _doc.getComponent( _ui->listComponents->currentRow() );
+    Component *component = 0;
 
-    Box      *box      = dynamic_cast< Box*      >( temp );
-    Fuselage *fuselage = dynamic_cast< Fuselage* >( temp );
+    if ( _ui->comboBoxComponents->currentIndex() == 0 )
+    {
+        component = new Box( _doc.getAircraft() );
+    }
+    else if ( _ui->comboBoxComponents->currentIndex() == 1 )
+    {
+        component = new Fuselage( _doc.getAircraft() );
+    }
+    else if ( _ui->comboBoxComponents->currentIndex() == 2 )
+    {
+        component = new Wing( _doc.getAircraft() );
+    }
 
-    if      ( fuselage ) DialogEditFuselage ::edit( this, fuselage );
-    else if ( box      ) DialogEditBox      ::edit( this, box      );
+    if ( component )
+    {
+        _doc.addComponent( component );
+        _saved = false;
+    }
 
     updateGUI();
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void MainWindow::editComponent()
+{
+    int index = _ui->listComponents->currentRow();
+
+    Component *temp = _doc.getComponent( index );
+
+    if ( temp )
+    {
+        Box      *box      = dynamic_cast< Box*      >( temp );
+        Fuselage *fuselage = dynamic_cast< Fuselage* >( temp );
+        Wing     *wing     = dynamic_cast< Wing*     >( temp );
+
+        if      ( fuselage ) DialogEditFuselage ::edit( this, fuselage );
+        else if ( wing     ) DialogEditWing     ::edit( this, wing     );
+        else if ( box      ) DialogEditBox      ::edit( this, box      );
+
+        _doc.update();
+
+        _saved = false;
+        updateGUI();
+    }
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -404,8 +449,8 @@ void MainWindow::updateGUI()
         case GeneralAviation : _ui->comboBoxType->setCurrentIndex( 2 ); break;
     }
 
-    _ui->spinBoxMassEmpty->setValue( _doc.getM_empty() );
     _ui->spinBoxMassMaxTO->setValue( _doc.getM_maxto() );
+    _ui->spinBoxMassEmpty->setValue( _doc.getM_empty() );
 
     _ui->listComponents->clear();
 
@@ -419,6 +464,8 @@ void MainWindow::updateGUI()
 
         it++;
     }
+
+    _ui->spinBox_M->setValue( _doc.getMassTotal() );
 
     Vector3 centerOfMass = _doc.getCenterOfMass();
 
@@ -435,6 +482,17 @@ void MainWindow::updateGUI()
     _ui->spinBox_I_XY->setValue( inertiaMatrix.xy() );
     _ui->spinBox_I_XZ->setValue( inertiaMatrix.xz() );
     _ui->spinBox_I_YZ->setValue( inertiaMatrix.yz() );
+
+    QString title = tr( APP_TITLE );
+
+    if ( _currentFile.length() > 0 )
+    {
+        title += " - " + QFileInfo( _currentFile ).fileName();
+    }
+
+    if ( !_saved ) title += " (*)";
+
+    setWindowTitle( title );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -534,6 +592,26 @@ void MainWindow::recentFile_triggered( int id )
 
 ////////////////////////////////////////////////////////////////////////////////
 
+void MainWindow::on_actionAbout_triggered()
+{
+    QFile aboutHtmlFile( ":/gui/html/about.html" );
+
+    QString aboutWinTitle;
+    QString aboutInfoText;
+
+    aboutWinTitle = tr( "About" );
+
+    if ( aboutHtmlFile.open( QIODevice::ReadOnly ) )
+    {
+        aboutInfoText = aboutHtmlFile.readAll();
+        aboutHtmlFile.close();
+    }
+
+    QMessageBox::about( this, aboutWinTitle, aboutInfoText );
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
 void MainWindow::on_comboBoxType_currentIndexChanged( int index )
 {
     Type type = FighterAttack;
@@ -558,6 +636,8 @@ void MainWindow::on_spinBoxMassEmpty_valueChanged( double arg1 )
 
     _doc.setM_empty( arg1 );
 
+    _saved = false;
+
     updateGUI();
 }
 
@@ -566,6 +646,8 @@ void MainWindow::on_spinBoxMassEmpty_valueChanged( double arg1 )
 void MainWindow::on_spinBoxMassMaxTO_valueChanged( double arg1 )
 {
     _doc.setM_maxto( arg1 );
+
+    _saved = false;
 
     updateGUI();
 }
@@ -599,23 +681,7 @@ void MainWindow::on_listComponents_doubleClicked( const QModelIndex & )
 
 void MainWindow::on_pushButtonAdd_clicked()
 {
-    Component *component = 0;
-
-    if ( _ui->comboBoxComponents->currentIndex() == 0 )
-    {
-        component = new Box();
-    }
-    else if ( _ui->comboBoxComponents->currentIndex() == 1 )
-    {
-        component = new Fuselage();
-    }
-
-    if ( component )
-    {
-        _doc.addComponent( component );
-    }
-
-    updateGUI();
+    addComponent();
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -625,9 +691,10 @@ void MainWindow::on_pushButtonDel_clicked()
     Aircraft::Components components = _doc.getComponents();
     int currentRow = _ui->listComponents->currentRow();
 
-    if ( currentRow >=0 && currentRow < components.size() )
+    if ( currentRow >=0 && currentRow < (int)components.size() )
     {
         _doc.delComponent( currentRow );
+        _saved = false;
     }
 
     updateGUI();

@@ -135,40 +135,158 @@
 /**
  * @brief The Fuselage class.
  *
- * @see Raymer D. P.: Aircraft Design: A Conceptual Approach, AIAA, 1992, p.401-407
+ * @see Raymer D. P.: Aircraft Design: A Conceptual Approach, AIAA, 1992, p.398-407
  */
 class Fuselage : public Box
 {
 public:
 
+    enum CargoDoor
+    {
+        NoCargoDoor = 0,
+        OneSideCargoDoor,
+        TwoSideCargoDoor,
+        AftClamshellDoor,
+        TwoSideAndAftDoor
+    };
+
     static const char xml_tag[];
 
-    static double computeMass( Type type );
+    static double computeMass( Type type,
+                               double l,
+                               double w,
+                               double h,
+                               double mtow,
+                               double nz_max,
+                               bool delta,
+                               CargoDoor door,
+                               bool mount,
+                               double span,
+                               double sweep,
+                               double lambda,
+                               double l_tail,
+                               double vol_press,
+                               double v_cruise,
+                               double h_cruise );
 
     /**
-     * @brief Computes fuselage mass.
-     * @param delta_wing specifies if aircraft has delta wing
-     * @param mtow [kg] maximum take-off weight
-     * @param n_z_max [-] maximum allowed load factor
+     * @brief Computes fuselage mass of Fighter/Attack aircraft type.
      * @param l [m] fuselage structural length
-     * @param d [m] fuselage structural depth
      * @param w [m] fuselage structural width
+     * @param h [m] fuselage structural height
+     * @param mtow [kg] maximum take-off weight
+     * @param nz_max [-] maximum allowed load factor
+     * @param delta specifies if aircraft has delta wing
      * @return fuselage mass [kg]
      */
-    static double computeMassFA( bool delta_wing,
+    static double computeMassFA( double l,
+                                 double w,
+                                 double h,
                                  double mtow,
-                                 double n_z_max,
-                                 double l,
-                                 double d,
-                                 double w );
-    static double computeMassCT();
-    static double computeMassGA();
+                                 double nz_max,
+                                 bool delta );
 
-    Fuselage();
+    /**
+     * @brief Computes fuselage mass of Cargo/Transport aircraft type.
+     * @param l [m] fuselage structural length
+     * @param w [m] fuselage structural width
+     * @param h [m] fuselage structural height
+     * @param mtow [kg]  maximum take-off weight
+     * @param nz_max [-] maximum allowed load factor
+     * @param door
+     * @param mount fuselage mounted landing gear
+     * @param span [m] wing span
+     * @param sweep [deg] wing sweep at 25% chord
+     * @param lambda [-] taper ratio
+     * @return
+     */
+    static double computeMassCT( double l,
+                                 double w,
+                                 double h,
+                                 double mtow,
+                                 double nz_max,
+                                 CargoDoor door,
+                                 bool mount,
+                                 double span,
+                                 double sweep,
+                                 double lambda );
+
+    /**
+     * @brief Computes fuselage mass of General Aviation aircraft type.
+     * @param l [m] fuselage structural length
+     * @param w [m] fuselage structural width
+     * @param h [m] fuselage structural height
+     * @param mtow [kg]  maximum take-off weight
+     * @param nz_max [-] maximum allowed load factor
+     * @param l_tail
+     * @param vol_press
+     * @param v_cruise [kts]
+     * @param h_cruise [ft]
+     * @return
+     */
+    static double computeMassGA( double l,
+                                 double w,
+                                 double h,
+                                 double mtow,
+                                 double nz_max,
+                                 double l_tail,
+                                 double vol_press,
+                                 double v_cruise,
+                                 double h_cruise );
+
+    static double computeWettedArea( double l, double w, double h );
+
+    Fuselage( const Aircraft *aircraft );
 
     virtual ~Fuselage();
 
+    virtual void read( QDomElement *parentNode );
+
+    virtual void save( QDomDocument *doc, QDomElement *parentNode );
+
+    inline double    getMTOW     () const { return _mtow;      }
+    inline double    getNzMax    () const { return _nz_max;    }
+    inline bool      getDelta    () const { return _delta;     }
+    inline CargoDoor getDoor     () const { return _door;      }
+    inline bool      getMount    () const { return _mount;     }
+    inline double    getSpan     () const { return _span;      }
+    inline double    getSweep    () const { return _sweep;     }
+    inline double    getLambda   () const { return _lambda;    }
+    inline double    getLTail    () const { return _l_tail;    }
+    inline double    getVolPress () const { return _vol_press; }
+    inline double    getVCruise  () const { return _v_cruise;  }
+    inline double    getHCruise  () const { return _h_cruise;  }
+
+
+    void setMTOW     ( double    mtow      );
+    void setNzMax    ( double    nz_max    );
+    void setDelta    ( bool      delta     );
+    void setDoor     ( CargoDoor door      );
+    void setMount    ( bool      mount     );
+    void setSpan     ( double    span      );
+    void setSweep    ( double    sweep     );
+    void setLambda   ( double    lambda    );
+    void setLTail    ( double    l_tail    );
+    void setVolPress ( double    vol_press );
+    void setVCruise  ( double    v_cruise  );
+    void setHCruise  ( double    h_cruise  );
+
 private:
+
+    double _mtow;
+    double _nz_max;
+    bool   _delta;
+    CargoDoor _door;
+    bool   _mount;
+    double _span;
+    double _sweep;
+    double _lambda;
+    double _l_tail;
+    double _vol_press;
+    double _v_cruise;
+    double _h_cruise;
+
+    virtual void saveParameters( QDomDocument *doc, QDomElement *node );
 
 };
 
