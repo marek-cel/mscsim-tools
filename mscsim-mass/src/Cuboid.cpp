@@ -124,18 +124,11 @@
  *     this CC0 or use of the Work.
  ******************************************************************************/
 
-#include <Box.h>
-
-#include <Document.h>
-#include <Steiner.h>
+#include <Cuboid.h>
 
 ////////////////////////////////////////////////////////////////////////////////
 
-const char Box::xml_tag[] = "box";
-
-////////////////////////////////////////////////////////////////////////////////
-
-Matrix3x3 Box::getInertia( double m, double l, double w, double h )
+Matrix3x3 Cuboid::getInertia( double m, double l, double w, double h )
 {
     Matrix3x3 result;
 
@@ -152,87 +145,4 @@ Matrix3x3 Box::getInertia( double m, double l, double w, double h )
     result.zz() = m * ( l*l + w*w ) / 12.0;
 
     return result;
-}
-
-////////////////////////////////////////////////////////////////////////////////
-
-Box::Box( const Aircraft *aircraft ) :
-    Component( aircraft ),
-    _l ( 0.0 ),
-    _w ( 0.0 ),
-    _h ( 0.0 )
-{
-    setName( "Box" );
-}
-
-////////////////////////////////////////////////////////////////////////////////
-
-Box::~Box() {}
-
-////////////////////////////////////////////////////////////////////////////////
-
-void Box::read( QDomElement *parentNode )
-{
-    //////////////////////////////
-    Component::read( parentNode );
-    //////////////////////////////
-
-    QDomElement nodeL = parentNode->firstChildElement( "length" );
-    QDomElement nodeW = parentNode->firstChildElement( "width"  );
-    QDomElement nodeH = parentNode->firstChildElement( "height" );
-
-    if ( !nodeL.isNull() ) _l = nodeL.text().toDouble();
-    if ( !nodeW.isNull() ) _w = nodeW.text().toDouble();
-    if ( !nodeH.isNull() ) _h = nodeH.text().toDouble();
-}
-
-////////////////////////////////////////////////////////////////////////////////
-
-void Box::save( QDomDocument *doc, QDomElement *parentNode )
-{
-    QDomElement node = doc->createElement( Box::xml_tag );
-    parentNode->appendChild( node );
-
-    saveParameters( doc, &node );
-}
-
-////////////////////////////////////////////////////////////////////////////////
-
-Matrix3x3 Box::getInertia() const
-{
-    return Steiner::getInertia( _m, getInertia( _m, _l, _w, _h ), _r );
-}
-
-////////////////////////////////////////////////////////////////////////////////
-
-void Box::setLength( double l )
-{
-    _l = l;
-}
-
-////////////////////////////////////////////////////////////////////////////////
-
-void Box::setWidth( double w )
-{
-    _w = w;
-}
-
-////////////////////////////////////////////////////////////////////////////////
-
-void Box::setHeight( double h )
-{
-    _h = h;
-}
-
-////////////////////////////////////////////////////////////////////////////////
-
-void Box::saveParameters( QDomDocument *doc, QDomElement *node )
-{
-    ///////////////////////////////////////
-    Component::saveParameters( doc, node );
-    ///////////////////////////////////////
-
-    Document::saveTextNode( doc, node, "length" , QString::number( _l, 'f', 2 ).toStdString().c_str() );
-    Document::saveTextNode( doc, node, "width"  , QString::number( _w, 'f', 2 ).toStdString().c_str() );
-    Document::saveTextNode( doc, node, "height" , QString::number( _h, 'f', 2 ).toStdString().c_str() );
 }

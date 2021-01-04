@@ -225,9 +225,8 @@ private slots:
 
     void on_actionAbout_triggered();
 
-    void on_comboBoxType_currentIndexChanged( int index );
+    void on_comboBoxAircraftType_currentIndexChanged( int index );
 
-    void on_spinBoxMassEmpty_valueChanged( double arg1 );
     void on_spinBoxMassMaxTO_valueChanged( double arg1 );
 
     void on_listComponents_currentRowChanged( int currentRow );

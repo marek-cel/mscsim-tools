@@ -150,8 +150,13 @@ class Component
 {
 public:
 
+    /**
+     * @brief Constructor.
+     * @param aircraft
+     */
     Component( const Aircraft *aircraft );
 
+    /** @brief Destructor. */
     virtual ~Component();
 
     virtual void read( QDomElement *parentNode );
@@ -164,27 +169,35 @@ public:
 
     inline Vector3 getPosition() const { return _r; }
 
-    inline double getMass() const { return _m; }
+    inline double getMass   () const { return _m; }
+    inline double getLength () const { return _l; }
+    inline double getWidth  () const { return _w; }
+    inline double getHeight () const { return _h; }
 
-    virtual Matrix3x3 getInertia() const = 0;
-
-    virtual double getMassRaw() const;
+    Matrix3x3 getInertia() const;
 
     void setName( const char *name );
 
     void setPosition( const Vector3 &r );
 
-    void setMass( double m );
+    void setMass   ( double m );
+    void setLength ( double l );
+    void setWidth  ( double w );
+    void setHeight ( double h );
 
 protected:
 
-    const Aircraft *_aircraft;         ///< aircraft
+    const Aircraft *_aircraft;  ///< aircraft
 
-    std::string _name;  ///< component name
+    std::string _name;          ///< component name
 
-    Vector3 _r;         ///< [m] position
+    Vector3 _r;                 ///< [m] position
 
-    double _m;          ///< [kg] mass
+    double _m;                  ///< [kg] mass
+
+    double _l;                  ///< [m] length
+    double _w;                  ///< [m] width
+    double _h;                  ///< [m] height
 
     virtual void saveParameters( QDomDocument *doc, QDomElement *node );
 };

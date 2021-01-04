@@ -135,10 +135,15 @@
 
 #include <defs.h>
 
-#include <Aircraft.h>
-
 #include <Matrix3x3.h>
 #include <Vector3.h>
+
+#include <Aircraft.h>
+
+#include <Fuselage.h>
+#include <TailH.h>
+#include <TailV.h>
+#include <Wing.h>
 
 ////////////////////////////////////////////////////////////////////////////////
 

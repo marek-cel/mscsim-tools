@@ -194,9 +194,11 @@ double Wing::computeMassFA( double area,
         double n_z   = 1.5 * nz_max;
         double s_csw = Units::kg2lb( area_ctrl );
 
+        double sweep_rad = Units::deg2rad( sweep );
+
         double m2_lb = 0.0103 * k_dw * k_vs * pow( w_dg * n_z, 0.5 )
                 * pow( s_w, 0.622 ) * pow( ar, 0.785 ) * pow( tc_root, -0.4 )
-                * pow( 1.0 + lambda, 0.05 ) * pow( cos( sweep ), -1.0 )
+                * pow( 1.0 + lambda, 0.05 ) * pow( cos( sweep_rad ), -1.0 )
                 * pow( s_csw, 0.04 );
 
         m2 = Units::lb2kg( m2_lb );
@@ -225,7 +227,7 @@ double Wing::computeMassCT( double area,
         m1 = Units::lb2kg( 10.0 * s_w );
     }
 
-    // Rayner: Aircraft Design, p.401, eq.15.25
+    // Rayner: Aircraft Design, p.403, eq.15.25
     double m2 = m1;
     {
         double s_w = Units::sqm2sqft( area );
@@ -234,9 +236,11 @@ double Wing::computeMassCT( double area,
         double n_z   = 1.5 * nz_max;
         double s_csw = Units::kg2lb( area_ctrl );
 
+        double sweep_rad = Units::deg2rad( sweep );
+
         double m2_lb = 0.0051 * pow( w_dg * n_z, 0.557 )
                 * pow( s_w, 0.649 ) * pow( ar, 0.5 ) * pow( tc_root, -0.4 )
-                * pow( 1.0 + lambda, 0.1 ) * pow( cos( sweep ), -1.0 )
+                * pow( 1.0 + lambda, 0.1 ) * pow( cos( sweep_rad ), -1.0 )
                 * pow( s_csw, 0.1 );
 
         m2 = Units::lb2kg( m2_lb );
@@ -265,7 +269,7 @@ double Wing::computeMassGA( double area,
         m1 = Units::lb2kg( 2.5 * s_w );
     }
 
-    // Rayner: Aircraft Design, p.401, eq.15.46
+    // Rayner: Aircraft Design, p.404, eq.15.46
     double m2 = m1;
     {
         double s_w = Units::sqm2sqft( area );
@@ -280,10 +284,12 @@ double Wing::computeMassGA( double area,
         double q = 0.5 * rho * pow( v_mps, 2.0 );
         double q_psf = Units::pa2psf( q );
 
+        double sweep_rad = Units::deg2rad( sweep );
+
         double m2_lb = 0.036 * pow( s_w, 0.758 ) * pow( w_fw, 0.0035 )
-                * pow( ar / pow( cos( sweep ), 2.0 ), 0.6 )
+                * pow( ar / pow( cos( sweep_rad ), 2.0 ), 0.6 )
                 * pow( q_psf, 0.006 ) * pow( lambda, 0.04 )
-                * pow( 100 * tc_root / cos( sweep ), -0.3 )
+                * pow( 100 * tc_root / cos( sweep_rad ), -0.3 )
                 * pow( w_dg * n_z, 0.49 );
 
         m2 = Units::lb2kg( m2_lb );
@@ -295,18 +301,7 @@ double Wing::computeMassGA( double area,
 ////////////////////////////////////////////////////////////////////////////////
 
 Wing::Wing( const Aircraft *aircraft ) :
-    Box( aircraft ),
-
-    _area ( 0.0 ),
-    _mtow ( 0.0 ),
-    _nz_max ( 0.0 ),
-    _delta ( false ),
-    _sweep ( 0.0 ),
-    _lambda ( 0.0 ),
-    _ar ( 0.0 ),
-    _variable ( false ),
-    _area_ctrl ( 0.0 ),
-    _t_c_root ( 0.0 )
+    Component( aircraft )
 {
     setName( "Wing" );
 }
@@ -317,74 +312,10 @@ Wing::~Wing() {}
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void Wing::read( QDomElement *parentNode )
-{
-    ////////////////////////
-    Box::read( parentNode );
-    ////////////////////////
-
-    QDomElement nodeArea     = parentNode->firstChildElement( "area"      );
-    QDomElement nodeMTOW     = parentNode->firstChildElement( "mtow"      );
-    QDomElement nodeNzMax    = parentNode->firstChildElement( "nz_max"    );
-    QDomElement nodeDelta    = parentNode->firstChildElement( "delta"     );
-    QDomElement nodeSweep    = parentNode->firstChildElement( "sweep"     );
-    QDomElement nodeLambda   = parentNode->firstChildElement( "lambda"    );
-    QDomElement nodeAR       = parentNode->firstChildElement( "ar"        );
-    QDomElement nodeVariable = parentNode->firstChildElement( "variable"  );
-    QDomElement nodeAreaCtrl = parentNode->firstChildElement( "area_ctrl" );
-    QDomElement nodeTCRoot   = parentNode->firstChildElement( "t_c_root"  );
-
-    if ( !nodeArea     .isNull() ) _area      = nodeArea     .text().toDouble();
-    if ( !nodeMTOW     .isNull() ) _mtow      = nodeMTOW     .text().toDouble();
-    if ( !nodeNzMax    .isNull() ) _nz_max    = nodeNzMax    .text().toDouble();
-    if ( !nodeDelta    .isNull() ) _delta     = nodeDelta    .text().toInt();
-    if ( !nodeSweep    .isNull() ) _sweep     = nodeSweep    .text().toDouble();
-    if ( !nodeLambda   .isNull() ) _lambda    = nodeLambda   .text().toDouble();
-    if ( !nodeAR       .isNull() ) _ar        = nodeAR       .text().toDouble();
-    if ( !nodeVariable .isNull() ) _variable  = nodeVariable .text().toInt();
-    if ( !nodeAreaCtrl .isNull() ) _area_ctrl = nodeAreaCtrl .text().toDouble();
-    if ( !nodeTCRoot   .isNull() ) _t_c_root  = nodeTCRoot   .text().toDouble();
-}
-
-////////////////////////////////////////////////////////////////////////////////
-
 void Wing::save( QDomDocument *doc, QDomElement *parentNode )
 {
     QDomElement node = doc->createElement( Wing::xml_tag );
     parentNode->appendChild( node );
 
     saveParameters( doc, &node );
-}
-
-////////////////////////////////////////////////////////////////////////////////
-
-void Wing::setArea     ( double area      ) { _area      = area      ; }
-void Wing::setMTOW     ( double mtow      ) { _mtow      = mtow      ; }
-void Wing::setNzMax    ( double nz_max    ) { _nz_max    = nz_max    ; }
-void Wing::setDelta    ( bool   delta     ) { _delta     = delta     ; }
-void Wing::setSweep    ( double sweep     ) { _sweep     = sweep     ; }
-void Wing::setLambda   ( double lambda    ) { _lambda    = lambda    ; }
-void Wing::setAR       ( double ar        ) { _ar        = ar        ; }
-void Wing::setVariable ( bool   variable  ) { _variable  = variable  ; }
-void Wing::setAreaCtrl ( double area_ctrl ) { _area_ctrl = area_ctrl ; }
-void Wing::setTCRoot   ( double t_c_root  ) { _t_c_root  = t_c_root  ; }
-
-////////////////////////////////////////////////////////////////////////////////
-
-void Wing::saveParameters( QDomDocument *doc, QDomElement *node )
-{
-    /////////////////////////////////
-    Box::saveParameters( doc, node );
-    /////////////////////////////////
-
-    Document::saveTextNode( doc, node, "area"      , QString::number( _area      , 'f', 2 ).toStdString().c_str() );
-    Document::saveTextNode( doc, node, "mtow"      , QString::number( _mtow      , 'f', 1 ).toStdString().c_str() );
-    Document::saveTextNode( doc, node, "nz_max"    , QString::number( _nz_max    , 'f', 2 ).toStdString().c_str() );
-    Document::saveTextNode( doc, node, "delta"     , ( _delta ? "1" : "0" ) );
-    Document::saveTextNode( doc, node, "sweep"     , QString::number( _sweep     , 'f', 2 ).toStdString().c_str() );
-    Document::saveTextNode( doc, node, "lambda"    , QString::number( _lambda    , 'f', 2 ).toStdString().c_str() );
-    Document::saveTextNode( doc, node, "ar"        , QString::number( _ar        , 'f', 2 ).toStdString().c_str() );
-    Document::saveTextNode( doc, node, "variable"  , ( _variable ? "1" : "0" ) );
-    Document::saveTextNode( doc, node, "area_ctrl" , QString::number( _area_ctrl , 'f', 2 ).toStdString().c_str() );
-    Document::saveTextNode( doc, node, "t_c_root"  , QString::number( _t_c_root  , 'f', 2 ).toStdString().c_str() );
 }

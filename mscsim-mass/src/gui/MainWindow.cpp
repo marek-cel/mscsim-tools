@@ -134,9 +134,7 @@
 #include <qwt/qwt_plot_curve.h>
 #include <qwt/qwt_scale_engine.h>
 
-#include <gui/DialogEditBox.h>
-#include <gui/DialogEditFuselage.h>
-#include <gui/DialogEditWing.h>
+#include <gui/DialogEdit.h>
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -393,15 +391,19 @@ void MainWindow::addComponent()
 
     if ( _ui->comboBoxComponents->currentIndex() == 0 )
     {
-        component = new Box( _doc.getAircraft() );
+        component = new Fuselage( _doc.getAircraft() );
     }
     else if ( _ui->comboBoxComponents->currentIndex() == 1 )
     {
-        component = new Fuselage( _doc.getAircraft() );
+        component = new Wing( _doc.getAircraft() );
     }
     else if ( _ui->comboBoxComponents->currentIndex() == 2 )
     {
-        component = new Wing( _doc.getAircraft() );
+        component = new TailH( _doc.getAircraft() );
+    }
+    else if ( _ui->comboBoxComponents->currentIndex() == 3 )
+    {
+        component = new TailV( _doc.getAircraft() );
     }
 
     if ( component )
@@ -419,17 +421,11 @@ void MainWindow::editComponent()
 {
     int index = _ui->listComponents->currentRow();
 
-    Component *temp = _doc.getComponent( index );
+    Component *component = _doc.getComponent( index );
 
-    if ( temp )
+    if ( component )
     {
-        Box      *box      = dynamic_cast< Box*      >( temp );
-        Fuselage *fuselage = dynamic_cast< Fuselage* >( temp );
-        Wing     *wing     = dynamic_cast< Wing*     >( temp );
-
-        if      ( fuselage ) DialogEditFuselage ::edit( this, fuselage );
-        else if ( wing     ) DialogEditWing     ::edit( this, wing     );
-        else if ( box      ) DialogEditBox      ::edit( this, box      );
+        DialogEdit::edit( this, component );
 
         _doc.update();
 
@@ -444,13 +440,12 @@ void MainWindow::updateGUI()
 {
     switch ( _doc.getType() )
     {
-        case FighterAttack   : _ui->comboBoxType->setCurrentIndex( 0 ); break;
-        case CargoTransport  : _ui->comboBoxType->setCurrentIndex( 1 ); break;
-        case GeneralAviation : _ui->comboBoxType->setCurrentIndex( 2 ); break;
+        case FighterAttack   : _ui->comboBoxAircraftType->setCurrentIndex( 0 ); break;
+        case CargoTransport  : _ui->comboBoxAircraftType->setCurrentIndex( 1 ); break;
+        case GeneralAviation : _ui->comboBoxAircraftType->setCurrentIndex( 2 ); break;
     }
 
     _ui->spinBoxMassMaxTO->setValue( _doc.getM_maxto() );
-    _ui->spinBoxMassEmpty->setValue( _doc.getM_empty() );
 
     _ui->listComponents->clear();
 
@@ -612,7 +607,7 @@ void MainWindow::on_actionAbout_triggered()
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void MainWindow::on_comboBoxType_currentIndexChanged( int index )
+void MainWindow::on_comboBoxAircraftType_currentIndexChanged( int index )
 {
     Type type = FighterAttack;
 
@@ -624,19 +619,6 @@ void MainWindow::on_comboBoxType_currentIndexChanged( int index )
     }
 
     _doc.setType( type );
-
-    updateGUI();
-}
-
-////////////////////////////////////////////////////////////////////////////////
-
-void MainWindow::on_spinBoxMassEmpty_valueChanged( double arg1 )
-{
-    _ui->spinBoxMassMaxTO->setMinimum( arg1 );
-
-    _doc.setM_empty( arg1 );
-
-    _saved = false;
 
     updateGUI();
 }
@@ -658,7 +640,7 @@ void MainWindow::on_listComponents_currentRowChanged( int currentRow )
 {
     Aircraft::Components components = _doc.getComponents();
 
-    if ( currentRow >=0 && currentRow < components.size() )
+    if ( currentRow >=0 && currentRow < (int)components.size() )
     {
         _ui->pushButtonDel  ->setEnabled( true );
         _ui->pushButtonEdit ->setEnabled( true );

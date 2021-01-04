@@ -123,70 +123,171 @@
  *     party to this document and has no duty or obligation with respect to
  *     this CC0 or use of the Work.
  ******************************************************************************/
-#ifndef DIALOGEDITFUSELAGE_H
-#define DIALOGEDITFUSELAGE_H
+
+#include <TailH.h>
+
+#include <Atmosphere.h>
+#include <Document.h>
+#include <Units.h>
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#include <QDialog>
-
-#include <Fuselage.h>
+const char TailH::xml_tag[] = "tail_h";
 
 ////////////////////////////////////////////////////////////////////////////////
 
-namespace Ui
+double TailH::computeMass( Type type,
+                           double area,
+                           double mtow,
+                           double nz_max,
+                           double f_w,
+                           double b_h )
 {
-    class DialogEditFuselage;
+    switch ( type )
+    {
+        case FighterAttack   : return computeMassFA( area, mtow, nz_max, f_w, b_h ); break;
+        //case CargoTransport  : return computeMassCT( area, mtow, nz_max, f_w, b_h ); break;
+        case GeneralAviation : return computeMassGA( area ); break;
+    }
+
+    return 0.0;
+}
+
+
+////////////////////////////////////////////////////////////////////////////////
+
+double TailH::computeMassFA( double area,
+                             double mtow,
+                             double nz_max,
+                             double f_w,
+                             double b_h )
+{
+    // Rayner: Aircraft Design, p.398, table 15.2
+    double m1 = 0.0;
+    {
+        double s_ht = Units::sqm2sqft( area );
+
+        m1 = Units::lb2kg( 4.0 * s_ht );
+    }
+
+    // Rayner: Aircraft Design, p.401, eq.15.2
+    double m2 = m1;
+    {
+        double s_ht = Units::sqm2sqft( area );
+
+        double w_dg  = Units::kg2lb( mtow );
+        double n_z   = 1.5 * nz_max;
+
+        double f_w_ft = Units::m2ft( f_w );
+        double b_h_ft = Units::m2ft( b_h );
+
+
+        double m2_lb = 3.316 * pow( 1 + f_w_ft / b_h_ft, -2.0 )
+                * pow( w_dg * n_z / 1000.0, 0.26 )
+                * pow( s_ht, 0.806 );
+
+        m2 = Units::lb2kg( m2_lb );
+    }
+
+    std::cout << m1 << " " << m2 << std::endl;
+
+    return ( m1 + m2 ) / 2.0;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
-class DialogEditFuselage : public QDialog
+double TailH::computeMassCT( double area,
+                             double mtow,
+                             double nz_max,
+                             double f_w,
+                             double b_h,
+                             double sweep,
+                             bool allMoving,
+                             double ar,
+                             double l_tail,
+                             double area_e )
 {
-    Q_OBJECT
+    // Rayner: Aircraft Design, p.398, table 15.2
+    double m1 = 0.0;
+    {
+        double s_ht = Units::sqm2sqft( area );
 
-public:
+        m1 = Units::lb2kg( 5.5 * s_ht );
+    }
 
-    static void edit( QWidget *parent, Fuselage *fuselage );
+    // Rayner: Aircraft Design, p.401, eq.15.26
+    double m2 = m1;
+    {
+        double s_ht = Units::sqm2sqft( area );
 
-    explicit DialogEditFuselage( QWidget *parent = NULLPTR );
+        double w_dg  = Units::kg2lb( mtow );
+        double n_z   = 1.5 * nz_max;
 
-    ~DialogEditFuselage();
+        double f_w_ft = Units::m2ft( f_w );
+        double b_h_ft = Units::m2ft( b_h );
 
-    void init( const Fuselage &fuselage );
+        double sweep_rad = Units::deg2rad( sweep );
 
-    void getData( Fuselage *fuselage ) const;
+        double k_uht = allMoving ? 1.143 : 1.0;
 
-    void setType( Type type );
+        double l_t_ft = Units::m2ft( l_tail );
+        double k_y = 0.3 * l_t_ft;
 
-private:
+        double s_e = Units::sqm2sqft( area_e );
 
-    Ui::DialogEditFuselage *_ui;
+        double m2_lb = 0.0379 * k_uht * pow( 1.0 + f_w_ft / b_h_ft, -0.25 )
+                * pow( w_dg, 0.639 ) * pow( n_z, 0.1 ) * pow( s_ht, 0.75 )
+                * pow( l_t_ft, -1.0 ) * pow( k_y, 0.704 )
+                * pow( cos( sweep_rad ), -1.0 ) * pow( ar, 0.166 )
+                * pow( 1.0 + s_e / s_ht, 0.1 );
 
-    const Fuselage *_fuselage;
+        m2 = Units::lb2kg( m2_lb );
+    }
 
-    void updateFuselage();
-
-private slots:
-
-    void on_spinBox_L_valueChanged(double arg1);
-    void on_spinBox_W_valueChanged(double arg1);
-    void on_spinBox_H_valueChanged(double arg1);
-
-    void on_spinBoxNz_valueChanged(double arg1);
-    void on_spinBoxMTOW_valueChanged(double arg1);
-    void on_checkBoxDelta_toggled(bool checked);
-    void on_comboBoxDoor_currentIndexChanged(int index);
-    void on_checkBoxMount_toggled(bool checked);
-    void on_spinBoxSpan_valueChanged(double arg1);
-    void on_spinBoxSweep_valueChanged(double arg1);
-    void on_spinBoxLambda_valueChanged(double arg1);
-    void on_spinBoxTailLength_valueChanged(double arg1);
-    void on_spinBoxPressVol_valueChanged(double arg1);
-    void on_spinBoxCruiseV_valueChanged(double arg1);
-    void on_spinBoxCruiseH_valueChanged(double arg1);
-};
+    return ( m1 + m2 ) / 2.0;
+}
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#endif // DIALOGEDITFUSELAGE_H
+double TailH::computeMassGA( double area )
+{
+    // Rayner: Aircraft Design, p.398, table 15.2
+    double m1 = 0.0;
+    {
+        double s_ht = Units::sqm2sqft( area );
+
+        m1 = Units::lb2kg( 2.0 * s_ht );
+    }
+
+    // Rayner: Aircraft Design, p.401, eq.15.
+    double m2 = m1;
+    {
+        double m2_lb = 0.0;
+
+        m2 = Units::lb2kg( m2_lb );
+    }
+
+    return ( m1 + m2 ) / 2.0;
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+TailH::TailH( const Aircraft *aircraft ) :
+    Component( aircraft )
+{
+    setName( "Horizontal Tail" );
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+TailH::~TailH() {}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void TailH::save( QDomDocument *doc, QDomElement *parentNode )
+{
+    QDomElement node = doc->createElement( TailH::xml_tag );
+    parentNode->appendChild( node );
+
+    saveParameters( doc, &node );
+}

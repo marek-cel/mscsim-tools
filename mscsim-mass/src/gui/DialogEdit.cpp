@@ -123,65 +123,108 @@
  *     party to this document and has no duty or obligation with respect to
  *     this CC0 or use of the Work.
  ******************************************************************************/
-#ifndef BOX_H
-#define BOX_H
+
+#include <gui/DialogEdit.h>
+#include <ui_DialogEdit.h>
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#include <Component.h>
-
-#include <Matrix3x3.h>
-#include <Vector3.h>
-
-////////////////////////////////////////////////////////////////////////////////
-
-/**
- * @brief The Cuboid class.
- */
-class Box : public Component
+void DialogEdit::edit( QWidget *parent, Component *component )
 {
-public:
+    DialogEdit *dialog = new DialogEdit( parent, component );
 
-    static const char xml_tag[];
+    if ( dialog->exec() == QDialog::Accepted )
+    {
+        dialog->updateComponent( component );
+    }
 
-    /**
-     * @brief Returns cuboid matrix of inertia.
-     * @param m [kg] mass
-     * @param l [m] length (dimension x-component)
-     * @param w [m] width  (dimension y-component)
-     * @param h [m] height (dimension z-component)
-     * @return matrix of inertia [kg*m^2]
-     */
-    static Matrix3x3 getInertia( double m, double l, double w, double h );
-
-    Box( const Aircraft *aircraft );
-
-    virtual ~Box();
-
-    virtual void read( QDomElement *parentNode );
-
-    virtual void save( QDomDocument *doc, QDomElement *parentNode );
-
-    virtual Matrix3x3 getInertia() const;
-
-    inline double getLength () const { return _l; }
-    inline double getWidth  () const { return _w; }
-    inline double getHeight () const { return _h; }
-
-    void setLength ( double l );
-    void setWidth  ( double w );
-    void setHeight ( double h );
-
-protected:
-
-    double _l;      ///< [m] length
-    double _w;      ///< [m] width
-    double _h;      ///< [m] height,
-
-    virtual void saveParameters( QDomDocument *doc, QDomElement *node );
-
-};
+    DELPTR( dialog );
+}
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#endif // BOX_H
+DialogEdit::DialogEdit( QWidget *parent, const Component *component ) :
+    QDialog( parent ),
+    _ui( new Ui::DialogEdit ),
+    _component ( component )
+{
+    _ui->setupUi( this );
+
+    if ( _component )
+    {
+        _ui->lineEdit_Name->setText( _component->getName() );
+
+        _ui->spinBox_Mass->setValue( _component->getMass() );
+
+        _ui->spinBox_X->setValue( _component->getPosition().x() );
+        _ui->spinBox_Y->setValue( _component->getPosition().y() );
+        _ui->spinBox_Z->setValue( _component->getPosition().z() );
+
+        _ui->spinBox_L->setValue( _component->getPosition().x() );
+        _ui->spinBox_W->setValue( _component->getPosition().y() );
+        _ui->spinBox_H->setValue( _component->getPosition().z() );
+    }
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+DialogEdit::~DialogEdit()
+{
+    DELPTR( _ui );
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void DialogEdit::updateComponent( Component *component )
+{
+
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void DialogEdit::updateMass()
+{
+
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void DialogEdit::on_spinBox_X_valueChanged( double /*arg1*/ )
+{
+    updateMass();
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void DialogEdit::on_spinBox_Y_valueChanged( double /*arg1*/ )
+{
+    updateMass();
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void DialogEdit::on_spinBox_Z_valueChanged( double /*arg1*/ )
+{
+    updateMass();
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void DialogEdit::on_spinBox_L_valueChanged( double /*arg1*/ )
+{
+    updateMass();
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void DialogEdit::on_spinBox_W_valueChanged( double /*arg1*/ )
+{
+    updateMass();
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void DialogEdit::on_spinBox_H_valueChanged( double /*arg1*/ )
+{
+    updateMass();
+}

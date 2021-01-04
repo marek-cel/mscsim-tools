@@ -123,249 +123,82 @@
  *     party to this document and has no duty or obligation with respect to
  *     this CC0 or use of the Work.
  ******************************************************************************/
-
-#include <Document.h>
-
-#include <QFileInfo>
-#include <QTextStream>
+#ifndef TAILH_H
+#define TAILH_H
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void Document::saveTextNode( QDomDocument *doc, QDomElement *parent,
-                             const char *tag_name, const char *text )
+#include <Component.h>
+
+////////////////////////////////////////////////////////////////////////////////
+
+/**
+ * @brief The TailH class.
+ *
+ * @see Raymer D. P.: Aircraft Design: A Conceptual Approach, AIAA, 1992, p.398-407
+ */
+class TailH : public Component
 {
-    QDomElement node = doc->createElement( tag_name );
-    parent->appendChild( node );
+public:
 
-    QDomNode textNode = doc->createTextNode( text );
-    node.appendChild( textNode );
-}
+    static const char xml_tag[];
 
-////////////////////////////////////////////////////////////////////////////////
+    static double computeMass( Type type,
+                               double area,
+                               double mtow,
+                               double nz_max,
+                               double f_w,
+                               double b_h );
 
-Document::Document()
-{
-    newEmpty();
-}
+    /**
+     * @brief computeMassFA
+     * @param area [m^2] tail area
+     * @param mtow [kg] maximum take-off weight
+     * @param nz_max [-] maximum allowed load factor
+     * @param f_w [m] fuselage width at horizontal tail intersection
+     * @param b_h [m] horizontal tail span
+     * @return
+     */
+    static double computeMassFA( double area,
+                                 double mtow,
+                                 double nz_max,
+                                 double f_w,
+                                 double b_h );
 
-////////////////////////////////////////////////////////////////////////////////
+    /**
+     * @brief computeMassCT
+     * @param area [m^2] tail area
+     * @param mtow [kg] maximum take-off weight
+     * @param nz_max [-] maximum allowed load factor
+     * @param f_w [m] fuselage width at horizontal tail intersection
+     * @param b_h [m] horizontal tail span
+     * @param sweep [deg] tail sweep
+     * @param allMoving specifies if is all-moving tail
+     * @param ar aspect ratio
+     * @param l_tail [m] tail length 25%-MAC to tail 25%-MAC
+     * @param area_e [m^2] elevator area
+     * @return
+     */
+    static double computeMassCT( double area,
+                                 double mtow,
+                                 double nz_max,
+                                 double f_w,
+                                 double b_h,
+                                 double sweep,
+                                 bool allMoving,
+                                 double ar,
+                                 double l_tail,
+                                 double area_e );
 
-Document::~Document() {}
+    static double computeMassGA( double area );
 
-////////////////////////////////////////////////////////////////////////////////
+    TailH( const Aircraft *aircraft );
 
-void Document::newEmpty()
-{
-    _aircraft.reset();
+    virtual ~TailH();
 
-    update();
-}
-
-////////////////////////////////////////////////////////////////////////////////
-
-bool Document::exportAs( const char *fileName )
-{
-    return false;
-}
-
-////////////////////////////////////////////////////////////////////////////////
-
-bool Document::readFile( const char *fileName )
-{
-    bool status = false;
-
-    newEmpty();
-
-    QFile devFile( fileName );
-
-    if ( devFile.open( QFile::ReadOnly | QFile::Text ) )
-    {
-        QDomDocument doc;
-
-        doc.setContent( &devFile, false );
-
-        QDomElement rootNode = doc.documentElement();
-
-        if ( rootNode.tagName() == "mscsim_mass" )
-        {
-            int type_temp = rootNode.attributeNode( "type" ).value().toInt();
-            Type type = FighterAttack;
-
-            switch ( type_temp )
-            {
-                case FighterAttack   : type = FighterAttack   ; break;
-                case CargoTransport  : type = CargoTransport  ; break;
-                case GeneralAviation : type = GeneralAviation ; break;
-            }
-
-            _aircraft.setType( type );
-
-            QDomElement nodeM_empty = rootNode.firstChildElement( "m_empty" );
-            QDomElement nodeM_maxto = rootNode.firstChildElement( "m_maxto" );
-
-            QDomElement nodeComponents = rootNode.firstChildElement( "components" );
-
-            if ( !nodeM_empty.isNull() && !nodeM_maxto.isNull() && !nodeComponents.isNull() )
-            {
-                double m_empty = nodeM_empty.text().toDouble();
-                double m_maxto = nodeM_maxto.text().toDouble();
-
-                _aircraft.setM_empty( m_empty );
-                _aircraft.setM_maxto( m_maxto );
-
-                QDomElement nodeComponent = nodeComponents.firstChildElement();
-
-                while ( !nodeComponent.isNull() )
-                {
-                    Component *temp = NULLPTR;
-
-                    if     ( nodeComponent.tagName() == Fuselage::xml_tag )
-                    {
-                        temp = new Fuselage( &_aircraft );
-                    }
-                    else if ( nodeComponent.tagName() == Wing::xml_tag )
-                    {
-                        temp = new Wing( &_aircraft );
-                    }
-                    else if ( nodeComponent.tagName() == TailH::xml_tag )
-                    {
-                        temp = new TailH( &_aircraft );
-                    }
-                    else if ( nodeComponent.tagName() == TailV::xml_tag )
-                    {
-                        temp = new TailV( &_aircraft );
-                    }
-
-                    if ( temp )
-                    {
-                        temp->read( &nodeComponent );
-                        _aircraft.addComponent( temp );
-                    }
-
-                    nodeComponent = nodeComponent.nextSiblingElement();
-                }
-
-                status = true;
-
-                update();
-            }
-        }
-
-        devFile.close();
-    }
-
-    return status;
-}
+    virtual void save( QDomDocument *doc, QDomElement *parentNode );
+};
 
 ////////////////////////////////////////////////////////////////////////////////
 
-bool Document::saveFile( const char *fileName )
-{
-    QString fileTemp = fileName;
-
-    if ( QFileInfo( fileTemp ).suffix() != QString( "xml" ) )
-    {
-        fileTemp += ".xml";
-    }
-
-    QFile devFile( fileTemp );
-
-    if ( devFile.open( QFile::WriteOnly | QFile::Truncate | QFile::Text ) )
-    {
-        QTextStream out;
-        out.setDevice( &devFile );
-        out.setCodec("UTF-8");
-        out << "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n";
-
-        QDomDocument doc( "mscsim_mass" );
-
-        doc.setContent( &devFile, false );
-
-        QDomElement rootNode = doc.createElement( "mscsim_mass" );
-        doc.appendChild( rootNode );
-
-        QDomAttr nodeType = doc.createAttribute( "type" );
-        nodeType.setValue( QString::number( _aircraft.getType() ) );
-        rootNode.setAttributeNode( nodeType );
-
-        saveTextNode( &doc, &rootNode, "m_empty", QString::number( _aircraft.getM_empty(), 'f', 1 ).toStdString().c_str() );
-        saveTextNode( &doc, &rootNode, "m_maxto", QString::number( _aircraft.getM_maxto(), 'f', 1 ).toStdString().c_str() );
-
-        QDomElement componentsNode = doc.createElement( "components" );
-        rootNode.appendChild( componentsNode );
-
-        Aircraft::Components components = _aircraft.getComponents();
-
-        for ( Aircraft::Components::iterator it = components.begin(); it != components.end(); it++ )
-        {
-            (*it)->save( &doc, &componentsNode );
-        }
-
-        out << doc.toString();
-
-        devFile.close();
-
-        return true;
-    }
-
-    return false;
-}
-
-////////////////////////////////////////////////////////////////////////////////
-
-void Document::update()
-{
-    _aircraft.update();
-}
-
-////////////////////////////////////////////////////////////////////////////////
-
-void Document::addComponent( Component *component )
-{
-    _aircraft.addComponent( component );
-
-    update();
-}
-
-////////////////////////////////////////////////////////////////////////////////
-
-void Document::delComponent( int index )
-{
-    _aircraft.delComponent( index );
-
-    update();
-}
-
-////////////////////////////////////////////////////////////////////////////////
-
-Component* Document::getComponent( int index )
-{
-    return _aircraft.getComponent( index );
-}
-
-////////////////////////////////////////////////////////////////////////////////
-
-void Document::setType( Type type )
-{
-    _aircraft.setType( type );
-
-    update();
-}
-
-////////////////////////////////////////////////////////////////////////////////
-
-void Document::setM_empty( double m_empty )
-{
-    _aircraft.setM_empty( m_empty );
-
-    update();
-}
-
-////////////////////////////////////////////////////////////////////////////////
-
-void Document::setM_maxto( double m_maxto )
-{
-    _aircraft.setM_maxto( m_maxto );
-
-    update();
-}
+#endif // TAILH_H

@@ -128,7 +128,7 @@
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#include <Box.h>
+#include <Component.h>
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -137,7 +137,7 @@
  *
  * @see Raymer D. P.: Aircraft Design: A Conceptual Approach, AIAA, 1992, p.398-407
  */
-class Fuselage : public Box
+class Fuselage : public Component
 {
 public:
 
@@ -218,8 +218,8 @@ public:
      * @param h [m] fuselage structural height
      * @param mtow [kg]  maximum take-off weight
      * @param nz_max [-] maximum allowed load factor
-     * @param l_tail
-     * @param vol_press
+     * @param l_tail [m] tail length 25%-MAC to tail 25%-MAC
+     * @param vol_press [m^3] volume of pressurized section
      * @param v_cruise [kts]
      * @param h_cruise [ft]
      * @return
@@ -240,54 +240,7 @@ public:
 
     virtual ~Fuselage();
 
-    virtual void read( QDomElement *parentNode );
-
     virtual void save( QDomDocument *doc, QDomElement *parentNode );
-
-    inline double    getMTOW     () const { return _mtow;      }
-    inline double    getNzMax    () const { return _nz_max;    }
-    inline bool      getDelta    () const { return _delta;     }
-    inline CargoDoor getDoor     () const { return _door;      }
-    inline bool      getMount    () const { return _mount;     }
-    inline double    getSpan     () const { return _span;      }
-    inline double    getSweep    () const { return _sweep;     }
-    inline double    getLambda   () const { return _lambda;    }
-    inline double    getLTail    () const { return _l_tail;    }
-    inline double    getVolPress () const { return _vol_press; }
-    inline double    getVCruise  () const { return _v_cruise;  }
-    inline double    getHCruise  () const { return _h_cruise;  }
-
-
-    void setMTOW     ( double    mtow      );
-    void setNzMax    ( double    nz_max    );
-    void setDelta    ( bool      delta     );
-    void setDoor     ( CargoDoor door      );
-    void setMount    ( bool      mount     );
-    void setSpan     ( double    span      );
-    void setSweep    ( double    sweep     );
-    void setLambda   ( double    lambda    );
-    void setLTail    ( double    l_tail    );
-    void setVolPress ( double    vol_press );
-    void setVCruise  ( double    v_cruise  );
-    void setHCruise  ( double    h_cruise  );
-
-private:
-
-    double _mtow;
-    double _nz_max;
-    bool   _delta;
-    CargoDoor _door;
-    bool   _mount;
-    double _span;
-    double _sweep;
-    double _lambda;
-    double _l_tail;
-    double _vol_press;
-    double _v_cruise;
-    double _h_cruise;
-
-    virtual void saveParameters( QDomDocument *doc, QDomElement *node );
-
 };
 
 ////////////////////////////////////////////////////////////////////////////////

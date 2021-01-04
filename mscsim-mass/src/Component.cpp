@@ -126,13 +126,18 @@
 
 #include <Component.h>
 
+#include <Cuboid.h>
 #include <Document.h>
+#include <Steiner.h>
 
 ////////////////////////////////////////////////////////////////////////////////
 
 Component::Component( const Aircraft *aircraft ) :
     _aircraft ( aircraft ),
-    _m ( 0.0 )
+    _m ( 0.0 ),
+    _l ( 0.0 ),
+    _w ( 0.0 ),
+    _h ( 0.0 )
 {
     _name = "";
 }
@@ -148,22 +153,31 @@ void Component::read( QDomElement *parentNode )
     _name = parentNode->attributeNode( "name" ).value().toStdString();
 
     QDomElement nodeMass = parentNode->firstChildElement( "mass" );
-    QDomElement nodePosX = parentNode->firstChildElement( "pos_x" );
-    QDomElement nodePosY = parentNode->firstChildElement( "pos_y" );
-    QDomElement nodePosZ = parentNode->firstChildElement( "pos_z" );
+
+    QDomElement nodeX = parentNode->firstChildElement( "pos_x" );
+    QDomElement nodeY = parentNode->firstChildElement( "pos_y" );
+    QDomElement nodeZ = parentNode->firstChildElement( "pos_z" );
+
+    QDomElement nodeL = parentNode->firstChildElement( "length" );
+    QDomElement nodeW = parentNode->firstChildElement( "width"  );
+    QDomElement nodeH = parentNode->firstChildElement( "height" );
 
     if ( !nodeMass.isNull() ) _m = nodeMass.text().toDouble();
 
-    if ( !nodePosX.isNull() ) _r.x() = nodePosX.text().toDouble();
-    if ( !nodePosY.isNull() ) _r.y() = nodePosY.text().toDouble();
-    if ( !nodePosZ.isNull() ) _r.z() = nodePosZ.text().toDouble();
+    if ( !nodeX.isNull() ) _r.x() = nodeX.text().toDouble();
+    if ( !nodeY.isNull() ) _r.y() = nodeY.text().toDouble();
+    if ( !nodeZ.isNull() ) _r.z() = nodeZ.text().toDouble();
+
+    if ( !nodeL.isNull() ) _l = nodeL.text().toDouble();
+    if ( !nodeW.isNull() ) _w = nodeW.text().toDouble();
+    if ( !nodeH.isNull() ) _h = nodeH.text().toDouble();
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
-double Component::getMassRaw() const
+Matrix3x3 Component::getInertia() const
 {
-    return _m;
+    return Steiner::getInertia( _m, Cuboid::getInertia( _m, _l, _w, _h ), _r );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -189,6 +203,27 @@ void Component::setMass( double m )
 
 ////////////////////////////////////////////////////////////////////////////////
 
+void Component::setLength( double l )
+{
+    _l = l;
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void Component::setWidth( double w )
+{
+    _w = w;
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void Component::setHeight( double h )
+{
+    _h = h;
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
 void Component::saveParameters( QDomDocument *doc, QDomElement *node )
 {
     QDomAttr nodeName = doc->createAttribute( "name" );
@@ -200,4 +235,8 @@ void Component::saveParameters( QDomDocument *doc, QDomElement *node )
     Document::saveTextNode( doc, node, "pos_x", QString::number( _r.x(), 'f', 2 ).toStdString().c_str() );
     Document::saveTextNode( doc, node, "pos_y", QString::number( _r.y(), 'f', 2 ).toStdString().c_str() );
     Document::saveTextNode( doc, node, "pos_z", QString::number( _r.z(), 'f', 2 ).toStdString().c_str() );
+
+    Document::saveTextNode( doc, node, "length" , QString::number( _l, 'f', 2 ).toStdString().c_str() );
+    Document::saveTextNode( doc, node, "width"  , QString::number( _w, 'f', 2 ).toStdString().c_str() );
+    Document::saveTextNode( doc, node, "height" , QString::number( _h, 'f', 2 ).toStdString().c_str() );
 }

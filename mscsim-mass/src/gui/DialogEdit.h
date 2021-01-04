@@ -123,45 +123,56 @@
  *     party to this document and has no duty or obligation with respect to
  *     this CC0 or use of the Work.
  ******************************************************************************/
-#ifndef DIALOGEDITBOX_H
-#define DIALOGEDITBOX_H
+#ifndef DIALOGEDIT_H
+#define DIALOGEDIT_H
 
 ////////////////////////////////////////////////////////////////////////////////
 
 #include <QDialog>
 
-#include <Box.h>
+#include <Component.h>
 
 ////////////////////////////////////////////////////////////////////////////////
 
 namespace Ui
 {
-    class DialogEditBox;
+    class DialogEdit;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
-class DialogEditBox : public QDialog
+class DialogEdit : public QDialog
 {
     Q_OBJECT
 
 public:
 
-    static void edit( QWidget *parent, Box *box );
+    static void edit( QWidget *parent, Component *component );
 
-    explicit DialogEditBox( QWidget *parent = NULLPTR );
+    explicit DialogEdit( QWidget *parent = NULLPTR, const Component *component = NULLPTR );
 
-    ~DialogEditBox();
+    ~DialogEdit();
 
-    void init( const Box &box );
-
-    void getData( Box *box ) const;
+    void updateComponent( Component *component );
 
 private:
 
-    Ui::DialogEditBox *_ui;
+    Ui::DialogEdit *_ui;            ///<
+
+    const Component *_component;    ///<
+
+    void updateMass();
+
+private slots:
+
+    void on_spinBox_X_valueChanged( double arg1 );
+    void on_spinBox_Y_valueChanged( double arg1 );
+    void on_spinBox_Z_valueChanged( double arg1 );
+    void on_spinBox_L_valueChanged( double arg1 );
+    void on_spinBox_W_valueChanged( double arg1 );
+    void on_spinBox_H_valueChanged( double arg1 );
 };
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#endif // DIALOGEDITBOX_H
+#endif // DIALOGEDIT_H

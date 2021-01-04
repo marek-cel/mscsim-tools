@@ -128,7 +128,7 @@
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#include <Box.h>
+#include <Component.h>
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -137,7 +137,7 @@
  *
  * @see Raymer D. P.: Aircraft Design: A Conceptual Approach, AIAA, 1992, p.398-407
  */
-class Wing : public Box
+class Wing : public Component
 {
 public:
 
@@ -234,48 +234,7 @@ public:
 
     virtual ~Wing();
 
-    virtual void read( QDomElement *parentNode );
-
     virtual void save( QDomDocument *doc, QDomElement *parentNode );
-
-    inline double    getArea     () const { return _area;      }
-    inline double    getMTOW     () const { return _mtow;      }
-    inline double    getNzMax    () const { return _nz_max;    }
-    inline bool      getDelta    () const { return _delta;     }
-    inline double    getSweep    () const { return _sweep;     }
-    inline double    getLambda   () const { return _lambda;    }
-    inline double    getAR       () const { return _ar;        }
-    inline bool      getVariable () const { return _variable;  }
-    inline double    getAreaCtrl () const { return _area_ctrl; }
-    inline double    getTCRoot   () const { return _t_c_root;  }
-
-
-    void setArea     ( double area      );
-    void setMTOW     ( double mtow      );
-    void setNzMax    ( double nz_max    );
-    void setDelta    ( bool   delta     );
-    void setSweep    ( double sweep     );
-    void setLambda   ( double lambda    );
-    void setAR       ( double ar        );
-    void setVariable ( bool   variable  );
-    void setAreaCtrl ( double area_ctrl );
-    void setTCRoot   ( double t_c_root  );
-
-private:
-
-    double _area;
-    double _mtow;
-    double _nz_max;
-    bool   _delta;
-    double _sweep;
-    double _lambda;
-    double _ar;
-    bool   _variable;
-    double _area_ctrl;
-    double _t_c_root;
-
-    virtual void saveParameters( QDomDocument *doc, QDomElement *node );
-
 };
 
 ////////////////////////////////////////////////////////////////////////////////

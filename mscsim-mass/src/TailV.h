@@ -123,74 +123,42 @@
  *     party to this document and has no duty or obligation with respect to
  *     this CC0 or use of the Work.
  ******************************************************************************/
-
-#include <gui/DialogEditBox.h>
-#include <ui_DialogEditBox.h>
-
-////////////////////////////////////////////////////////////////////////////////
-
-void DialogEditBox::edit( QWidget *parent, Box *box )
-{
-    DialogEditBox *dialog = new DialogEditBox( parent );
-
-    dialog->init( *box );
-
-    if ( dialog->exec() == QDialog::Accepted )
-    {
-        dialog->getData( box );
-    }
-
-    DELPTR( dialog );
-}
+#ifndef TAIL_H
+#define TAIL_H
 
 ////////////////////////////////////////////////////////////////////////////////
 
-DialogEditBox::DialogEditBox( QWidget *parent ) :
-    QDialog( parent ),
-    _ui( new Ui::DialogEditBox )
-{
-    _ui->setupUi( this );
-}
+#include <Component.h>
 
 ////////////////////////////////////////////////////////////////////////////////
 
-DialogEditBox::~DialogEditBox()
+/**
+ * @brief The TailV class.
+ *
+ * @see Raymer D. P.: Aircraft Design: A Conceptual Approach, AIAA, 1992, p.398-407
+ */
+class TailV : public Component
 {
-    DELPTR( _ui );
-}
+public:
+
+    static const char xml_tag[];
+
+    static double computeMass( Type type,
+                               double area );
+
+    static double computeMassFA( double area );
+
+    static double computeMassCT( double area );
+
+    static double computeMassGA( double area );
+
+    TailV( const Aircraft *aircraft );
+
+    virtual ~TailV();
+
+    virtual void save( QDomDocument *doc, QDomElement *parentNode );
+};
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void DialogEditBox::init( const Box &box )
-{
-    _ui->lineEditName->setText( box.getName() );
-
-    _ui->spinBox_Mass->setValue( box.getMass() );
-
-    _ui->spinBox_X->setValue( box.getPosition().x() );
-    _ui->spinBox_Y->setValue( box.getPosition().y() );
-    _ui->spinBox_Z->setValue( box.getPosition().z() );
-
-    _ui->spinBox_L->setValue( box.getLength () );
-    _ui->spinBox_W->setValue( box.getWidth  () );
-    _ui->spinBox_H->setValue( box.getHeight () );
-}
-
-////////////////////////////////////////////////////////////////////////////////
-
-void DialogEditBox::getData( Box *box ) const
-{
-    box->setName( _ui->lineEditName->text().toStdString().c_str() );
-
-    box->setMass( _ui->spinBox_Mass->value() );
-
-    Vector3 position( _ui->spinBox_X->value(),
-                      _ui->spinBox_Y->value(),
-                      _ui->spinBox_Z->value() );
-
-    box->setPosition( position );
-
-    box->setLength ( _ui->spinBox_L->value() );
-    box->setWidth  ( _ui->spinBox_W->value() );
-    box->setHeight ( _ui->spinBox_H->value() );
-}
+#endif // TAIL_H

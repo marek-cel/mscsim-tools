@@ -218,7 +218,7 @@ double Fuselage::computeMassCT( double l,
         m1 = Units::lb2kg( 5.0 * s_f );
     }
 
-    // Rayner: Aircraft Design, p.401, eq.15.28
+    // Rayner: Aircraft Design, p.403, eq.15.28
     double m2 = 0.0;
     {
         double k_door = 1.0;
@@ -277,7 +277,7 @@ double Fuselage::computeMassGA( double l,
         m1 = Units::lb2kg( 1.4 * s_f );
     }
 
-    // Rayner: Aircraft Design, p.401, eq.15.49
+    // Rayner: Aircraft Design, p.404, eq.15.49
     double m2 = m1;
     {
         double w_dg = Units::kg2lb( mtow );
@@ -318,20 +318,7 @@ double Fuselage::computeWettedArea( double l, double w, double h )
 ////////////////////////////////////////////////////////////////////////////////
 
 Fuselage::Fuselage( const Aircraft *aircraft ) :
-    Box( aircraft ),
-
-    _mtow ( 0.0 ),
-    _nz_max ( 0.0 ),
-    _delta ( false ),
-    _door ( NoCargoDoor ),
-    _mount ( false ),
-    _span ( 0.0 ),
-    _sweep ( 0.0 ),
-    _lambda ( 0.0 ),
-    _l_tail ( 0.0 ),
-    _vol_press ( 0.0 ),
-    _v_cruise ( 0.0 ),
-    _h_cruise ( 0.0 )
+    Component( aircraft )
 {
     setName( "Fuselage" );
 }
@@ -342,162 +329,10 @@ Fuselage::~Fuselage() {}
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void Fuselage::read( QDomElement *parentNode )
-{
-    ////////////////////////
-    Box::read( parentNode );
-    ////////////////////////
-
-    QDomElement nodeMTOW     = parentNode->firstChildElement( "mtow"      );
-    QDomElement nodeNzMax    = parentNode->firstChildElement( "nz_max"    );
-    QDomElement nodeDelta    = parentNode->firstChildElement( "delta"     );
-    QDomElement nodeDoor     = parentNode->firstChildElement( "door"      );
-    QDomElement nodeMount    = parentNode->firstChildElement( "mount"     );
-    QDomElement nodeSpan     = parentNode->firstChildElement( "span"      );
-    QDomElement nodeSweep    = parentNode->firstChildElement( "sweep"     );
-    QDomElement nodeLambda   = parentNode->firstChildElement( "lambda"    );
-    QDomElement nodeLTail    = parentNode->firstChildElement( "l_tail"    );
-    QDomElement nodeVolPress = parentNode->firstChildElement( "vol_press" );
-    QDomElement nodeVCruise  = parentNode->firstChildElement( "v_cruise"  );
-    QDomElement nodeHCruise  = parentNode->firstChildElement( "h_cruise"  );
-
-    int door_temp = NoCargoDoor;
-
-    if ( !nodeMTOW     .isNull() ) _mtow      = nodeMTOW     .text().toDouble();
-    if ( !nodeNzMax    .isNull() ) _nz_max    = nodeNzMax    .text().toDouble();
-    if ( !nodeDelta    .isNull() ) _delta     = nodeDelta    .text().toInt();
-    if ( !nodeDoor     .isNull() ) door_temp  = nodeDoor     .text().toDouble();
-    if ( !nodeMount    .isNull() ) _mount     = nodeMount    .text().toInt();
-    if ( !nodeSpan     .isNull() ) _span      = nodeSpan     .text().toDouble();
-    if ( !nodeSweep    .isNull() ) _sweep     = nodeSweep    .text().toDouble();
-    if ( !nodeLambda   .isNull() ) _lambda    = nodeLambda   .text().toDouble();
-    if ( !nodeLTail    .isNull() ) _l_tail    = nodeLTail    .text().toDouble();
-    if ( !nodeVolPress .isNull() ) _vol_press = nodeVolPress .text().toDouble();
-    if ( !nodeVCruise  .isNull() ) _v_cruise  = nodeVCruise  .text().toDouble();
-    if ( !nodeHCruise  .isNull() ) _h_cruise  = nodeHCruise  .text().toDouble();
-
-    switch ( door_temp )
-    {
-        case NoCargoDoor       : _door = NoCargoDoor       ; break;
-        case OneSideCargoDoor  : _door = OneSideCargoDoor  ; break;
-        case TwoSideCargoDoor  : _door = TwoSideCargoDoor  ; break;
-        case AftClamshellDoor  : _door = AftClamshellDoor  ; break;
-        case TwoSideAndAftDoor : _door = TwoSideAndAftDoor ; break;
-    }
-}
-
-////////////////////////////////////////////////////////////////////////////////
-
 void Fuselage::save( QDomDocument *doc, QDomElement *parentNode )
 {
     QDomElement node = doc->createElement( Fuselage::xml_tag );
     parentNode->appendChild( node );
 
     saveParameters( doc, &node );
-}
-
-////////////////////////////////////////////////////////////////////////////////
-
-void Fuselage::setMTOW     ( double    mtow      )
-{
-    _mtow = mtow;
-}
-
-////////////////////////////////////////////////////////////////////////////////
-
-void Fuselage::setNzMax    ( double    nz_max    )
-{
-    _nz_max = nz_max;
-}
-
-////////////////////////////////////////////////////////////////////////////////
-
-void Fuselage::setDelta    ( bool      delta     )
-{
-    _delta = delta;
-}
-
-////////////////////////////////////////////////////////////////////////////////
-
-void Fuselage::setDoor     ( CargoDoor door      )
-{
-    _door = door;
-}
-
-////////////////////////////////////////////////////////////////////////////////
-
-void Fuselage::setMount    ( bool      mount     )
-{
-    _mount = mount;
-}
-
-////////////////////////////////////////////////////////////////////////////////
-
-void Fuselage::setSpan     ( double    span      )
-{
-    _span = span;
-}
-
-////////////////////////////////////////////////////////////////////////////////
-
-void Fuselage::setSweep    ( double    sweep     )
-{
-    _sweep = sweep;
-}
-
-////////////////////////////////////////////////////////////////////////////////
-
-void Fuselage::setLambda   ( double    lambda    )
-{
-    _lambda = lambda;
-}
-
-////////////////////////////////////////////////////////////////////////////////
-
-void Fuselage::setLTail    ( double    l_tail    )
-{
-    _l_tail = l_tail;
-}
-
-////////////////////////////////////////////////////////////////////////////////
-
-void Fuselage::setVolPress ( double    vol_press )
-{
-    _vol_press = vol_press;
-}
-
-////////////////////////////////////////////////////////////////////////////////
-
-void Fuselage::setVCruise  ( double    v_cruise  )
-{
-    _v_cruise = v_cruise;
-}
-
-////////////////////////////////////////////////////////////////////////////////
-
-void Fuselage::setHCruise  ( double    h_cruise  )
-{
-    _h_cruise = h_cruise;
-}
-
-////////////////////////////////////////////////////////////////////////////////
-
-void Fuselage::saveParameters( QDomDocument *doc, QDomElement *node )
-{
-    /////////////////////////////////
-    Box::saveParameters( doc, node );
-    /////////////////////////////////
-
-    Document::saveTextNode( doc, node, "mtow"      , QString::number( _mtow      , 'f', 1 ).toStdString().c_str() );
-    Document::saveTextNode( doc, node, "nz_max"    , QString::number( _nz_max    , 'f', 2 ).toStdString().c_str() );
-    Document::saveTextNode( doc, node, "delta"     , ( _delta ? "1" : "0" ) );
-    Document::saveTextNode( doc, node, "door"      , QString::number( _door      , 'f', 0 ).toStdString().c_str() );
-    Document::saveTextNode( doc, node, "mount"     , ( _mount ? "1" : "0" ) );
-    Document::saveTextNode( doc, node, "span"      , QString::number( _span      , 'f', 2 ).toStdString().c_str() );
-    Document::saveTextNode( doc, node, "sweep"     , QString::number( _sweep     , 'f', 2 ).toStdString().c_str() );
-    Document::saveTextNode( doc, node, "lambda"    , QString::number( _lambda    , 'f', 2 ).toStdString().c_str() );
-    Document::saveTextNode( doc, node, "l_tail"    , QString::number( _l_tail    , 'f', 2 ).toStdString().c_str() );
-    Document::saveTextNode( doc, node, "vol_press" , QString::number( _vol_press , 'f', 2 ).toStdString().c_str() );
-    Document::saveTextNode( doc, node, "v_cruise"  , QString::number( _v_cruise  , 'f', 1 ).toStdString().c_str() );
-    Document::saveTextNode( doc, node, "h_cruise"  , QString::number( _h_cruise  , 'f', 1 ).toStdString().c_str() );
 }

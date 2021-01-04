@@ -11,18 +11,6 @@
    <length>12.28</length>
    <width>2.68</width>
    <height>2.12</height>
-   <mtow>21772.0</mtow>
-   <nz_max>9.00</nz_max>
-   <delta>0</delta>
-   <door>0</door>
-   <mount>0</mount>
-   <span>0.00</span>
-   <sweep>0.00</sweep>
-   <lambda>0.00</lambda>
-   <l_tail>0.00</l_tail>
-   <vol_press>0.00</vol_press>
-   <v_cruise>0.0</v_cruise>
-   <h_cruise>0.0</h_cruise>
   </fuselage>
   <wing name="Wing">
    <mass>1615.0</mass>
@@ -32,16 +20,6 @@
    <length>3.45</length>
    <width>9.14</width>
    <height>0.30</height>
-   <area>18.14</area>
-   <mtow>21772.0</mtow>
-   <nz_max>9.00</nz_max>
-   <delta>0</delta>
-   <sweep>30.90</sweep>
-   <lambda>0.29</lambda>
-   <ar>8.15</ar>
-   <variable>0</variable>
-   <area_ctrl>6.24</area_ctrl>
-   <t_c_root>0.04</t_c_root>
   </wing>
  </components>
 </mscsim_mass>

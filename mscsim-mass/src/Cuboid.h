@@ -123,70 +123,34 @@
  *     party to this document and has no duty or obligation with respect to
  *     this CC0 or use of the Work.
  ******************************************************************************/
-#ifndef DIALOGEDITWING_H
-#define DIALOGEDITWING_H
+#ifndef CUBOID_H
+#define CUBOID_H
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#include <QDialog>
-
-#include <Wing.h>
+#include <Matrix3x3.h>
+#include <Vector3.h>
 
 ////////////////////////////////////////////////////////////////////////////////
 
-namespace Ui
+/**
+ * @brief The Cuboid class.
+ */
+class Cuboid
 {
-    class DialogEditWing;
-}
-
-////////////////////////////////////////////////////////////////////////////////
-
-class DialogEditWing : public QDialog
-{
-    Q_OBJECT
-
 public:
 
-    static void edit( QWidget *parent, Wing *wing );
-
-    explicit DialogEditWing( QWidget *parent = NULLPTR );
-
-    ~DialogEditWing();
-
-    void init( const Wing &wing );
-
-    void getData( Wing *wing ) const;
-
-    void setType( Type type );
-
-private:
-
-    Ui::DialogEditWing *_ui;
-
-    const Wing *_wing;
-
-    void updateWing();
-
-private slots:
-
-    void on_spinBox_L_valueChanged(double arg1);
-    void on_spinBox_W_valueChanged(double arg1);
-    void on_spinBox_H_valueChanged(double arg1);
-    void on_spinBoxArea_valueChanged(double arg1);
-    void on_spinBoxNz_valueChanged(double arg1);
-    void on_spinBoxMTOW_valueChanged(double arg1);
-    void on_spinBoxSweep_valueChanged(double arg1);
-    void on_spinBoxLambda_valueChanged(double arg1);
-    void on_spinBoxAR_valueChanged(double arg1);
-    void on_spinBoxAreaCtrl_valueChanged(double arg1);
-    void on_spinBoxTCRoot_valueChanged(double arg1);
-    void on_checkBoxDelta_toggled(bool checked);
-    void on_checkBoxVariable_toggled(bool checked);
-    void on_spinBoxFuel_valueChanged(double arg1);
-    void on_spinBoxCruiseV_valueChanged(double arg1);
-    void on_spinBoxCruiseH_valueChanged(double arg1);
+    /**
+     * @brief Returns cuboid matrix of inertia.
+     * @param m [kg] mass
+     * @param l [m] length (dimension x-component)
+     * @param w [m] width  (dimension y-component)
+     * @param h [m] height (dimension z-component)
+     * @return matrix of inertia [kg*m^2]
+     */
+    static Matrix3x3 getInertia( double m, double l, double w, double h );
 };
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#endif // DIALOGEDITWING_H
+#endif // CUBOID_H
