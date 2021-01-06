@@ -13,6 +13,10 @@
   <property name="windowTitle">
    <string>FGFS Recorder</string>
   </property>
+  <property name="windowIcon">
+   <iconset resource="../mscsim-fgrec.qrc">
+    <normaloff>:/gui/images/icon.svg</normaloff>:/gui/images/icon.svg</iconset>
+  </property>
   <widget class="QWidget" name="centralWidget">
    <layout class="QGridLayout" name="gridLayout">
     <property name="leftMargin">
@@ -776,10 +780,24 @@ QPushButton:disabled:checked
      <height>23</height>
     </rect>
    </property>
+   <widget class="QMenu" name="menuHelp">
+    <property name="title">
+     <string>Help</string>
+    </property>
+    <addaction name="actionAbout"/>
+   </widget>
+   <addaction name="menuHelp"/>
   </widget>
   <widget class="QStatusBar" name="statusBar"/>
+  <action name="actionAbout">
+   <property name="text">
+    <string>About</string>
+   </property>
+  </action>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
- <resources/>
+ <resources>
+  <include location="../mscsim-fgrec.qrc"/>
+ </resources>
  <connections/>
 </ui>

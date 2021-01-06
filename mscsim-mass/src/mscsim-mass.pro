@@ -17,6 +17,10 @@ CONFIG += c++11
 
 ################################################################################
 
+win32: RC_FILE = mscsim-mass.rc
+
+################################################################################
+
 win32: CONFIG(release, debug|release): QMAKE_CXXFLAGS += -O2
 unix:  CONFIG(release, debug|release): QMAKE_CXXFLAGS += -O2
 

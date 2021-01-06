@@ -229,6 +229,8 @@ private slots:
 
     void on_actionViewOrbit_triggered();
     void on_actionViewTrack_triggered();
+
+    void on_actionAbout_triggered();
 };
 
 ////////////////////////////////////////////////////////////////////////////////

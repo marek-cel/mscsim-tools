@@ -597,3 +597,23 @@ void MainWindow::on_actionViewTrack_triggered()
 {
     _ui->widgetCGI->setManipulatorTrack( _ui->widgetDoc->getCurrentNode() );
 }
+
+////////////////////////////////////////////////////////////////////////////////
+
+void MainWindow::on_actionAbout_triggered()
+{
+    QFile aboutHtmlFile( ":/gui/html/about.html" );
+
+    QString aboutWinTitle;
+    QString aboutInfoText;
+
+    aboutWinTitle = tr( "About" );
+
+    if ( aboutHtmlFile.open( QIODevice::ReadOnly ) )
+    {
+        aboutInfoText = aboutHtmlFile.readAll();
+        aboutHtmlFile.close();
+    }
+
+    QMessageBox::about( this, aboutWinTitle, aboutInfoText );
+}

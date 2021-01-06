@@ -124,13 +124,16 @@
  *     this CC0 or use of the Work.
  ******************************************************************************/
 
-#include "MainWindow.h"
-#include "ui_MainWindow.h"
+#include <gui/MainWindow.h>
+#include <ui_MainWindow.h>
 
 #include <iomanip>
 #include <iostream>
 
 #include <arpa/inet.h>
+
+#include <QFile>
+#include <QMessageBox>
 
 #include <Noise.h>
 #include <Units.h>
@@ -458,6 +461,26 @@ void MainWindow::writeRecord( const DataInp &dataInp )
 
         _fstream << "\n";
     }
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void MainWindow::on_actionAbout_triggered()
+{
+    QFile aboutHtmlFile( ":/gui/html/about.html" );
+
+    QString aboutWinTitle;
+    QString aboutInfoText;
+
+    aboutWinTitle = tr( "About" );
+
+    if ( aboutHtmlFile.open( QIODevice::ReadOnly ) )
+    {
+        aboutInfoText = aboutHtmlFile.readAll();
+        aboutHtmlFile.close();
+    }
+
+    QMessageBox::about( this, aboutWinTitle, aboutInfoText );
 }
 
 ////////////////////////////////////////////////////////////////////////////////

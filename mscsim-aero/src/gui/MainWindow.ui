@@ -13,6 +13,10 @@
   <property name="windowTitle">
    <string>MScSim-Aero</string>
   </property>
+  <property name="windowIcon">
+   <iconset resource="../mscsim-aero.qrc">
+    <normaloff>:/gui/images/icon.svg</normaloff>:/gui/images/icon.svg</iconset>
+  </property>
   <property name="locale">
    <locale language="Polish" country="Poland"/>
   </property>
@@ -748,6 +752,8 @@
   <tabstop>pushButtonLiftAdd</tabstop>
   <tabstop>pushButtonLiftDel</tabstop>
  </tabstops>
- <resources/>
+ <resources>
+  <include location="../mscsim-aero.qrc"/>
+ </resources>
  <connections/>
 </ui>
