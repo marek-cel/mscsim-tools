@@ -123,129 +123,70 @@
  *     party to this document and has no duty or obligation with respect to
  *     this CC0 or use of the Work.
  ******************************************************************************/
-#ifndef MATRIX3X3_H
-#define MATRIX3X3_H
+#ifndef TAILH_H
+#define TAILH_H
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#include <Vector3.h>
+#include <mass/Component.h>
 
 ////////////////////////////////////////////////////////////////////////////////
 
-/** */
-class Matrix3x3
+/**
+ * @brief The TailH class.
+ *
+ * @see Raymer D. P.: Aircraft Design: A Conceptual Approach, AIAA, 1992, p.398-407
+ */
+class TailH : public Component
 {
 public:
 
-    static const int _rows;
-    static const int _cols;
-    static const int _size;
+    static const char xml_tag[];
 
-    /** @brief Constructor. */
-    Matrix3x3();
+    /**
+     * @brief Computes horizontal tail mass.
+     * @param type aircraft type
+     * @param h_tail_area [m^2] tail area
+     * @param m_maxto [kg] maximum take-off weight
+     * @param nz_max [-] maximum allowed load factor
+     * @param h_tail_f_w [m] fuselage width at horizontal tail intersection
+     * @param h_tail_span [m] horizontal tail span
+     * @param h_tail_sweep [deg] tail sweep
+     * @param h_tail_moving specifies if is all-moving tail
+     * @param h_tail_ar horizontal tail aspect ratio
+     * @param h_tail_arm [m] tail length 25%-MAC to tail 25%-MAC
+     * @param elev_area [m^2] elevator area
+     * @param h_tail_tr [-] horizontal tail taper ratio
+     * @param h_tail_tc [-] horizontal tail thickness ratio
+     * @param v_cruise [kts]
+     * @param h_cruise [ft]
+     * @return horizontal tail mass expressed in kg
+     */
+    static double computeMass( Type type,
+                               double h_tail_area,
+                               double m_maxto,
+                               double nz_max,
+                               double h_tail_f_w,
+                               double h_tail_span,
+                               double h_tail_sweep,
+                               bool h_tail_moving,
+                               double h_tail_ar,
+                               double h_tail_arm,
+                               double elev_area,
+                               double h_tail_tr,
+                               double h_tail_tc,
+                               double v_cruise,
+                               double h_cruise );
 
-    /** @brief Copy constructor. */
-    Matrix3x3( const Matrix3x3 &mtrx );
+    TailH( const Aircraft *ac );
 
-    /** @brief Constructor. */
-    Matrix3x3( double xx, double xy, double xz,
-               double yx, double yy, double yz,
-               double zx, double zy, double zz );
+    virtual ~TailH();
 
-    inline double xx() const { return _xx; }
-    inline double xy() const { return _xy; }
-    inline double xz() const { return _xz; }
-    inline double yx() const { return _yx; }
-    inline double yy() const { return _yy; }
-    inline double yz() const { return _yz; }
-    inline double zx() const { return _zx; }
-    inline double zy() const { return _zy; }
-    inline double zz() const { return _zz; }
+    virtual void save( QDomDocument *doc, QDomElement *parentNode );
 
-    inline double& xx() { return _xx; }
-    inline double& xy() { return _xy; }
-    inline double& xz() { return _xz; }
-    inline double& yx() { return _yx; }
-    inline double& yy() { return _yy; }
-    inline double& yz() { return _yz; }
-    inline double& zx() { return _zx; }
-    inline double& zy() { return _zy; }
-    inline double& zz() { return _zz; }
-
-    void set( double xx, double xy, double xz,
-              double yx, double yy, double yz,
-              double zx, double zy, double zz );
-
-    /** @brief @brief Items accessor. */
-    inline double operator() ( unsigned int row, unsigned int col ) const
-    {
-        return _items[ row * _cols + col ];
-    }
-
-    /** @brief @brief Items accessor. */
-    inline double& operator() ( unsigned int row, unsigned int col )
-    {
-        return _items[ row * _cols + col ];
-    }
-
-    /** @brief Assignment operator. */
-    const Matrix3x3& operator= ( const Matrix3x3 &mtrx );
-
-    /** @brief Addition operator. */
-    Matrix3x3 operator+ ( const Matrix3x3 &mtrx ) const;
-
-    /** @brief Subtraction operator. */
-    Matrix3x3 operator- ( const Matrix3x3 &mtrx ) const;
-
-    /** @brief Multiplication operator (by scalar). */
-    Matrix3x3 operator* ( double value ) const;
-
-    /** @brief Multiplication operator (by matrix). */
-    Matrix3x3 operator* ( const Matrix3x3 &mtrx ) const;
-
-    /** @brief Multiplication operator (by vector). */
-    Vector3 operator* ( const Vector3 &vect ) const;
-
-    /** @brief Division operator (by scalar). */
-    Matrix3x3 operator/ ( double value ) const;
-
-    /** @brief Unary addition operator. */
-    Matrix3x3& operator+= ( const Matrix3x3 &mtrx );
-
-    /** @brief Unary subtraction operator. */
-    Matrix3x3& operator-= ( const Matrix3x3 &mtrx );
-
-    /** @brief Unary multiplication operator (by scalar). */
-    Matrix3x3& operator*= ( double value );
-
-    /** @brief Unary division operator (by scalar). */
-    Matrix3x3& operator/= ( double value );
-
-private:
-
-    double _items[ 9 ];     ///< matrix items
-
-    double &_xx;            ///< xx element
-    double &_xy;            ///< xy element
-    double &_xz;            ///< xz element
-
-    double &_yx;            ///< yx element
-    double &_yy;            ///< yy element
-    double &_yz;            ///< yz element
-
-    double &_zx;            ///< zx element
-    double &_zy;            ///< zy element
-    double &_zz;            ///< zz element
+    virtual double getComputedMass( double l, double w, double h ) const;
 };
 
 ////////////////////////////////////////////////////////////////////////////////
 
-/** @brief Multiplication operator (by scalar). */
-inline Matrix3x3 operator* ( double value, const Matrix3x3 &mtrx )
-{
-    return ( mtrx * value );
-}
-
-////////////////////////////////////////////////////////////////////////////////
-
-#endif // MATRIX3X3_H
+#endif // TAILH_H

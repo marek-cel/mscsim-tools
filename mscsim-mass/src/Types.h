@@ -123,79 +123,32 @@
  *     party to this document and has no duty or obligation with respect to
  *     this CC0 or use of the Work.
  ******************************************************************************/
-#ifndef AIRCRAFT_H
-#define AIRCRAFT_H
+#ifndef TYPES_H
+#define TYPES_H
 
 ////////////////////////////////////////////////////////////////////////////////
-
-#include <vector>
-
-#include <defs.h>
-
-#include <Matrix3x3.h>
-#include <Type.h>
-#include <Vector3.h>
-
-////////////////////////////////////////////////////////////////////////////////
-
-class Component;
 
 /**
- * @brief The Aircraft class.
+ * @brief The aircraft type enum.
  */
-class Aircraft
+enum Type
 {
-public:
-
-    typedef std::vector< Component* > Components;
-
-    Aircraft();
-
-    virtual ~Aircraft();
-
-    void reset();
-
-    void update();
-
-    inline const Components& getComponents() const { return _components; }
-
-    Component* getComponent( int index );
-
-    inline Type getType() const { return _type; }
-
-    inline double getM_empty() const { return _m_empty; }
-    inline double getM_maxto() const { return _m_maxto; }
-
-    inline Vector3   getCenterOfMass  () const { return _centerOfMass;  }
-    inline Matrix3x3 getInertiaMatrix () const { return _inertiaMatrix; }
-    inline double    getMassTotal     () const { return _massTotal;     }
-
-    void addComponent( Component *component );
-
-    void delComponent( int index );
-
-    void setType( Type type );
-
-    void setM_empty( double m_empty );
-    void setM_maxto( double m_maxto );
-
-private:
-
-    Components _components;     ///< mass components
-
-    Type _type;                 ///< [-] aircraft type
-
-    double _m_empty;            ///< [kg] empty mass
-    double _m_maxto;            ///< [kg] maximum take-off mass
-
-    Vector3   _centerOfMass;    ///< [m] center of mass position
-    Matrix3x3 _inertiaMatrix;   ///< [kg*m^2] inertia
-    double _massTotal;          ///< [kg]
-
-
-    void deleteAllComponents();
+    FighterAttack   = 0,    ///< Fighter/Attack
+    CargoTransport  = 1,    ///< Cargo/Transport/Bombers
+    GeneralAviation = 2     ///< General Aviation
 };
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#endif // AIRCRAFT_H
+enum CargoDoor
+{
+    NoCargoDoor = 0,
+    OneSideCargoDoor,
+    TwoSideCargoDoor,
+    AftClamshellDoor,
+    TwoSideAndAftDoor
+};
+
+////////////////////////////////////////////////////////////////////////////////
+
+#endif // TYPES_H

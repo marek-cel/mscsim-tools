@@ -123,199 +123,129 @@
  *     party to this document and has no duty or obligation with respect to
  *     this CC0 or use of the Work.
  ******************************************************************************/
-
-#include <Wing.h>
-
-#include <Atmosphere.h>
-#include <Document.h>
-#include <Units.h>
+#ifndef MATRIX3X3_H
+#define MATRIX3X3_H
 
 ////////////////////////////////////////////////////////////////////////////////
 
-const char Wing::xml_tag[] = "wing";
+#include <mass/Vector3.h>
 
 ////////////////////////////////////////////////////////////////////////////////
 
-double Wing::computeMass( Type type,
-                          double area,
-                          double mtow,
-                          double nz_max,
-                          bool delta,
-                          double sweep,
-                          double lambda,
-                          double ar,
-                          bool variable,
-                          double area_ctrl,
-                          double tc_root,
-                          double fuel,
-                          double v_cruise,
-                          double h_cruise )
+/** */
+class Matrix3x3
 {
-    switch ( type )
+public:
+
+    static const int _rows;
+    static const int _cols;
+    static const int _size;
+
+    /** @brief Constructor. */
+    Matrix3x3();
+
+    /** @brief Copy constructor. */
+    Matrix3x3( const Matrix3x3 &mtrx );
+
+    /** @brief Constructor. */
+    Matrix3x3( double xx, double xy, double xz,
+               double yx, double yy, double yz,
+               double zx, double zy, double zz );
+
+    inline double xx() const { return _xx; }
+    inline double xy() const { return _xy; }
+    inline double xz() const { return _xz; }
+    inline double yx() const { return _yx; }
+    inline double yy() const { return _yy; }
+    inline double yz() const { return _yz; }
+    inline double zx() const { return _zx; }
+    inline double zy() const { return _zy; }
+    inline double zz() const { return _zz; }
+
+    inline double& xx() { return _xx; }
+    inline double& xy() { return _xy; }
+    inline double& xz() { return _xz; }
+    inline double& yx() { return _yx; }
+    inline double& yy() { return _yy; }
+    inline double& yz() { return _yz; }
+    inline double& zx() { return _zx; }
+    inline double& zy() { return _zy; }
+    inline double& zz() { return _zz; }
+
+    void set( double xx, double xy, double xz,
+              double yx, double yy, double yz,
+              double zx, double zy, double zz );
+
+    /** @brief @brief Items accessor. */
+    inline double operator() ( unsigned int row, unsigned int col ) const
     {
-        case FighterAttack   : return computeMassFA( area, mtow, nz_max, delta, sweep, lambda, ar, variable, area_ctrl, tc_root ); break;
-        case CargoTransport  : return computeMassCT( area, mtow, nz_max, sweep, lambda, ar, area_ctrl, tc_root ); break;
-        case GeneralAviation : return computeMassGA( area, mtow, nz_max, sweep, lambda, ar, tc_root, fuel, v_cruise, h_cruise ); break;
+        return _items[ row * _cols + col ];
     }
 
-    return 0.0;
-}
+    /** @brief @brief Items accessor. */
+    inline double& operator() ( unsigned int row, unsigned int col )
+    {
+        return _items[ row * _cols + col ];
+    }
 
+    /** @brief Assignment operator. */
+    const Matrix3x3& operator= ( const Matrix3x3 &mtrx );
+
+    /** @brief Addition operator. */
+    Matrix3x3 operator+ ( const Matrix3x3 &mtrx ) const;
+
+    /** @brief Subtraction operator. */
+    Matrix3x3 operator- ( const Matrix3x3 &mtrx ) const;
+
+    /** @brief Multiplication operator (by scalar). */
+    Matrix3x3 operator* ( double value ) const;
+
+    /** @brief Multiplication operator (by matrix). */
+    Matrix3x3 operator* ( const Matrix3x3 &mtrx ) const;
+
+    /** @brief Multiplication operator (by vector). */
+    Vector3 operator* ( const Vector3 &vect ) const;
+
+    /** @brief Division operator (by scalar). */
+    Matrix3x3 operator/ ( double value ) const;
+
+    /** @brief Unary addition operator. */
+    Matrix3x3& operator+= ( const Matrix3x3 &mtrx );
+
+    /** @brief Unary subtraction operator. */
+    Matrix3x3& operator-= ( const Matrix3x3 &mtrx );
+
+    /** @brief Unary multiplication operator (by scalar). */
+    Matrix3x3& operator*= ( double value );
+
+    /** @brief Unary division operator (by scalar). */
+    Matrix3x3& operator/= ( double value );
+
+private:
+
+    double _items[ 9 ];     ///< matrix items
+
+    double &_xx;            ///< xx element
+    double &_xy;            ///< xy element
+    double &_xz;            ///< xz element
+
+    double &_yx;            ///< yx element
+    double &_yy;            ///< yy element
+    double &_yz;            ///< yz element
+
+    double &_zx;            ///< zx element
+    double &_zy;            ///< zy element
+    double &_zz;            ///< zz element
+};
 
 ////////////////////////////////////////////////////////////////////////////////
 
-double Wing::computeMassFA( double area,
-                            double mtow,
-                            double nz_max,
-                            bool delta,
-                            double sweep,
-                            double lambda,
-                            double ar,
-                            bool variable,
-                            double area_ctrl,
-                            double tc_root )
+/** @brief Multiplication operator (by scalar). */
+inline Matrix3x3 operator* ( double value, const Matrix3x3 &mtrx )
 {
-    // Rayner: Aircraft Design, p.398, table 15.2
-    double m1 = 0.0;
-    {
-        double s_w = Units::sqm2sqft( area );
-        m1 = Units::lb2kg( 9.0 * s_w );
-    }
-
-    // Rayner: Aircraft Design, p.401, eq.15.1
-    double m2 = m1;
-    {
-        double s_w = Units::sqm2sqft( area );
-
-        double k_vs  = variable ? 1.19  : 1.0;
-        double k_dw  = delta    ? 0.768 : 1.0;
-
-        double w_dg  = Units::kg2lb( mtow );
-        double n_z   = 1.5 * nz_max;
-        double s_csw = Units::kg2lb( area_ctrl );
-
-        double sweep_rad = Units::deg2rad( sweep );
-
-        double m2_lb = 0.0103 * k_dw * k_vs * pow( w_dg * n_z, 0.5 )
-                * pow( s_w, 0.622 ) * pow( ar, 0.785 ) * pow( tc_root, -0.4 )
-                * pow( 1.0 + lambda, 0.05 ) * pow( cos( sweep_rad ), -1.0 )
-                * pow( s_csw, 0.04 );
-
-        m2 = Units::lb2kg( m2_lb );
-    }
-
-    std::cout << m1 << " " << m2 << std::endl;
-
-    return ( m1 + m2 ) / 2.0;
-}
-
-////////////////////////////////////////////////////////////////////////////////
-
-double Wing::computeMassCT( double area,
-                            double mtow,
-                            double nz_max,
-                            double sweep,
-                            double lambda,
-                            double ar,
-                            double area_ctrl,
-                            double tc_root )
-{
-    // Rayner: Aircraft Design, p.398, table 15.2
-    double m1 = 0.0;
-    {
-        double s_w = Units::sqm2sqft( area );
-        m1 = Units::lb2kg( 10.0 * s_w );
-    }
-
-    // Rayner: Aircraft Design, p.403, eq.15.25
-    double m2 = m1;
-    {
-        double s_w = Units::sqm2sqft( area );
-
-        double w_dg  = Units::kg2lb( mtow );
-        double n_z   = 1.5 * nz_max;
-        double s_csw = Units::kg2lb( area_ctrl );
-
-        double sweep_rad = Units::deg2rad( sweep );
-
-        double m2_lb = 0.0051 * pow( w_dg * n_z, 0.557 )
-                * pow( s_w, 0.649 ) * pow( ar, 0.5 ) * pow( tc_root, -0.4 )
-                * pow( 1.0 + lambda, 0.1 ) * pow( cos( sweep_rad ), -1.0 )
-                * pow( s_csw, 0.1 );
-
-        m2 = Units::lb2kg( m2_lb );
-    }
-
-    return ( m1 + m2 ) / 2.0;
+    return ( mtrx * value );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
-double Wing::computeMassGA( double area,
-                            double mtow,
-                            double nz_max,
-                            double sweep,
-                            double lambda,
-                            double ar,
-                            double tc_root,
-                            double fuel,
-                            double v_cruise,
-                            double h_cruise )
-{
-    // Rayner: Aircraft Design, p.398, table 15.2
-    double m1 = 0.0;
-    {
-        double s_w = Units::sqm2sqft( area );
-        m1 = Units::lb2kg( 2.5 * s_w );
-    }
-
-    // Rayner: Aircraft Design, p.404, eq.15.46
-    double m2 = m1;
-    {
-        double s_w = Units::sqm2sqft( area );
-
-        double w_dg  = Units::kg2lb( mtow );
-        double n_z   = 1.5 * nz_max;
-        double w_fw  = Units::kg2lb( fuel );
-
-        double v_mps = Units::kts2mps( v_cruise );
-        double h_m   = Units::ft2m( h_cruise );
-        double rho = Atmosphere::getDensity( h_m );
-        double q = 0.5 * rho * pow( v_mps, 2.0 );
-        double q_psf = Units::pa2psf( q );
-
-        double sweep_rad = Units::deg2rad( sweep );
-
-        double m2_lb = 0.036 * pow( s_w, 0.758 ) * pow( w_fw, 0.0035 )
-                * pow( ar / pow( cos( sweep_rad ), 2.0 ), 0.6 )
-                * pow( q_psf, 0.006 ) * pow( lambda, 0.04 )
-                * pow( 100 * tc_root / cos( sweep_rad ), -0.3 )
-                * pow( w_dg * n_z, 0.49 );
-
-        m2 = Units::lb2kg( m2_lb );
-    }
-
-    return ( m1 + m2 ) / 2.0;
-}
-
-////////////////////////////////////////////////////////////////////////////////
-
-Wing::Wing( const Aircraft *aircraft ) :
-    Component( aircraft )
-{
-    setName( "Wing" );
-}
-
-////////////////////////////////////////////////////////////////////////////////
-
-Wing::~Wing() {}
-
-////////////////////////////////////////////////////////////////////////////////
-
-void Wing::save( QDomDocument *doc, QDomElement *parentNode )
-{
-    QDomElement node = doc->createElement( Wing::xml_tag );
-    parentNode->appendChild( node );
-
-    saveParameters( doc, &node );
-}
+#endif // MATRIX3X3_H

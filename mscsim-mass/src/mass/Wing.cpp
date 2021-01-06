@@ -123,34 +123,152 @@
  *     party to this document and has no duty or obligation with respect to
  *     this CC0 or use of the Work.
  ******************************************************************************/
-#ifndef CUBOID_H
-#define CUBOID_H
+
+#include <mass/Wing.h>
+
+#include <mass/Atmosphere.h>
+#include <mass/Units.h>
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#include <Matrix3x3.h>
-#include <Vector3.h>
+const char Wing::xml_tag[] = "wing";
 
 ////////////////////////////////////////////////////////////////////////////////
 
-/**
- * @brief The Cuboid class.
- */
-class Cuboid
+double Wing::computeMass( Type type,
+                          double wing_exp,
+                          double m_maxto,
+                          double nz_max,
+                          bool wing_delta,
+                          double wing_sweep,
+                          double wing_tr,
+                          double wing_ar,
+                          bool wing_var,
+                          double area_ctrl,
+                          double wing_tc,
+                          double wing_fuel,
+                          double v_cruise,
+                          double h_cruise )
 {
-public:
+    // Rayner: Aircraft Design, p.398, table 15.2
+    double m1 = 0.0;
+    {
+        double s_w = Units::sqm2sqft( wing_exp );
 
-    /**
-     * @brief Returns cuboid matrix of inertia.
-     * @param m [kg] mass
-     * @param l [m] length (dimension x-component)
-     * @param w [m] width  (dimension y-component)
-     * @param h [m] height (dimension z-component)
-     * @return matrix of inertia [kg*m^2]
-     */
-    static Matrix3x3 getInertia( double m, double l, double w, double h );
-};
+        if ( type == FighterAttack )
+        {
+            m1 = Units::lb2kg( 9.0 * s_w );
+        }
+
+        if ( type == CargoTransport )
+        {
+            m1 = Units::lb2kg( 10.0 * s_w );
+        }
+
+        if ( type == GeneralAviation )
+        {
+            m1 = Units::lb2kg( 2.5 * s_w );
+        }
+    }
+
+    double m2 = 0.0;
+    {
+        double m2_lb = 0.0;
+
+        double s_w = Units::sqm2sqft( wing_exp );
+
+        double w_dg  = Units::kg2lb( m_maxto );
+        double n_z   = 1.5 * nz_max;
+
+        double s_csw = Units::kg2lb( area_ctrl );
+
+        double sweep_rad = Units::deg2rad( wing_sweep );
+
+        // Rayner: Aircraft Design, p.401, eq.15.1
+        if ( type == FighterAttack )
+        {
+            double k_vs  = wing_var   ? 1.19  : 1.0;
+            double k_dw  = wing_delta ? 0.768 : 1.0;
+
+            m2_lb = 0.0103 * k_dw * k_vs * pow( w_dg * n_z, 0.5 )
+                    * pow( s_w, 0.622 ) * pow( wing_ar, 0.785 ) * pow( wing_tc, -0.4 )
+                    * pow( 1.0 + wing_tr, 0.05 ) * pow( cos( sweep_rad ), -1.0 )
+                    * pow( s_csw, 0.04 );
+        }
+
+        // Rayner: Aircraft Design, p.403, eq.15.25
+        if ( type == CargoTransport )
+        {
+            m2_lb = 0.0051 * pow( w_dg * n_z, 0.557 )
+                    * pow( s_w, 0.649 ) * pow( wing_ar, 0.5 ) * pow( wing_tc, -0.4 )
+                    * pow( 1.0 + wing_tr, 0.1 ) * pow( cos( sweep_rad ), -1.0 )
+                    * pow( s_csw, 0.1 );
+        }
+
+        // Rayner: Aircraft Design, p.404, eq.15.46
+        if ( type == GeneralAviation )
+        {
+            double w_fw  = Units::kg2lb( wing_fuel );
+
+            double v_mps = Units::kts2mps( v_cruise );
+            double h_m   = Units::ft2m( h_cruise );
+            double rho = Atmosphere::getDensity( h_m );
+            double q = 0.5 * rho * pow( v_mps, 2.0 );
+            double q_psf = Units::pa2psf( q );
+
+            m2_lb = 0.036 * pow( s_w, 0.758 ) * pow( w_fw, 0.0035 )
+                    * pow( wing_ar / pow( cos( sweep_rad ), 2.0 ), 0.6 )
+                    * pow( q_psf, 0.006 ) * pow( wing_tr, 0.04 )
+                    * pow( 100 * wing_tc / cos( sweep_rad ), -0.3 )
+                    * pow( w_dg * n_z, 0.49 );
+        }
+
+        m2 = Units::lb2kg( m2_lb );
+    }
+
+    std::cout << "Wing:  " << m1 << "  " << m2 << std::endl;
+
+    return ( m1 + m2 ) / 2.0;
+}
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#endif // CUBOID_H
+Wing::Wing( const Aircraft *ac ) :
+    Component( ac )
+{
+    setName( "Wing" );
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+Wing::~Wing() {}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void Wing::save( QDomDocument *doc, QDomElement *parentNode )
+{
+    QDomElement node = doc->createElement( Wing::xml_tag );
+    parentNode->appendChild( node );
+
+    saveParameters( doc, &node );
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+double Wing::getComputedMass( double l, double w, double h ) const
+{
+    return computeMass( _ac->getType(),
+                        _ac->getWingExp(),
+                        _ac->getM_maxto(),
+                        _ac->getNzMax(),
+                        _ac->getWingDelta(),
+                        _ac->getWingSweep(),
+                        _ac->getWingTR(),
+                        _ac->getWingAR(),
+                        _ac->getWingVar(),
+                        _ac->getCtrlArea(),
+                        _ac->getWingTC(),
+                        _ac->getWingFuel(),
+                        _ac->getCruiseV(),
+                        _ac->getCruiseH() );
+}

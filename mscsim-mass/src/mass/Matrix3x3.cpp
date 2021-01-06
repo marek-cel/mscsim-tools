@@ -124,129 +124,244 @@
  *     this CC0 or use of the Work.
  ******************************************************************************/
 
-#include <Aircraft.h>
-
-#include <Component.h>
+#include <mass/Matrix3x3.h>
 
 ////////////////////////////////////////////////////////////////////////////////
 
-Aircraft::Aircraft() :
-    _type ( FighterAttack )
-{
-    reset();
-}
+const int Matrix3x3::_rows = 3;
+const int Matrix3x3::_cols = 3;
+const int Matrix3x3::_size = Matrix3x3::_rows * Matrix3x3::_cols;
 
 ////////////////////////////////////////////////////////////////////////////////
 
-Aircraft::~Aircraft()
+Matrix3x3::Matrix3x3() :
+    _xx ( _items[ 0 ] ),
+    _xy ( _items[ 1 ] ),
+    _xz ( _items[ 2 ] ),
+    _yx ( _items[ 3 ] ),
+    _yy ( _items[ 4 ] ),
+    _yz ( _items[ 5 ] ),
+    _zx ( _items[ 6 ] ),
+    _zy ( _items[ 7 ] ),
+    _zz ( _items[ 8 ] )
 {
-    deleteAllComponents();
-}
-
-////////////////////////////////////////////////////////////////////////////////
-
-void Aircraft::reset()
-{
-    _type = FighterAttack;
-
-    _m_empty = 0.0;
-    _m_maxto = 0.0;
-
-    _centerOfMass.set( 0.0, 0.0, 0.0 );
-
-    _inertiaMatrix.set( 0.0, 0.0, 0.0,
-                        0.0, 0.0, 0.0,
-                        0.0, 0.0, 0.0 );
-
-    _massTotal = 0.0;
-
-    deleteAllComponents();
-}
-
-////////////////////////////////////////////////////////////////////////////////
-
-void Aircraft::update()
-{
-    double m = 0.0;
-    Vector3 s;
-    Matrix3x3 i;
-
-    for ( Components::iterator it = _components.begin(); it != _components.end(); it++ )
+    for ( unsigned int i = 0; i < _size; i++ )
     {
-        m += (*it)->getMass();
-        s += (*it)->getMass() * (*it)->getPosition();
-        i += (*it)->getInertia();
-    }
-
-    _centerOfMass = ( m > 0.0 ) ? ( s * ( 1.0 / m ) ) : Vector3();
-    _inertiaMatrix = i;
-    _massTotal = m;
-}
-
-////////////////////////////////////////////////////////////////////////////////
-
-Component* Aircraft::getComponent( int index )
-{
-    Components::iterator it = _components.begin() + index;
-
-    if ( it != _components.end() )
-    {
-        return (*it);
-    }
-
-    return NULLPTR;
-}
-
-////////////////////////////////////////////////////////////////////////////////
-
-void Aircraft::addComponent( Component *component )
-{
-    _components.push_back( component );
-}
-
-////////////////////////////////////////////////////////////////////////////////
-
-void Aircraft::delComponent( int index )
-{
-    Components::iterator it = _components.begin() + index;
-
-    if ( it != _components.end() )
-    {
-        DELPTR( *it );
-        _components.erase( it );
+        _items[ i ] = 0.0;
     }
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void Aircraft::setType( Type type )
+Matrix3x3::Matrix3x3( const Matrix3x3 &mtrx ) :
+    _xx ( _items[ 0 ] ),
+    _xy ( _items[ 1 ] ),
+    _xz ( _items[ 2 ] ),
+    _yx ( _items[ 3 ] ),
+    _yy ( _items[ 4 ] ),
+    _yz ( _items[ 5 ] ),
+    _zx ( _items[ 6 ] ),
+    _zy ( _items[ 7 ] ),
+    _zz ( _items[ 8 ] )
 {
-    _type = type;
-}
-
-////////////////////////////////////////////////////////////////////////////////
-
-void Aircraft::setM_empty( double m_empty )
-{
-    _m_empty = m_empty;
-}
-
-////////////////////////////////////////////////////////////////////////////////
-
-void Aircraft::setM_maxto( double m_maxto )
-{
-    _m_maxto = m_maxto;
-}
-
-////////////////////////////////////////////////////////////////////////////////
-
-void Aircraft::deleteAllComponents()
-{
-    Components::iterator it = _components.begin();
-
-    while ( it != _components.end() )
+    for ( unsigned int i = 0; i < _size; i++ )
     {
-        DELPTR( *it );
-        it = _components.erase( it );
+        _items[ i ] = mtrx._items[ i ];
     }
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+Matrix3x3::Matrix3x3( double xx, double xy, double xz,
+                      double yx, double yy, double yz,
+                      double zx, double zy, double zz ) :
+    _xx ( _items[ 0 ] ),
+    _xy ( _items[ 1 ] ),
+    _xz ( _items[ 2 ] ),
+    _yx ( _items[ 3 ] ),
+    _yy ( _items[ 4 ] ),
+    _yz ( _items[ 5 ] ),
+    _zx ( _items[ 6 ] ),
+    _zy ( _items[ 7 ] ),
+    _zz ( _items[ 8 ] )
+{
+    set( xx, xy, xz,
+         yx, yy, yz,
+         zx, zy, zz );
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void Matrix3x3::set( double xx, double xy, double xz,
+                     double yx, double yy, double yz,
+                     double zx, double zy, double zz )
+{
+    _xx = xx;
+    _xy = xy;
+    _xz = xz;
+
+    _yx = yx;
+    _yy = yy;
+    _yz = yz;
+
+    _zx = zx;
+    _zy = zy;
+    _zz = zz;
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+const Matrix3x3& Matrix3x3::operator= ( const Matrix3x3 &mtrx )
+{
+    for ( unsigned int i = 0; i < _size; i++ )
+    {
+        _items[ i ] = mtrx._items[ i ];
+    }
+
+    return (*this);
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+Matrix3x3 Matrix3x3::operator+ ( const Matrix3x3 &mtrx ) const
+{
+    Matrix3x3 result;
+
+    for ( unsigned int i = 0; i < _size; i++ )
+    {
+        result._items[ i ] = _items[ i ] + mtrx._items[ i ];
+    }
+
+    return result;
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+Matrix3x3 Matrix3x3::operator- ( const Matrix3x3 &mtrx ) const
+{
+    Matrix3x3 result;
+
+    for ( unsigned int i = 0; i < _size; i++ )
+    {
+        result._items[ i ] = _items[ i ] - mtrx._items[ i ];
+    }
+
+    return result;
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+Matrix3x3 Matrix3x3::operator* ( double value ) const
+{
+    Matrix3x3 result;
+
+    for ( unsigned int i = 0; i < _size; i++ )
+    {
+        result._items[ i ] = _items[ i ] * value;
+    }
+
+    return result;
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+Matrix3x3 Matrix3x3::operator* ( const Matrix3x3 &mtrx ) const
+{
+    Matrix3x3 result;
+
+    for ( unsigned int r = 0; r < _rows; r++ )
+    {
+        for ( unsigned int c = 0; c < _cols; c++ )
+        {
+            result(r,c) = 0.0;
+
+            for ( unsigned int i = 0; i < _cols; i++ )
+            {
+                result(r,c) += ( _items[ r*_cols + i ] * mtrx(i,c) );
+            }
+        }
+    }
+
+    return result;
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+Vector3 Matrix3x3::operator* ( const Vector3 &vect ) const
+{
+    Vector3 result;
+
+    for ( unsigned int r = 0; r < _rows; r++ )
+    {
+        result(r) = 0.0;
+
+        for ( unsigned int c = 0; c < _cols; c++ )
+        {
+            result(r) += ( _items[ r*_cols + c ] * vect(c) );
+        }
+    }
+
+    return result;
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+Matrix3x3 Matrix3x3::operator/ ( double value ) const
+{
+    Matrix3x3 result;
+
+    for ( unsigned int i = 0; i < _size; i++ )
+    {
+        result._items[ i ] = _items[ i ] / value;
+    }
+
+    return result;
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+Matrix3x3& Matrix3x3::operator+= ( const Matrix3x3 &mtrx )
+{
+    for ( unsigned int i = 0; i < _size; i++ )
+    {
+        _items[ i ] += mtrx._items[ i ];
+    }
+
+    return (*this);
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+Matrix3x3& Matrix3x3::operator-= ( const Matrix3x3 &mtrx )
+{
+    for ( unsigned int i = 0; i < _size; i++ )
+    {
+        _items[ i ] -= mtrx._items[ i ];
+    }
+
+    return (*this);
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+Matrix3x3& Matrix3x3::operator*= ( double value )
+{
+    for ( unsigned int i = 0; i < _size; i++ )
+    {
+        _items[ i ] *= value;
+    }
+
+    return (*this);
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+Matrix3x3& Matrix3x3::operator/= ( double value )
+{
+    for ( unsigned int i = 0; i < _size; i++ )
+    {
+        _items[ i ] /= value;
+    }
+
+    return (*this);
 }

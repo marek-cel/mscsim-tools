@@ -123,126 +123,38 @@
  *     party to this document and has no duty or obligation with respect to
  *     this CC0 or use of the Work.
  ******************************************************************************/
-#ifndef FUSELAGE_H
-#define FUSELAGE_H
+#ifndef TAIL_H
+#define TAIL_H
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#include <Component.h>
+#include <mass/Component.h>
 
 ////////////////////////////////////////////////////////////////////////////////
 
 /**
- * @brief The Fuselage class.
+ * @brief The TailV class.
  *
  * @see Raymer D. P.: Aircraft Design: A Conceptual Approach, AIAA, 1992, p.398-407
  */
-class Fuselage : public Component
+class TailV : public Component
 {
 public:
-
-    enum CargoDoor
-    {
-        NoCargoDoor = 0,
-        OneSideCargoDoor,
-        TwoSideCargoDoor,
-        AftClamshellDoor,
-        TwoSideAndAftDoor
-    };
 
     static const char xml_tag[];
 
     static double computeMass( Type type,
-                               double l,
-                               double w,
-                               double h,
-                               double mtow,
-                               double nz_max,
-                               bool delta,
-                               CargoDoor door,
-                               bool mount,
-                               double span,
-                               double sweep,
-                               double lambda,
-                               double l_tail,
-                               double vol_press,
-                               double v_cruise,
-                               double h_cruise );
+                               double v_tail_area );
 
-    /**
-     * @brief Computes fuselage mass of Fighter/Attack aircraft type.
-     * @param l [m] fuselage structural length
-     * @param w [m] fuselage structural width
-     * @param h [m] fuselage structural height
-     * @param mtow [kg] maximum take-off weight
-     * @param nz_max [-] maximum allowed load factor
-     * @param delta specifies if aircraft has delta wing
-     * @return fuselage mass [kg]
-     */
-    static double computeMassFA( double l,
-                                 double w,
-                                 double h,
-                                 double mtow,
-                                 double nz_max,
-                                 bool delta );
+    TailV( const Aircraft *ac );
 
-    /**
-     * @brief Computes fuselage mass of Cargo/Transport aircraft type.
-     * @param l [m] fuselage structural length
-     * @param w [m] fuselage structural width
-     * @param h [m] fuselage structural height
-     * @param mtow [kg]  maximum take-off weight
-     * @param nz_max [-] maximum allowed load factor
-     * @param door
-     * @param mount fuselage mounted landing gear
-     * @param span [m] wing span
-     * @param sweep [deg] wing sweep at 25% chord
-     * @param lambda [-] taper ratio
-     * @return
-     */
-    static double computeMassCT( double l,
-                                 double w,
-                                 double h,
-                                 double mtow,
-                                 double nz_max,
-                                 CargoDoor door,
-                                 bool mount,
-                                 double span,
-                                 double sweep,
-                                 double lambda );
-
-    /**
-     * @brief Computes fuselage mass of General Aviation aircraft type.
-     * @param l [m] fuselage structural length
-     * @param w [m] fuselage structural width
-     * @param h [m] fuselage structural height
-     * @param mtow [kg]  maximum take-off weight
-     * @param nz_max [-] maximum allowed load factor
-     * @param l_tail [m] tail length 25%-MAC to tail 25%-MAC
-     * @param vol_press [m^3] volume of pressurized section
-     * @param v_cruise [kts]
-     * @param h_cruise [ft]
-     * @return
-     */
-    static double computeMassGA( double l,
-                                 double w,
-                                 double h,
-                                 double mtow,
-                                 double nz_max,
-                                 double l_tail,
-                                 double vol_press,
-                                 double v_cruise,
-                                 double h_cruise );
-
-    static double computeWettedArea( double l, double w, double h );
-
-    Fuselage( const Aircraft *aircraft );
-
-    virtual ~Fuselage();
+    virtual ~TailV();
 
     virtual void save( QDomDocument *doc, QDomElement *parentNode );
+
+    virtual double getComputedMass( double l, double w, double h ) const;
 };
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#endif // FUSELAGE_H
+#endif // TAIL_H

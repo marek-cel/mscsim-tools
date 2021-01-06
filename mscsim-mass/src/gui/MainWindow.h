@@ -207,6 +207,7 @@ private:
     void editComponent();
 
     void updateGUI();
+    void updateTitleBar();
 
     void updateRecentFiles( QString file = "" );
 
@@ -225,16 +226,54 @@ private slots:
 
     void on_actionAbout_triggered();
 
-    void on_comboBoxAircraftType_currentIndexChanged( int index );
-
-    void on_spinBoxMassMaxTO_valueChanged( double arg1 );
-
     void on_listComponents_currentRowChanged( int currentRow );
     void on_listComponents_doubleClicked( const QModelIndex & );
 
     void on_pushButtonAdd_clicked();
     void on_pushButtonDel_clicked();
     void on_pushButtonEdit_clicked();
+
+    void on_comboBoxAircraftType_currentIndexChanged( int index );
+
+    void on_spinBoxMassEmpty_valueChanged ( double arg1 );
+    void on_spinBoxMassMaxTO_valueChanged ( double arg1 );
+    void on_spinBoxMaxNz_valueChanged     ( double arg1 );
+    void on_spinBoxCruiseV_valueChanged   ( double arg1 );
+    void on_spinBoxCruiseH_valueChanged   ( double arg1 );
+
+    void on_comboBoxCargoDoor_currentIndexChanged( int index );
+    void on_spinBoxWettedArea_valueChanged ( double arg1 );
+    void on_spinBoxPressVol_valueChanged   ( double arg1 );
+    void on_checkBoxFuselageLG_toggled( bool checked );
+
+    void on_spinBoxWingArea_valueChanged  ( double arg1 );
+    void on_spinBoxWingExp_valueChanged   ( double arg1 );
+    void on_spinBoxWingSpan_valueChanged  ( double arg1 );
+    void on_spinBoxWingSweep_valueChanged ( double arg1 );
+    void on_spinBoxWingCR_valueChanged    ( double arg1 );
+    void on_spinBoxWingCT_valueChanged    ( double arg1 );
+    void on_spinBoxWingTC_valueChanged    ( double arg1 );
+    void on_spinBoxWingFuel_valueChanged  ( double arg1 );
+    void on_spinBoxCtrlArea_valueChanged  ( double arg1 );
+    void on_spinBoxWingAR_valueChanged    ( double arg1 );
+    void on_spinBoxWingTR_valueChanged    ( double arg1 );
+    void on_checkBoxWingDelta_toggled ( bool checked );
+    void on_checkBoxWingVar_toggled   ( bool checked );
+
+    void on_spinBoxHorTailArea_valueChanged  ( double arg1 );
+    void on_spinBoxHorTailSpan_valueChanged  ( double arg1 );
+    void on_spinBoxHorTailSweep_valueChanged ( double arg1 );
+    void on_spinBoxHorTailCR_valueChanged    ( double arg1 );
+    void on_spinBoxHorTailCT_valueChanged    ( double arg1 );
+    void on_spinBoxHorTailTC_valueChanged    ( double arg1 );
+    void on_spinBoxElevArea_valueChanged     ( double arg1 );
+    void on_spinBoxHorTailFW_valueChanged    ( double arg1 );
+    void on_spinBoxHorTailArm_valueChanged   ( double arg1 );
+    void on_spinBoxHorTailAR_valueChanged    ( double arg1 );
+    void on_spinBoxHorTailTR_valueChanged    ( double arg1 );
+    void on_checkBoxHorTailMoving_toggled ( bool checked );
+
+    void on_spinBoxVerTailArea_valueChanged ( double arg1 );
 };
 
 ////////////////////////////////////////////////////////////////////////////////

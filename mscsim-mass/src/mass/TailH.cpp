@@ -124,244 +124,156 @@
  *     this CC0 or use of the Work.
  ******************************************************************************/
 
-#include <Matrix3x3.h>
+#include <mass/TailH.h>
+
+#include <mass/Atmosphere.h>
+#include <mass/Units.h>
 
 ////////////////////////////////////////////////////////////////////////////////
 
-const int Matrix3x3::_rows = 3;
-const int Matrix3x3::_cols = 3;
-const int Matrix3x3::_size = Matrix3x3::_rows * Matrix3x3::_cols;
+const char TailH::xml_tag[] = "tail_h";
 
 ////////////////////////////////////////////////////////////////////////////////
 
-Matrix3x3::Matrix3x3() :
-    _xx ( _items[ 0 ] ),
-    _xy ( _items[ 1 ] ),
-    _xz ( _items[ 2 ] ),
-    _yx ( _items[ 3 ] ),
-    _yy ( _items[ 4 ] ),
-    _yz ( _items[ 5 ] ),
-    _zx ( _items[ 6 ] ),
-    _zy ( _items[ 7 ] ),
-    _zz ( _items[ 8 ] )
+double TailH::computeMass( Type type,
+                           double h_tail_area,
+                           double m_maxto,
+                           double nz_max,
+                           double h_tail_f_w,
+                           double h_tail_span,
+                           double h_tail_sweep,
+                           bool h_tail_moving,
+                           double h_tail_ar,
+                           double h_tail_arm,
+                           double elev_area,
+                           double h_tail_tr,
+                           double h_tail_tc,
+                           double v_cruise,
+                           double h_cruise )
 {
-    for ( unsigned int i = 0; i < _size; i++ )
+    // Rayner: Aircraft Design, p.398, table 15.2
+    double m1 = 0.0;
     {
-        _items[ i ] = 0.0;
-    }
-}
+        double s_ht = Units::sqm2sqft( h_tail_area );
 
-////////////////////////////////////////////////////////////////////////////////
-
-Matrix3x3::Matrix3x3( const Matrix3x3 &mtrx ) :
-    _xx ( _items[ 0 ] ),
-    _xy ( _items[ 1 ] ),
-    _xz ( _items[ 2 ] ),
-    _yx ( _items[ 3 ] ),
-    _yy ( _items[ 4 ] ),
-    _yz ( _items[ 5 ] ),
-    _zx ( _items[ 6 ] ),
-    _zy ( _items[ 7 ] ),
-    _zz ( _items[ 8 ] )
-{
-    for ( unsigned int i = 0; i < _size; i++ )
-    {
-        _items[ i ] = mtrx._items[ i ];
-    }
-}
-
-////////////////////////////////////////////////////////////////////////////////
-
-Matrix3x3::Matrix3x3( double xx, double xy, double xz,
-                      double yx, double yy, double yz,
-                      double zx, double zy, double zz ) :
-    _xx ( _items[ 0 ] ),
-    _xy ( _items[ 1 ] ),
-    _xz ( _items[ 2 ] ),
-    _yx ( _items[ 3 ] ),
-    _yy ( _items[ 4 ] ),
-    _yz ( _items[ 5 ] ),
-    _zx ( _items[ 6 ] ),
-    _zy ( _items[ 7 ] ),
-    _zz ( _items[ 8 ] )
-{
-    set( xx, xy, xz,
-         yx, yy, yz,
-         zx, zy, zz );
-}
-
-////////////////////////////////////////////////////////////////////////////////
-
-void Matrix3x3::set( double xx, double xy, double xz,
-                     double yx, double yy, double yz,
-                     double zx, double zy, double zz )
-{
-    _xx = xx;
-    _xy = xy;
-    _xz = xz;
-
-    _yx = yx;
-    _yy = yy;
-    _yz = yz;
-
-    _zx = zx;
-    _zy = zy;
-    _zz = zz;
-}
-
-////////////////////////////////////////////////////////////////////////////////
-
-const Matrix3x3& Matrix3x3::operator= ( const Matrix3x3 &mtrx )
-{
-    for ( unsigned int i = 0; i < _size; i++ )
-    {
-        _items[ i ] = mtrx._items[ i ];
-    }
-
-    return (*this);
-}
-
-////////////////////////////////////////////////////////////////////////////////
-
-Matrix3x3 Matrix3x3::operator+ ( const Matrix3x3 &mtrx ) const
-{
-    Matrix3x3 result;
-
-    for ( unsigned int i = 0; i < _size; i++ )
-    {
-        result._items[ i ] = _items[ i ] + mtrx._items[ i ];
-    }
-
-    return result;
-}
-
-////////////////////////////////////////////////////////////////////////////////
-
-Matrix3x3 Matrix3x3::operator- ( const Matrix3x3 &mtrx ) const
-{
-    Matrix3x3 result;
-
-    for ( unsigned int i = 0; i < _size; i++ )
-    {
-        result._items[ i ] = _items[ i ] - mtrx._items[ i ];
-    }
-
-    return result;
-}
-
-////////////////////////////////////////////////////////////////////////////////
-
-Matrix3x3 Matrix3x3::operator* ( double value ) const
-{
-    Matrix3x3 result;
-
-    for ( unsigned int i = 0; i < _size; i++ )
-    {
-        result._items[ i ] = _items[ i ] * value;
-    }
-
-    return result;
-}
-
-////////////////////////////////////////////////////////////////////////////////
-
-Matrix3x3 Matrix3x3::operator* ( const Matrix3x3 &mtrx ) const
-{
-    Matrix3x3 result;
-
-    for ( unsigned int r = 0; r < _rows; r++ )
-    {
-        for ( unsigned int c = 0; c < _cols; c++ )
+        if ( type == FighterAttack )
         {
-            result(r,c) = 0.0;
+            m1 = Units::lb2kg( 4.0 * s_ht );
+        }
 
-            for ( unsigned int i = 0; i < _cols; i++ )
-            {
-                result(r,c) += ( _items[ r*_cols + i ] * mtrx(i,c) );
-            }
+        if ( type == CargoTransport )
+        {
+            m1 = Units::lb2kg( 5.5 * s_ht );
+        }
+
+        if ( type == GeneralAviation )
+        {
+            m1 = Units::lb2kg( 2.0 * s_ht );
         }
     }
 
-    return result;
-}
-
-////////////////////////////////////////////////////////////////////////////////
-
-Vector3 Matrix3x3::operator* ( const Vector3 &vect ) const
-{
-    Vector3 result;
-
-    for ( unsigned int r = 0; r < _rows; r++ )
+    double m2 = 0.0;
     {
-        result(r) = 0.0;
+        double m2_lb = 0.0;
 
-        for ( unsigned int c = 0; c < _cols; c++ )
+        double s_ht = Units::sqm2sqft( h_tail_area );
+
+        double w_dg  = Units::kg2lb( m_maxto );
+        double n_z   = 1.5 * nz_max;
+
+        double f_w_ft = Units::m2ft( h_tail_f_w );
+        double b_h_ft = Units::m2ft( h_tail_span );
+
+        double sweep_rad = Units::deg2rad( h_tail_sweep );
+
+        // Rayner: Aircraft Design, p.401, eq.15.2
+        if ( type == FighterAttack )
         {
-            result(r) += ( _items[ r*_cols + c ] * vect(c) );
+            m2_lb = 3.316 * pow( 1 + f_w_ft / b_h_ft, -2.0 )
+                    * pow( w_dg * n_z / 1000.0, 0.26 )
+                    * pow( s_ht, 0.806 );
         }
+
+        // Rayner: Aircraft Design, p.403, eq.15.26
+        if ( type == CargoTransport )
+        {
+            double k_uht = h_tail_moving ? 1.143 : 1.0;
+
+            double l_t_ft = Units::m2ft( h_tail_arm );
+            double k_y = 0.3 * l_t_ft;
+
+            double s_e = Units::sqm2sqft( elev_area );
+
+            m2_lb = 0.0379 * k_uht * pow( 1.0 + f_w_ft / b_h_ft, -0.25 )
+                    * pow( w_dg, 0.639 ) * pow( n_z, 0.1 ) * pow( s_ht, 0.75 )
+                    * pow( l_t_ft, -1.0 ) * pow( k_y, 0.704 )
+                    * pow( cos( sweep_rad ), -1.0 ) * pow( h_tail_ar, 0.166 )
+                    * pow( 1.0 + s_e / s_ht, 0.1 );
+        }
+
+        // Rayner: Aircraft Design, p.404, eq.15.47
+        if ( type == GeneralAviation )
+        {
+            double v_mps = Units::kts2mps( v_cruise );
+            double h_m   = Units::ft2m( h_cruise );
+            double rho = Atmosphere::getDensity( h_m );
+            double q = 0.5 * rho * pow( v_mps, 2.0 );
+            double q_psf = Units::pa2psf( q );
+
+            m2_lb = 0.016 * pow( n_z * w_dg, 0.414 ) * pow( q_psf, 0.006 )
+                    * pow( h_tail_tr, 0.04 ) * pow( 100.0 * h_tail_tc / cos( sweep_rad ), -0.3 )
+                    * pow( n_z * w_dg, 0.49 );
+        }
+
+        m2 = Units::lb2kg( m2_lb );
     }
 
-    return result;
+    std::cout << "TailH:  " << m1 << "  " << m2 << std::endl;
+
+    return ( m1 + m2 ) / 2.0;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
-Matrix3x3 Matrix3x3::operator/ ( double value ) const
+TailH::TailH( const Aircraft *ac ) :
+    Component( ac )
 {
-    Matrix3x3 result;
-
-    for ( unsigned int i = 0; i < _size; i++ )
-    {
-        result._items[ i ] = _items[ i ] / value;
-    }
-
-    return result;
+    setName( "Horizontal Tail" );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
-Matrix3x3& Matrix3x3::operator+= ( const Matrix3x3 &mtrx )
-{
-    for ( unsigned int i = 0; i < _size; i++ )
-    {
-        _items[ i ] += mtrx._items[ i ];
-    }
+TailH::~TailH() {}
 
-    return (*this);
+////////////////////////////////////////////////////////////////////////////////
+
+void TailH::save( QDomDocument *doc, QDomElement *parentNode )
+{
+    QDomElement node = doc->createElement( TailH::xml_tag );
+    parentNode->appendChild( node );
+
+    saveParameters( doc, &node );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
-Matrix3x3& Matrix3x3::operator-= ( const Matrix3x3 &mtrx )
+double TailH::getComputedMass( double l, double w, double h ) const
 {
-    for ( unsigned int i = 0; i < _size; i++ )
-    {
-        _items[ i ] -= mtrx._items[ i ];
-    }
+    return computeMass( _ac->getType(),
+                        _ac->getHorTailArea(),
+                        _ac->getM_maxto(),
+                        _ac->getNzMax(),
+                        _ac->getHorTailFW(),
+                        _ac->getHorTailSpan(),
+                        _ac->getHorTailSweep(),
+                        _ac->getHorTailMoving(),
+                        _ac->getHorTailAR(),
+                        _ac->getHorTailArm(),
+                        _ac->getElevArea(),
+                        _ac->getHorTailTR(),
+                        _ac->getHorTailTC(),
+                        _ac->getCruiseV(),
+                        _ac->getCruiseH() );
 
-    return (*this);
-}
-
-////////////////////////////////////////////////////////////////////////////////
-
-Matrix3x3& Matrix3x3::operator*= ( double value )
-{
-    for ( unsigned int i = 0; i < _size; i++ )
-    {
-        _items[ i ] *= value;
-    }
-
-    return (*this);
-}
-
-////////////////////////////////////////////////////////////////////////////////
-
-Matrix3x3& Matrix3x3::operator/= ( double value )
-{
-    for ( unsigned int i = 0; i < _size; i++ )
-    {
-        _items[ i ] /= value;
-    }
-
-    return (*this);
+    return 0.0;
 }

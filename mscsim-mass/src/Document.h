@@ -135,15 +135,11 @@
 
 #include <defs.h>
 
-#include <Matrix3x3.h>
-#include <Vector3.h>
+#include <mass/Matrix3x3.h>
+#include <mass/Vector3.h>
 
-#include <Aircraft.h>
-
-#include <Fuselage.h>
-#include <TailH.h>
-#include <TailV.h>
-#include <Wing.h>
+#include <mass/Aircraft.h>
+#include <mass/Component.h>
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -153,9 +149,6 @@
 class Document
 {
 public:
-
-    static void saveTextNode( QDomDocument *doc, QDomElement *parent,
-                              const char *tag_name, const char *text );
 
     /**
      * @brief Constructor.
@@ -179,32 +172,8 @@ public:
     /** */
     bool saveFile( const char *fileName );
 
-    /** */
-    void update();
-
+    inline       Aircraft* getAircraft()       { return &_aircraft; }
     inline const Aircraft* getAircraft() const { return &_aircraft; }
-
-    inline const Aircraft::Components& getComponents() const { return _aircraft.getComponents(); }
-
-    inline Type getType() const { return _aircraft.getType(); }
-
-    inline double getM_empty() const { return _aircraft.getM_empty(); }
-    inline double getM_maxto() const { return _aircraft.getM_maxto(); }
-
-    inline Vector3   getCenterOfMass  () const { return _aircraft.getCenterOfMass  (); }
-    inline Matrix3x3 getInertiaMatrix () const { return _aircraft.getInertiaMatrix (); }
-    inline double    getMassTotal     () const { return _aircraft.getMassTotal     (); }
-
-    void addComponent( Component *component );
-
-    void delComponent( int index );
-
-    Component* getComponent( int index );
-
-    void setType( Type type );
-
-    void setM_empty( double m_empty );
-    void setM_maxto( double m_maxto );
 
 private:
 

@@ -123,216 +123,34 @@
  *     party to this document and has no duty or obligation with respect to
  *     this CC0 or use of the Work.
  ******************************************************************************/
-
-#include <Fuselage.h>
-
-#include <Atmosphere.h>
-#include <Document.h>
-#include <Units.h>
+#ifndef CUBOID_H
+#define CUBOID_H
 
 ////////////////////////////////////////////////////////////////////////////////
 
-const char Fuselage::xml_tag[] = "fuselage";
+#include <mass/Matrix3x3.h>
+#include <mass/Vector3.h>
 
 ////////////////////////////////////////////////////////////////////////////////
 
-double Fuselage::computeMass( Type type,
-                              double l,
-                              double w,
-                              double h,
-                              double mtow,
-                              double nz_max,
-                              bool delta,
-                              CargoDoor door,
-                              bool mount,
-                              double span,
-                              double sweep,
-                              double lambda,
-                              double l_tail,
-                              double vol_press,
-                              double v_cruise,
-                              double h_cruise )
+/**
+ * @brief The Cuboid class.
+ */
+class Cuboid
 {
-    switch ( type )
-    {
-        case FighterAttack   : return computeMassFA( l, w, h, mtow, nz_max, delta ); break;
-        case CargoTransport  : return computeMassCT( l, w, h, mtow, nz_max, door, mount, span, sweep, lambda ); break;
-        case GeneralAviation : return computeMassGA( l, w, h, mtow, nz_max, l_tail, vol_press, v_cruise, h_cruise ); break;
-    }
+public:
 
-    return 0.0;
-}
-
-////////////////////////////////////////////////////////////////////////////////
-
-double Fuselage::computeMassFA( double l,
-                                double w,
-                                double h,
-                                double mtow,
-                                double nz_max,
-                                bool delta )
-{
-    // Rayner: Aircraft Design, p.398, table 15.2
-    double m1 = 0.0;
-    {
-        double s_f = Units::sqm2sqft( computeWettedArea( l, w, h ) );
-        m1 = Units::lb2kg( 4.8 * s_f );
-    }
-
-    // Rayner: Aircraft Design, p.401, eq.15.4
-    double m2 = 0.0;
-    {
-        double k_dwf = delta ? 0.774 : 1.0;
-        double w_dg = Units::kg2lb( mtow );
-        double n_z  = 1.5 * nz_max;
-        double l_ft = Units::m2ft( l );
-        double d_ft = Units::m2ft( h );
-        double w_ft = Units::m2ft( w );
-
-        double m2_lb = 0.499 * k_dwf * pow( w_dg, 0.35 ) * pow( n_z, 0.25 )
-                * pow( l_ft, 0.5 ) * pow( d_ft, 0.849 ) * pow( w_ft, 0.685 );
-
-        m2 = Units::lb2kg( m2_lb );
-    }
-
-    return ( m1 + m2 ) / 2.0;
-}
+    /**
+     * @brief Returns cuboid matrix of inertia.
+     * @param m [kg] mass
+     * @param l [m] length (dimension x-component)
+     * @param w [m] width  (dimension y-component)
+     * @param h [m] height (dimension z-component)
+     * @return matrix of inertia [kg*m^2]
+     */
+    static Matrix3x3 getInertia( double m, double l, double w, double h );
+};
 
 ////////////////////////////////////////////////////////////////////////////////
 
-double Fuselage::computeMassCT( double l,
-                                double w,
-                                double h,
-                                double mtow,
-                                double nz_max,
-                                CargoDoor door,
-                                bool mount,
-                                double span,
-                                double sweep,
-                                double lambda )
-{
-    // Rayner: Aircraft Design, p.398, table 15.2
-    double m1 = 0.0;
-    {
-        double s_f = Units::sqm2sqft( computeWettedArea( l, w, h ) );
-        m1 = Units::lb2kg( 5.0 * s_f );
-    }
-
-    // Rayner: Aircraft Design, p.403, eq.15.28
-    double m2 = 0.0;
-    {
-        double k_door = 1.0;
-
-        switch ( door )
-        {
-            case NoCargoDoor       : k_door = 1.0;  break;
-            case OneSideCargoDoor  : k_door = 1.06; break;
-            case TwoSideCargoDoor  : k_door = 1.12; break;
-            case AftClamshellDoor  : k_door = 1.12; break;
-            case TwoSideAndAftDoor : k_door = 1.25; break;
-        }
-
-        double k_lg = mount ? 1.12 : 1.0;
-
-        double w_dg = Units::kg2lb( mtow );
-        double n_z  = 1.5 * nz_max;
-        double l_ft = Units::m2ft( l );
-        double d_ft = Units::m2ft( h );
-
-        double s_f = Units::sqm2sqft( computeWettedArea( l, w, h ) );
-
-        double b_w = Units::m2ft( span );
-        double sweep_rad = Units::deg2rad( sweep );
-
-        double k_ws = 0.75
-                * ( (1.0 + 2.0 * lambda)/(1.0 + lambda) )
-                * ( b_w * tan( sweep_rad ) / l_ft );
-
-        double m2_lb = 0.328 * k_door * k_lg * pow( w_dg * n_z, 0.5)
-                * pow( l_ft, 0.25 ) * pow( s_f, 0.302 ) * pow ( 1 + k_ws, 0.04 )
-                * pow( l_ft / d_ft, 0.1 );
-
-        m2 = Units::lb2kg( m2_lb );
-    }
-
-    return ( m1 + m2 ) / 2.0;
-}
-
-////////////////////////////////////////////////////////////////////////////////
-
-double Fuselage::computeMassGA( double l,
-                                double w,
-                                double h,
-                                double mtow,
-                                double nz_max,
-                                double l_tail,
-                                double vol_press,
-                                double v_cruise,
-                                double h_cruise )
-{
-    // Rayner: Aircraft Design, p.398, table 15.2
-    double m1 = 0.0;
-    {
-        double s_f = Units::sqm2sqft( computeWettedArea( l, w, h ) );
-        m1 = Units::lb2kg( 1.4 * s_f );
-    }
-
-    // Rayner: Aircraft Design, p.404, eq.15.49
-    double m2 = m1;
-    {
-        double w_dg = Units::kg2lb( mtow );
-        double n_z  = 1.5 * nz_max;
-        double l_ft = Units::m2ft( l );
-        double d_ft = Units::m2ft( h );
-
-        double s_f = Units::sqm2sqft( computeWettedArea( l, w, h ) );
-
-        double l_t_ft = Units::m2ft( l_tail );
-
-        double vol_press_cuft = Units::cum2cuft( vol_press );
-        double w_press = 11.9 + pow( vol_press_cuft * 8.0, 0.271 );
-
-        double v_mps = Units::kts2mps( v_cruise );
-        double h_m   = Units::ft2m( h_cruise );
-        double rho = Atmosphere::getDensity( h_m );
-        double q = 0.5 * rho * pow( v_mps, 2.0 );
-        double q_psf = Units::pa2psf( q );
-
-        double m2_lb = 0.052 * pow( s_f, 1.086 ) * pow( n_z * w_dg, 0.177 )
-                * pow( l_t_ft, -0.051 ) * pow ( l_ft / d_ft, -0.072 )
-                * pow( q_psf, 0.241 ) + w_press;
-
-        m2 = Units::lb2kg( m2_lb );
-    }
-
-    return ( m1 + m2 ) / 2.0;
-}
-
-////////////////////////////////////////////////////////////////////////////////
-
-double Fuselage::computeWettedArea( double l, double w, double h )
-{
-    return 0.5 * ( h + w ) * M_PI * l;
-}
-
-////////////////////////////////////////////////////////////////////////////////
-
-Fuselage::Fuselage( const Aircraft *aircraft ) :
-    Component( aircraft )
-{
-    setName( "Fuselage" );
-}
-
-////////////////////////////////////////////////////////////////////////////////
-
-Fuselage::~Fuselage() {}
-
-////////////////////////////////////////////////////////////////////////////////
-
-void Fuselage::save( QDomDocument *doc, QDomElement *parentNode )
-{
-    QDomElement node = doc->createElement( Fuselage::xml_tag );
-    parentNode->appendChild( node );
-
-    saveParameters( doc, &node );
-}
+#endif // CUBOID_H

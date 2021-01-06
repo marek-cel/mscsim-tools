@@ -123,85 +123,72 @@
  *     party to this document and has no duty or obligation with respect to
  *     this CC0 or use of the Work.
  ******************************************************************************/
-#ifndef COMPONENT_H
-#define COMPONENT_H
+#ifndef FUSELAGE_H
+#define FUSELAGE_H
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#include <string>
-
-#include <QDomDocument>
-#include <QDomElement>
-
-#include <defs.h>
-
-#include <Type.h>
-
-#include <Aircraft.h>
-#include <Matrix3x3.h>
-#include <Vector3.h>
+#include <mass/Component.h>
 
 ////////////////////////////////////////////////////////////////////////////////
 
 /**
- * @brief The Component class.
+ * @brief The Fuselage class.
+ *
+ * @see Raymer D. P.: Aircraft Design: A Conceptual Approach, AIAA, 1992, p.398-407
  */
-class Component
+class Fuselage : public Component
 {
 public:
 
+    static const char xml_tag[];
+
     /**
-     * @brief Constructor.
-     * @param aircraft
+     * @brief Computes fuselage mass.
+     * @param type aircraft type
+     * @param l [m] fuselage structural length
+     * @param w [m] fuselage structural width
+     * @param h [m] fuselage structural height
+     * @param wetted_area [m^2] fuselage wetted area
+     * @param m_maxto [kg] maximum take-off weight
+     * @param nz_max [-] maximum allowed load factor
+     * @param wing_delta specifies if aircraft has delta wing
+     * @param cargo_door
+     * @param fuselage_lg fuselage mounted landing gear
+     * @param wing_span [m] wing span
+     * @param wing_sweep [deg] wing sweep at 25% chord
+     * @param wing_tr [-] taper ratio
+     * @param h_tail_arm [m] horizontal tail arm
+     * @param press_vol [m^3] volume of pressurized section
+     * @param v_cruise [kts]
+     * @param h_cruise [ft]
+     * @return fuselage mass expressed in kg
      */
-    Component( const Aircraft *aircraft );
+    static double computeMass( Type type,
+                               double l, double w, double h,
+                               double wetted_area,
+                               double m_maxto,
+                               double nz_max,
+                               bool wing_delta,
+                               CargoDoor cargo_door,
+                               bool fuselage_lg,
+                               double wing_span,
+                               double wing_sweep,
+                               double wing_tr,
+                               double h_tail_arm,
+                               double press_vol,
+                               double v_cruise,
+                               double h_cruise );
 
-    /** @brief Destructor. */
-    virtual ~Component();
+    Fuselage( const Aircraft *ac );
 
-    virtual void read( QDomElement *parentNode );
+    virtual ~Fuselage();
 
-    virtual void save( QDomDocument *doc, QDomElement *parentNode ) = 0;
+    virtual void save( QDomDocument *doc, QDomElement *parentNode );
 
-    inline const Aircraft* getAircraft() const { return _aircraft; }
-
-    inline const char* getName() const { return _name.c_str(); }
-
-    inline Vector3 getPosition() const { return _r; }
-
-    inline double getMass   () const { return _m; }
-    inline double getLength () const { return _l; }
-    inline double getWidth  () const { return _w; }
-    inline double getHeight () const { return _h; }
-
-    Matrix3x3 getInertia() const;
-
-    void setName( const char *name );
-
-    void setPosition( const Vector3 &r );
-
-    void setMass   ( double m );
-    void setLength ( double l );
-    void setWidth  ( double w );
-    void setHeight ( double h );
-
-protected:
-
-    const Aircraft *_aircraft;  ///< aircraft
-
-    std::string _name;          ///< component name
-
-    Vector3 _r;                 ///< [m] position
-
-    double _m;                  ///< [kg] mass
-
-    double _l;                  ///< [m] length
-    double _w;                  ///< [m] width
-    double _h;                  ///< [m] height
-
-    virtual void saveParameters( QDomDocument *doc, QDomElement *node );
+    virtual double getComputedMass( double l, double w, double h ) const;
 };
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#endif // COMPONENT_H
+#endif // FUSELAGE_H

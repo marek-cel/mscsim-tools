@@ -123,26 +123,33 @@
  *     party to this document and has no duty or obligation with respect to
  *     this CC0 or use of the Work.
  ******************************************************************************/
-
-#include <Cuboid.h>
+#ifndef XML_H
+#define XML_H
 
 ////////////////////////////////////////////////////////////////////////////////
 
-Matrix3x3 Cuboid::getInertia( double m, double l, double w, double h )
+#include <QDomDocument>
+#include <QDomElement>
+
+////////////////////////////////////////////////////////////////////////////////
+
+/**
+ * @brief The Xml class.
+ */
+class Xml
 {
-    Matrix3x3 result;
+public:
 
-    result.xx() = m * ( w*w + h*h ) / 12.0;
-    result.xy() = 0.0;
-    result.xz() = 0.0;
+    static void saveTextNode( QDomDocument *doc, QDomElement *parent,
+                              const char *tag_name, const QString &text );
 
-    result.yx() = 0.0;
-    result.yy() = m * ( l*l + h*h ) / 12.0;
-    result.yz() = 0.0;
+    static void saveTextNode( QDomDocument *doc, QDomElement *parent,
+                              const char *tag_name, double value );
 
-    result.zx() = 0.0;
-    result.zy() = 0.0;
-    result.zz() = m * ( l*l + w*w ) / 12.0;
+    static void saveTextNode( QDomDocument *doc, QDomElement *parent,
+                              const char *tag_name, bool value );
+};
 
-    return result;
-}
+////////////////////////////////////////////////////////////////////////////////
+
+#endif // XML_H

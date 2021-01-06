@@ -123,42 +123,172 @@
  *     party to this document and has no duty or obligation with respect to
  *     this CC0 or use of the Work.
  ******************************************************************************/
-#ifndef TAIL_H
-#define TAIL_H
+
+#include <mass/Fuselage.h>
+
+#include <mass/Atmosphere.h>
+#include <mass/Units.h>
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#include <Component.h>
+const char Fuselage::xml_tag[] = "fuselage";
 
 ////////////////////////////////////////////////////////////////////////////////
 
-/**
- * @brief The TailV class.
- *
- * @see Raymer D. P.: Aircraft Design: A Conceptual Approach, AIAA, 1992, p.398-407
- */
-class TailV : public Component
+double Fuselage::computeMass( Type type,
+                              double l, double w, double h,
+                              double wetted_area,
+                              double m_maxto,
+                              double nz_max,
+                              bool wing_delta,
+                              CargoDoor cargo_door,
+                              bool fuselage_lg,
+                              double wing_span,
+                              double wing_sweep,
+                              double wing_tr,
+                              double h_tail_arm,
+                              double press_vol,
+                              double v_cruise,
+                              double h_cruise )
 {
-public:
+    // Rayner: Aircraft Design, p.398, table 15.2
+    double m1 = 0.0;
+    {
+        double s_f = Units::sqm2sqft( wetted_area );
 
-    static const char xml_tag[];
+        if ( type == FighterAttack )
+        {
+            m1 = Units::lb2kg( 4.8 * s_f );
+        }
 
-    static double computeMass( Type type,
-                               double area );
+        if ( type == CargoTransport )
+        {
+            m1 = Units::lb2kg( 5.0 * s_f );
+        }
 
-    static double computeMassFA( double area );
+        if ( type == GeneralAviation )
+        {
+            m1 = Units::lb2kg( 1.4 * s_f );
+        }
+    }
 
-    static double computeMassCT( double area );
+    double m2 = 0.0;
+    {
+        double m2_lb = 0.0;
 
-    static double computeMassGA( double area );
+        double w_dg = Units::kg2lb( m_maxto );
+        double n_z  = 1.5 * nz_max;
+        double l_ft = Units::m2ft( l );
+        double d_ft = Units::m2ft( h );
+        double w_ft = Units::m2ft( w );
 
-    TailV( const Aircraft *aircraft );
+        double s_f = Units::sqm2sqft( wetted_area );
 
-    virtual ~TailV();
+        // Rayner: Aircraft Design, p.401, eq.15.4
+        if ( type == FighterAttack )
+        {
+            double k_dwf = wing_delta ? 0.774 : 1.0;
 
-    virtual void save( QDomDocument *doc, QDomElement *parentNode );
-};
+            m2_lb = 0.499 * k_dwf * pow( w_dg, 0.35 ) * pow( n_z, 0.25 )
+                    * pow( l_ft, 0.5 ) * pow( d_ft, 0.849 ) * pow( w_ft, 0.685 );
+        }
+
+        // Rayner: Aircraft Design, p.403, eq.15.28
+        if ( type == CargoTransport )
+        {
+            double k_door = 1.0;
+
+            switch ( cargo_door )
+            {
+                case NoCargoDoor       : k_door = 1.0;  break;
+                case OneSideCargoDoor  : k_door = 1.06; break;
+                case TwoSideCargoDoor  : k_door = 1.12; break;
+                case AftClamshellDoor  : k_door = 1.12; break;
+                case TwoSideAndAftDoor : k_door = 1.25; break;
+            }
+
+            double k_lg = fuselage_lg ? 1.12 : 1.0;
+
+            double b_w = Units::m2ft( wing_span );
+            double sweep_rad = Units::deg2rad( wing_sweep );
+
+            double k_ws = 0.75
+                    * ( (1.0 + 2.0 * wing_tr)/(1.0 + wing_tr) )
+                    * ( b_w * tan( sweep_rad ) / l_ft );
+
+            m2_lb = 0.328 * k_door * k_lg * pow( w_dg * n_z, 0.5 )
+                            * pow( l_ft, 0.25 ) * pow( s_f, 0.302 ) * pow ( 1 + k_ws, 0.04 )
+                            * pow( l_ft / d_ft, 0.1 );
+        }
+
+        // Rayner: Aircraft Design, p.404, eq.15.49
+        if ( type == GeneralAviation )
+        {
+            double l_t_ft = Units::m2ft( h_tail_arm );
+
+            double vol_press_cuft = Units::cum2cuft( press_vol );
+            double w_press = 11.9 + pow( vol_press_cuft * 8.0, 0.271 );
+
+            double v_mps = Units::kts2mps( v_cruise );
+            double h_m   = Units::ft2m( h_cruise );
+            double rho = Atmosphere::getDensity( h_m );
+            double q = 0.5 * rho * pow( v_mps, 2.0 );
+            double q_psf = Units::pa2psf( q );
+
+            m2_lb = 0.052 * pow( s_f, 1.086 ) * pow( n_z * w_dg, 0.177 )
+                            * pow( l_t_ft, -0.051 ) * pow ( l_ft / d_ft, -0.072 )
+                            * pow( q_psf, 0.241 ) + w_press;
+        }
+
+        m2 = Units::lb2kg( m2_lb );
+    }
+
+    std::cout << "Fuselage:  " << m1 << "  " << m2 << std::endl;
+
+    return ( m1 + m2 ) / 2.0;
+}
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#endif // TAIL_H
+Fuselage::Fuselage( const Aircraft *ac ) :
+    Component( ac )
+{
+    setName( "Fuselage" );
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+Fuselage::~Fuselage() {}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void Fuselage::save( QDomDocument *doc, QDomElement *parentNode )
+{
+    QDomElement node = doc->createElement( Fuselage::xml_tag );
+    parentNode->appendChild( node );
+
+    saveParameters( doc, &node );
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+double Fuselage::getComputedMass( double l, double w, double h ) const
+{
+    return computeMass( _ac->getType(),
+                        l, w, h,
+                        _ac->getWettedArea(),
+                        _ac->getM_maxto(),
+                        _ac->getNzMax(),
+                        _ac->getWingDelta(),
+                        _ac->getCargoDoor(),
+                        _ac->getFuselageLG(),
+                        _ac->getWingSpan(),
+                        _ac->getWingSweep(),
+                        _ac->getWingTR(),
+                        _ac->getHorTailArm(),
+                        _ac->getPressVol(),
+                        _ac->getCruiseV(),
+                        _ac->getCruiseH() );
+
+    return 0.0;
+}

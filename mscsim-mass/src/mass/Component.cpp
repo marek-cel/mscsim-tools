@@ -124,16 +124,18 @@
  *     this CC0 or use of the Work.
  ******************************************************************************/
 
-#include <Component.h>
+#include <mass/Component.h>
 
-#include <Cuboid.h>
 #include <Document.h>
-#include <Steiner.h>
+#include <Xml.h>
+
+#include <mass/Cuboid.h>
+#include <mass/Steiner.h>
 
 ////////////////////////////////////////////////////////////////////////////////
 
-Component::Component( const Aircraft *aircraft ) :
-    _aircraft ( aircraft ),
+Component::Component( const Aircraft *ac ) :
+    _ac ( ac ),
     _m ( 0.0 ),
     _l ( 0.0 ),
     _w ( 0.0 ),
@@ -230,13 +232,13 @@ void Component::saveParameters( QDomDocument *doc, QDomElement *node )
     nodeName.setValue( getName() );
     node->setAttributeNode( nodeName );
 
-    Document::saveTextNode( doc, node, "mass", QString::number( _m, 'f', 1 ).toStdString().c_str() );
+    Xml::saveTextNode( doc, node, "mass", _m );
 
-    Document::saveTextNode( doc, node, "pos_x", QString::number( _r.x(), 'f', 2 ).toStdString().c_str() );
-    Document::saveTextNode( doc, node, "pos_y", QString::number( _r.y(), 'f', 2 ).toStdString().c_str() );
-    Document::saveTextNode( doc, node, "pos_z", QString::number( _r.z(), 'f', 2 ).toStdString().c_str() );
+    Xml::saveTextNode( doc, node, "pos_x", _r.x() );
+    Xml::saveTextNode( doc, node, "pos_y", _r.y() );
+    Xml::saveTextNode( doc, node, "pos_z", _r.z() );
 
-    Document::saveTextNode( doc, node, "length" , QString::number( _l, 'f', 2 ).toStdString().c_str() );
-    Document::saveTextNode( doc, node, "width"  , QString::number( _w, 'f', 2 ).toStdString().c_str() );
-    Document::saveTextNode( doc, node, "height" , QString::number( _h, 'f', 2 ).toStdString().c_str() );
+    Xml::saveTextNode( doc, node, "length" , _l );
+    Xml::saveTextNode( doc, node, "width"  , _w );
+    Xml::saveTextNode( doc, node, "height" , _h );
 }

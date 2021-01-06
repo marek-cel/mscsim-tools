@@ -123,120 +123,26 @@
  *     party to this document and has no duty or obligation with respect to
  *     this CC0 or use of the Work.
  ******************************************************************************/
-#ifndef WING_H
-#define WING_H
+
+#include <mass/Cuboid.h>
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#include <Component.h>
-
-////////////////////////////////////////////////////////////////////////////////
-
-/**
- * @brief The Wing class.
- *
- * @see Raymer D. P.: Aircraft Design: A Conceptual Approach, AIAA, 1992, p.398-407
- */
-class Wing : public Component
+Matrix3x3 Cuboid::getInertia( double m, double l, double w, double h )
 {
-public:
+    Matrix3x3 result;
 
-    static const char xml_tag[];
+    result.xx() = m * ( w*w + h*h ) / 12.0;
+    result.xy() = 0.0;
+    result.xz() = 0.0;
 
-    static double computeMass( Type type,
-                               double area,
-                               double mtow,
-                               double nz_max,
-                               bool delta,
-                               double sweep,
-                               double lambda,
-                               double ar,
-                               bool variable,
-                               double area_ctrl,
-                               double tc_root,
-                               double fuel,
-                               double v_cruise,
-                               double h_cruise );
+    result.yx() = 0.0;
+    result.yy() = m * ( l*l + h*h ) / 12.0;
+    result.yz() = 0.0;
 
-    /**
-     * @brief computeMassFA
-     * @param area [m^2] wing area
-     * @param mtow [kg] maximum take-off weight
-     * @param nz_max [-] maximum allowed load factor
-     * @param delta specifies if aircraft has delta wing
-     * @param sweep [deg] wing sweep at 25% chord
-     * @param lambda [-] taper ratio
-     * @param ar [-]  aspect ratio
-     * @param variable specifies if wing has variable sweep
-     * @param area_ctrl [m^2] wing mounted control surface area
-     * @param tc_root [-] thickness ratio at root
-     * @return [kg] wing mass
-     */
-    static double computeMassFA( double area,
-                                 double mtow,
-                                 double nz_max,
-                                 bool delta,
-                                 double sweep,
-                                 double lambda,
-                                 double ar,
-                                 bool variable,
-                                 double area_ctrl,
-                                 double tc_root );
+    result.zx() = 0.0;
+    result.zy() = 0.0;
+    result.zz() = m * ( l*l + w*w ) / 12.0;
 
-    /**
-     * @brief computeMassCT
-     * @param area [m^2] wing area
-     * @param mtow [kg] maximum take-off weight
-     * @param nz_max [-] maximum allowed load factor
-     * @param sweep [deg] wing sweep at 25% chord
-     * @param lambda [-] taper ratio
-     * @param ar [-]  aspect ratio
-     * @param area_ctrl [m^2] wing mounted control surface area
-     * @param tc_root [-] thickness ratio at root
-     * @return
-     */
-    static double computeMassCT( double area,
-                                 double mtow,
-                                 double nz_max,
-                                 double sweep,
-                                 double lambda,
-                                 double ar,
-                                 double area_ctrl,
-                                 double tc_root );
-
-    /**
-     * @brief computeMassGA
-     * @param area [m^2] wing area
-     * @param mtow [kg] maximum take-off weight
-     * @param nz_max [-] maximum allowed load factor
-     * @param sweep [deg] wing sweep at 25% chord
-     * @param lambda [-] taper ratio
-     * @param ar [-]  aspect ratio
-     * @param area_ctrl [m^2] wing mounted control surface area
-     * @param tc_root [-] thickness ratio at root
-     * @param fuel [kg]
-     * @param v_cruise [kts]
-     * @param h_cruise [ft]
-     * @return
-     */
-    static double computeMassGA( double area,
-                                 double mtow,
-                                 double nz_max,
-                                 double sweep,
-                                 double lambda,
-                                 double ar,
-                                 double tc_root,
-                                 double fuel,
-                                 double v_cruise,
-                                 double h_cruise );
-
-    Wing( const Aircraft *aircraft );
-
-    virtual ~Wing();
-
-    virtual void save( QDomDocument *doc, QDomElement *parentNode );
-};
-
-////////////////////////////////////////////////////////////////////////////////
-
-#endif // WING_H
+    return result;
+}

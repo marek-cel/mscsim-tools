@@ -32,3 +32,5 @@ Visual Glide Slope Indicator (VGSI) types include:
 
 ## mscsim-mass
 Aircraft mass characteristics calculations tool. Under development!
+
+It is based on weight estimation method as presented in [Raymer D.P. Aircraft Design: A Conceptual Approach](http://doi.org/10.2514/4.104909).

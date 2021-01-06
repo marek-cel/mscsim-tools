@@ -123,82 +123,68 @@
  *     party to this document and has no duty or obligation with respect to
  *     this CC0 or use of the Work.
  ******************************************************************************/
-#ifndef TAILH_H
-#define TAILH_H
+#ifndef WING_H
+#define WING_H
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#include <Component.h>
+#include <mass/Component.h>
 
 ////////////////////////////////////////////////////////////////////////////////
 
 /**
- * @brief The TailH class.
+ * @brief The Wing class.
  *
  * @see Raymer D. P.: Aircraft Design: A Conceptual Approach, AIAA, 1992, p.398-407
  */
-class TailH : public Component
+class Wing : public Component
 {
 public:
 
     static const char xml_tag[];
 
+    /**
+     * @brief Computes wing mass.
+     * @param type aircraft type
+     * @param wing_exp [m^2] wing exposed area
+     * @param m_maxto [kg] maximum take-off mass
+     * @param nz_max [-] maximum allowed load factor
+     * @param wing_delta specifies if aircraft has delta wing
+     * @param wing_sweep [deg] wing sweep at 25% chord
+     * @param wing_tr [-] taper ratio
+     * @param wing_ar [-]  aspect ratio
+     * @param wing_var specifies if wing has variable sweep
+     * @param area_ctrl [m^2] wing mounted control surface area
+     * @param wing_tc [-] thickness ratio at root
+     * @param wing_fuel [kg] wing fuel capacity
+     * @param v_cruise [kts]
+     * @param h_cruise [ft]
+     * @return wing mass expressed in kg
+     */
     static double computeMass( Type type,
-                               double area,
-                               double mtow,
+                               double wing_exp,
+                               double m_maxto,
                                double nz_max,
-                               double f_w,
-                               double b_h );
+                               bool wing_delta,
+                               double wing_sweep,
+                               double wing_tr,
+                               double wing_ar,
+                               bool wing_var,
+                               double area_ctrl,
+                               double wing_tc,
+                               double wing_fuel,
+                               double v_cruise,
+                               double h_cruise );
 
-    /**
-     * @brief computeMassFA
-     * @param area [m^2] tail area
-     * @param mtow [kg] maximum take-off weight
-     * @param nz_max [-] maximum allowed load factor
-     * @param f_w [m] fuselage width at horizontal tail intersection
-     * @param b_h [m] horizontal tail span
-     * @return
-     */
-    static double computeMassFA( double area,
-                                 double mtow,
-                                 double nz_max,
-                                 double f_w,
-                                 double b_h );
+    Wing( const Aircraft *ac );
 
-    /**
-     * @brief computeMassCT
-     * @param area [m^2] tail area
-     * @param mtow [kg] maximum take-off weight
-     * @param nz_max [-] maximum allowed load factor
-     * @param f_w [m] fuselage width at horizontal tail intersection
-     * @param b_h [m] horizontal tail span
-     * @param sweep [deg] tail sweep
-     * @param allMoving specifies if is all-moving tail
-     * @param ar aspect ratio
-     * @param l_tail [m] tail length 25%-MAC to tail 25%-MAC
-     * @param area_e [m^2] elevator area
-     * @return
-     */
-    static double computeMassCT( double area,
-                                 double mtow,
-                                 double nz_max,
-                                 double f_w,
-                                 double b_h,
-                                 double sweep,
-                                 bool allMoving,
-                                 double ar,
-                                 double l_tail,
-                                 double area_e );
-
-    static double computeMassGA( double area );
-
-    TailH( const Aircraft *aircraft );
-
-    virtual ~TailH();
+    virtual ~Wing();
 
     virtual void save( QDomDocument *doc, QDomElement *parentNode );
+
+    virtual double getComputedMass( double l, double w, double h ) const;
 };
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#endif // TAILH_H
+#endif // WING_H

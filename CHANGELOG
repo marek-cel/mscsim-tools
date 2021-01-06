@@ -1,3 +1,14 @@
+2021-01-06 Marek M. Cel <marekcel@marekcel.pl>
+    
+    * mscsim-mass tool - redesigning application
+    
+    * mscsim-mass tool - aircraft, fuselage, wing and horizontal tail data
+      writing and reading to and from XML file
+    
+    * mscsim-mass tool - components mass estimation
+
+
+
 2021-01-03 Marek M. Cel <marekcel@marekcel.pl>
     
     * mscsim-mass tool - fuselage and wing components

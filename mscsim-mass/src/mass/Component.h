@@ -123,21 +123,86 @@
  *     party to this document and has no duty or obligation with respect to
  *     this CC0 or use of the Work.
  ******************************************************************************/
-#ifndef TYPE_H
-#define TYPE_H
+#ifndef COMPONENT_H
+#define COMPONENT_H
+
+////////////////////////////////////////////////////////////////////////////////
+
+#include <string>
+
+#include <QDomDocument>
+#include <QDomElement>
+
+#include <defs.h>
+#include <Types.h>
+
+#include <mass/Aircraft.h>
+#include <mass/Matrix3x3.h>
+#include <mass/Vector3.h>
 
 ////////////////////////////////////////////////////////////////////////////////
 
 /**
- * @brief The aircraft type enum.
+ * @brief The Component class.
  */
-enum Type
+class Component
 {
-    FighterAttack   = 0,    ///< Fighter/Attack
-    CargoTransport  = 1,    ///< Cargo/Transport/Bombers
-    GeneralAviation = 2     ///< General Aviation
+public:
+
+    /**
+     * @brief Constructor.
+     * @param aircraft
+     */
+    Component( const Aircraft *ac );
+
+    /** @brief Destructor. */
+    virtual ~Component();
+
+    virtual void read( QDomElement *parentNode );
+
+    virtual void save( QDomDocument *doc, QDomElement *parentNode ) = 0;
+
+    virtual double getComputedMass( double l, double w, double h ) const = 0;
+
+    inline const Aircraft* getAircraft() const { return _ac; }
+
+    inline const char* getName() const { return _name.c_str(); }
+
+    inline Vector3 getPosition() const { return _r; }
+
+    inline double getMass   () const { return _m; }
+    inline double getLength () const { return _l; }
+    inline double getWidth  () const { return _w; }
+    inline double getHeight () const { return _h; }
+
+    Matrix3x3 getInertia() const;
+
+    void setName( const char *name );
+
+    void setPosition( const Vector3 &r );
+
+    void setMass   ( double m );
+    void setLength ( double l );
+    void setWidth  ( double w );
+    void setHeight ( double h );
+
+protected:
+
+    const Aircraft *_ac;    ///< aircraft
+
+    std::string _name;      ///< component name
+
+    Vector3 _r;             ///< [m] position
+
+    double _m;              ///< [kg] mass
+
+    double _l;              ///< [m] length
+    double _w;              ///< [m] width
+    double _h;              ///< [m] height
+
+    virtual void saveParameters( QDomDocument *doc, QDomElement *node );
 };
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#endif // TYPE_H
+#endif // COMPONENT_H

@@ -68,35 +68,14 @@ unix: LIBS += \
 
 HEADERS += \
     $$PWD/defs.h \
-    $$PWD/Aircraft.h \
-    $$PWD/Atmosphere.h \
-    $$PWD/Component.h \
-    $$PWD/Cuboid.h \
     $$PWD/Document.h \
-    $$PWD/Fuselage.h \
-    $$PWD/Matrix3x3.h \
-    $$PWD/Steiner.h \
-    $$PWD/TailH.h \
-    $$PWD/TailV.h \
-    $$PWD/Type.h \
-    $$PWD/Units.h \
-    $$PWD/Vector3.h \
-    $$PWD/Wing.h
+    $$PWD/Types.h \
+    $$PWD/Xml.h
 
 SOURCES += \
     $$PWD/main.cpp \
-    $$PWD/Aircraft.cpp \
-    $$PWD/Atmosphere.cpp \
-    $$PWD/Component.cpp \
-    $$PWD/Cuboid.cpp \
     $$PWD/Document.cpp \
-    $$PWD/Fuselage.cpp \
-    $$PWD/Matrix3x3.cpp \
-    $$PWD/Steiner.cpp \
-    $$PWD/TailH.cpp \
-    $$PWD/TailV.cpp \
-    $$PWD/Vector3.cpp \
-    $$PWD/Wing.cpp
+    $$PWD/Xml.cpp
 
 RESOURCES += \
     $$PWD/mscsim-mass.qrc
@@ -104,3 +83,4 @@ RESOURCES += \
 ################################################################################
 
 include($$PWD/gui/gui.pri)
+include($$PWD/mass/mass.pri)

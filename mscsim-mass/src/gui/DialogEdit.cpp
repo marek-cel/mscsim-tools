@@ -160,9 +160,9 @@ DialogEdit::DialogEdit( QWidget *parent, const Component *component ) :
         _ui->spinBox_Y->setValue( _component->getPosition().y() );
         _ui->spinBox_Z->setValue( _component->getPosition().z() );
 
-        _ui->spinBox_L->setValue( _component->getPosition().x() );
-        _ui->spinBox_W->setValue( _component->getPosition().y() );
-        _ui->spinBox_H->setValue( _component->getPosition().z() );
+        _ui->spinBox_L->setValue( _component->getLength () );
+        _ui->spinBox_W->setValue( _component->getWidth  () );
+        _ui->spinBox_H->setValue( _component->getHeight () );
     }
 }
 
@@ -177,14 +177,35 @@ DialogEdit::~DialogEdit()
 
 void DialogEdit::updateComponent( Component *component )
 {
+    if ( component )
+    {
+        component->setName( _ui->lineEdit_Name->text().toStdString().c_str() );
 
+        component->setMass( _ui->spinBox_Mass->value() );
+
+        Vector3 position;
+
+        position.x() = _ui->spinBox_X->value();
+        position.y() = _ui->spinBox_Y->value();
+        position.z() = _ui->spinBox_Z->value();
+
+        component->setPosition( position );
+
+        component->setLength ( _ui->spinBox_L->value() );
+        component->setWidth  ( _ui->spinBox_W->value() );
+        component->setHeight ( _ui->spinBox_H->value() );
+    }
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
 void DialogEdit::updateMass()
 {
+    double m = _component->getComputedMass( _ui->spinBox_L->value(),
+                                            _ui->spinBox_W->value(),
+                                            _ui->spinBox_H->value() );
 
+    _ui->spinBoxComputedMass->setValue( m );
 }
 
 ////////////////////////////////////////////////////////////////////////////////

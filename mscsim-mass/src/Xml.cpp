@@ -124,15 +124,33 @@
  *     this CC0 or use of the Work.
  ******************************************************************************/
 
-#include <Steiner.h>
+#include <Xml.h>
 
 ////////////////////////////////////////////////////////////////////////////////
 
-Matrix3x3 Steiner::getInertia( double m, const Matrix3x3 &i, const Vector3 &r )
+void Xml::saveTextNode( QDomDocument *doc, QDomElement *parent,
+                        const char *tag_name, const QString &text )
 {
-    Matrix3x3 a( r.y()*r.y() + r.z()*r.z() , -r.x()*r.y()              , -r.x()*r.z(),
-                 -r.y()*r.x()              , r.x()*r.x() + r.z()*r.z() , -r.y()*r.z(),
-                 -r.z()*r.x()              , -r.z()*r.y()              , r.x()*r.x() + r.y()*r.y() );
+    QDomElement node = doc->createElement( tag_name );
+    parent->appendChild( node );
 
-    return ( i + m * a );
+    QDomNode textNode = doc->createTextNode( text );
+    node.appendChild( textNode );
 }
+
+////////////////////////////////////////////////////////////////////////////////
+
+void Xml::saveTextNode( QDomDocument *doc, QDomElement *parent,
+                        const char *tag_name, double value )
+{
+    saveTextNode( doc, parent, tag_name, QString::number( value, 'f', 6 ) );
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void Xml::saveTextNode( QDomDocument *doc, QDomElement *parent,
+                        const char *tag_name, bool value )
+{
+    saveTextNode( doc, parent, tag_name, QString( value ? "1" : "0" ) );
+}
+

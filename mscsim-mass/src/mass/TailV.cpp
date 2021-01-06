@@ -124,170 +124,96 @@
  *     this CC0 or use of the Work.
  ******************************************************************************/
 
-#include <TailH.h>
+#include <mass/TailV.h>
 
-#include <Atmosphere.h>
-#include <Document.h>
-#include <Units.h>
-
-////////////////////////////////////////////////////////////////////////////////
-
-const char TailH::xml_tag[] = "tail_h";
+#include <mass/Atmosphere.h>
+#include <mass/Units.h>
 
 ////////////////////////////////////////////////////////////////////////////////
 
-double TailH::computeMass( Type type,
-                           double area,
-                           double mtow,
-                           double nz_max,
-                           double f_w,
-                           double b_h )
-{
-    switch ( type )
-    {
-        case FighterAttack   : return computeMassFA( area, mtow, nz_max, f_w, b_h ); break;
-        //case CargoTransport  : return computeMassCT( area, mtow, nz_max, f_w, b_h ); break;
-        case GeneralAviation : return computeMassGA( area ); break;
-    }
-
-    return 0.0;
-}
-
+const char TailV::xml_tag[] = "tail_v";
 
 ////////////////////////////////////////////////////////////////////////////////
 
-double TailH::computeMassFA( double area,
-                             double mtow,
-                             double nz_max,
-                             double f_w,
-                             double b_h )
+double TailV::computeMass( Type type,
+                           double v_tail_area )
 {
     // Rayner: Aircraft Design, p.398, table 15.2
     double m1 = 0.0;
     {
-        double s_ht = Units::sqm2sqft( area );
+        double s_vt = Units::sqm2sqft( v_tail_area );
 
-        m1 = Units::lb2kg( 4.0 * s_ht );
+        if ( type == FighterAttack )
+        {
+            m1 = Units::lb2kg( 5.3 * s_vt );
+        }
+
+        if ( type == CargoTransport )
+        {
+            m1 = Units::lb2kg( 5.5 * s_vt );
+        }
+
+        if ( type == GeneralAviation )
+        {
+            m1 = Units::lb2kg( 2.0 * s_vt );
+        }
     }
 
-    // Rayner: Aircraft Design, p.401, eq.15.2
-    double m2 = m1;
-    {
-        double s_ht = Units::sqm2sqft( area );
-
-        double w_dg  = Units::kg2lb( mtow );
-        double n_z   = 1.5 * nz_max;
-
-        double f_w_ft = Units::m2ft( f_w );
-        double b_h_ft = Units::m2ft( b_h );
-
-
-        double m2_lb = 3.316 * pow( 1 + f_w_ft / b_h_ft, -2.0 )
-                * pow( w_dg * n_z / 1000.0, 0.26 )
-                * pow( s_ht, 0.806 );
-
-        m2 = Units::lb2kg( m2_lb );
-    }
-
-    std::cout << m1 << " " << m2 << std::endl;
-
-    return ( m1 + m2 ) / 2.0;
-}
-
-////////////////////////////////////////////////////////////////////////////////
-
-double TailH::computeMassCT( double area,
-                             double mtow,
-                             double nz_max,
-                             double f_w,
-                             double b_h,
-                             double sweep,
-                             bool allMoving,
-                             double ar,
-                             double l_tail,
-                             double area_e )
-{
-    // Rayner: Aircraft Design, p.398, table 15.2
-    double m1 = 0.0;
-    {
-        double s_ht = Units::sqm2sqft( area );
-
-        m1 = Units::lb2kg( 5.5 * s_ht );
-    }
-
-    // Rayner: Aircraft Design, p.401, eq.15.26
-    double m2 = m1;
-    {
-        double s_ht = Units::sqm2sqft( area );
-
-        double w_dg  = Units::kg2lb( mtow );
-        double n_z   = 1.5 * nz_max;
-
-        double f_w_ft = Units::m2ft( f_w );
-        double b_h_ft = Units::m2ft( b_h );
-
-        double sweep_rad = Units::deg2rad( sweep );
-
-        double k_uht = allMoving ? 1.143 : 1.0;
-
-        double l_t_ft = Units::m2ft( l_tail );
-        double k_y = 0.3 * l_t_ft;
-
-        double s_e = Units::sqm2sqft( area_e );
-
-        double m2_lb = 0.0379 * k_uht * pow( 1.0 + f_w_ft / b_h_ft, -0.25 )
-                * pow( w_dg, 0.639 ) * pow( n_z, 0.1 ) * pow( s_ht, 0.75 )
-                * pow( l_t_ft, -1.0 ) * pow( k_y, 0.704 )
-                * pow( cos( sweep_rad ), -1.0 ) * pow( ar, 0.166 )
-                * pow( 1.0 + s_e / s_ht, 0.1 );
-
-        m2 = Units::lb2kg( m2_lb );
-    }
-
-    return ( m1 + m2 ) / 2.0;
-}
-
-////////////////////////////////////////////////////////////////////////////////
-
-double TailH::computeMassGA( double area )
-{
-    // Rayner: Aircraft Design, p.398, table 15.2
-    double m1 = 0.0;
-    {
-        double s_ht = Units::sqm2sqft( area );
-
-        m1 = Units::lb2kg( 2.0 * s_ht );
-    }
-
-    // Rayner: Aircraft Design, p.401, eq.15.
-    double m2 = m1;
+    double m2 = 0.0;
     {
         double m2_lb = 0.0;
 
+        // Rayner: Aircraft Design, p.401, eq.15.3
+        if ( type == FighterAttack )
+        {
+            m2_lb = 0.0;
+        }
+
+        // Rayner: Aircraft Design, p.403, eq.15.27
+        if ( type == CargoTransport )
+        {
+            m2_lb = 0.0;
+        }
+
+        // Rayner: Aircraft Design, p.405, eq.15.48
+        if ( type == GeneralAviation )
+        {
+            m2_lb = 0.0;
+        }
+
         m2 = Units::lb2kg( m2_lb );
     }
+
+    std::cout << "TailV:  " << m1 << "  " << m2 << std::endl;
 
     return ( m1 + m2 ) / 2.0;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
-TailH::TailH( const Aircraft *aircraft ) :
-    Component( aircraft )
+TailV::TailV( const Aircraft *ac ) :
+    Component( ac )
 {
-    setName( "Horizontal Tail" );
+    setName( "Vertical Tail" );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
-TailH::~TailH() {}
+TailV::~TailV() {}
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void TailH::save( QDomDocument *doc, QDomElement *parentNode )
+void TailV::save( QDomDocument *doc, QDomElement *parentNode )
 {
-    QDomElement node = doc->createElement( TailH::xml_tag );
+    QDomElement node = doc->createElement( TailV::xml_tag );
     parentNode->appendChild( node );
 
     saveParameters( doc, &node );
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+double TailV::getComputedMass( double l, double w, double h ) const
+{
+    return 0.0;
 }
