@@ -7,6 +7,7 @@
    <nz_max>9.000000</nz_max>
    <h_cruise>30000.000000</h_cruise>
    <v_cruise>550.000000</v_cruise>
+   <mach_max>2.100000</mach_max>
    <cargo_door>0</cargo_door>
    <wetted_area>120.000000</wetted_area>
    <press_vol>1.500000</press_vol>
@@ -36,7 +37,18 @@
    <h_tail_ar>5.260000</h_tail_ar>
    <h_tail_tr>0.355000</h_tail_tr>
    <h_tail_moving>1</h_tail_moving>
+   <h_tail_rolling>1</h_tail_rolling>
    <v_tail_area>5.090000</v_tail_area>
+   <v_tail_height>2.540000</v_tail_height>
+   <v_tail_sweep>44.200000</v_tail_sweep>
+   <v_tail_c_t>2.810000</v_tail_c_t>
+   <v_tail_c_r>1.210000</v_tail_c_r>
+   <v_tail_tc>0.060000</v_tail_tc>
+   <v_tail_arm>4.400000</v_tail_arm>
+   <rudd_area>1.310000</rudd_area>
+   <v_tail_ar>1.268000</v_tail_ar>
+   <v_tail_tr>0.431000</v_tail_tr>
+   <t_tail>0</t_tail>
   </data>
   <components>
    <fuselage name="Fuselage">

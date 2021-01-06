@@ -136,13 +136,24 @@ const char TailV::xml_tag[] = "tail_v";
 ////////////////////////////////////////////////////////////////////////////////
 
 double TailV::computeMass( Type type,
-                           double v_tail_area )
+                           double v_tail_area,
+                           double m_maxto,
+                           double nz_max,
+                           double v_tail_sweep,
+                           double v_tail_arm,
+                           double v_tail_ar,
+                           double v_tail_tr,
+                           double v_tail_tc,
+                           double rudd_area,
+                           bool t_tail,
+                           bool h_tail_roll,
+                           double mach_max )
 {
-    // Rayner: Aircraft Design, p.398, table 15.2
+    double s_vt = Units::sqm2sqft( v_tail_area );
+
+    // Rayner: Aircraft Design, p.568, table 15.2
     double m1 = 0.0;
     {
-        double s_vt = Units::sqm2sqft( v_tail_area );
-
         if ( type == FighterAttack )
         {
             m1 = Units::lb2kg( 5.3 * s_vt );
@@ -163,19 +174,40 @@ double TailV::computeMass( Type type,
     {
         double m2_lb = 0.0;
 
-        // Rayner: Aircraft Design, p.401, eq.15.3
+        double w_dg  = Units::kg2lb( m_maxto );
+        double n_z   = 1.5 * nz_max;
+
+        double l_t_ft = Units::m2ft( v_tail_arm );
+
+        double ht_hv = t_tail ? 1.0 : 0.0;
+
+        double sweep_rad = Units::deg2rad( v_tail_sweep );
+
+        // Rayner: Aircraft Design, p.572, eq.15.3
         if ( type == FighterAttack )
         {
-            m2_lb = 0.0;
+            double s_r = Units::sqm2sqft( rudd_area );
+
+            double k_rht = h_tail_roll ? 1.047 : 1.0;
+
+            m2_lb = 0.452 * k_rht * pow( 1.0 + ht_hv, 0.5 ) * pow( w_dg * n_z, 0.488 )
+                    * pow( s_vt, 0.718 ) * pow( mach_max, 0.341 ) * pow( l_t_ft, -1.0 )
+                    * pow( 1.0 + s_r / s_vt, 0.348 ) * pow( v_tail_ar, 0.223 )
+                    * pow( 1.0 + v_tail_tr, 0.25 ) * pow( cos( sweep_rad ), -0.323 );
         }
 
-        // Rayner: Aircraft Design, p.403, eq.15.27
+        // Rayner: Aircraft Design, p.574, eq.15.27
         if ( type == CargoTransport )
         {
-            m2_lb = 0.0;
+            double k_z = l_t_ft;
+
+            m2_lb = 0.0026 * pow( 1.0 + ht_hv, 0.225 ) * pow( w_dg, 0.556 )
+                    * pow( n_z, 0.536 ) * pow( l_t_ft, -0.5 ) * pow( s_vt, 0.5 )
+                    * pow( k_z, 0.875 ) * pow( cos( sweep_rad ), -1.0 )
+                    * pow( v_tail_ar, 0.35 ) * pow( v_tail_tc, -0.5 );
         }
 
-        // Rayner: Aircraft Design, p.405, eq.15.48
+        // Rayner: Aircraft Design, p.576, eq.15.48
         if ( type == GeneralAviation )
         {
             m2_lb = 0.0;

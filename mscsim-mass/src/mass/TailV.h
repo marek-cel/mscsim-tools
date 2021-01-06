@@ -136,6 +136,7 @@
  * @brief The TailV class.
  *
  * @see Raymer D. P.: Aircraft Design: A Conceptual Approach, AIAA, 1992, p.398-407
+ * @see Raymer D. P.: Aircraft Design: A Conceptual Approach, AIAA, 2018, p.568-579
  */
 class TailV : public Component
 {
@@ -143,8 +144,36 @@ public:
 
     static const char xml_tag[];
 
+    /**
+     * @brief Computes vertical tail mass.
+     * @param type aircraft type
+     * @param v_tail_area [m^2] vertical tail area
+     * @param m_maxto [kg] maximum take-off weight
+     * @param nz_max [-] maximum allowed load factor
+     * @param v_tail_sweep [deg] vertical tail sweep
+     * @param v_tail_arm [m] vertical tail arm
+     * @param v_tail_ar [-] vertical tail aspect ratio
+     * @param v_tail_tr [-] vertical tail taper ratio
+     * @param v_tail_tc [-] thickness ratio at root
+     * @param rudd_area [m^2] rudder area
+     * @param t_tail specifies if tail is T-type
+     * @param h_tail_roll specifies if horizontal tail is rolling
+     * @param mach_max Mach number design maximum
+     * @return
+     */
     static double computeMass( Type type,
-                               double v_tail_area );
+                               double v_tail_area,
+                               double m_maxto,
+                               double nz_max,
+                               double v_tail_sweep,
+                               double v_tail_arm,
+                               double v_tail_ar,
+                               double v_tail_tr,
+                               double v_tail_tc,
+                               double rudd_area,
+                               bool t_tail,
+                               bool h_tail_roll,
+                               double mach_max );
 
     TailV( const Aircraft *ac );
 

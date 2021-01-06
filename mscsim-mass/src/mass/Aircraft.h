@@ -163,10 +163,21 @@ public:
      */
     bool read( QDomElement *parentNode );
 
+    /**
+     * Saves aircraft data.
+     * @param doc
+     * @param parentNode
+     */
     void save( QDomDocument *doc, QDomElement *parentNode );
 
+    /**
+     * @brief Resets aircraft data. Removes all components.
+     */
     void reset();
 
+    /**
+     * @brief Updates output data (total mass, cg position, inertia).
+     */
     void update();
 
     inline const Components& getComponents() const { return _components; }
@@ -188,6 +199,7 @@ public:
     inline double getNzMax   () const { return _nz_max   ; }
     inline double getCruiseH () const { return _h_cruise ; }
     inline double getCruiseV () const { return _v_cruise ; }
+    inline double getMachMax () const { return _mach_max ; }
 
     // fuselage
 
@@ -227,13 +239,23 @@ public:
     inline double getHorTailAR    () const { return _h_tail_ar    ; }
     inline double getHorTailTR    () const { return _h_tail_tr    ; }
 
-    inline bool getHorTailMoving() const { return _h_tail_moving; }
+    inline bool getHorTailMoving  () const { return _h_tail_moving;  }
+    inline bool getHorTailRolling () const { return _h_tail_rolling; }
 
     // vertical tail
 
-    inline double getVerTailArea  () const { return _v_tail_area  ; }
+    inline double getVerTailArea   () const { return _v_tail_area   ; }
+    inline double getVerTailHeight () const { return _v_tail_height ; }
+    inline double getVerTailSweep  () const { return _v_tail_sweep  ; }
+    inline double getVerTailCR     () const { return _v_tail_c_t    ; }
+    inline double getVerTailCT     () const { return _v_tail_c_r    ; }
+    inline double getVerTailTC     () const { return _v_tail_tc     ; }
+    inline double getVerTailArm    () const { return _v_tail_arm    ; }
+    inline double getRuddArea      () const { return _rudd_area     ; }
+    inline double getVerTailAR     () const { return _v_tail_ar     ; }
+    inline double getVerTailTR     () const { return _v_tail_tr     ; }
 
-
+    inline bool getTailT() const { return _t_tail; }
 
     inline void setType( Type type ) { _type = type; }
 
@@ -244,6 +266,7 @@ public:
     inline void setNzMax   ( double nz_max   ) { _nz_max   = nz_max   ; }
     inline void setCruiseH ( double h_cruise ) { _h_cruise = h_cruise ; }
     inline void setCruiseV ( double v_cruise ) { _v_cruise = v_cruise ; }
+    inline void setMachMax ( double mach_max ) { _mach_max = mach_max ; }
 
     // fuselage
 
@@ -283,11 +306,23 @@ public:
     inline void setHorTailAR    ( double h_tail_ar    ) { _h_tail_ar    = h_tail_ar    ; }
     inline void setHorTailTR    ( double h_tail_tr    ) { _h_tail_tr    = h_tail_tr    ; }
 
-    inline void setHorTailMoving( bool h_tail_moving ) { _h_tail_moving = h_tail_moving; }
+    inline void setHorTailMoving  ( bool h_tail_moving  ) { _h_tail_moving  = h_tail_moving  ; }
+    inline void setHorTailRolling ( bool h_tail_rolling ) { _h_tail_rolling = h_tail_rolling ; }
 
     // vertical tail
 
-    inline void setVerTailArea  ( double v_tail_area  ) { _v_tail_area  = v_tail_area  ; }
+    inline void setVerTailArea   ( double v_tail_area   ) { _v_tail_area   = v_tail_area   ; }
+    inline void setVerTailHeight ( double v_tail_height ) { _v_tail_height = v_tail_height ; }
+    inline void setVerTailSweep  ( double v_tail_sweep  ) { _v_tail_sweep  = v_tail_sweep  ; }
+    inline void setVerTailCR     ( double v_tail_c_t    ) { _v_tail_c_t    = v_tail_c_t    ; }
+    inline void setVerTailCT     ( double v_tail_c_r    ) { _v_tail_c_r    = v_tail_c_r    ; }
+    inline void setVerTailTC     ( double v_tail_tc     ) { _v_tail_tc     = v_tail_tc     ; }
+    inline void setVerTailArm    ( double v_tail_arm    ) { _v_tail_arm    = v_tail_arm    ; }
+    inline void setRuddArea      ( double rudd_area     ) { _rudd_area     = rudd_area     ; }
+    inline void setVerTailAR     ( double v_tail_ar     ) { _v_tail_ar     = v_tail_ar     ; }
+    inline void setVerTailTR     ( double v_tail_tr     ) { _v_tail_tr     = v_tail_tr     ; }
+
+    inline void setTailT( bool t_tail ) { _t_tail = t_tail; }
 
 private:
 
@@ -303,9 +338,10 @@ private:
     double _nz_max;             ///< [-] Nz max
     double _h_cruise;           ///< [ft]  cruise altitude
     double _v_cruise;           ///< [kts] cruise speed
+    double _mach_max;           ///< [-] maximum design Mach number
 
     // Fuselage
-    CargoDoor _cargo_door;      ///<
+    CargoDoor _cargo_door;      ///< cargo door type
 
     double _wetted_area;        ///< [m^2] fuselage wetted area
     double _press_vol;          ///< [m^3] volume of pressurized section
@@ -327,22 +363,34 @@ private:
     bool _wing_var;             ///< specifies if wing has variable sweep
 
     // Horizontal Tail
-    double _h_tail_area  ;      ///< [m^2] horizontal tail area
-    double _h_tail_span  ;      ///< [m] horizontal tail span
-    double _h_tail_sweep ;      ///< [deg] horizontal tail sweep
+    double _h_tail_area;        ///< [m^2] horizontal tail area
+    double _h_tail_span;        ///< [m] horizontal tail span
+    double _h_tail_sweep;       ///< [deg] horizontal tail sweep at 25% MAC
     double _h_tail_c_t;         ///< [m] horizontal tail tip chord
     double _h_tail_c_r;         ///< [m] horizontal tail root chord
     double _h_tail_tc;          ///< [-] horizontal tail thickness ratio
-    double _elev_area    ;      ///< [m^2] elevator area
-    double _h_tail_fw    ;      ///< [m] fuselage width at horizontal tail intersection
-    double _h_tail_arm   ;      ///< [m] horizontal tail arm
-    double _h_tail_ar    ;      ///< [-] horizontal tail aspect ratio
-    double _h_tail_tr    ;      ///< [-] horizontal tail taper ratio
+    double _elev_area;          ///< [m^2] elevator area
+    double _h_tail_fw;          ///< [m] fuselage width at horizontal tail intersection
+    double _h_tail_arm;         ///< [m] horizontal tail arm
+    double _h_tail_ar;          ///< [-] horizontal tail aspect ratio
+    double _h_tail_tr;          ///< [-] horizontal tail taper ratio
 
     bool _h_tail_moving;        ///< specifies if horizontal tail is all moving
+    bool _h_tail_rolling;       ///< specifies if horizontal tail is rolling
 
     // Vertical Tail
-    double _v_tail_area  ;      ///< [m^2] vertical tail area
+    double _v_tail_area;        ///< [m^2] vertical tail area
+    double _v_tail_height;      ///< [m] vertical tail height
+    double _v_tail_sweep;       ///< [deg] vertical tail sweep at 25% MAC
+    double _v_tail_c_t;         ///< [m] vertical tail tip chord
+    double _v_tail_c_r;         ///< [m] vertical tail root chord
+    double _v_tail_tc;          ///< [-] vertical tail thickness ratio
+    double _v_tail_arm;         ///< [m] vertical tail arm
+    double _rudd_area;          ///< [m^2] rudder area
+    double _v_tail_ar;          ///< [-] vertical tail aspect ratio
+    double _v_tail_tr;          ///< [-] vertical tail taper ratio
+
+    bool _t_tail;               ///< specifies if T-tail
 
     // RESULTS
 

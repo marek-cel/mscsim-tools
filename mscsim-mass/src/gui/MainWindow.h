@@ -240,6 +240,7 @@ private slots:
     void on_spinBoxMaxNz_valueChanged     ( double arg1 );
     void on_spinBoxCruiseV_valueChanged   ( double arg1 );
     void on_spinBoxCruiseH_valueChanged   ( double arg1 );
+    void on_spinBoxMachMax_valueChanged   ( double arg1 );
 
     void on_comboBoxCargoDoor_currentIndexChanged( int index );
     void on_spinBoxWettedArea_valueChanged ( double arg1 );
@@ -271,9 +272,20 @@ private slots:
     void on_spinBoxHorTailArm_valueChanged   ( double arg1 );
     void on_spinBoxHorTailAR_valueChanged    ( double arg1 );
     void on_spinBoxHorTailTR_valueChanged    ( double arg1 );
-    void on_checkBoxHorTailMoving_toggled ( bool checked );
+    void on_checkBoxHorTailMoving_toggled  ( bool checked );
+    void on_checkBoxHorTailRolling_toggled ( bool checked );
 
-    void on_spinBoxVerTailArea_valueChanged ( double arg1 );
+    void on_spinBoxVerTailArea_valueChanged   ( double arg1 );
+    void on_spinBoxVerTailHeight_valueChanged ( double arg1 );
+    void on_spinBoxVerTailSweep_valueChanged  ( double arg1 );
+    void on_spinBoxVerTailCR_valueChanged     ( double arg1 );
+    void on_spinBoxVerTailCT_valueChanged     ( double arg1 );
+    void on_spinBoxVerTailTC_valueChanged     ( double arg1 );
+    void on_spinBoxVerTailArm_valueChanged    ( double arg1 );
+    void on_spinBoxRuddArea_valueChanged      ( double arg1 );
+    void on_spinBoxVerTailAR_valueChanged     ( double arg1 );
+    void on_spinBoxVerTailTR_valueChanged     ( double arg1 );
+    void on_checkBoxTailT_toggled ( bool checked );
 };
 
 ////////////////////////////////////////////////////////////////////////////////

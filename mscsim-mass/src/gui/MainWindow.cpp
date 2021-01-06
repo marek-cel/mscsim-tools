@@ -462,6 +462,7 @@ void MainWindow::updateGUI()
 
     _ui->spinBoxCruiseH->setValue( ac->getCruiseH() );
     _ui->spinBoxCruiseV->setValue( ac->getCruiseV() );
+    _ui->spinBoxMachMax->setValue( ac->getMachMax() );
 
     // data - fuselage
 
@@ -501,10 +502,22 @@ void MainWindow::updateGUI()
     _ui->spinBoxHorTailAR    ->setValue( ac->getHorTailAR    () );
     _ui->spinBoxHorTailTR    ->setValue( ac->getHorTailTR    () );
 
-    _ui->checkBoxHorTailMoving->setChecked( ac->getHorTailMoving() );
+    _ui->checkBoxHorTailMoving  ->setChecked( ac->getHorTailMoving  () );
+    _ui->checkBoxHorTailRolling ->setChecked( ac->getHorTailRolling () );
 
     // data - vertical tail
-    _ui->spinBoxVerTailArea ->setValue( ac->getVerTailArea() );
+    _ui->spinBoxVerTailArea   ->setValue( ac->getVerTailArea   () );
+    _ui->spinBoxVerTailHeight ->setValue( ac->getVerTailHeight () );
+    _ui->spinBoxVerTailSweep  ->setValue( ac->getVerTailSweep  () );
+    _ui->spinBoxVerTailCR     ->setValue( ac->getVerTailCR     () );
+    _ui->spinBoxVerTailCT     ->setValue( ac->getVerTailCT     () );
+    _ui->spinBoxVerTailTC     ->setValue( ac->getVerTailTC     () );
+    _ui->spinBoxVerTailArm    ->setValue( ac->getVerTailArm    () );
+    _ui->spinBoxRuddArea      ->setValue( ac->getRuddArea      () );
+    _ui->spinBoxVerTailAR     ->setValue( ac->getVerTailAR     () );
+    _ui->spinBoxVerTailTR     ->setValue( ac->getVerTailTR     () );
+
+    _ui->checkBoxTailT->setChecked( ac->getTailT() );
 
     // COMPONENTS
 
@@ -744,6 +757,7 @@ void MainWindow::on_comboBoxAircraftType_currentIndexChanged( int index )
 
     _doc.getAircraft()->setType( type );
     _saved = false;
+    updateTitleBar();
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -752,6 +766,7 @@ void MainWindow::on_spinBoxMassEmpty_valueChanged( double arg1 )
 {
     _doc.getAircraft()->setM_empty( arg1 );
     _saved = false;
+    updateTitleBar();
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -760,6 +775,7 @@ void MainWindow::on_spinBoxMassMaxTO_valueChanged( double arg1 )
 {
     _doc.getAircraft()->setM_maxto( arg1 );
     _saved = false;
+    updateTitleBar();
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -768,6 +784,7 @@ void MainWindow::on_spinBoxMaxNz_valueChanged( double arg1 )
 {
     _doc.getAircraft()->setNzMax( arg1 );
     _saved = false;
+    updateTitleBar();
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -776,6 +793,7 @@ void MainWindow::on_spinBoxCruiseV_valueChanged( double arg1 )
 {
     _doc.getAircraft()->setCruiseV( arg1 );
     _saved = false;
+    updateTitleBar();
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -784,6 +802,16 @@ void MainWindow::on_spinBoxCruiseH_valueChanged( double arg1 )
 {
     _doc.getAircraft()->setCruiseH( arg1 );
     _saved = false;
+    updateTitleBar();
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void MainWindow::on_spinBoxMachMax_valueChanged( double arg1 )
+{
+    _doc.getAircraft()->setMachMax( arg1 );
+    _saved = false;
+    updateTitleBar();
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -803,6 +831,7 @@ void MainWindow::on_comboBoxCargoDoor_currentIndexChanged( int index )
 
     _doc.getAircraft()->setCargoDoor( door );
     _saved = false;
+    updateTitleBar();
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -1083,9 +1112,118 @@ void MainWindow::on_checkBoxHorTailMoving_toggled( bool checked )
 
 ////////////////////////////////////////////////////////////////////////////////
 
+void MainWindow::on_checkBoxHorTailRolling_toggled( bool checked )
+{
+    _doc.getAircraft()->setHorTailRolling( checked );
+    _saved = false;
+    updateTitleBar();
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
 void MainWindow::on_spinBoxVerTailArea_valueChanged( double arg1 )
 {
     _doc.getAircraft()->setVerTailArea( arg1 );
+    _saved = false;
+    updateTitleBar();
+
+    double ar = pow( _doc.getAircraft()->getVerTailHeight(), 2.0 ) / _doc.getAircraft()->getVerTailArea();
+    _ui->spinBoxVerTailAR->setValue( ar );
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void MainWindow::on_spinBoxVerTailHeight_valueChanged( double arg1 )
+{
+    _doc.getAircraft()->setVerTailHeight( arg1 );
+    _saved = false;
+    updateTitleBar();
+
+    double ar = pow( _doc.getAircraft()->getVerTailHeight(), 2.0 ) / _doc.getAircraft()->getVerTailArea();
+    _ui->spinBoxVerTailAR->setValue( ar );
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void MainWindow::on_spinBoxVerTailSweep_valueChanged( double arg1 )
+{
+    _doc.getAircraft()->setVerTailSweep( arg1 );
+    _saved = false;
+    updateTitleBar();
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void MainWindow::on_spinBoxVerTailCR_valueChanged( double arg1 )
+{
+    _doc.getAircraft()->setVerTailCR( arg1 );
+    _saved = false;
+    updateTitleBar();
+
+    double tr = _doc.getAircraft()->getVerTailCT() / _doc.getAircraft()->getVerTailCR();
+    _ui->spinBoxVerTailTR->setValue( tr );
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void MainWindow::on_spinBoxVerTailCT_valueChanged( double arg1 )
+{
+    _doc.getAircraft()->setVerTailCT( arg1 );
+    _saved = false;
+    updateTitleBar();
+
+    double tr = _doc.getAircraft()->getVerTailCT() / _doc.getAircraft()->getVerTailCR();
+    _ui->spinBoxVerTailTR->setValue( tr );
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void MainWindow::on_spinBoxVerTailTC_valueChanged( double arg1 )
+{
+    _doc.getAircraft()->setVerTailTC( arg1 );
+    _saved = false;
+    updateTitleBar();
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void MainWindow::on_spinBoxVerTailArm_valueChanged( double arg1 )
+{
+    _doc.getAircraft()->setVerTailArm( arg1 );
+    _saved = false;
+    updateTitleBar();
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void MainWindow::on_spinBoxRuddArea_valueChanged( double arg1 )
+{
+    _doc.getAircraft()->setRuddArea( arg1 );
+    _saved = false;
+    updateTitleBar();
+}
+
+void MainWindow::on_spinBoxVerTailAR_valueChanged( double arg1 )
+{
+    _doc.getAircraft()->setVerTailAR( arg1 );
+    _saved = false;
+    updateTitleBar();
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void MainWindow::on_spinBoxVerTailTR_valueChanged( double arg1 )
+{
+    _doc.getAircraft()->setVerTailTR( arg1 );
+    _saved = false;
+    updateTitleBar();
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void MainWindow::on_checkBoxTailT_toggled( bool checked )
+{
+    _doc.getAircraft()->setTailT( checked );
     _saved = false;
     updateTitleBar();
 }

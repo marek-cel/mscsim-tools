@@ -136,6 +136,7 @@
  * @brief The Wing class.
  *
  * @see Raymer D. P.: Aircraft Design: A Conceptual Approach, AIAA, 1992, p.398-407
+ * @see Raymer D. P.: Aircraft Design: A Conceptual Approach, AIAA, 2018, p.568-579
  */
 class Wing : public Component
 {

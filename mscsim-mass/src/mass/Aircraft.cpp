@@ -176,6 +176,7 @@ bool Aircraft::read( QDomElement *parentNode )
             QDomElement nodeNzMax   = nodeData.firstChildElement( "nz_max"   );
             QDomElement nodeCruiseH = nodeData.firstChildElement( "h_cruise" );
             QDomElement nodeCruiseV = nodeData.firstChildElement( "v_cruise" );
+            QDomElement nodeMachMax = nodeData.firstChildElement( "mach_max" );
 
             QDomElement nodeCargoDoor  = nodeData.firstChildElement( "cargo_door"  );
             QDomElement nodeWettedArea = nodeData.firstChildElement( "wetted_area" );
@@ -196,26 +197,38 @@ bool Aircraft::read( QDomElement *parentNode )
             QDomElement nodeWingDelta = nodeData.firstChildElement( "wing_delta" );
             QDomElement nodeWingVar   = nodeData.firstChildElement( "wing_var"   );
 
-            QDomElement nodeHorTailArea   = nodeData.firstChildElement( "h_tail_area"   );
-            QDomElement nodeHorTailSpan   = nodeData.firstChildElement( "h_tail_span"   );
-            QDomElement nodeHorTailSweep  = nodeData.firstChildElement( "h_tail_sweep"  );
-            QDomElement nodeHorTailCT     = nodeData.firstChildElement( "h_tail_c_t"    );
-            QDomElement nodeHorTailCR     = nodeData.firstChildElement( "h_tail_c_r"    );
-            QDomElement nodeHorTailTC     = nodeData.firstChildElement( "h_tail_tc"     );
-            QDomElement nodeElevArea      = nodeData.firstChildElement( "elev_area"     );
-            QDomElement nodeHorTailFW     = nodeData.firstChildElement( "h_tail_fw"     );
-            QDomElement nodeHorTailArm    = nodeData.firstChildElement( "h_tail_arm"    );
-            QDomElement nodeHorTailAR     = nodeData.firstChildElement( "h_tail_ar"     );
-            QDomElement nodeHorTailTR     = nodeData.firstChildElement( "h_tail_tr"     );
-            QDomElement nodeHorTailMoving = nodeData.firstChildElement( "h_tail_moving" );
+            QDomElement nodeHorTailArea  = nodeData.firstChildElement( "h_tail_area"    );
+            QDomElement nodeHorTailSpan  = nodeData.firstChildElement( "h_tail_span"    );
+            QDomElement nodeHorTailSweep = nodeData.firstChildElement( "h_tail_sweep"   );
+            QDomElement nodeHorTailCT    = nodeData.firstChildElement( "h_tail_c_t"     );
+            QDomElement nodeHorTailCR    = nodeData.firstChildElement( "h_tail_c_r"     );
+            QDomElement nodeHorTailTC    = nodeData.firstChildElement( "h_tail_tc"      );
+            QDomElement nodeElevArea     = nodeData.firstChildElement( "elev_area"      );
+            QDomElement nodeHorTailFW    = nodeData.firstChildElement( "h_tail_fw"      );
+            QDomElement nodeHorTailArm   = nodeData.firstChildElement( "h_tail_arm"     );
+            QDomElement nodeHorTailAR    = nodeData.firstChildElement( "h_tail_ar"      );
+            QDomElement nodeHorTailTR    = nodeData.firstChildElement( "h_tail_tr"      );
+            QDomElement nodeHorTailMoving  = nodeData.firstChildElement( "h_tail_moving"  );
+            QDomElement nodeHorTailRolling = nodeData.firstChildElement( "h_tail_rolling" );
 
             QDomElement nodeVerTailArea   = nodeData.firstChildElement( "v_tail_area"   );
+            QDomElement nodeVerTailHeight = nodeData.firstChildElement( "v_tail_height"  );
+            QDomElement nodeVerTailSweep  = nodeData.firstChildElement( "v_tail_sweep"   );
+            QDomElement nodeVerTailCT     = nodeData.firstChildElement( "v_tail_c_t"     );
+            QDomElement nodeVerTailCR     = nodeData.firstChildElement( "v_tail_c_r"     );
+            QDomElement nodeVerTailTC     = nodeData.firstChildElement( "v_tail_tc"      );
+            QDomElement nodeVerTailArm    = nodeData.firstChildElement( "v_tail_arm"     );
+            QDomElement nodeRuddArea      = nodeData.firstChildElement( "rudd_area"      );
+            QDomElement nodeVerTailAR     = nodeData.firstChildElement( "v_tail_ar"      );
+            QDomElement nodeVerTailTR     = nodeData.firstChildElement( "v_tail_tr"      );
+            QDomElement nodeTailT = nodeData.firstChildElement( "t_tail" );
 
             if ( !nodeM_empty .isNull()
               && !nodeM_maxto .isNull()
               && !nodeNzMax   .isNull()
               && !nodeCruiseH .isNull()
               && !nodeCruiseV .isNull()
+              && !nodeMachMax .isNull()
 
               && !nodeCargoDoor  .isNull()
               && !nodeWettedArea .isNull()
@@ -236,20 +249,31 @@ bool Aircraft::read( QDomElement *parentNode )
               && !nodeWingDelta .isNull()
               && !nodeWingVar   .isNull()
 
-              && !nodeHorTailArea   .isNull()
-              && !nodeHorTailSpan   .isNull()
-              && !nodeHorTailSweep  .isNull()
-              && !nodeHorTailCT     .isNull()
-              && !nodeHorTailCR     .isNull()
-              && !nodeHorTailTC     .isNull()
-              && !nodeElevArea      .isNull()
-              && !nodeHorTailFW     .isNull()
-              && !nodeHorTailArm    .isNull()
-              && !nodeHorTailAR     .isNull()
-              && !nodeHorTailTR     .isNull()
-              && !nodeHorTailMoving .isNull()
+              && !nodeHorTailArea  .isNull()
+              && !nodeHorTailSpan  .isNull()
+              && !nodeHorTailSweep .isNull()
+              && !nodeHorTailCT    .isNull()
+              && !nodeHorTailCR    .isNull()
+              && !nodeHorTailTC    .isNull()
+              && !nodeElevArea     .isNull()
+              && !nodeHorTailFW    .isNull()
+              && !nodeHorTailArm   .isNull()
+              && !nodeHorTailAR    .isNull()
+              && !nodeHorTailTR    .isNull()
+              && !nodeHorTailMoving  .isNull()
+              && !nodeHorTailRolling .isNull()
 
-              && !nodeVerTailArea .isNull()
+              && !nodeVerTailArea   .isNull()
+              && !nodeVerTailHeight .isNull()
+              && !nodeVerTailSweep  .isNull()
+              && !nodeVerTailCT     .isNull()
+              && !nodeVerTailCR     .isNull()
+              && !nodeVerTailTC     .isNull()
+              && !nodeVerTailArm    .isNull()
+              && !nodeRuddArea      .isNull()
+              && !nodeVerTailAR     .isNull()
+              && !nodeVerTailTR     .isNull()
+              && !nodeTailT .isNull()
                )
             {
                 // general
@@ -258,6 +282,7 @@ bool Aircraft::read( QDomElement *parentNode )
                 _nz_max   = nodeNzMax   .text().toDouble();
                 _h_cruise = nodeCruiseH .text().toDouble();
                 _v_cruise = nodeCruiseV .text().toDouble();
+                _mach_max = nodeMachMax .text().toDouble();
 
                 // fuselage
                 int cargo_door_temp = nodeCargoDoor.text().toInt();
@@ -305,10 +330,22 @@ bool Aircraft::read( QDomElement *parentNode )
                 _h_tail_ar    = nodeHorTailAR     .text().toDouble();
                 _h_tail_tr    = nodeHorTailTR     .text().toDouble();
 
-                _h_tail_moving = nodeHorTailMoving.text().toInt();
+                _h_tail_moving  = nodeHorTailMoving  .text().toInt();
+                _h_tail_rolling = nodeHorTailRolling .text().toInt();
 
                 // vertical tail
-                _v_tail_area  = nodeVerTailArea   .text().toDouble();
+                _v_tail_area   = nodeVerTailArea   .text().toDouble();
+                _v_tail_height = nodeVerTailHeight .text().toDouble();
+                _v_tail_sweep  = nodeVerTailSweep  .text().toDouble();
+                _v_tail_c_t    = nodeVerTailCT     .text().toDouble();
+                _v_tail_c_r    = nodeVerTailCR     .text().toDouble();
+                _v_tail_tc     = nodeVerTailTC     .text().toDouble();
+                _v_tail_arm    = nodeVerTailArm    .text().toDouble();
+                _rudd_area     = nodeRuddArea      .text().toDouble();
+                _v_tail_ar     = nodeVerTailAR     .text().toDouble();
+                _v_tail_tr     = nodeVerTailTR     .text().toDouble();
+
+                _t_tail = nodeTailT.text().toInt();
 
                 // components
                 QDomElement nodeComponent = nodeComponents.firstChildElement();
@@ -371,6 +408,7 @@ void Aircraft::save( QDomDocument *doc, QDomElement *parentNode )
     Xml::saveTextNode( doc, &nodeData, "nz_max"    , _nz_max   );
     Xml::saveTextNode( doc, &nodeData, "h_cruise"  , _h_cruise );
     Xml::saveTextNode( doc, &nodeData, "v_cruise"  , _v_cruise );
+    Xml::saveTextNode( doc, &nodeData, "mach_max"  , _mach_max );
 
     // data - fuselage
     Xml::saveTextNode( doc, &nodeData, "cargo_door" , QString::number( _cargo_door ) );
@@ -407,10 +445,22 @@ void Aircraft::save( QDomDocument *doc, QDomElement *parentNode )
     Xml::saveTextNode( doc, &nodeData, "h_tail_ar"    , _h_tail_ar    );
     Xml::saveTextNode( doc, &nodeData, "h_tail_tr"    , _h_tail_tr    );
 
-    Xml::saveTextNode( doc, &nodeData, "h_tail_moving", _h_tail_moving );
+    Xml::saveTextNode( doc, &nodeData, "h_tail_moving"  , _h_tail_moving  );
+    Xml::saveTextNode( doc, &nodeData, "h_tail_rolling" , _h_tail_rolling );
 
     // data - vertical tail
-    Xml::saveTextNode( doc, &nodeData, "v_tail_area"  , _v_tail_area  );
+    Xml::saveTextNode( doc, &nodeData, "v_tail_area"   , _v_tail_area   );
+    Xml::saveTextNode( doc, &nodeData, "v_tail_height" , _v_tail_height );
+    Xml::saveTextNode( doc, &nodeData, "v_tail_sweep"  , _v_tail_sweep  );
+    Xml::saveTextNode( doc, &nodeData, "v_tail_c_t"    , _v_tail_c_t    );
+    Xml::saveTextNode( doc, &nodeData, "v_tail_c_r"    , _v_tail_c_r    );
+    Xml::saveTextNode( doc, &nodeData, "v_tail_tc"     , _v_tail_tc     );
+    Xml::saveTextNode( doc, &nodeData, "v_tail_arm"    , _v_tail_arm    );
+    Xml::saveTextNode( doc, &nodeData, "rudd_area"     , _rudd_area     );
+    Xml::saveTextNode( doc, &nodeData, "v_tail_ar"     , _v_tail_ar     );
+    Xml::saveTextNode( doc, &nodeData, "v_tail_tr"     , _v_tail_tr     );
+
+    Xml::saveTextNode( doc, &nodeData, "t_tail", _t_tail );
 
     // components
     QDomElement componentsNode = doc->createElement( "components" );
@@ -434,6 +484,7 @@ void Aircraft::reset()
     _nz_max   = 1.0;
     _h_cruise = 0.0;
     _v_cruise = 0.0;
+    _mach_max = 0.0;
 
     // fuselage
     _cargo_door = NoCargoDoor;
@@ -468,10 +519,21 @@ void Aircraft::reset()
     _h_tail_arm   = 0.0;
     _h_tail_ar    = 0.0;
     _h_tail_tr    = 0.0;
-    _h_tail_moving = false;
+    _h_tail_moving  = false;
+    _h_tail_rolling = false;
 
     // vertical tail
-    _v_tail_area = 0.0;
+    _v_tail_area   = 0.0;
+    _v_tail_height = 0.0;
+    _v_tail_sweep  = 0.0;
+    _v_tail_c_t    = 0.0;
+    _v_tail_c_r    = 0.0;
+    _v_tail_tc     = 0.0;
+    _v_tail_arm    = 0.0;
+    _rudd_area     = 0.0;
+    _v_tail_ar     = 0.0;
+    _v_tail_tr     = 0.0;
+    _t_tail = false;
 
     _centerOfMass.set( 0.0, 0.0, 0.0 );
 

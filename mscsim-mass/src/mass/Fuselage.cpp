@@ -151,11 +151,11 @@ double Fuselage::computeMass( Type type,
                               double v_cruise,
                               double h_cruise )
 {
-    // Rayner: Aircraft Design, p.398, table 15.2
+    double s_f = Units::sqm2sqft( wetted_area );
+
+    // Rayner: Aircraft Design, p.568, table 15.2
     double m1 = 0.0;
     {
-        double s_f = Units::sqm2sqft( wetted_area );
-
         if ( type == FighterAttack )
         {
             m1 = Units::lb2kg( 4.8 * s_f );
@@ -182,9 +182,7 @@ double Fuselage::computeMass( Type type,
         double d_ft = Units::m2ft( h );
         double w_ft = Units::m2ft( w );
 
-        double s_f = Units::sqm2sqft( wetted_area );
-
-        // Rayner: Aircraft Design, p.401, eq.15.4
+        // Rayner: Aircraft Design, p.572, eq.15.4
         if ( type == FighterAttack )
         {
             double k_dwf = wing_delta ? 0.774 : 1.0;
@@ -193,7 +191,7 @@ double Fuselage::computeMass( Type type,
                     * pow( l_ft, 0.5 ) * pow( d_ft, 0.849 ) * pow( w_ft, 0.685 );
         }
 
-        // Rayner: Aircraft Design, p.403, eq.15.28
+        // Rayner: Aircraft Design, p.574, eq.15.28
         if ( type == CargoTransport )
         {
             double k_door = 1.0;
@@ -221,7 +219,7 @@ double Fuselage::computeMass( Type type,
                             * pow( l_ft / d_ft, 0.1 );
         }
 
-        // Rayner: Aircraft Design, p.404, eq.15.49
+        // Rayner: Aircraft Design, p.576, eq.15.49
         if ( type == GeneralAviation )
         {
             double l_t_ft = Units::m2ft( h_tail_arm );

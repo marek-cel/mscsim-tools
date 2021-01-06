@@ -151,11 +151,11 @@ double TailH::computeMass( Type type,
                            double v_cruise,
                            double h_cruise )
 {
-    // Rayner: Aircraft Design, p.398, table 15.2
+    double s_ht = Units::sqm2sqft( h_tail_area );
+
+    // Rayner: Aircraft Design, p.568, table 15.2
     double m1 = 0.0;
     {
-        double s_ht = Units::sqm2sqft( h_tail_area );
-
         if ( type == FighterAttack )
         {
             m1 = Units::lb2kg( 4.0 * s_ht );
@@ -176,8 +176,6 @@ double TailH::computeMass( Type type,
     {
         double m2_lb = 0.0;
 
-        double s_ht = Units::sqm2sqft( h_tail_area );
-
         double w_dg  = Units::kg2lb( m_maxto );
         double n_z   = 1.5 * nz_max;
 
@@ -186,7 +184,7 @@ double TailH::computeMass( Type type,
 
         double sweep_rad = Units::deg2rad( h_tail_sweep );
 
-        // Rayner: Aircraft Design, p.401, eq.15.2
+        // Rayner: Aircraft Design, p.572, eq.15.2
         if ( type == FighterAttack )
         {
             m2_lb = 3.316 * pow( 1 + f_w_ft / b_h_ft, -2.0 )
@@ -194,7 +192,7 @@ double TailH::computeMass( Type type,
                     * pow( s_ht, 0.806 );
         }
 
-        // Rayner: Aircraft Design, p.403, eq.15.26
+        // Rayner: Aircraft Design, p.574, eq.15.26
         if ( type == CargoTransport )
         {
             double k_uht = h_tail_moving ? 1.143 : 1.0;
@@ -211,7 +209,7 @@ double TailH::computeMass( Type type,
                     * pow( 1.0 + s_e / s_ht, 0.1 );
         }
 
-        // Rayner: Aircraft Design, p.404, eq.15.47
+        // Rayner: Aircraft Design, p.576, eq.15.47
         if ( type == GeneralAviation )
         {
             double v_mps = Units::kts2mps( v_cruise );

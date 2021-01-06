@@ -150,11 +150,11 @@ double Wing::computeMass( Type type,
                           double v_cruise,
                           double h_cruise )
 {
-    // Rayner: Aircraft Design, p.398, table 15.2
+    double s_w = Units::sqm2sqft( wing_exp );
+
+    // Rayner: Aircraft Design, p.568, table 15.2
     double m1 = 0.0;
     {
-        double s_w = Units::sqm2sqft( wing_exp );
-
         if ( type == FighterAttack )
         {
             m1 = Units::lb2kg( 9.0 * s_w );
@@ -175,8 +175,6 @@ double Wing::computeMass( Type type,
     {
         double m2_lb = 0.0;
 
-        double s_w = Units::sqm2sqft( wing_exp );
-
         double w_dg  = Units::kg2lb( m_maxto );
         double n_z   = 1.5 * nz_max;
 
@@ -184,7 +182,7 @@ double Wing::computeMass( Type type,
 
         double sweep_rad = Units::deg2rad( wing_sweep );
 
-        // Rayner: Aircraft Design, p.401, eq.15.1
+        // Rayner: Aircraft Design, p.572, eq.15.1
         if ( type == FighterAttack )
         {
             double k_vs  = wing_var   ? 1.19  : 1.0;
@@ -196,7 +194,7 @@ double Wing::computeMass( Type type,
                     * pow( s_csw, 0.04 );
         }
 
-        // Rayner: Aircraft Design, p.403, eq.15.25
+        // Rayner: Aircraft Design, p.574, eq.15.25
         if ( type == CargoTransport )
         {
             m2_lb = 0.0051 * pow( w_dg * n_z, 0.557 )
@@ -205,7 +203,7 @@ double Wing::computeMass( Type type,
                     * pow( s_csw, 0.1 );
         }
 
-        // Rayner: Aircraft Design, p.404, eq.15.46
+        // Rayner: Aircraft Design, p.575, eq.15.46
         if ( type == GeneralAviation )
         {
             double w_fw  = Units::kg2lb( wing_fuel );
