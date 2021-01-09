@@ -223,6 +223,16 @@ double TailHor::computeMass( Type type,
                     * pow( n_z * w_dg, 0.49 );
         }
 
+        // NASA TP-2015-218751, p.230
+        if ( type == Helicopter )
+        {
+            double chi_ht = 1.0; // ?? technology factor
+
+            m2_lb = chi_ht * 0.7176 * pow( s_ht, 1.1881 ) * pow( h_tail_ar, 0.3173 );
+
+            m1 = Units::lb2kg( m2_lb );
+        }
+
         m2 = Units::lb2kg( m2_lb );
     }
 

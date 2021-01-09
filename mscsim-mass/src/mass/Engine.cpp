@@ -157,6 +157,12 @@ double Engine::computeMass( Type type,
         {
             m1 = Units::lb2kg( 1.4 * w_en );
         }
+
+        if ( type == Helicopter )
+        {
+            // same as for CargoTransport
+            m1 = Units::lb2kg( 1.3 * w_en );
+        }
     }
 
     double m2 = 0.0;
@@ -177,6 +183,12 @@ double Engine::computeMass( Type type,
 
         //
         if ( type == GeneralAviation )
+        {
+            m2_lb = Units::kg2lb( m1 );
+        }
+
+        //
+        if ( type == Helicopter )
         {
             m2_lb = Units::kg2lb( m1 );
         }

@@ -183,7 +183,7 @@ double GearNose::computeMass( Type type,
         // Rayner: Aircraft Design, p.572, eq.15.3
         if ( type == FighterAttack )
         {
-            m2_lb = pow( w_l * n_l, 0.29 ) * pow( l_n_in, 0.5 ) * pow( n_gear_wheels, 0.525 );
+            m2_lb = pow( w_l * n_l, 0.29 ) * pow( l_n_in, 0.5 ) * pow( (double)n_gear_wheels, 0.525 );
         }
 
         // Rayner: Aircraft Design, p.575, eq.15.27
@@ -192,7 +192,7 @@ double GearNose::computeMass( Type type,
             double k_np = n_gear_kneeling ? 1.15 : 1.0;
 
             m2_lb = 0.032 * k_np * pow( w_l, 0.646 ) * pow( n_l, 0.2 )
-                    * pow( l_n_in, 0.5 ) * pow( n_gear_wheels, 0.45 );
+                    * pow( l_n_in, 0.5 ) * pow( (double)n_gear_wheels, 0.45 );
         }
 
         // Rayner: Aircraft Design, p.576, eq.15.48

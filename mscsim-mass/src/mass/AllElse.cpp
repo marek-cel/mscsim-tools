@@ -156,6 +156,12 @@ double AllElse::computeMass( Type type,
         {
             m1 = Units::lb2kg( 0.1  * w_dg );
         }
+
+        // ??
+        if ( type == Helicopter )
+        {
+            m1 = Units::lb2kg( 0.2  * w_dg );
+        }
     }
 
     double m2 = 0.0;

@@ -123,8 +123,8 @@
  *     party to this document and has no duty or obligation with respect to
  *     this CC0 or use of the Work.
  ******************************************************************************/
-#ifndef FUSELAGE_H
-#define FUSELAGE_H
+#ifndef ROTORTAIL_H
+#define ROTORTAIL_H
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -133,60 +133,34 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 /**
- * @brief The Fuselage class.
+ * @brief The RotorTail class.
  *
- * @see Raymer D. P.: Aircraft Design: A Conceptual Approach, AIAA, 1992, p.398-407
- * @see Raymer D. P.: Aircraft Design: A Conceptual Approach, AIAA, 2018, p.568-579
- * @see Johnson W.: NDARC NASA Design and Analysis of Rotorcraft, NASA TP-2015-218751, 2015, p.231-232
+ * @see Johnson W.: NDARC NASA Design and Analysis of Rotorcraft, NASA TP-2015-218751, 2015, p.230
  */
-class Fuselage : public Component
+class RotorTail : public Component
 {
 public:
 
     static const char xml_tag[];
 
     /**
-     * @brief Computes fuselage mass.
+     * @brief Computes tail rotor mass.
      * @param type aircraft type
-     * @param l [m] fuselage structural length
-     * @param w [m] fuselage structural width
-     * @param h [m] fuselage structural height
-     * @param wetted_area [m^2] fuselage wetted area
-     * @param m_maxto [kg] maximum take-off weight
-     * @param nz_max [-] maximum allowed load factor
-     * @param wing_delta specifies if aircraft has delta wing
-     * @param cargo_door cargo door type
-     * @param fuselage_lg fuselage mounted landing gear
-     * @param wing_span [m] wing span
-     * @param wing_sweep [deg] wing sweep at 25% chord
-     * @param wing_tr [-] taper ratio
-     * @param h_tail_arm [m] horizontal tail arm
-     * @param press_vol [m^3] volume of pressurized section
-     * @param v_cruise [kts] cruise speed
-     * @param h_cruise [ft] cruise altitude
-     * @param cargo_ramp specifies if helicopter has a cargo ramp
-     * @return fuselage mass expressed in kg
+     * @param m_rotor_r [m] main rotor radius
+     * @param t_rotor_r [m] tail rotor radius
+     * @param m_rotor_tv [m/s] main rotor blade tip velocity
+     * @param rotor_mcp [hp] drive system power limit (MCP)
+     * @return tail rotor mass expressed in kg
      */
     static double computeMass( Type type,
-                               double l, double w, double h,
-                               double wetted_area,
-                               double m_maxto,
-                               double nz_max,
-                               bool wing_delta,
-                               CargoDoor cargo_door,
-                               bool fuselage_lg,
-                               double wing_span,
-                               double wing_sweep,
-                               double wing_tr,
-                               double h_tail_arm,
-                               double press_vol,
-                               double v_cruise,
-                               double h_cruise,
-                               bool cargo_ramp );
+                               double m_rotor_r,
+                               double t_rotor_r,
+                               double m_rotor_tv,
+                               double rotor_mcp );
 
-    Fuselage( const Aircraft *ac );
+    RotorTail( const Aircraft *ac );
 
-    virtual ~Fuselage();
+    virtual ~RotorTail();
 
     virtual void save( QDomDocument *doc, QDomElement *parentNode );
 
@@ -195,4 +169,4 @@ public:
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#endif // FUSELAGE_H
+#endif // ROTORTAIL_H

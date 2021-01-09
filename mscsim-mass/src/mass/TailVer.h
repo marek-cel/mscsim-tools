@@ -137,7 +137,7 @@
  *
  * @see Raymer D. P.: Aircraft Design: A Conceptual Approach, AIAA, 1992, p.398-407
  * @see Raymer D. P.: Aircraft Design: A Conceptual Approach, AIAA, 2018, p.568-579
- * @see Crabtree J. A.: Weight Estimation for Helicopter Design Analysis, The Society of Aeronautical Weight Engineers, 1958
+ * @see Johnson W.: NDARC NASA Design and Analysis of Rotorcraft, NASA TP-2015-218751, 2015, p.230-231
  */
 class TailVer : public Component
 {
@@ -162,6 +162,7 @@ public:
      * @param mach_max Mach number design maximum
      * @param v_cruise [kts] cruise speed
      * @param h_cruise [ft] cruise altitude
+     * @param v_tail_rotor specifies if tail rotor is located on the vertical tail
      * @return vertical tail mass expressed in kg
      */
     static double computeMass( Type type,
@@ -178,7 +179,8 @@ public:
                                bool h_tail_roll,
                                double mach_max,
                                double v_cruise,
-                               double h_cruise );
+                               double h_cruise,
+                               bool v_tail_rotor );
 
     TailVer( const Aircraft *ac );
 

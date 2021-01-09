@@ -173,6 +173,11 @@ public:
         return len * 3.2808399;
     }
 
+    /**
+     * @brief Converts given length from metres to inches.
+     * @param len length expressed in metres
+     * @return length expressed in inches
+     */
     static inline double m2in( double len = 1.0 )
     {
         return len * 39.3700787;
@@ -208,6 +213,16 @@ public:
     static inline double kts2mps( double vel = 1.0 )
     {
         return vel * 0.5144444444444;
+    }
+
+    /**
+     * @brief Converts given velocity from m/s to ft/s.
+     * @param vel velocity expressed in m/s
+     * @return velocity expressed in ft/s
+     */
+    static inline double mps2fps( double vel = 1.0 )
+    {
+        return vel * 3.2808399;
     }
 
     // AREA
@@ -253,6 +268,11 @@ public:
 
     // PRESSURE
 
+    /**
+     * @brief Converts given pressure from pascals to psf.
+     * @param press pressure expressed in pascals
+     * @return pressure expressed in psf
+     */
     static inline double pa2psf( double mass = 1.0 )
     {
         return mass * 0.020885434273039;

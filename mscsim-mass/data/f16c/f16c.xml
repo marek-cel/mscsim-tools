@@ -20,6 +20,7 @@
    <wetted_area>72.920000</wetted_area>
    <press_vol>0.000000</press_vol>
    <fuselage_lg>0</fuselage_lg>
+   <cargo_ramp>0</cargo_ramp>
    <wing_area>27.870000</wing_area>
    <wing_exp>18.140000</wing_exp>
    <wing_span>9.140000</wing_span>
@@ -57,6 +58,7 @@
    <v_tail_ar>0.332000</v_tail_ar>
    <v_tail_tr>0.431000</v_tail_tr>
    <t_tail>0</t_tail>
+   <v_tail_rotor>0</v_tail_rotor>
    <m_gear_l>1.400000</m_gear_l>
    <n_gear_l>1.000000</n_gear_l>
    <m_gear_wheels>0</m_gear_wheels>
@@ -68,6 +70,13 @@
    <m_gear_kneel>0</m_gear_kneel>
    <n_gear_kneel>0</n_gear_kneel>
    <m_engine>1681.000000</m_engine>
+   <m_rotor_r>0.000000</m_rotor_r>
+   <m_blades_c>0.000000</m_blades_c>
+   <m_rotor_rpm>0.000000</m_rotor_rpm>
+   <t_rotor_r>0.000000</t_rotor_r>
+   <rotor_mcp>0.000000</rotor_mcp>
+   <m_rotor_tv>0.000000</m_rotor_tv>
+   <m_rotor_nb>0</m_rotor_nb>
   </data>
   <components>
    <fuselage name="Fuselage">

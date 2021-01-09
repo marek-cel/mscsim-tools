@@ -210,7 +210,15 @@ private:
 
     void updateGUI();
     void updateTitleBar();
+
     void updateWettedArea();
+    void updateWingAR();
+    void updateWingTR();
+    void updateHorTailAR();
+    void updateHorTailTR();
+    void updateVerTailAR();
+    void updateVerTailTR();
+    void updateRotorTipVel();
 
     void updateRecentFiles( QString file = "" );
 
@@ -256,7 +264,8 @@ private slots:
     void on_spinBoxNoseLength_valueChanged ( double arg1 );
     void on_spinBoxPressVol_valueChanged   ( double arg1 );
     void on_spinBoxWettedArea_valueChanged ( double arg1 );
-    void on_checkBoxFuselageLG_toggled( bool checked );
+    void on_checkBoxFuselageLG_toggled ( bool checked );
+    void on_checkBoxCargoRamp_toggled  ( bool checked );
 
     void on_spinBoxWingArea_valueChanged  ( double arg1 );
     void on_spinBoxWingExp_valueChanged   ( double arg1 );
@@ -296,7 +305,8 @@ private slots:
     void on_spinBoxRuddArea_valueChanged      ( double arg1 );
     void on_spinBoxVerTailAR_valueChanged     ( double arg1 );
     void on_spinBoxVerTailTR_valueChanged     ( double arg1 );
-    void on_checkBoxTailT_toggled ( bool checked );
+    void on_checkBoxTailT_toggled        ( bool checked );
+    void on_checkBoxVerTailRotor_toggled ( bool checked );
 
     void on_spinBoxMainGearLength_valueChanged ( double arg1 );
     void on_spinBoxNoseGearLength_valueChanged ( double arg1 );
@@ -310,6 +320,14 @@ private slots:
     void on_checkBoxGearNoseKneel_toggled ( bool checked );
 
     void on_spinBoxEngineMass_valueChanged( double arg1 );
+
+    void on_spinBoxMainRotorDiameter_valueChanged ( double arg1 );
+    void on_spinBoxMainRotorChord_valueChanged    ( double arg1 );
+    void on_spinBoxMainRotorRPM_valueChanged      ( double arg1 );
+    void on_spinBoxTailRotorDiameter_valueChanged ( double arg1 );
+    void on_spinBoxPowerLimit_valueChanged        ( double arg1 );
+    void on_spinBoxMainRotorTipVel_valueChanged   ( double arg1 );
+    void on_spinBoxMainRotorBlades_valueChanged ( int arg1 );
 };
 
 ////////////////////////////////////////////////////////////////////////////////

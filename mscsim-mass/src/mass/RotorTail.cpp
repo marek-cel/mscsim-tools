@@ -123,76 +123,71 @@
  *     party to this document and has no duty or obligation with respect to
  *     this CC0 or use of the Work.
  ******************************************************************************/
-#ifndef FUSELAGE_H
-#define FUSELAGE_H
+
+#include <mass/RotorTail.h>
+
+#include <mass/Units.h>
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#include <mass/Component.h>
+const char RotorTail::xml_tag[] = "rotor_tail";
 
 ////////////////////////////////////////////////////////////////////////////////
 
-/**
- * @brief The Fuselage class.
- *
- * @see Raymer D. P.: Aircraft Design: A Conceptual Approach, AIAA, 1992, p.398-407
- * @see Raymer D. P.: Aircraft Design: A Conceptual Approach, AIAA, 2018, p.568-579
- * @see Johnson W.: NDARC NASA Design and Analysis of Rotorcraft, NASA TP-2015-218751, 2015, p.231-232
- */
-class Fuselage : public Component
+double RotorTail::computeMass( Type type,
+                               double m_rotor_r,
+                               double t_rotor_r,
+                               double m_rotor_tv,
+                               double rotor_mcp )
 {
-public:
+    // NASA TP-2015-218751, p.230
+    if ( type == Helicopter )
+    {
+        double chi_tr = 1.0; // ?? technology factor
 
-    static const char xml_tag[];
+        double r_mr_ft = Units::m2ft( m_rotor_r );
+        double r_tr_ft = Units::m2ft( t_rotor_r );
 
-    /**
-     * @brief Computes fuselage mass.
-     * @param type aircraft type
-     * @param l [m] fuselage structural length
-     * @param w [m] fuselage structural width
-     * @param h [m] fuselage structural height
-     * @param wetted_area [m^2] fuselage wetted area
-     * @param m_maxto [kg] maximum take-off weight
-     * @param nz_max [-] maximum allowed load factor
-     * @param wing_delta specifies if aircraft has delta wing
-     * @param cargo_door cargo door type
-     * @param fuselage_lg fuselage mounted landing gear
-     * @param wing_span [m] wing span
-     * @param wing_sweep [deg] wing sweep at 25% chord
-     * @param wing_tr [-] taper ratio
-     * @param h_tail_arm [m] horizontal tail arm
-     * @param press_vol [m^3] volume of pressurized section
-     * @param v_cruise [kts] cruise speed
-     * @param h_cruise [ft] cruise altitude
-     * @param cargo_ramp specifies if helicopter has a cargo ramp
-     * @return fuselage mass expressed in kg
-     */
-    static double computeMass( Type type,
-                               double l, double w, double h,
-                               double wetted_area,
-                               double m_maxto,
-                               double nz_max,
-                               bool wing_delta,
-                               CargoDoor cargo_door,
-                               bool fuselage_lg,
-                               double wing_span,
-                               double wing_sweep,
-                               double wing_tr,
-                               double h_tail_arm,
-                               double press_vol,
-                               double v_cruise,
-                               double h_cruise,
-                               bool cargo_ramp );
+        double v_tip_fps = Units::mps2fps( m_rotor_tv );
 
-    Fuselage( const Aircraft *ac );
+        double m_lb = chi_tr * 1.3778 * pow( r_tr_ft, 0.0897 )
+                * pow( rotor_mcp * r_mr_ft / v_tip_fps, 0.8951 );
 
-    virtual ~Fuselage();
+        return Units::lb2kg( m_lb );
+    }
 
-    virtual void save( QDomDocument *doc, QDomElement *parentNode );
-
-    virtual double getComputedMass() const;
-};
+    return 0.0;
+}
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#endif // FUSELAGE_H
+RotorTail::RotorTail( const Aircraft *ac ) :
+    Component( ac )
+{
+    setName( "Tail Rotor" );
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+RotorTail::~RotorTail() {}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void RotorTail::save( QDomDocument *doc, QDomElement *parentNode )
+{
+    QDomElement node = doc->createElement( RotorTail::xml_tag );
+    parentNode->appendChild( node );
+
+    saveParameters( doc, &node );
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+double RotorTail::getComputedMass() const
+{
+    return computeMass( _ac->getType(),
+                        _ac->getMainRotorRad(),    //double m_rotor_r,
+                        _ac->getTailRotorRad(),    //double t_rotor_r,
+                        _ac->getMainRotorTipVel(), //double m_rotor_tv,
+                        _ac->getPowerLimit() );    //double rotor_mcp
+}

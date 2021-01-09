@@ -173,6 +173,12 @@ double GearMain::computeMass( Type type,
         {
             m1 = 0.85 * Units::lb2kg( 0.057 * w_dg - reduce );
         }
+
+        // NASA TP-2015-218751, p.233
+        if ( type == Helicopter )
+        {
+            m1 = Units::lb2kg( 0.0325 * w_dg );
+        }
     }
 
     double m2 = 0.0;
@@ -199,14 +205,20 @@ double GearMain::computeMass( Type type,
             double k_mp = m_gear_kneeling ? 1.126 : 1.0;
 
             m2_lb = 0.0106 * k_mp * pow( w_l, 0.888 ) * pow( n_l, 0.25 )
-                    * pow( l_m_in, 0.4 ) * pow( m_gear_wheels, 0.321 ) * pow( m_gear_struts, -0.5 )
-                    * pow( v_stall, 0.1 );
+                    * pow( l_m_in, 0.4 ) * pow( (double)m_gear_wheels, 0.321 )
+                    * pow( (double)m_gear_struts, -0.5 ) * pow( v_stall, 0.1 );
         }
 
         // Rayner: Aircraft Design, p.576, eq.15.50
         if ( type == GeneralAviation )
         {
             m2_lb = 0.095 * pow( n_l * w_l, 0.768 ) * pow( l_m_in / 12.0, 0.409 );
+        }
+
+        // NASA TP-2015-218751, p.233
+        if ( type == Helicopter )
+        {
+            m2_lb = 0.4013 * pow( w_dg, 0.6662 ) * pow ( n_l, 0.536 );
         }
 
         m2 = Units::lb2kg( m2_lb );

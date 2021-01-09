@@ -9,6 +9,8 @@ HEADERS += \
     $$PWD/GearMain.h \
     $$PWD/GearNose.h \
     $$PWD/Matrix3x3.h \
+    $$PWD/RotorMain.h \
+    $$PWD/RotorTail.h \
     $$PWD/Steiner.h \
     $$PWD/TailHor.h \
     $$PWD/TailVer.h \
@@ -27,6 +29,8 @@ SOURCES += \
     $$PWD/GearMain.cpp \
     $$PWD/GearNose.cpp \
     $$PWD/Matrix3x3.cpp \
+    $$PWD/RotorMain.cpp \
+    $$PWD/RotorTail.cpp \
     $$PWD/Steiner.cpp \
     $$PWD/TailHor.cpp \
     $$PWD/TailVer.cpp \

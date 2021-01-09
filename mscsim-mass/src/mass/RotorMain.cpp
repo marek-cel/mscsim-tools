@@ -123,76 +123,84 @@
  *     party to this document and has no duty or obligation with respect to
  *     this CC0 or use of the Work.
  ******************************************************************************/
-#ifndef FUSELAGE_H
-#define FUSELAGE_H
+
+#include <mass/RotorMain.h>
+
+#include <mass/Units.h>
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#include <mass/Component.h>
+const char RotorMain::xml_tag[] = "rotor_main";
 
 ////////////////////////////////////////////////////////////////////////////////
 
-/**
- * @brief The Fuselage class.
- *
- * @see Raymer D. P.: Aircraft Design: A Conceptual Approach, AIAA, 1992, p.398-407
- * @see Raymer D. P.: Aircraft Design: A Conceptual Approach, AIAA, 2018, p.568-579
- * @see Johnson W.: NDARC NASA Design and Analysis of Rotorcraft, NASA TP-2015-218751, 2015, p.231-232
- */
-class Fuselage : public Component
+double RotorMain::computeMass( Type type,
+                               double m_rotor_r,
+                               double m_rotor_c,
+                               double m_rotor_tv,
+                               int m_rotor_nb )
 {
-public:
+    // NASA TP-2015-218751, p.228
+    if ( type == Helicopter )
+    {
+        double n_rotor = 1.0; // number of rotors
 
-    static const char xml_tag[];
+        double r_ft = Units::m2ft( m_rotor_r );
+        double c_ft = Units::m2ft( m_rotor_c );
 
-    /**
-     * @brief Computes fuselage mass.
-     * @param type aircraft type
-     * @param l [m] fuselage structural length
-     * @param w [m] fuselage structural width
-     * @param h [m] fuselage structural height
-     * @param wetted_area [m^2] fuselage wetted area
-     * @param m_maxto [kg] maximum take-off weight
-     * @param nz_max [-] maximum allowed load factor
-     * @param wing_delta specifies if aircraft has delta wing
-     * @param cargo_door cargo door type
-     * @param fuselage_lg fuselage mounted landing gear
-     * @param wing_span [m] wing span
-     * @param wing_sweep [deg] wing sweep at 25% chord
-     * @param wing_tr [-] taper ratio
-     * @param h_tail_arm [m] horizontal tail arm
-     * @param press_vol [m^3] volume of pressurized section
-     * @param v_cruise [kts] cruise speed
-     * @param h_cruise [ft] cruise altitude
-     * @param cargo_ramp specifies if helicopter has a cargo ramp
-     * @return fuselage mass expressed in kg
-     */
-    static double computeMass( Type type,
-                               double l, double w, double h,
-                               double wetted_area,
-                               double m_maxto,
-                               double nz_max,
-                               bool wing_delta,
-                               CargoDoor cargo_door,
-                               bool fuselage_lg,
-                               double wing_span,
-                               double wing_sweep,
-                               double wing_tr,
-                               double h_tail_arm,
-                               double press_vol,
-                               double v_cruise,
-                               double h_cruise,
-                               bool cargo_ramp );
+        double v_tip_fps = Units::mps2fps( m_rotor_tv );
 
-    Fuselage( const Aircraft *ac );
+        double mu_b = 1.0; // ?? flap natural frequency (blade)
+        double mu_h = 1.0; // ?? flap natural frequency (hub)
 
-    virtual ~Fuselage();
+        double chi_b = 1.0; // ?? technology factor (blade)
+        double chi_h = 1.0; // ?? technology factor (hub)
 
-    virtual void save( QDomDocument *doc, QDomElement *parentNode );
+        double w_b = chi_b * 0.02606 * n_rotor * pow( (double)m_rotor_nb, 0.6592 )
+                * pow( r_ft, 1.3371 ) * pow( c_ft, 0.9959 )
+                * pow( v_tip_fps, 0.6682 ) * pow( mu_b, 2.5279 );
 
-    virtual double getComputedMass() const;
-};
+        double w_h = chi_h * 0.003722 * n_rotor * pow( (double)m_rotor_nb, 0.2807 )
+                * pow( r_ft, 1.5377 ) * pow( v_tip_fps, 0.429 ) * pow( mu_h, 2.1414 )
+                * pow( w_b / n_rotor, 0.5505 );
+
+        double m_lb = w_b + w_h;
+
+        return Units::lb2kg( m_lb );
+    }
+
+    return 0.0;
+}
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#endif // FUSELAGE_H
+RotorMain::RotorMain( const Aircraft *ac ) :
+    Component( ac )
+{
+    setName( "Main Rotor" );
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+RotorMain::~RotorMain() {}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void RotorMain::save( QDomDocument *doc, QDomElement *parentNode )
+{
+    QDomElement node = doc->createElement( RotorMain::xml_tag );
+    parentNode->appendChild( node );
+
+    saveParameters( doc, &node );
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+double RotorMain::getComputedMass() const
+{
+    return computeMass( _ac->getType(),
+                        _ac->getMainRotorRad(),      //double m_rotor_r,
+                        _ac->getMainRotorChord(),    //double m_rotor_c,
+                        _ac->getMainRotorTipVel(),   //double m_rotor_tv,
+                        _ac->getMainRotorBlades() ); //int m_rotor_nb )
+}

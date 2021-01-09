@@ -133,6 +133,8 @@
 #include <mass/Fuselage.h>
 #include <mass/GearMain.h>
 #include <mass/GearNose.h>
+#include <mass/RotorMain.h>
+#include <mass/RotorTail.h>
 #include <mass/TailHor.h>
 #include <mass/TailVer.h>
 #include <mass/Wing.h>
@@ -167,6 +169,7 @@ bool Aircraft::read( QDomElement *parentNode )
             case FighterAttack   : _type = FighterAttack   ; break;
             case CargoTransport  : _type = CargoTransport  ; break;
             case GeneralAviation : _type = GeneralAviation ; break;
+            case Helicopter      : _type = Helicopter      ; break;
         }
 
         QDomElement nodeData = parentNode->firstChildElement( "data" );
@@ -194,6 +197,7 @@ bool Aircraft::read( QDomElement *parentNode )
             QDomElement nodeWettedArea = nodeData.firstChildElement( "wetted_area" );
             QDomElement nodePressVol   = nodeData.firstChildElement( "press_vol"   );
             QDomElement nodeFuselageLG = nodeData.firstChildElement( "fuselage_lg" );
+            QDomElement nodeCargoRamp  = nodeData.firstChildElement( "cargo_ramp"  );
 
             QDomElement nodeWingArea  = nodeData.firstChildElement( "wing_area"  );
             QDomElement nodeWingExp   = nodeData.firstChildElement( "wing_exp"   );
@@ -233,7 +237,8 @@ bool Aircraft::read( QDomElement *parentNode )
             QDomElement nodeRuddArea      = nodeData.firstChildElement( "rudd_area"      );
             QDomElement nodeVerTailAR     = nodeData.firstChildElement( "v_tail_ar"      );
             QDomElement nodeVerTailTR     = nodeData.firstChildElement( "v_tail_tr"      );
-            QDomElement nodeTailT = nodeData.firstChildElement( "t_tail" );
+            QDomElement nodeTailT         = nodeData.firstChildElement( "t_tail" );
+            QDomElement nodeVerTailRotor  = nodeData.firstChildElement( "v_tail_rotor" );
 
             QDomElement nodeMainGearL      = nodeData.firstChildElement( "m_gear_l"      );
             QDomElement nodeNoseGearL      = nodeData.firstChildElement( "n_gear_l"      );
@@ -246,7 +251,15 @@ bool Aircraft::read( QDomElement *parentNode )
             QDomElement nodeMainGearKneel  = nodeData.firstChildElement( "m_gear_kneel"  );
             QDomElement nodeNoseGearKneel  = nodeData.firstChildElement( "n_gear_kneel"  );
 
-            QDomElement nodeM_engine  = nodeData.firstChildElement( "m_engine" );
+            QDomElement nodeM_engine = nodeData.firstChildElement( "m_engine" );
+
+            QDomElement nodeMainRotorRad    = nodeData.firstChildElement( "m_rotor_r"   );
+            QDomElement nodeMainRotorChord  = nodeData.firstChildElement( "m_blades_c"  );
+            QDomElement nodeMainRotorRPM    = nodeData.firstChildElement( "m_rotor_rpm" );
+            QDomElement nodeTailRotorRad    = nodeData.firstChildElement( "t_rotor_r"   );
+            QDomElement nodePowerLimit      = nodeData.firstChildElement( "rotor_mcp"   );
+            QDomElement nodeMainRotorTipVel = nodeData.firstChildElement( "m_rotor_tv"  );
+            QDomElement nodeMainRotorBlades = nodeData.firstChildElement( "m_rotor_nb"  );
 
             if ( !nodeM_empty   .isNull()
               && !nodeM_maxTO   .isNull()
@@ -260,13 +273,14 @@ bool Aircraft::read( QDomElement *parentNode )
               && !nodeNavyAC    .isNull()
 
               && !nodeCargoDoor  .isNull()
-//              && !nodeFuseL      .isNull()
-//              && !nodeFuseH      .isNull()
-//              && !nodeFuseW      .isNull()
-//              && !nodeNoseL      .isNull()
+              && !nodeFuseL      .isNull()
+              && !nodeFuseH      .isNull()
+              && !nodeFuseW      .isNull()
+              && !nodeNoseL      .isNull()
               && !nodeWettedArea .isNull()
               && !nodePressVol   .isNull()
               && !nodeFuselageLG .isNull()
+              && !nodeCargoRamp  .isNull()
 
               && !nodeWingArea  .isNull()
               && !nodeWingExp   .isNull()
@@ -306,7 +320,8 @@ bool Aircraft::read( QDomElement *parentNode )
               && !nodeRuddArea      .isNull()
               && !nodeVerTailAR     .isNull()
               && !nodeVerTailTR     .isNull()
-              && !nodeTailT .isNull()
+              && !nodeTailT         .isNull()
+              && !nodeVerTailRotor  .isNull()
 
               && !nodeMainGearL      .isNull()
               && !nodeNoseGearL      .isNull()
@@ -320,6 +335,14 @@ bool Aircraft::read( QDomElement *parentNode )
               && !nodeNoseGearKneel  .isNull()
 
               && !nodeM_engine .isNull()
+
+              && !nodeMainRotorRad    .isNull()
+              && !nodeMainRotorChord  .isNull()
+              && !nodeMainRotorRPM    .isNull()
+              && !nodeTailRotorRad    .isNull()
+              && !nodePowerLimit      .isNull()
+              && !nodeMainRotorTipVel .isNull()
+              && !nodeMainRotorBlades .isNull()
                )
             {
                 // general
@@ -357,6 +380,7 @@ bool Aircraft::read( QDomElement *parentNode )
                 _wetted_area = nodeWettedArea .text().toDouble();
                 _press_vol   = nodePressVol   .text().toDouble();
                 _fuselage_lg = nodeFuselageLG .text().toInt();
+                _cargo_ramp  = nodeCargoRamp  .text().toInt();
 
                 // wing
                 _wing_area  = nodeWingArea  .text().toDouble();
@@ -403,6 +427,8 @@ bool Aircraft::read( QDomElement *parentNode )
 
                 _t_tail = nodeTailT.text().toInt();
 
+                _v_tail_rotor = nodeVerTailRotor.text().toInt();
+
                 // landing gear
                 _m_gear_l      = nodeMainGearL      .text().toDouble();
                 _n_gear_l      = nodeNoseGearL      .text().toDouble();
@@ -417,6 +443,15 @@ bool Aircraft::read( QDomElement *parentNode )
 
                 // engine
                 _m_engine = nodeM_engine.text().toDouble();
+
+                // rotors
+                _m_rotor_r   = nodeMainRotorRad    .text().toDouble();
+                _m_blades_c  = nodeMainRotorChord  .text().toDouble();
+                _m_rotor_rpm = nodeMainRotorRPM    .text().toDouble();
+                _t_rotor_r   = nodeTailRotorRad    .text().toDouble();
+                _rotor_mcp   = nodePowerLimit      .text().toDouble();
+                _m_rotor_tv  = nodeMainRotorTipVel .text().toDouble();
+                _m_rotor_nb  = nodeMainRotorBlades .text().toInt();
 
                 // components
                 QDomElement nodeComponent = nodeComponents.firstChildElement();
@@ -444,6 +479,14 @@ bool Aircraft::read( QDomElement *parentNode )
                     else if ( nodeComponent.tagName() == GearNose::xml_tag )
                     {
                         temp = new GearNose( this );
+                    }
+                    else if ( nodeComponent.tagName() == RotorMain::xml_tag )
+                    {
+                        temp = new RotorMain( this );
+                    }
+                    else if ( nodeComponent.tagName() == RotorTail::xml_tag )
+                    {
+                        temp = new RotorTail( this );
                     }
                     else if ( nodeComponent.tagName() == TailHor::xml_tag )
                     {
@@ -513,6 +556,7 @@ void Aircraft::save( QDomDocument *doc, QDomElement *parentNode )
     Xml::saveTextNode( doc, &nodeData, "wetted_area" , _wetted_area );
     Xml::saveTextNode( doc, &nodeData, "press_vol"   , _press_vol   );
     Xml::saveTextNode( doc, &nodeData, "fuselage_lg" , _fuselage_lg );
+    Xml::saveTextNode( doc, &nodeData, "cargo_ramp"  , _cargo_ramp  );
 
     // data - wing
     Xml::saveTextNode( doc, &nodeData, "wing_area"  , _wing_area  );
@@ -559,6 +603,8 @@ void Aircraft::save( QDomDocument *doc, QDomElement *parentNode )
 
     Xml::saveTextNode( doc, &nodeData, "t_tail", _t_tail );
 
+    Xml::saveTextNode( doc, &nodeData, "v_tail_rotor", _v_tail_rotor );
+
     // data - landing gear
     Xml::saveTextNode( doc, &nodeData, "m_gear_l"      , _m_gear_l      );
     Xml::saveTextNode( doc, &nodeData, "n_gear_l"      , _n_gear_l      );
@@ -573,6 +619,16 @@ void Aircraft::save( QDomDocument *doc, QDomElement *parentNode )
 
     // data - engine
     Xml::saveTextNode( doc, &nodeData, "m_engine"  , _m_engine );
+
+    // rotors
+    Xml::saveTextNode( doc, &nodeData, "m_rotor_r"   , _m_rotor_r   );
+    Xml::saveTextNode( doc, &nodeData, "m_blades_c"  , _m_blades_c  );
+    Xml::saveTextNode( doc, &nodeData, "m_rotor_rpm" , _m_rotor_rpm );
+    Xml::saveTextNode( doc, &nodeData, "t_rotor_r"   , _t_rotor_r   );
+    Xml::saveTextNode( doc, &nodeData, "rotor_mcp"   , _rotor_mcp   );
+    Xml::saveTextNode( doc, &nodeData, "m_rotor_tv"  , _m_rotor_tv  );
+
+    Xml::saveTextNode( doc, &nodeData, "m_rotor_nb"  , _m_rotor_nb  );
 
     // components
     QDomElement componentsNode = doc->createElement( "components" );
@@ -611,6 +667,7 @@ void Aircraft::reset()
     _wetted_area = 0.0;
     _press_vol   = 0.0;
     _fuselage_lg = false;
+    _cargo_ramp  = false;
 
     // wing
     _wing_area  = 0.0;
@@ -654,6 +711,7 @@ void Aircraft::reset()
     _v_tail_ar     = 0.0;
     _v_tail_tr     = 0.0;
     _t_tail = false;
+    _v_tail_rotor = false;
 
     // landing gear
     _m_gear_l = 0.0;
@@ -669,6 +727,15 @@ void Aircraft::reset()
 
     // engine
     _m_engine = 0.0;
+
+    // rotors
+    _m_rotor_r   = 0.0;
+    _m_blades_c  = 0.0;
+    _m_rotor_rpm = 0.0;
+    _t_rotor_r   = 0.0;
+    _rotor_mcp   = 0.0;
+    _m_rotor_tv  = 0.0;
+    _m_rotor_nb = 0;
 
     // RESULTS
     _centerOfMass.set( 0.0, 0.0, 0.0 );

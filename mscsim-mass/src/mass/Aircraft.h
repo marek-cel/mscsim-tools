@@ -217,7 +217,8 @@ public:
 
     inline double getWettedArea () const { return _wetted_area ; }
     inline double getPressVol   () const { return _press_vol   ; }
-    inline bool getFuselageLG() const { return _fuselage_lg; }
+    inline bool getFuselageLG () const { return _fuselage_lg; }
+    inline bool getCargoRamp  () const { return _cargo_ramp;  }
 
     // wing
 
@@ -267,6 +268,8 @@ public:
 
     inline bool getTailT() const { return _t_tail; }
 
+    inline bool getVerTailRotor() const { return _v_tail_rotor; }
+
     // landing gear
 
     inline double getMainGearLength () const { return _m_gear_l; }
@@ -286,6 +289,17 @@ public:
     // engine
 
     inline double getEngineMass() const { return _m_engine; }
+
+    // rotors
+
+    inline double getMainRotorRad    () const { return _m_rotor_r   ; }
+    inline double getMainRotorChord  () const { return _m_blades_c  ; }
+    inline double getMainRotorRPM    () const { return _m_rotor_rpm ; }
+    inline double getTailRotorRad    () const { return _t_rotor_r   ; }
+    inline double getPowerLimit      () const { return _rotor_mcp   ; }
+    inline double getMainRotorTipVel () const { return _m_rotor_tv  ; }
+
+    inline int getMainRotorBlades() const { return _m_rotor_nb ; }
 
 
     inline void setType( Type type ) { _type = type; }
@@ -315,7 +329,8 @@ public:
 
     inline void setWettedArea ( double wetted_area ) { _wetted_area = wetted_area ; }
     inline void setPressVol   ( double press_vol   ) { _press_vol   = press_vol   ; }
-    inline void setFuselageLG ( bool fuselage_lg ) { _fuselage_lg = fuselage_lg; }
+    inline void setFuselageLG ( bool fuselage_lg ) { _fuselage_lg = fuselage_lg ; }
+    inline void setCargoRamp  ( bool cargo_ramp  ) { _cargo_ramp  = cargo_ramp  ; }
 
     // wing
 
@@ -365,6 +380,8 @@ public:
 
     inline void setTailT( bool t_tail ) { _t_tail = t_tail; }
 
+    inline void setVerTailRotor( bool v_tail_rotor ) { _v_tail_rotor = v_tail_rotor; }
+
     // landing gear
 
     inline void setMainGearLength ( double m_gear_l ) { _m_gear_l = m_gear_l; }
@@ -384,6 +401,17 @@ public:
     // engine
 
     inline void setEngineMass( double m_engine ) { _m_engine = m_engine; }
+
+    // rotors
+
+    inline void setMainRotorRad    ( double m_rotor_r   ) { _m_rotor_r   = m_rotor_r   ; }
+    inline void setMainRotorChord  ( double m_blades_c  ) { _m_blades_c  = m_blades_c  ; }
+    inline void setMainRotorRPM    ( double m_rotor_rpm ) { _m_rotor_rpm = m_rotor_rpm ; }
+    inline void setTailRotorRad    ( double t_rotor_r   ) { _t_rotor_r   = t_rotor_r   ; }
+    inline void setPowerLimit      ( double rotor_mcp   ) { _rotor_mcp   = rotor_mcp   ; }
+    inline void setMainRotorTipVel ( double m_rotor_tv  ) { _m_rotor_tv  = m_rotor_tv  ; }
+
+    inline void setMainRotorBlades( int m_rotor_nb ) { _m_rotor_nb = m_rotor_nb ; }
 
 private:
 
@@ -417,6 +445,7 @@ private:
     double _wetted_area;        ///< [m^2] fuselage wetted area
     double _press_vol;          ///< [m^3] volume of pressurized section
     bool _fuselage_lg;          ///< specifies if main landing gear is fuselage mounted
+    bool _cargo_ramp;           ///< specifies if helicopter has a cargo ramp
 
     // Wing
     double _wing_area;          ///< [m^2] wing area
@@ -462,6 +491,7 @@ private:
     double _v_tail_tr;          ///< [-] vertical tail taper ratio
 
     bool _t_tail;               ///< specifies if T-tail
+    bool _v_tail_rotor;         ///< specifies if tail rotor is mounted on the vertical tail
 
     // Landing Gear
     double _m_gear_l;           ///< [m] extended main gear length
@@ -471,15 +501,25 @@ private:
     int _m_gear_struts;         ///< main gear struts number
     int _n_gear_wheels;         ///< nose gear wheels number
 
-    bool _gear_fixed;           ///<
-    bool _gear_cross;           ///<
-    bool _gear_tripod;          ///<
+    bool _gear_fixed;           ///< specifies if gear is fixed
+    bool _gear_cross;           ///< specifies if gear has a cross-beam (like F-111)
+    bool _gear_tripod;          ///< specifies if gear is a tripod (like A-7)
 
-    bool _m_gear_kneel;         ///<
-    bool _n_gear_kneel;         ///<
+    bool _m_gear_kneel;         ///< specifies if main gear is kneeling
+    bool _n_gear_kneel;         ///< specifies if nose gear is kneeling
 
     // Engine
     double _m_engine;           ///< [kg] engine mass
+
+    // Rotors
+    double _m_rotor_r;          ///< [m]   main rotor radius
+    double _m_blades_c;         ///< [m]   main rotor blades chord
+    double _m_rotor_rpm;        ///< [rpm] main rotor rotation speed
+    double _t_rotor_r;          ///< [m]   tail rotor radius
+    double _rotor_mcp;          ///< [hp]  drive system power limit (MCP)
+    double _m_rotor_tv;         ///< [m/s] main rotor blade tip velocity
+
+    int _m_rotor_nb;            ///< number of main rotor blades
 
     // RESULTS
 

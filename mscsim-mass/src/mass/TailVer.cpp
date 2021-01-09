@@ -149,7 +149,8 @@ double TailVer::computeMass( Type type,
                              bool h_tail_roll,
                              double mach_max,
                              double v_cruise,
-                             double h_cruise )
+                             double h_cruise,
+                             bool v_tail_rotor )
 {
     double s_vt = Units::sqm2sqft( v_tail_area );
 
@@ -229,6 +230,18 @@ double TailVer::computeMass( Type type,
                     * pow( lambda_vt, 0.039 );
         }
 
+        // NASA TP-2015-218751, p.230
+        if ( type == Helicopter )
+        {
+            double f_tr = v_tail_rotor ? 1.6311 : 1.0;
+
+            double chi_vt = 1.0; // ?? technology factor
+
+            m2_lb = chi_vt * 1.046 * f_tr * pow( s_vt, 0.9441 ) * pow( v_tail_ar, 0.5332 );
+
+            m1 = Units::lb2kg( m2_lb );
+        }
+
         m2 = Units::lb2kg( m2_lb );
     }
 
@@ -277,5 +290,6 @@ double TailVer::getComputedMass() const
                         _ac->getHorTailRolling(), // bool h_tail_roll,
                         _ac->getMachMax(),        // double mach_max,
                         _ac->getCruiseV(),        // double v_cruise,
-                        _ac->getCruiseH() );      // double h_cruise
+                        _ac->getCruiseH(),        // double h_cruise
+                        _ac->getVerTailRotor() );
 }

@@ -149,7 +149,8 @@ double Fuselage::computeMass( Type type,
                               double h_tail_arm,
                               double press_vol,
                               double v_cruise,
-                              double h_cruise )
+                              double h_cruise,
+                              bool cargo_ramp )
 {
     double s_f = Units::sqm2sqft( wetted_area );
 
@@ -238,6 +239,21 @@ double Fuselage::computeMass( Type type,
                             * pow( q_psf, 0.241 ) + w_press;
         }
 
+        // NASA TP-2015-218751, p.232
+        if ( type == Helicopter )
+        {
+            double f_ramp = cargo_ramp ? 1.3939 : 1.0;
+
+            double w_basic = 5.896 * f_ramp * pow( w_dg / 1000.0, 0.4908 )
+                    * pow( n_z, 0.1323 ) * pow( s_f, 0.2544 ) * pow( l_ft, 0.61 );
+
+            double chi_basic = 1.0; // ?? technology factor
+
+            m2_lb = chi_basic * w_basic;
+
+            m1 = Units::lb2kg( m2_lb );
+        }
+
         m2 = Units::lb2kg( m2_lb );
     }
 
@@ -288,5 +304,6 @@ double Fuselage::getComputedMass() const
                         _ac->getHorTailArm(), // double h_tail_arm,
                         _ac->getPressVol(),   // double press_vol,
                         _ac->getCruiseV(),    // double v_cruise,
-                        _ac->getCruiseH() );  // double h_cruise
+                        _ac->getCruiseH(),    // double h_cruise
+                        _ac->getCargoRamp() );
 }

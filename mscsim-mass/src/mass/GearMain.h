@@ -137,7 +137,7 @@
  *
  * @see Raymer D. P.: Aircraft Design: A Conceptual Approach, AIAA, 1992, p.398-407
  * @see Raymer D. P.: Aircraft Design: A Conceptual Approach, AIAA, 2018, p.568-579
- * @see Crabtree J. A.: Weight Estimation for Helicopter Design Analysis, The Society of Aeronautical Weight Engineers, 1958
+ * @see Johnson W.: NDARC NASA Design and Analysis of Rotorcraft, NASA TP-2015-218751, 2015, p.233
  */
 class GearMain : public Component
 {
