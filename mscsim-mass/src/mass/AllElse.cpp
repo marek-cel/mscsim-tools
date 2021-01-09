@@ -123,36 +123,97 @@
  *     party to this document and has no duty or obligation with respect to
  *     this CC0 or use of the Work.
  ******************************************************************************/
-#ifndef XML_H
-#define XML_H
+
+#include <mass/AllElse.h>
+
+#include <mass/Units.h>
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#include <QDomDocument>
-#include <QDomElement>
+const char AllElse::xml_tag[] = "all_else";
 
 ////////////////////////////////////////////////////////////////////////////////
 
-/**
- * @brief The Xml class.
- */
-class Xml
+double AllElse::computeMass( Type type,
+                             double m_maxto )
 {
-public:
+    double w_dg = Units::kg2lb( m_maxto );
 
-    static void saveTextNode( QDomDocument *doc, QDomElement *parent,
-                              const char *tag_name, const QString &text );
+    // Rayner: Aircraft Design, p.568, table 15.2
+    double m1 = 0.0;
+    {
+        if ( type == FighterAttack )
+        {
+            m1 = Units::lb2kg( 0.17 * w_dg );
+        }
 
-    static void saveTextNode( QDomDocument *doc, QDomElement *parent,
-                              const char *tag_name, double value );
+        if ( type == CargoTransport )
+        {
+            m1 = Units::lb2kg( 0.17 * w_dg );
+        }
 
-    static void saveTextNode( QDomDocument *doc, QDomElement *parent,
-                              const char *tag_name, int value );
+        if ( type == GeneralAviation )
+        {
+            m1 = Units::lb2kg( 0.1  * w_dg );
+        }
+    }
 
-    static void saveTextNode( QDomDocument *doc, QDomElement *parent,
-                              const char *tag_name, bool value );
-};
+    double m2 = 0.0;
+    {
+        double m2_lb = 0.0;
+
+        //
+        if ( type == FighterAttack )
+        {
+            m2_lb = Units::kg2lb( m1 );
+        }
+
+        //
+        if ( type == CargoTransport )
+        {
+            m2_lb = Units::kg2lb( m1 );
+        }
+
+        //
+        if ( type == GeneralAviation )
+        {
+            m2_lb = Units::kg2lb( m1 );
+        }
+
+        m2 = Units::lb2kg( m2_lb );
+    }
+
+    std::cout << "AllElse:  " << m1 << "  " << m2 << std::endl;
+
+    return ( m1 + m2 ) / 2.0;
+}
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#endif // XML_H
+AllElse::AllElse( const Aircraft *ac ) :
+    Component( ac )
+{
+    setName( "All-else Empty" );
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+AllElse::~AllElse() {}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void AllElse::save( QDomDocument *doc, QDomElement *parentNode )
+{
+    QDomElement node = doc->createElement( AllElse::xml_tag );
+    parentNode->appendChild( node );
+
+    saveParameters( doc, &node );
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+double AllElse::getComputedMass() const
+{
+    return computeMass( _ac->getType(),
+                        _ac->getM_maxTO() );
+}

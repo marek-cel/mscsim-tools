@@ -206,8 +206,11 @@ private:
     void addComponent();
     void editComponent();
 
+    void setAircraftType( Type type );
+
     void updateGUI();
     void updateTitleBar();
+    void updateWettedArea();
 
     void updateRecentFiles( QString file = "" );
 
@@ -235,16 +238,24 @@ private slots:
 
     void on_comboBoxAircraftType_currentIndexChanged( int index );
 
-    void on_spinBoxMassEmpty_valueChanged ( double arg1 );
-    void on_spinBoxMassMaxTO_valueChanged ( double arg1 );
-    void on_spinBoxMaxNz_valueChanged     ( double arg1 );
-    void on_spinBoxCruiseV_valueChanged   ( double arg1 );
-    void on_spinBoxCruiseH_valueChanged   ( double arg1 );
-    void on_spinBoxMachMax_valueChanged   ( double arg1 );
+    void on_spinBoxMassEmpty_valueChanged   ( double arg1 );
+    void on_spinBoxMassMaxTO_valueChanged   ( double arg1 );
+    void on_spinBoxMassMaxLand_valueChanged ( double arg1 );
+    void on_spinBoxMaxNz_valueChanged       ( double arg1 );
+    void on_spinBoxMaxNzLand_valueChanged   ( double arg1 );
+    void on_spinBoxStallV_valueChanged      ( double arg1 );
+    void on_spinBoxCruiseV_valueChanged     ( double arg1 );
+    void on_spinBoxCruiseH_valueChanged     ( double arg1 );
+    void on_spinBoxMachMax_valueChanged     ( double arg1 );
+    void on_checkBoxNavyAircraft_toggled ( bool checked );
 
     void on_comboBoxCargoDoor_currentIndexChanged( int index );
-    void on_spinBoxWettedArea_valueChanged ( double arg1 );
+    void on_spinBoxFuseLength_valueChanged ( double arg1 );
+    void on_spinBoxFuseHeight_valueChanged ( double arg1 );
+    void on_spinBoxFuseWidth_valueChanged  ( double arg1 );
+    void on_spinBoxNoseLength_valueChanged ( double arg1 );
     void on_spinBoxPressVol_valueChanged   ( double arg1 );
+    void on_spinBoxWettedArea_valueChanged ( double arg1 );
     void on_checkBoxFuselageLG_toggled( bool checked );
 
     void on_spinBoxWingArea_valueChanged  ( double arg1 );
@@ -286,6 +297,19 @@ private slots:
     void on_spinBoxVerTailAR_valueChanged     ( double arg1 );
     void on_spinBoxVerTailTR_valueChanged     ( double arg1 );
     void on_checkBoxTailT_toggled ( bool checked );
+
+    void on_spinBoxMainGearLength_valueChanged ( double arg1 );
+    void on_spinBoxNoseGearLength_valueChanged ( double arg1 );
+    void on_spinBoxMainGearWheels_valueChanged ( int arg1 );
+    void on_spinBoxMainGearStruts_valueChanged ( int arg1 );
+    void on_spinBoxNoseGearWheels_valueChanged ( int arg1 );
+    void on_checkBoxGearFixed_toggled  ( bool checked );
+    void on_checkBoxGearCross_toggled  ( bool checked );
+    void on_checkBoxGearTripod_toggled ( bool checked );
+    void on_checkBoxGearMainKneel_toggled ( bool checked );
+    void on_checkBoxGearNoseKneel_toggled ( bool checked );
+
+    void on_spinBoxEngineMass_valueChanged( double arg1 );
 };
 
 ////////////////////////////////////////////////////////////////////////////////

@@ -123,36 +123,98 @@
  *     party to this document and has no duty or obligation with respect to
  *     this CC0 or use of the Work.
  ******************************************************************************/
-#ifndef XML_H
-#define XML_H
+
+#include <mass/Engine.h>
+
+#include <mass/Atmosphere.h>
+#include <mass/Units.h>
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#include <QDomDocument>
-#include <QDomElement>
+const char Engine::xml_tag[] = "engine";
 
 ////////////////////////////////////////////////////////////////////////////////
 
-/**
- * @brief The Xml class.
- */
-class Xml
+double Engine::computeMass( Type type,
+                            double m_engine )
 {
-public:
+    double w_en = Units::kg2lb( m_engine );
 
-    static void saveTextNode( QDomDocument *doc, QDomElement *parent,
-                              const char *tag_name, const QString &text );
+    // Rayner: Aircraft Design, p.568, table 15.2
+    double m1 = 0.0;
+    {
+        if ( type == FighterAttack )
+        {
+            m1 = Units::lb2kg( 1.3 * w_en );
+        }
 
-    static void saveTextNode( QDomDocument *doc, QDomElement *parent,
-                              const char *tag_name, double value );
+        if ( type == CargoTransport )
+        {
+            m1 = Units::lb2kg( 1.3 * w_en );
+        }
 
-    static void saveTextNode( QDomDocument *doc, QDomElement *parent,
-                              const char *tag_name, int value );
+        if ( type == GeneralAviation )
+        {
+            m1 = Units::lb2kg( 1.4 * w_en );
+        }
+    }
 
-    static void saveTextNode( QDomDocument *doc, QDomElement *parent,
-                              const char *tag_name, bool value );
-};
+    double m2 = 0.0;
+    {
+        double m2_lb = 0.0;
+
+        //
+        if ( type == FighterAttack )
+        {
+            m2_lb = Units::kg2lb( m1 );
+        }
+
+        //
+        if ( type == CargoTransport )
+        {
+            m2_lb = Units::kg2lb( m1 );
+        }
+
+        //
+        if ( type == GeneralAviation )
+        {
+            m2_lb = Units::kg2lb( m1 );
+        }
+
+        m2 = Units::lb2kg( m2_lb );
+    }
+
+    std::cout << "Engine:  " << m1 << "  " << m2 << std::endl;
+
+    return ( m1 + m2 ) / 2.0;
+}
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#endif // XML_H
+Engine::Engine( const Aircraft *ac ) :
+    Component( ac )
+{
+    setName( "Engine" );
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+Engine::~Engine() {}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void Engine::save( QDomDocument *doc, QDomElement *parentNode )
+{
+    QDomElement node = doc->createElement( Engine::xml_tag );
+    parentNode->appendChild( node );
+
+    saveParameters( doc, &node );
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+double Engine::getComputedMass() const
+{
+    return computeMass( _ac->getType(),
+                        _ac->getEngineMass() );
+}

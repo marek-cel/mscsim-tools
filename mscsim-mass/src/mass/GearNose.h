@@ -123,36 +123,61 @@
  *     party to this document and has no duty or obligation with respect to
  *     this CC0 or use of the Work.
  ******************************************************************************/
-#ifndef XML_H
-#define XML_H
+#ifndef GEARNOSE_H
+#define GEARNOSE_H
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#include <QDomDocument>
-#include <QDomElement>
+#include <mass/Component.h>
 
 ////////////////////////////////////////////////////////////////////////////////
 
 /**
- * @brief The Xml class.
+ * @brief The GearNose class.
+ *
+ * @see Raymer D. P.: Aircraft Design: A Conceptual Approach, AIAA, 1992, p.398-407
+ * @see Raymer D. P.: Aircraft Design: A Conceptual Approach, AIAA, 2018, p.568-579
  */
-class Xml
+class GearNose : public Component
 {
 public:
 
-    static void saveTextNode( QDomDocument *doc, QDomElement *parent,
-                              const char *tag_name, const QString &text );
+    static const char xml_tag[];
 
-    static void saveTextNode( QDomDocument *doc, QDomElement *parent,
-                              const char *tag_name, double value );
+    /**
+     * @brief Computes landing gear mass.
+     * @param type aircraft type
+     * @param m_empty [kg] aircraft empty mass
+     * @param m_maxto [kg] maximum take-off mass
+     * @param m_max_land [kg] maximum landing mass
+     * @param nz_max_land [-] maximum allowed landing nz
+     * @param n_gear_l [m] extended nose gear length
+     * @param n_gear_wheels number of nose gear wheels
+     * @param navy_aircraft specifies
+     * @param gear_fixed
+     * @param n_gear_kneeling
+     * @return nose landing gear mass expressed in kg
+     */
+    static double computeMass( Type type,
+                               double m_empty,
+                               double m_maxto,
+                               double m_max_land,
+                               double nz_max_land,
+                               double n_gear_l,
+                               int n_gear_wheels,
+                               bool navy_aircraft,
+                               bool gear_fixed,
+                               bool n_gear_kneeling );
 
-    static void saveTextNode( QDomDocument *doc, QDomElement *parent,
-                              const char *tag_name, int value );
+    GearNose( const Aircraft *ac );
 
-    static void saveTextNode( QDomDocument *doc, QDomElement *parent,
-                              const char *tag_name, bool value );
+    virtual ~GearNose();
+
+    virtual void save( QDomDocument *doc, QDomElement *parentNode );
+
+    virtual double getComputedMass() const;
 };
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#endif // XML_H
+#endif // GEARNOSE_H

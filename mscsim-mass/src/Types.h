@@ -135,7 +135,8 @@ enum Type
 {
     FighterAttack   = 0,    ///< Fighter/Attack
     CargoTransport  = 1,    ///< Cargo/Transport/Bombers
-    GeneralAviation = 2     ///< General Aviation
+    GeneralAviation = 2,    ///< General Aviation
+    Helicopter              ///< Helicopter
 };
 
 ////////////////////////////////////////////////////////////////////////////////

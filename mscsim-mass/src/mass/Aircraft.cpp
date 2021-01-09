@@ -128,9 +128,13 @@
 
 #include <Xml.h>
 
+#include <mass/AllElse.h>
+#include <mass/Engine.h>
 #include <mass/Fuselage.h>
-#include <mass/TailH.h>
-#include <mass/TailV.h>
+#include <mass/GearMain.h>
+#include <mass/GearNose.h>
+#include <mass/TailHor.h>
+#include <mass/TailVer.h>
 #include <mass/Wing.h>
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -171,14 +175,22 @@ bool Aircraft::read( QDomElement *parentNode )
         if ( !nodeData.isNull() && !nodeComponents.isNull() )
         {
             // data
-            QDomElement nodeM_empty = nodeData.firstChildElement( "m_empty"  );
-            QDomElement nodeM_maxto = nodeData.firstChildElement( "m_maxto"  );
-            QDomElement nodeNzMax   = nodeData.firstChildElement( "nz_max"   );
-            QDomElement nodeCruiseH = nodeData.firstChildElement( "h_cruise" );
-            QDomElement nodeCruiseV = nodeData.firstChildElement( "v_cruise" );
-            QDomElement nodeMachMax = nodeData.firstChildElement( "mach_max" );
+            QDomElement nodeM_empty   = nodeData.firstChildElement( "m_empty"     );
+            QDomElement nodeM_maxTO   = nodeData.firstChildElement( "m_max_to"    );
+            QDomElement nodeM_maxLand = nodeData.firstChildElement( "m_max_land"  );
+            QDomElement nodeNzMax     = nodeData.firstChildElement( "nz_max"      );
+            QDomElement nodeNzMaxLand = nodeData.firstChildElement( "nz_max_land" );
+            QDomElement nodeStallV    = nodeData.firstChildElement( "stall_v"     );
+            QDomElement nodeCruiseH   = nodeData.firstChildElement( "h_cruise"    );
+            QDomElement nodeCruiseV   = nodeData.firstChildElement( "v_cruise"    );
+            QDomElement nodeMachMax   = nodeData.firstChildElement( "mach_max"    );
+            QDomElement nodeNavyAC    = nodeData.firstChildElement( "navy_ac"     );
 
             QDomElement nodeCargoDoor  = nodeData.firstChildElement( "cargo_door"  );
+            QDomElement nodeFuseL      = nodeData.firstChildElement( "fuse_l"      );
+            QDomElement nodeFuseH      = nodeData.firstChildElement( "fuse_h"      );
+            QDomElement nodeFuseW      = nodeData.firstChildElement( "fuse_w"      );
+            QDomElement nodeNoseL      = nodeData.firstChildElement( "nose_l"      );
             QDomElement nodeWettedArea = nodeData.firstChildElement( "wetted_area" );
             QDomElement nodePressVol   = nodeData.firstChildElement( "press_vol"   );
             QDomElement nodeFuselageLG = nodeData.firstChildElement( "fuselage_lg" );
@@ -223,14 +235,35 @@ bool Aircraft::read( QDomElement *parentNode )
             QDomElement nodeVerTailTR     = nodeData.firstChildElement( "v_tail_tr"      );
             QDomElement nodeTailT = nodeData.firstChildElement( "t_tail" );
 
-            if ( !nodeM_empty .isNull()
-              && !nodeM_maxto .isNull()
-              && !nodeNzMax   .isNull()
-              && !nodeCruiseH .isNull()
-              && !nodeCruiseV .isNull()
-              && !nodeMachMax .isNull()
+            QDomElement nodeMainGearL      = nodeData.firstChildElement( "m_gear_l"      );
+            QDomElement nodeNoseGearL      = nodeData.firstChildElement( "n_gear_l"      );
+            QDomElement nodeMainGearWheels = nodeData.firstChildElement( "m_gear_wheels" );
+            QDomElement nodeMainGearStruts = nodeData.firstChildElement( "m_gear_struts" );
+            QDomElement nodeNoseGearWheels = nodeData.firstChildElement( "n_gear_wheels" );
+            QDomElement nodeGearFixed      = nodeData.firstChildElement( "gear_fixed"    );
+            QDomElement nodeGearCross      = nodeData.firstChildElement( "gear_cross"    );
+            QDomElement nodeGearTripod     = nodeData.firstChildElement( "gear_tripod"   );
+            QDomElement nodeMainGearKneel  = nodeData.firstChildElement( "m_gear_kneel"  );
+            QDomElement nodeNoseGearKneel  = nodeData.firstChildElement( "n_gear_kneel"  );
+
+            QDomElement nodeM_engine  = nodeData.firstChildElement( "m_engine" );
+
+            if ( !nodeM_empty   .isNull()
+              && !nodeM_maxTO   .isNull()
+              && !nodeM_maxLand .isNull()
+              && !nodeNzMax     .isNull()
+              && !nodeNzMaxLand .isNull()
+              && !nodeStallV    .isNull()
+              && !nodeCruiseH   .isNull()
+              && !nodeCruiseV   .isNull()
+              && !nodeMachMax   .isNull()
+              && !nodeNavyAC    .isNull()
 
               && !nodeCargoDoor  .isNull()
+//              && !nodeFuseL      .isNull()
+//              && !nodeFuseH      .isNull()
+//              && !nodeFuseW      .isNull()
+//              && !nodeNoseL      .isNull()
               && !nodeWettedArea .isNull()
               && !nodePressVol   .isNull()
               && !nodeFuselageLG .isNull()
@@ -274,15 +307,33 @@ bool Aircraft::read( QDomElement *parentNode )
               && !nodeVerTailAR     .isNull()
               && !nodeVerTailTR     .isNull()
               && !nodeTailT .isNull()
+
+              && !nodeMainGearL      .isNull()
+              && !nodeNoseGearL      .isNull()
+              && !nodeMainGearWheels .isNull()
+              && !nodeMainGearStruts .isNull()
+              && !nodeNoseGearWheels .isNull()
+              && !nodeGearFixed      .isNull()
+              && !nodeGearCross      .isNull()
+              && !nodeGearTripod     .isNull()
+              && !nodeMainGearKneel  .isNull()
+              && !nodeNoseGearKneel  .isNull()
+
+              && !nodeM_engine .isNull()
                )
             {
                 // general
-                _m_empty  = nodeM_empty .text().toDouble();
-                _m_maxto  = nodeM_maxto .text().toDouble();
-                _nz_max   = nodeNzMax   .text().toDouble();
-                _h_cruise = nodeCruiseH .text().toDouble();
-                _v_cruise = nodeCruiseV .text().toDouble();
-                _mach_max = nodeMachMax .text().toDouble();
+                _m_empty    = nodeM_empty   .text().toDouble();
+                _m_maxTO    = nodeM_maxTO   .text().toDouble();
+                _m_maxLand  = nodeM_maxLand .text().toDouble();
+                _nz_max     = nodeNzMax     .text().toDouble();
+                _nz_maxLand = nodeNzMaxLand .text().toDouble();
+                _stall_v    = nodeStallV    .text().toDouble();
+                _h_cruise   = nodeCruiseH   .text().toDouble();
+                _v_cruise   = nodeCruiseV   .text().toDouble();
+                _mach_max   = nodeMachMax   .text().toDouble();
+
+                _navy_ac = nodeNavyAC.text().toInt();
 
                 // fuselage
                 int cargo_door_temp = nodeCargoDoor.text().toInt();
@@ -297,6 +348,11 @@ bool Aircraft::read( QDomElement *parentNode )
                     case AftClamshellDoor  : _cargo_door = AftClamshellDoor  ; break;
                     case TwoSideAndAftDoor : _cargo_door = TwoSideAndAftDoor ; break;
                 }
+
+                _fuse_l = nodeFuseL.text().toDouble();
+                _fuse_h = nodeFuseH.text().toDouble();
+                _fuse_w = nodeFuseW.text().toDouble();
+                _nose_l = nodeNoseL.text().toDouble();
 
                 _wetted_area = nodeWettedArea .text().toDouble();
                 _press_vol   = nodePressVol   .text().toDouble();
@@ -347,6 +403,21 @@ bool Aircraft::read( QDomElement *parentNode )
 
                 _t_tail = nodeTailT.text().toInt();
 
+                // landing gear
+                _m_gear_l      = nodeMainGearL      .text().toDouble();
+                _n_gear_l      = nodeNoseGearL      .text().toDouble();
+                _m_gear_wheels = nodeMainGearWheels .text().toInt();
+                _m_gear_struts = nodeMainGearStruts .text().toInt();
+                _n_gear_wheels = nodeNoseGearWheels .text().toInt();
+                _gear_fixed    = nodeGearFixed      .text().toInt();
+                _gear_cross    = nodeGearCross      .text().toInt();
+                _gear_tripod   = nodeGearTripod     .text().toInt();
+                _m_gear_kneel  = nodeMainGearKneel  .text().toInt();
+                _n_gear_kneel  = nodeNoseGearKneel  .text().toInt();
+
+                // engine
+                _m_engine = nodeM_engine.text().toDouble();
+
                 // components
                 QDomElement nodeComponent = nodeComponents.firstChildElement();
 
@@ -354,21 +425,37 @@ bool Aircraft::read( QDomElement *parentNode )
                 {
                     Component *temp = NULLPTR;
 
-                    if     ( nodeComponent.tagName() == Fuselage::xml_tag )
+                    if      ( nodeComponent.tagName() == AllElse::xml_tag )
+                    {
+                        temp = new AllElse( this );
+                    }
+                    else if ( nodeComponent.tagName() == Engine::xml_tag )
+                    {
+                        temp = new Engine( this );
+                    }
+                    else if ( nodeComponent.tagName() == Fuselage::xml_tag )
                     {
                         temp = new Fuselage( this );
+                    }
+                    else if ( nodeComponent.tagName() == GearMain::xml_tag )
+                    {
+                        temp = new GearMain( this );
+                    }
+                    else if ( nodeComponent.tagName() == GearNose::xml_tag )
+                    {
+                        temp = new GearNose( this );
+                    }
+                    else if ( nodeComponent.tagName() == TailHor::xml_tag )
+                    {
+                        temp = new TailHor( this );
+                    }
+                    else if ( nodeComponent.tagName() == TailVer::xml_tag )
+                    {
+                        temp = new TailVer( this );
                     }
                     else if ( nodeComponent.tagName() == Wing::xml_tag )
                     {
                         temp = new Wing( this );
-                    }
-                    else if ( nodeComponent.tagName() == TailH::xml_tag )
-                    {
-                        temp = new TailH( this );
-                    }
-                    else if ( nodeComponent.tagName() == TailV::xml_tag )
-                    {
-                        temp = new TailV( this );
                     }
 
                     if ( temp )
@@ -403,15 +490,25 @@ void Aircraft::save( QDomDocument *doc, QDomElement *parentNode )
     parentNode->appendChild( nodeData );
 
     // data - general
-    Xml::saveTextNode( doc, &nodeData, "m_empty"   , _m_empty  );
-    Xml::saveTextNode( doc, &nodeData, "m_maxto"   , _m_maxto  );
-    Xml::saveTextNode( doc, &nodeData, "nz_max"    , _nz_max   );
-    Xml::saveTextNode( doc, &nodeData, "h_cruise"  , _h_cruise );
-    Xml::saveTextNode( doc, &nodeData, "v_cruise"  , _v_cruise );
-    Xml::saveTextNode( doc, &nodeData, "mach_max"  , _mach_max );
+    Xml::saveTextNode( doc, &nodeData, "m_empty"     , _m_empty    );
+    Xml::saveTextNode( doc, &nodeData, "m_max_to"    , _m_maxTO    );
+    Xml::saveTextNode( doc, &nodeData, "m_max_land"  , _m_maxLand  );
+    Xml::saveTextNode( doc, &nodeData, "nz_max"      , _nz_max     );
+    Xml::saveTextNode( doc, &nodeData, "nz_max_land" , _nz_maxLand );
+    Xml::saveTextNode( doc, &nodeData, "stall_v"     , _stall_v    );
+    Xml::saveTextNode( doc, &nodeData, "h_cruise"    , _h_cruise   );
+    Xml::saveTextNode( doc, &nodeData, "v_cruise"    , _v_cruise   );
+    Xml::saveTextNode( doc, &nodeData, "mach_max"    , _mach_max   );
+
+    Xml::saveTextNode( doc, &nodeData, "navy_ac", _navy_ac );
 
     // data - fuselage
     Xml::saveTextNode( doc, &nodeData, "cargo_door" , QString::number( _cargo_door ) );
+
+    Xml::saveTextNode( doc, &nodeData, "fuse_l" , _fuse_l );
+    Xml::saveTextNode( doc, &nodeData, "fuse_h" , _fuse_h );
+    Xml::saveTextNode( doc, &nodeData, "fuse_w" , _fuse_w );
+    Xml::saveTextNode( doc, &nodeData, "nose_l" , _nose_l );
 
     Xml::saveTextNode( doc, &nodeData, "wetted_area" , _wetted_area );
     Xml::saveTextNode( doc, &nodeData, "press_vol"   , _press_vol   );
@@ -462,6 +559,21 @@ void Aircraft::save( QDomDocument *doc, QDomElement *parentNode )
 
     Xml::saveTextNode( doc, &nodeData, "t_tail", _t_tail );
 
+    // data - landing gear
+    Xml::saveTextNode( doc, &nodeData, "m_gear_l"      , _m_gear_l      );
+    Xml::saveTextNode( doc, &nodeData, "n_gear_l"      , _n_gear_l      );
+    Xml::saveTextNode( doc, &nodeData, "m_gear_wheels" , _m_gear_wheels );
+    Xml::saveTextNode( doc, &nodeData, "m_gear_struts" , _m_gear_struts );
+    Xml::saveTextNode( doc, &nodeData, "n_gear_wheels" , _n_gear_wheels );
+    Xml::saveTextNode( doc, &nodeData, "gear_fixed"    , _gear_fixed    );
+    Xml::saveTextNode( doc, &nodeData, "gear_cross"    , _gear_cross    );
+    Xml::saveTextNode( doc, &nodeData, "gear_tripod"   , _gear_tripod   );
+    Xml::saveTextNode( doc, &nodeData, "m_gear_kneel"  , _m_gear_kneel  );
+    Xml::saveTextNode( doc, &nodeData, "n_gear_kneel"  , _n_gear_kneel  );
+
+    // data - engine
+    Xml::saveTextNode( doc, &nodeData, "m_engine"  , _m_engine );
+
     // components
     QDomElement componentsNode = doc->createElement( "components" );
     parentNode->appendChild( componentsNode );
@@ -479,15 +591,23 @@ void Aircraft::reset()
     _type = FighterAttack;
 
     // general
-    _m_empty  = 0.0;
-    _m_maxto  = 0.0;
-    _nz_max   = 1.0;
-    _h_cruise = 0.0;
-    _v_cruise = 0.0;
-    _mach_max = 0.0;
+    _m_empty    = 0.0;
+    _m_maxTO    = 0.0;
+    _m_maxLand  = 0.0;
+    _nz_max     = 1.0;
+    _nz_maxLand = 1.0;
+    _stall_v    = 0.0;
+    _h_cruise   = 0.0;
+    _v_cruise   = 0.0;
+    _mach_max   = 0.0;
+    _navy_ac = false;
 
     // fuselage
     _cargo_door = NoCargoDoor;
+    _fuse_l = 0.0;
+    _fuse_h = 0.0;
+    _fuse_w = 0.0;
+    _nose_l = 0.0;
     _wetted_area = 0.0;
     _press_vol   = 0.0;
     _fuselage_lg = false;
@@ -535,6 +655,22 @@ void Aircraft::reset()
     _v_tail_tr     = 0.0;
     _t_tail = false;
 
+    // landing gear
+    _m_gear_l = 0.0;
+    _n_gear_l = 0.0;
+    _m_gear_wheels = 0;
+    _m_gear_struts = 0;
+    _n_gear_wheels = 0;
+    _gear_fixed   = false;
+    _gear_cross   = false;
+    _gear_tripod  = false;
+    _m_gear_kneel = false;
+    _n_gear_kneel = false;
+
+    // engine
+    _m_engine = 0.0;
+
+    // RESULTS
     _centerOfMass.set( 0.0, 0.0, 0.0 );
 
     _inertiaMatrix.set( 0.0, 0.0, 0.0,

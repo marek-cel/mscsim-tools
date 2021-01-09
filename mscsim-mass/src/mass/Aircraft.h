@@ -194,16 +194,26 @@ public:
 
     // general
 
-    inline double getM_empty () const { return _m_empty  ; }
-    inline double getM_maxto () const { return _m_maxto  ; }
-    inline double getNzMax   () const { return _nz_max   ; }
-    inline double getCruiseH () const { return _h_cruise ; }
-    inline double getCruiseV () const { return _v_cruise ; }
-    inline double getMachMax () const { return _mach_max ; }
+    inline double getM_empty   () const { return _m_empty    ; }
+    inline double getM_maxTO   () const { return _m_maxTO    ; }
+    inline double getM_maxLand () const { return _m_maxLand  ; }
+    inline double getNzMax     () const { return _nz_max     ; }
+    inline double getNzMaxLand () const { return _nz_maxLand ; }
+    inline double getStallV    () const { return _stall_v    ; }
+    inline double getCruiseH   () const { return _h_cruise   ; }
+    inline double getCruiseV   () const { return _v_cruise   ; }
+    inline double getMachMax   () const { return _mach_max   ; }
+
+    inline bool getNavyAircraft() const { return _navy_ac; }
 
     // fuselage
 
     inline CargoDoor getCargoDoor() const { return _cargo_door; }
+
+    inline double getFuseLength () const { return _fuse_l; }
+    inline double getFuseHeight () const { return _fuse_h; }
+    inline double getFuseWidth  () const { return _fuse_w; }
+    inline double getNoseLength () const { return _nose_l; }
 
     inline double getWettedArea () const { return _wetted_area ; }
     inline double getPressVol   () const { return _press_vol   ; }
@@ -257,20 +267,51 @@ public:
 
     inline bool getTailT() const { return _t_tail; }
 
+    // landing gear
+
+    inline double getMainGearLength () const { return _m_gear_l; }
+    inline double getNoseGearLength () const { return _n_gear_l; }
+
+    inline int getMainGearWheels () const { return _m_gear_wheels; }
+    inline int getMainGearStruts () const { return _m_gear_struts; }
+    inline int getNoseGearWheels () const { return _n_gear_wheels; }
+
+    inline bool getGearFixed  () const { return _gear_fixed;  }
+    inline bool getGearCross  () const { return _gear_cross;  }
+    inline bool getGearTripod () const { return _gear_tripod; }
+
+    inline bool getGearMainKneel () const { return _m_gear_kneel; }
+    inline bool getGearNoseKneel () const { return _n_gear_kneel; }
+
+    // engine
+
+    inline double getEngineMass() const { return _m_engine; }
+
+
     inline void setType( Type type ) { _type = type; }
 
     // general
 
-    inline void setM_empty ( double m_empty  ) { _m_empty  = m_empty  ; }
-    inline void setM_maxto ( double m_maxto  ) { _m_maxto  = m_maxto  ; }
-    inline void setNzMax   ( double nz_max   ) { _nz_max   = nz_max   ; }
-    inline void setCruiseH ( double h_cruise ) { _h_cruise = h_cruise ; }
-    inline void setCruiseV ( double v_cruise ) { _v_cruise = v_cruise ; }
-    inline void setMachMax ( double mach_max ) { _mach_max = mach_max ; }
+    inline void setM_empty   ( double m_empty   ) { _m_empty    = m_empty   ; }
+    inline void setM_maxTO   ( double m_maxto   ) { _m_maxTO    = m_maxto   ; }
+    inline void setM_maxLand ( double m_maxLand ) { _m_maxLand  = m_maxLand ; }
+    inline void setNzMax     ( double nz_max    ) { _nz_max     = nz_max    ; }
+    inline void setNzMaxLand ( double nz_max    ) { _nz_maxLand = nz_max    ; }
+    inline void setStallV    ( double stall_v   ) { _stall_v    = stall_v   ; }
+    inline void setCruiseH   ( double h_cruise  ) { _h_cruise   = h_cruise  ; }
+    inline void setCruiseV   ( double v_cruise  ) { _v_cruise   = v_cruise  ; }
+    inline void setMachMax   ( double mach_max  ) { _mach_max   = mach_max  ; }
+
+    inline void setNavyAircraft( bool navy_ac) { _navy_ac = navy_ac; }
 
     // fuselage
 
     inline void setCargoDoor( CargoDoor cargo_door ) { _cargo_door = cargo_door; }
+
+    inline void setFuseLength ( double fuse_l ) { _fuse_l = fuse_l; }
+    inline void setFuseHeight ( double fuse_h ) { _fuse_h = fuse_h; }
+    inline void setFuseWidth  ( double fuse_w ) { _fuse_w = fuse_w; }
+    inline void setNoseLength ( double nose_l ) { _nose_l = nose_l; }
 
     inline void setWettedArea ( double wetted_area ) { _wetted_area = wetted_area ; }
     inline void setPressVol   ( double press_vol   ) { _press_vol   = press_vol   ; }
@@ -324,6 +365,26 @@ public:
 
     inline void setTailT( bool t_tail ) { _t_tail = t_tail; }
 
+    // landing gear
+
+    inline void setMainGearLength ( double m_gear_l ) { _m_gear_l = m_gear_l; }
+    inline void setNoseGearLength ( double n_gear_l ) { _n_gear_l = n_gear_l; }
+
+    inline void setMainGearWheels ( int m_gear_wheels ) { _m_gear_wheels = m_gear_wheels; }
+    inline void setMainGearStruts ( int m_gear_struts ) { _m_gear_struts = m_gear_struts; }
+    inline void setNoseGearWheels ( int n_gear_wheels ) { _n_gear_wheels = n_gear_wheels; }
+
+    inline void setGearFixed  ( bool gear_fixed  ) { _gear_fixed  = gear_fixed  ; }
+    inline void setGearCross  ( bool gear_cross  ) { _gear_cross  = gear_cross  ; }
+    inline void setGearTripod ( bool gear_tripod ) { _gear_tripod = gear_tripod ; }
+
+    inline void setGearMainKneel ( bool m_gear_kneel ) { _m_gear_kneel = m_gear_kneel; }
+    inline void setGearNoseKneel ( bool n_gear_kneel ) { _n_gear_kneel = n_gear_kneel; }
+
+    // engine
+
+    inline void setEngineMass( double m_engine ) { _m_engine = m_engine; }
+
 private:
 
     Components _components;     ///< mass components
@@ -334,14 +395,24 @@ private:
 
     // General
     double _m_empty;            ///< [kg] empty mass
-    double _m_maxto;            ///< [kg] maximum take-off mass
+    double _m_maxTO;            ///< [kg] maximum take-off mass
+    double _m_maxLand;          ///< [kg] maximum landing mass
     double _nz_max;             ///< [-] Nz max
+    double _nz_maxLand;         ///< [-] Nz max (landing)
+    double _stall_v;            ///< [kts] stall speed
     double _h_cruise;           ///< [ft]  cruise altitude
     double _v_cruise;           ///< [kts] cruise speed
     double _mach_max;           ///< [-] maximum design Mach number
 
+    bool _navy_ac;              ///< specifies if aircraft is navy carrier aircraft
+
     // Fuselage
     CargoDoor _cargo_door;      ///< cargo door type
+
+    double _fuse_l;             ///< [m] fuselage length
+    double _fuse_h;             ///< [m] fuselage height
+    double _fuse_w;             ///< [m] fuselage width
+    double _nose_l;             ///< [m] nose length
 
     double _wetted_area;        ///< [m^2] fuselage wetted area
     double _press_vol;          ///< [m^3] volume of pressurized section
@@ -391,6 +462,24 @@ private:
     double _v_tail_tr;          ///< [-] vertical tail taper ratio
 
     bool _t_tail;               ///< specifies if T-tail
+
+    // Landing Gear
+    double _m_gear_l;           ///< [m] extended main gear length
+    double _n_gear_l;           ///< [m] extended nose gear length
+
+    int _m_gear_wheels;         ///< main gear wheels number
+    int _m_gear_struts;         ///< main gear struts number
+    int _n_gear_wheels;         ///< nose gear wheels number
+
+    bool _gear_fixed;           ///<
+    bool _gear_cross;           ///<
+    bool _gear_tripod;          ///<
+
+    bool _m_gear_kneel;         ///<
+    bool _n_gear_kneel;         ///<
+
+    // Engine
+    double _m_engine;           ///< [kg] engine mass
 
     // RESULTS
 

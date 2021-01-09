@@ -149,6 +149,14 @@ void Xml::saveTextNode( QDomDocument *doc, QDomElement *parent,
 ////////////////////////////////////////////////////////////////////////////////
 
 void Xml::saveTextNode( QDomDocument *doc, QDomElement *parent,
+                        const char *tag_name, int value )
+{
+    saveTextNode( doc, parent, tag_name, QString::number( value ) );
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void Xml::saveTextNode( QDomDocument *doc, QDomElement *parent,
                         const char *tag_name, bool value )
 {
     saveTextNode( doc, parent, tag_name, QString( value ? "1" : "0" ) );

@@ -123,36 +123,70 @@
  *     party to this document and has no duty or obligation with respect to
  *     this CC0 or use of the Work.
  ******************************************************************************/
-#ifndef XML_H
-#define XML_H
+#ifndef GEARMAIN_H
+#define GEARMAIN_H
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#include <QDomDocument>
-#include <QDomElement>
+#include <mass/Component.h>
 
 ////////////////////////////////////////////////////////////////////////////////
 
 /**
- * @brief The Xml class.
+ * @brief The GearMain class.
+ *
+ * @see Raymer D. P.: Aircraft Design: A Conceptual Approach, AIAA, 1992, p.398-407
+ * @see Raymer D. P.: Aircraft Design: A Conceptual Approach, AIAA, 2018, p.568-579
+ * @see Crabtree J. A.: Weight Estimation for Helicopter Design Analysis, The Society of Aeronautical Weight Engineers, 1958
  */
-class Xml
+class GearMain : public Component
 {
 public:
 
-    static void saveTextNode( QDomDocument *doc, QDomElement *parent,
-                              const char *tag_name, const QString &text );
+    static const char xml_tag[];
 
-    static void saveTextNode( QDomDocument *doc, QDomElement *parent,
-                              const char *tag_name, double value );
+    /**
+     * @brief Computes main landing gear mass.
+     * @param type aircraft type
+     * @param m_empty [kg] aircraft empty mass
+     * @param m_maxto [kg] maximum take-off mass
+     * @param m_max_land [kg] maximum landing mass
+     * @param nz_max_land [-] maximum allowed landing nz
+     * @param m_gear_l [m] extended main gear length
+     * @param v_stall [kts] stall speed
+     * @param m_gear_wheels number of main gear wheels
+     * @param m_gear_struts number of main gear struts
+     * @param navy_aircraft
+     * @param gear_fixed
+     * @param gear_cross
+     * @param gear_tripod
+     * @param m_gear_kneeling
+     * @return main landing gear mass expressed in kg
+     */
+    static double computeMass( Type type,
+                               double m_empty,
+                               double m_max_to,
+                               double m_max_land,
+                               double nz_max_land,
+                               double m_gear_l,
+                               double v_stall,
+                               int m_gear_wheels,
+                               int m_gear_struts,
+                               bool navy_aircraft,
+                               bool gear_fixed,
+                               bool gear_cross,
+                               bool gear_tripod,
+                               bool m_gear_kneeling );
 
-    static void saveTextNode( QDomDocument *doc, QDomElement *parent,
-                              const char *tag_name, int value );
+    GearMain( const Aircraft *ac );
 
-    static void saveTextNode( QDomDocument *doc, QDomElement *parent,
-                              const char *tag_name, bool value );
+    virtual ~GearMain();
+
+    virtual void save( QDomDocument *doc, QDomElement *parentNode );
+
+    virtual double getComputedMass() const;
 };
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#endif // XML_H
+#endif // GEARMAIN_H

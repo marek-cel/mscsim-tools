@@ -123,67 +123,138 @@
  *     party to this document and has no duty or obligation with respect to
  *     this CC0 or use of the Work.
  ******************************************************************************/
-#ifndef TAIL_H
-#define TAIL_H
+
+#include <mass/GearMain.h>
+
+#include <mass/Atmosphere.h>
+#include <mass/Units.h>
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#include <mass/Component.h>
+const char GearMain::xml_tag[] = "gear_main";
 
 ////////////////////////////////////////////////////////////////////////////////
 
-/**
- * @brief The TailV class.
- *
- * @see Raymer D. P.: Aircraft Design: A Conceptual Approach, AIAA, 1992, p.398-407
- * @see Raymer D. P.: Aircraft Design: A Conceptual Approach, AIAA, 2018, p.568-579
- */
-class TailV : public Component
+double GearMain::computeMass( Type type,
+                              double m_empty,
+                              double m_max_to,
+                              double m_max_land,
+                              double nz_max_land,
+                              double m_gear_l,
+                              double v_stall,
+                              int m_gear_wheels,
+                              int m_gear_struts,
+                              bool navy_aircraft,
+                              bool gear_fixed,
+                              bool gear_cross,
+                              bool gear_tripod,
+                              bool m_gear_kneeling )
 {
-public:
+    double w_dg = Units::kg2lb( m_max_to );
+    double w_0  = Units::kg2lb( m_empty  );
 
-    static const char xml_tag[];
+    // Rayner: Aircraft Design, p.568, table 15.2
+    double m1 = 0.0;
+    {
+        double reduce = gear_fixed ? ( 0.014 * w_0 ) : 0.0;
 
-    /**
-     * @brief Computes vertical tail mass.
-     * @param type aircraft type
-     * @param v_tail_area [m^2] vertical tail area
-     * @param m_maxto [kg] maximum take-off weight
-     * @param nz_max [-] maximum allowed load factor
-     * @param v_tail_sweep [deg] vertical tail sweep
-     * @param v_tail_arm [m] vertical tail arm
-     * @param v_tail_ar [-] vertical tail aspect ratio
-     * @param v_tail_tr [-] vertical tail taper ratio
-     * @param v_tail_tc [-] thickness ratio at root
-     * @param rudd_area [m^2] rudder area
-     * @param t_tail specifies if tail is T-type
-     * @param h_tail_roll specifies if horizontal tail is rolling
-     * @param mach_max Mach number design maximum
-     * @return
-     */
-    static double computeMass( Type type,
-                               double v_tail_area,
-                               double m_maxto,
-                               double nz_max,
-                               double v_tail_sweep,
-                               double v_tail_arm,
-                               double v_tail_ar,
-                               double v_tail_tr,
-                               double v_tail_tc,
-                               double rudd_area,
-                               bool t_tail,
-                               bool h_tail_roll,
-                               double mach_max );
+        if ( type == FighterAttack )
+        {
+            double coeff = navy_aircraft ? 0.045 : 0.033;
+            m1 = 0.85 * Units::lb2kg( coeff * w_dg - reduce );
+        }
 
-    TailV( const Aircraft *ac );
+        if ( type == CargoTransport )
+        {
+            m1 = 0.85 * Units::lb2kg( 0.043 * w_dg - reduce );
+        }
 
-    virtual ~TailV();
+        if ( type == GeneralAviation )
+        {
+            m1 = 0.85 * Units::lb2kg( 0.057 * w_dg - reduce );
+        }
+    }
 
-    virtual void save( QDomDocument *doc, QDomElement *parentNode );
+    double m2 = 0.0;
+    {
+        double m2_lb = 0.0;
 
-    virtual double getComputedMass( double l, double w, double h ) const;
-};
+        double w_l = Units::kg2lb( m_max_land );
+        double n_l = 1.5 * nz_max_land;
+
+        double l_m_in = Units::m2in( m_gear_l );
+
+        // Rayner: Aircraft Design, p.572, eq.15.5
+        if ( type == FighterAttack )
+        {
+            double k_cb  = gear_cross  ? 2.25  : 1.0;
+            double k_tpg = gear_tripod ? 0.826 : 1.0;
+
+            m2_lb = k_cb * k_tpg * pow( w_l * n_l, 0.25 ) * pow( l_m_in, 0.973 );
+        }
+
+        // Rayner: Aircraft Design, p.574, eq.15.29
+        if ( type == CargoTransport )
+        {
+            double k_mp = m_gear_kneeling ? 1.126 : 1.0;
+
+            m2_lb = 0.0106 * k_mp * pow( w_l, 0.888 ) * pow( n_l, 0.25 )
+                    * pow( l_m_in, 0.4 ) * pow( m_gear_wheels, 0.321 ) * pow( m_gear_struts, -0.5 )
+                    * pow( v_stall, 0.1 );
+        }
+
+        // Rayner: Aircraft Design, p.576, eq.15.50
+        if ( type == GeneralAviation )
+        {
+            m2_lb = 0.095 * pow( n_l * w_l, 0.768 ) * pow( l_m_in / 12.0, 0.409 );
+        }
+
+        m2 = Units::lb2kg( m2_lb );
+    }
+
+    std::cout << "GearMain:  " << m1 << "  " << m2 << std::endl;
+
+    return ( m1 + m2 ) / 2.0;
+}
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#endif // TAIL_H
+GearMain::GearMain( const Aircraft *ac ) :
+    Component( ac )
+{
+    setName( "Main Landing Gear" );
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+GearMain::~GearMain() {}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void GearMain::save( QDomDocument *doc, QDomElement *parentNode )
+{
+    QDomElement node = doc->createElement( GearMain::xml_tag );
+    parentNode->appendChild( node );
+
+    saveParameters( doc, &node );
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+double GearMain::getComputedMass() const
+{
+    return computeMass( _ac->getType(),
+                        _ac->getM_empty(),         // double m_empty,
+                        _ac->getM_maxTO(),         // double m_max_to,
+                        _ac->getM_maxLand(),       // double m_max_land,
+                        _ac->getNzMaxLand(),       // double nz_max_land,
+                        _ac->getMainGearLength(),  // double m_gear_l,
+                        _ac->getStallV(),          // double v_stall,
+                        _ac->getMainGearWheels(),  // int m_gear_wheels,
+                        _ac->getMainGearStruts(),  // int m_gear_struts,
+                        _ac->getNavyAircraft(),    // bool navy_aircraft,
+                        _ac->getGearFixed(),       // bool gear_fixed,
+                        _ac->getGearCross(),       // bool gear_cross,
+                        _ac->getGearTripod(),      // bool gear_tripod,
+                        _ac->getGearMainKneel() ); // bool m_gear_kneeling
+}

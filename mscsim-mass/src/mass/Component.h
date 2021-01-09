@@ -162,7 +162,7 @@ public:
 
     virtual void save( QDomDocument *doc, QDomElement *parentNode ) = 0;
 
-    virtual double getComputedMass( double l, double w, double h ) const = 0;
+    virtual double getComputedMass() const = 0;
 
     inline const Aircraft* getAircraft() const { return _ac; }
 

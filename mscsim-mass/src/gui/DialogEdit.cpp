@@ -163,6 +163,8 @@ DialogEdit::DialogEdit( QWidget *parent, const Component *component ) :
         _ui->spinBox_L->setValue( _component->getLength () );
         _ui->spinBox_W->setValue( _component->getWidth  () );
         _ui->spinBox_H->setValue( _component->getHeight () );
+
+        updateMass();
     }
 }
 
@@ -201,11 +203,7 @@ void DialogEdit::updateComponent( Component *component )
 
 void DialogEdit::updateMass()
 {
-    double m = _component->getComputedMass( _ui->spinBox_L->value(),
-                                            _ui->spinBox_W->value(),
-                                            _ui->spinBox_H->value() );
-
-    _ui->spinBoxComputedMass->setValue( m );
+    _ui->spinBoxComputedMass->setValue( _component->getComputedMass() );
 }
 
 ////////////////////////////////////////////////////////////////////////////////

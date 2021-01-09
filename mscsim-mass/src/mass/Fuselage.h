@@ -137,6 +137,7 @@
  *
  * @see Raymer D. P.: Aircraft Design: A Conceptual Approach, AIAA, 1992, p.398-407
  * @see Raymer D. P.: Aircraft Design: A Conceptual Approach, AIAA, 2018, p.568-579
+ * @see Crabtree J. A.: Weight Estimation for Helicopter Design Analysis, The Society of Aeronautical Weight Engineers, 1958
  */
 class Fuselage : public Component
 {
@@ -154,15 +155,15 @@ public:
      * @param m_maxto [kg] maximum take-off weight
      * @param nz_max [-] maximum allowed load factor
      * @param wing_delta specifies if aircraft has delta wing
-     * @param cargo_door
+     * @param cargo_door cargo door type
      * @param fuselage_lg fuselage mounted landing gear
      * @param wing_span [m] wing span
      * @param wing_sweep [deg] wing sweep at 25% chord
      * @param wing_tr [-] taper ratio
      * @param h_tail_arm [m] horizontal tail arm
      * @param press_vol [m^3] volume of pressurized section
-     * @param v_cruise [kts]
-     * @param h_cruise [ft]
+     * @param v_cruise [kts] cruise speed
+     * @param h_cruise [ft] cruise altitude
      * @return fuselage mass expressed in kg
      */
     static double computeMass( Type type,
@@ -187,7 +188,7 @@ public:
 
     virtual void save( QDomDocument *doc, QDomElement *parentNode );
 
-    virtual double getComputedMass( double l, double w, double h ) const;
+    virtual double getComputedMass() const;
 };
 
 ////////////////////////////////////////////////////////////////////////////////

@@ -123,8 +123,8 @@
  *     party to this document and has no duty or obligation with respect to
  *     this CC0 or use of the Work.
  ******************************************************************************/
-#ifndef TAILH_H
-#define TAILH_H
+#ifndef TAILVER_H
+#define TAILVER_H
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -133,61 +133,62 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 /**
- * @brief The TailH class.
+ * @brief The TailVer class.
  *
  * @see Raymer D. P.: Aircraft Design: A Conceptual Approach, AIAA, 1992, p.398-407
  * @see Raymer D. P.: Aircraft Design: A Conceptual Approach, AIAA, 2018, p.568-579
+ * @see Crabtree J. A.: Weight Estimation for Helicopter Design Analysis, The Society of Aeronautical Weight Engineers, 1958
  */
-class TailH : public Component
+class TailVer : public Component
 {
 public:
 
     static const char xml_tag[];
 
     /**
-     * @brief Computes horizontal tail mass.
+     * @brief Computes vertical tail mass.
      * @param type aircraft type
-     * @param h_tail_area [m^2] tail area
+     * @param v_tail_area [m^2] vertical tail area
      * @param m_maxto [kg] maximum take-off weight
      * @param nz_max [-] maximum allowed load factor
-     * @param h_tail_f_w [m] fuselage width at horizontal tail intersection
-     * @param h_tail_span [m] horizontal tail span
-     * @param h_tail_sweep [deg] tail sweep
-     * @param h_tail_moving specifies if is all-moving tail
-     * @param h_tail_ar horizontal tail aspect ratio
-     * @param h_tail_arm [m] tail length 25%-MAC to tail 25%-MAC
-     * @param elev_area [m^2] elevator area
-     * @param h_tail_tr [-] horizontal tail taper ratio
-     * @param h_tail_tc [-] horizontal tail thickness ratio
-     * @param v_cruise [kts]
-     * @param h_cruise [ft]
-     * @return horizontal tail mass expressed in kg
+     * @param v_tail_sweep [deg] vertical tail sweep
+     * @param v_tail_arm [m] vertical tail arm
+     * @param v_tail_ar [-] vertical tail aspect ratio
+     * @param v_tail_tr [-] vertical tail taper ratio
+     * @param v_tail_tc [-] thickness ratio at root
+     * @param rudd_area [m^2] rudder area
+     * @param t_tail specifies if tail is T-type
+     * @param h_tail_roll specifies if horizontal tail is rolling
+     * @param mach_max Mach number design maximum
+     * @param v_cruise [kts] cruise speed
+     * @param h_cruise [ft] cruise altitude
+     * @return vertical tail mass expressed in kg
      */
     static double computeMass( Type type,
-                               double h_tail_area,
+                               double v_tail_area,
                                double m_maxto,
                                double nz_max,
-                               double h_tail_f_w,
-                               double h_tail_span,
-                               double h_tail_sweep,
-                               bool h_tail_moving,
-                               double h_tail_ar,
-                               double h_tail_arm,
-                               double elev_area,
-                               double h_tail_tr,
-                               double h_tail_tc,
+                               double v_tail_sweep,
+                               double v_tail_arm,
+                               double v_tail_ar,
+                               double v_tail_tr,
+                               double v_tail_tc,
+                               double rudd_area,
+                               bool t_tail,
+                               bool h_tail_roll,
+                               double mach_max,
                                double v_cruise,
                                double h_cruise );
 
-    TailH( const Aircraft *ac );
+    TailVer( const Aircraft *ac );
 
-    virtual ~TailH();
+    virtual ~TailVer();
 
     virtual void save( QDomDocument *doc, QDomElement *parentNode );
 
-    virtual double getComputedMass( double l, double w, double h ) const;
+    virtual double getComputedMass() const;
 };
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#endif // TAILH_H
+#endif // TAILVER_H

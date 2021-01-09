@@ -130,10 +130,7 @@
 
 #include <QDialog>
 
-#include <mass/Fuselage.h>
-#include <mass/TailH.h>
-#include <mass/TailV.h>
-#include <mass/Wing.h>
+#include <mass/Component.h>
 
 ////////////////////////////////////////////////////////////////////////////////
 

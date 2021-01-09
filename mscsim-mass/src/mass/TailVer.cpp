@@ -124,30 +124,32 @@
  *     this CC0 or use of the Work.
  ******************************************************************************/
 
-#include <mass/TailV.h>
+#include <mass/TailVer.h>
 
 #include <mass/Atmosphere.h>
 #include <mass/Units.h>
 
 ////////////////////////////////////////////////////////////////////////////////
 
-const char TailV::xml_tag[] = "tail_v";
+const char TailVer::xml_tag[] = "tail_ver";
 
 ////////////////////////////////////////////////////////////////////////////////
 
-double TailV::computeMass( Type type,
-                           double v_tail_area,
-                           double m_maxto,
-                           double nz_max,
-                           double v_tail_sweep,
-                           double v_tail_arm,
-                           double v_tail_ar,
-                           double v_tail_tr,
-                           double v_tail_tc,
-                           double rudd_area,
-                           bool t_tail,
-                           bool h_tail_roll,
-                           double mach_max )
+double TailVer::computeMass( Type type,
+                             double v_tail_area,
+                             double m_maxto,
+                             double nz_max,
+                             double v_tail_sweep,
+                             double v_tail_arm,
+                             double v_tail_ar,
+                             double v_tail_tr,
+                             double v_tail_tc,
+                             double rudd_area,
+                             bool t_tail,
+                             bool h_tail_roll,
+                             double mach_max,
+                             double v_cruise,
+                             double h_cruise )
 {
     double s_vt = Units::sqm2sqft( v_tail_area );
 
@@ -210,20 +212,34 @@ double TailV::computeMass( Type type,
         // Rayner: Aircraft Design, p.576, eq.15.48
         if ( type == GeneralAviation )
         {
-            m2_lb = 0.0;
+            double v_mps = Units::kts2mps( v_cruise );
+            double h_m   = Units::ft2m( h_cruise );
+            double rho = Atmosphere::getDensity( h_m );
+            double q = 0.5 * rho * pow( v_mps, 2.0 );
+            double q_psf = Units::pa2psf( q );
+
+            double lambda_vt = v_tail_tr;
+
+            if ( lambda_vt < 0.2 ) lambda_vt = 0.2;
+
+            m2_lb = 0.073 * ( 1.0 + 0.2 * ht_hv ) * pow( n_z * w_dg, 0.376 )
+                    * pow( q_psf, 0.122 ) * pow( s_vt, 0.873 )
+                    * pow( 100.0 * v_tail_tc / cos( sweep_rad ), -0.49 )
+                    * pow( v_tail_ar / pow( cos( sweep_rad ), 2.0 ), 0.357 )
+                    * pow( lambda_vt, 0.039 );
         }
 
         m2 = Units::lb2kg( m2_lb );
     }
 
-    std::cout << "TailV:  " << m1 << "  " << m2 << std::endl;
+    std::cout << "TailVer:  " << m1 << "  " << m2 << std::endl;
 
     return ( m1 + m2 ) / 2.0;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
-TailV::TailV( const Aircraft *ac ) :
+TailVer::TailVer( const Aircraft *ac ) :
     Component( ac )
 {
     setName( "Vertical Tail" );
@@ -231,13 +247,13 @@ TailV::TailV( const Aircraft *ac ) :
 
 ////////////////////////////////////////////////////////////////////////////////
 
-TailV::~TailV() {}
+TailVer::~TailVer() {}
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void TailV::save( QDomDocument *doc, QDomElement *parentNode )
+void TailVer::save( QDomDocument *doc, QDomElement *parentNode )
 {
-    QDomElement node = doc->createElement( TailV::xml_tag );
+    QDomElement node = doc->createElement( TailVer::xml_tag );
     parentNode->appendChild( node );
 
     saveParameters( doc, &node );
@@ -245,7 +261,21 @@ void TailV::save( QDomDocument *doc, QDomElement *parentNode )
 
 ////////////////////////////////////////////////////////////////////////////////
 
-double TailV::getComputedMass( double l, double w, double h ) const
+double TailVer::getComputedMass() const
 {
-    return 0.0;
+    return computeMass( _ac->getType(),           // Type type,
+                        _ac->getVerTailArea(),    // double v_tail_area,
+                        _ac->getM_maxTO(),        // double m_maxto,
+                        _ac->getNzMax(),          // double nz_max,
+                        _ac->getVerTailSweep(),   // double v_tail_sweep,
+                        _ac->getVerTailArm(),     // double v_tail_arm,
+                        _ac->getVerTailAR(),      // double v_tail_ar,
+                        _ac->getVerTailTR(),      // double v_tail_tr,
+                        _ac->getVerTailTC(),      // double v_tail_tc,
+                        _ac->getRuddArea(),       // double rudd_area,
+                        _ac->getTailT(),          // bool t_tail,
+                        _ac->getHorTailRolling(), // bool h_tail_roll,
+                        _ac->getMachMax(),        // double mach_max,
+                        _ac->getCruiseV(),        // double v_cruise,
+                        _ac->getCruiseH() );      // double h_cruise
 }

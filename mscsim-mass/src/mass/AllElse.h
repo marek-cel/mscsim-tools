@@ -123,36 +123,45 @@
  *     party to this document and has no duty or obligation with respect to
  *     this CC0 or use of the Work.
  ******************************************************************************/
-#ifndef XML_H
-#define XML_H
+#ifndef ALLELSE_H
+#define ALLELSE_H
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#include <QDomDocument>
-#include <QDomElement>
+#include <mass/Component.h>
 
 ////////////////////////////////////////////////////////////////////////////////
 
 /**
- * @brief The Xml class.
+ * @brief The AllElse class.
+ *
+ * @see Raymer D. P.: Aircraft Design: A Conceptual Approach, AIAA, 1992, p.398-407
+ * @see Raymer D. P.: Aircraft Design: A Conceptual Approach, AIAA, 2018, p.568-579
  */
-class Xml
+class AllElse : public Component
 {
 public:
 
-    static void saveTextNode( QDomDocument *doc, QDomElement *parent,
-                              const char *tag_name, const QString &text );
+    static const char xml_tag[];
 
-    static void saveTextNode( QDomDocument *doc, QDomElement *parent,
-                              const char *tag_name, double value );
+    /**
+     * @brief Computes all-else empty mass.
+     * @param type aircraft type
+     * @param m_maxto [kg] maximum take-off weight
+     * @return all-else empty mass expressed in kg
+     */
+    static double computeMass( Type type,
+                               double m_maxto );
 
-    static void saveTextNode( QDomDocument *doc, QDomElement *parent,
-                              const char *tag_name, int value );
+    AllElse( const Aircraft *ac );
 
-    static void saveTextNode( QDomDocument *doc, QDomElement *parent,
-                              const char *tag_name, bool value );
+    virtual ~AllElse();
+
+    virtual void save( QDomDocument *doc, QDomElement *parentNode );
+
+    virtual double getComputedMass() const;
 };
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#endif // XML_H
+#endif // ALLELSE_H

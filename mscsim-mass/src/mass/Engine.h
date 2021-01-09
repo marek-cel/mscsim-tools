@@ -123,36 +123,45 @@
  *     party to this document and has no duty or obligation with respect to
  *     this CC0 or use of the Work.
  ******************************************************************************/
-#ifndef XML_H
-#define XML_H
+#ifndef ENGINE_H
+#define ENGINE_H
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#include <QDomDocument>
-#include <QDomElement>
+#include <mass/Component.h>
 
 ////////////////////////////////////////////////////////////////////////////////
 
 /**
- * @brief The Xml class.
+ * @brief The Engine class.
+ *
+ * @see Raymer D. P.: Aircraft Design: A Conceptual Approach, AIAA, 1992, p.398-407
+ * @see Raymer D. P.: Aircraft Design: A Conceptual Approach, AIAA, 2018, p.568-579
  */
-class Xml
+class Engine : public Component
 {
 public:
 
-    static void saveTextNode( QDomDocument *doc, QDomElement *parent,
-                              const char *tag_name, const QString &text );
+    static const char xml_tag[];
 
-    static void saveTextNode( QDomDocument *doc, QDomElement *parent,
-                              const char *tag_name, double value );
+    /**
+     * @brief Computes engine mass.
+     * @param type aircraft type
+     * @param m_engine [kg] engine mass
+     * @return engine mass expressed in kg
+     */
+    static double computeMass( Type type,
+                               double m_engine );
 
-    static void saveTextNode( QDomDocument *doc, QDomElement *parent,
-                              const char *tag_name, int value );
+    Engine( const Aircraft *ac );
 
-    static void saveTextNode( QDomDocument *doc, QDomElement *parent,
-                              const char *tag_name, bool value );
+    virtual ~Engine();
+
+    virtual void save( QDomDocument *doc, QDomElement *parentNode );
+
+    virtual double getComputedMass() const;
 };
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#endif // XML_H
+#endif // ENGINE_H

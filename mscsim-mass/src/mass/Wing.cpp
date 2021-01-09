@@ -253,20 +253,20 @@ void Wing::save( QDomDocument *doc, QDomElement *parentNode )
 
 ////////////////////////////////////////////////////////////////////////////////
 
-double Wing::getComputedMass( double l, double w, double h ) const
+double Wing::getComputedMass() const
 {
-    return computeMass( _ac->getType(),
-                        _ac->getWingExp(),
-                        _ac->getM_maxto(),
-                        _ac->getNzMax(),
-                        _ac->getWingDelta(),
-                        _ac->getWingSweep(),
-                        _ac->getWingTR(),
-                        _ac->getWingAR(),
-                        _ac->getWingVar(),
-                        _ac->getCtrlArea(),
-                        _ac->getWingTC(),
-                        _ac->getWingFuel(),
-                        _ac->getCruiseV(),
-                        _ac->getCruiseH() );
+    return computeMass( _ac->getType(),      // Type type,
+                        _ac->getWingExp(),   // double wing_exp,
+                        _ac->getM_maxTO(),   // double m_maxto,
+                        _ac->getNzMax(),     // double nz_max,
+                        _ac->getWingDelta(), // bool wing_delta,
+                        _ac->getWingSweep(), // double wing_sweep,
+                        _ac->getWingTR(),    // double wing_tr,
+                        _ac->getWingAR(),    // double wing_ar,
+                        _ac->getWingVar(),   // bool wing_var,
+                        _ac->getCtrlArea(),  // double area_ctrl,
+                        _ac->getWingTC(),    // double wing_tc,
+                        _ac->getWingFuel(),  // double wing_fuel,
+                        _ac->getCruiseV(),   // double v_cruise,
+                        _ac->getCruiseH() ); // double h_cruise )
 }

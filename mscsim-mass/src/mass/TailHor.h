@@ -123,155 +123,72 @@
  *     party to this document and has no duty or obligation with respect to
  *     this CC0 or use of the Work.
  ******************************************************************************/
-
-#include <mass/TailH.h>
-
-#include <mass/Atmosphere.h>
-#include <mass/Units.h>
+#ifndef TAILHOR_H
+#define TAILHOR_H
 
 ////////////////////////////////////////////////////////////////////////////////
 
-const char TailH::xml_tag[] = "tail_h";
+#include <mass/Component.h>
 
 ////////////////////////////////////////////////////////////////////////////////
 
-double TailH::computeMass( Type type,
-                           double h_tail_area,
-                           double m_maxto,
-                           double nz_max,
-                           double h_tail_f_w,
-                           double h_tail_span,
-                           double h_tail_sweep,
-                           bool h_tail_moving,
-                           double h_tail_ar,
-                           double h_tail_arm,
-                           double elev_area,
-                           double h_tail_tr,
-                           double h_tail_tc,
-                           double v_cruise,
-                           double h_cruise )
+/**
+ * @brief The TailHor class.
+ *
+ * @see Raymer D. P.: Aircraft Design: A Conceptual Approach, AIAA, 1992, p.398-407
+ * @see Raymer D. P.: Aircraft Design: A Conceptual Approach, AIAA, 2018, p.568-579
+ * @see Crabtree J. A.: Weight Estimation for Helicopter Design Analysis, The Society of Aeronautical Weight Engineers, 1958
+ */
+class TailHor : public Component
 {
-    double s_ht = Units::sqm2sqft( h_tail_area );
+public:
 
-    // Rayner: Aircraft Design, p.568, table 15.2
-    double m1 = 0.0;
-    {
-        if ( type == FighterAttack )
-        {
-            m1 = Units::lb2kg( 4.0 * s_ht );
-        }
+    static const char xml_tag[];
 
-        if ( type == CargoTransport )
-        {
-            m1 = Units::lb2kg( 5.5 * s_ht );
-        }
+    /**
+     * @brief Computes horizontal tail mass.
+     * @param type aircraft type
+     * @param h_tail_area [m^2] tail area
+     * @param m_maxto [kg] maximum take-off weight
+     * @param nz_max [-] maximum allowed load factor
+     * @param h_tail_f_w [m] fuselage width at horizontal tail intersection
+     * @param h_tail_span [m] horizontal tail span
+     * @param h_tail_sweep [deg] tail sweep
+     * @param h_tail_moving specifies if is all-moving tail
+     * @param h_tail_ar horizontal tail aspect ratio
+     * @param h_tail_arm [m] tail length 25%-MAC to tail 25%-MAC
+     * @param elev_area [m^2] elevator area
+     * @param h_tail_tr [-] horizontal tail taper ratio
+     * @param h_tail_tc [-] horizontal tail thickness ratio
+     * @param v_cruise [kts] cruise speed
+     * @param h_cruise [ft] cruise altitude
+     * @return horizontal tail mass expressed in kg
+     */
+    static double computeMass( Type type,
+                               double h_tail_area,
+                               double m_maxto,
+                               double nz_max,
+                               double h_tail_f_w,
+                               double h_tail_span,
+                               double h_tail_sweep,
+                               bool h_tail_moving,
+                               double h_tail_ar,
+                               double h_tail_arm,
+                               double elev_area,
+                               double h_tail_tr,
+                               double h_tail_tc,
+                               double v_cruise,
+                               double h_cruise );
 
-        if ( type == GeneralAviation )
-        {
-            m1 = Units::lb2kg( 2.0 * s_ht );
-        }
-    }
+    TailHor( const Aircraft *ac );
 
-    double m2 = 0.0;
-    {
-        double m2_lb = 0.0;
+    virtual ~TailHor();
 
-        double w_dg  = Units::kg2lb( m_maxto );
-        double n_z   = 1.5 * nz_max;
+    virtual void save( QDomDocument *doc, QDomElement *parentNode );
 
-        double f_w_ft = Units::m2ft( h_tail_f_w );
-        double b_h_ft = Units::m2ft( h_tail_span );
-
-        double sweep_rad = Units::deg2rad( h_tail_sweep );
-
-        // Rayner: Aircraft Design, p.572, eq.15.2
-        if ( type == FighterAttack )
-        {
-            m2_lb = 3.316 * pow( 1 + f_w_ft / b_h_ft, -2.0 )
-                    * pow( w_dg * n_z / 1000.0, 0.26 )
-                    * pow( s_ht, 0.806 );
-        }
-
-        // Rayner: Aircraft Design, p.574, eq.15.26
-        if ( type == CargoTransport )
-        {
-            double k_uht = h_tail_moving ? 1.143 : 1.0;
-
-            double l_t_ft = Units::m2ft( h_tail_arm );
-            double k_y = 0.3 * l_t_ft;
-
-            double s_e = Units::sqm2sqft( elev_area );
-
-            m2_lb = 0.0379 * k_uht * pow( 1.0 + f_w_ft / b_h_ft, -0.25 )
-                    * pow( w_dg, 0.639 ) * pow( n_z, 0.1 ) * pow( s_ht, 0.75 )
-                    * pow( l_t_ft, -1.0 ) * pow( k_y, 0.704 )
-                    * pow( cos( sweep_rad ), -1.0 ) * pow( h_tail_ar, 0.166 )
-                    * pow( 1.0 + s_e / s_ht, 0.1 );
-        }
-
-        // Rayner: Aircraft Design, p.576, eq.15.47
-        if ( type == GeneralAviation )
-        {
-            double v_mps = Units::kts2mps( v_cruise );
-            double h_m   = Units::ft2m( h_cruise );
-            double rho = Atmosphere::getDensity( h_m );
-            double q = 0.5 * rho * pow( v_mps, 2.0 );
-            double q_psf = Units::pa2psf( q );
-
-            m2_lb = 0.016 * pow( n_z * w_dg, 0.414 ) * pow( q_psf, 0.006 )
-                    * pow( h_tail_tr, 0.04 ) * pow( 100.0 * h_tail_tc / cos( sweep_rad ), -0.3 )
-                    * pow( n_z * w_dg, 0.49 );
-        }
-
-        m2 = Units::lb2kg( m2_lb );
-    }
-
-    std::cout << "TailH:  " << m1 << "  " << m2 << std::endl;
-
-    return ( m1 + m2 ) / 2.0;
-}
+    virtual double getComputedMass() const;
+};
 
 ////////////////////////////////////////////////////////////////////////////////
 
-TailH::TailH( const Aircraft *ac ) :
-    Component( ac )
-{
-    setName( "Horizontal Tail" );
-}
-
-////////////////////////////////////////////////////////////////////////////////
-
-TailH::~TailH() {}
-
-////////////////////////////////////////////////////////////////////////////////
-
-void TailH::save( QDomDocument *doc, QDomElement *parentNode )
-{
-    QDomElement node = doc->createElement( TailH::xml_tag );
-    parentNode->appendChild( node );
-
-    saveParameters( doc, &node );
-}
-
-////////////////////////////////////////////////////////////////////////////////
-
-double TailH::getComputedMass( double l, double w, double h ) const
-{
-    return computeMass( _ac->getType(),
-                        _ac->getHorTailArea(),
-                        _ac->getM_maxto(),
-                        _ac->getNzMax(),
-                        _ac->getHorTailFW(),
-                        _ac->getHorTailSpan(),
-                        _ac->getHorTailSweep(),
-                        _ac->getHorTailMoving(),
-                        _ac->getHorTailAR(),
-                        _ac->getHorTailArm(),
-                        _ac->getElevArea(),
-                        _ac->getHorTailTR(),
-                        _ac->getHorTailTC(),
-                        _ac->getCruiseV(),
-                        _ac->getCruiseH() );
-
-    return 0.0;
-}
+#endif // TAILHOR_H

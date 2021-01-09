@@ -270,23 +270,23 @@ void Fuselage::save( QDomDocument *doc, QDomElement *parentNode )
 
 ////////////////////////////////////////////////////////////////////////////////
 
-double Fuselage::getComputedMass( double l, double w, double h ) const
+double Fuselage::getComputedMass() const
 {
-    return computeMass( _ac->getType(),
-                        l, w, h,
-                        _ac->getWettedArea(),
-                        _ac->getM_maxto(),
-                        _ac->getNzMax(),
-                        _ac->getWingDelta(),
-                        _ac->getCargoDoor(),
-                        _ac->getFuselageLG(),
-                        _ac->getWingSpan(),
-                        _ac->getWingSweep(),
-                        _ac->getWingTR(),
-                        _ac->getHorTailArm(),
-                        _ac->getPressVol(),
-                        _ac->getCruiseV(),
-                        _ac->getCruiseH() );
-
-    return 0.0;
+    return computeMass( _ac->getType(),       // Type type,
+                        _ac->getFuseLength(), // double l,
+                        _ac->getFuseWidth(),  // double w,
+                        _ac->getFuseHeight(), // double h,
+                        _ac->getWettedArea(), // double wetted_area,
+                        _ac->getM_maxTO(),    // double m_maxto,
+                        _ac->getNzMax(),      // double nz_max,
+                        _ac->getWingDelta(),  // bool wing_delta,
+                        _ac->getCargoDoor(),  // CargoDoor cargo_door,
+                        _ac->getFuselageLG(), // bool fuselage_lg,
+                        _ac->getWingSpan(),   // double wing_span,
+                        _ac->getWingSweep(),  // double wing_sweep,
+                        _ac->getWingTR(),     // double wing_tr,
+                        _ac->getHorTailArm(), // double h_tail_arm,
+                        _ac->getPressVol(),   // double press_vol,
+                        _ac->getCruiseV(),    // double v_cruise,
+                        _ac->getCruiseH() );  // double h_cruise
 }

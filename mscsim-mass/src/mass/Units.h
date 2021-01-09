@@ -173,6 +173,11 @@ public:
         return len * 3.2808399;
     }
 
+    static inline double m2in( double len = 1.0 )
+    {
+        return len * 39.3700787;
+    }
+
     /**
      * @brief Converts given length from feet to metres.
      * @param len length expressed in feet

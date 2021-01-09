@@ -158,8 +158,8 @@ public:
      * @param area_ctrl [m^2] wing mounted control surface area
      * @param wing_tc [-] thickness ratio at root
      * @param wing_fuel [kg] wing fuel capacity
-     * @param v_cruise [kts]
-     * @param h_cruise [ft]
+     * @param v_cruise [kts] cruise speed
+     * @param h_cruise [ft] cruise altitude
      * @return wing mass expressed in kg
      */
     static double computeMass( Type type,
@@ -183,7 +183,7 @@ public:
 
     virtual void save( QDomDocument *doc, QDomElement *parentNode );
 
-    virtual double getComputedMass( double l, double w, double h ) const;
+    virtual double getComputedMass() const;
 };
 
 ////////////////////////////////////////////////////////////////////////////////
