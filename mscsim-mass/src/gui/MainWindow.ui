@@ -13,6 +13,10 @@
   <property name="windowTitle">
    <string>MScSim-Mass</string>
   </property>
+  <property name="windowIcon">
+   <iconset resource="../mscsim-mass.qrc">
+    <normaloff>:/gui/images/icon.svg</normaloff>:/gui/images/icon.svg</iconset>
+  </property>
   <property name="locale">
    <locale language="Polish" country="Poland"/>
   </property>
@@ -2974,6 +2978,8 @@
   <tabstop>pushButtonEdit</tabstop>
   <tabstop>pushButtonDel</tabstop>
  </tabstops>
- <resources/>
+ <resources>
+  <include location="../mscsim-mass.qrc"/>
+ </resources>
  <connections/>
 </ui>
