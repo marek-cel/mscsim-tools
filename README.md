@@ -1,7 +1,7 @@
 # mscsim-tools
-Tools for [MScSim](http://marekcel.pl/mscsim).
+Miscellaneous tools for [MScSim](http://marekcel.pl/mscsim) flight simulation software.
 
-This is collection of small tools and utilities used with flight simulation software as generators and editors of various input data.
+This is collection of small tools and utilities used with flight simulation software as aircraft characteristics approximation and estimation tools, generators and editors of various input data.
 
 ## mscsim-aero
 Aerodynamic characteristics (drag coefficient and lift coefficient) approximation tool for the full range of angle of attack, based on [NASA TM-102267](https://ntrs.nasa.gov/citations/19910009728).
