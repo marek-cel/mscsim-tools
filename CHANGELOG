@@ -3,6 +3,10 @@
     * mscsim-mass tool - helicopter rotor hub and drive train components added
     
     * mscsim-mass tool - data export
+    
+    * WiX building scripts and input files
+    
+    * dpkg building scripts and input files
 
 
 

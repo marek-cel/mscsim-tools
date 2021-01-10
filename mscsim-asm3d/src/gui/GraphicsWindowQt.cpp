@@ -223,7 +223,7 @@ GraphicsWindowQt::GraphicsWindowQt( osg::GraphicsContext::Traits *traits ) :
         getState()->setContextID( osg::GraphicsContext::createNewContextID() );
     }
 
-#   if OPENSCENEGRAPH_SOVERSION > 131
+#   if OPENSCENEGRAPH_SOVERSION >= 130
     getEventQueue()->syncWindowRectangleWithGraphicsContext();
 #   else
     getEventQueue()->syncWindowRectangleWithGraphcisContext();
@@ -378,7 +378,7 @@ bool GraphicsWindowQt::realizeImplementation()
 
     _realized = true;
 
-#   if OPENSCENEGRAPH_SOVERSION > 131
+#   if OPENSCENEGRAPH_SOVERSION >= 130
     getEventQueue()->syncWindowRectangleWithGraphicsContext();
 #   else
     getEventQueue()->syncWindowRectangleWithGraphcisContext();

@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+  
+  <Fragment>
+    <DirectoryRef Id="dir_mscsim_tools_bin">
+      <Component Id="dir_mscsim_tools_qwt" Guid="{0ccfe051-4089-49c2-b560-1326f59b4cac}">
+        <File Id="dir_mscsim_tools_qwt_dll" Name="qwt.dll" DiskId="1" Source="$(env.QWT_ROOT)\lib\qwt.dll" />
+      </Component>
+    </DirectoryRef>
+  </Fragment>
+  
+  <Fragment>
+    <ComponentGroup Id="cg_mscsim_tools_qwt">
+      <ComponentRef Id="dir_mscsim_tools_qwt" />
+    </ComponentGroup>
+  </Fragment>
+  
+</Wix>

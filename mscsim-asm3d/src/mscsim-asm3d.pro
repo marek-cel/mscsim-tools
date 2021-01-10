@@ -19,6 +19,10 @@ win32: RC_FILE = mscsim-asm3d.rc
 
 ################################################################################
 
+DEFINES += QT_DEPRECATED_WARNINGS
+
+DEFINES +=
+
 DEFINES += \
     QT_DEPRECATED_WARNINGS
 

@@ -54,15 +54,23 @@ unix: DEFINES += _LINUX_
 
 ################################################################################
 
-INCLUDEPATH += /usr/include/qwt/ ./
+INCLUDEPATH += ./
+
+unix: INCLUDEPATH += /usr/include/qwt/
+
+win32: INCLUDEPATH += \
+    $(QWT_ROOT)/include
 
 ################################################################################
 
 win32: LIBS += \
+    -L$(QWT_ROOT)/lib
 
 win32: CONFIG(release, debug|release): LIBS += \
+    -lqwt
 
 win32: CONFIG(debug, debug|release): LIBS += \
+    -lqwtd
 
 unix: LIBS += \
     -L/lib \

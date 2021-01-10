@@ -130,8 +130,15 @@
 #include <iomanip>
 #include <iostream>
 
-#include <arpa/inet.h>
+#ifdef _LINUX_
+#   include <arpa/inet.h>
+#endif
 
+#ifdef WIN32
+#   include <windows.h>
+#endif
+
+#include <QDir>
 #include <QFile>
 #include <QMessageBox>
 
@@ -492,7 +499,10 @@ void MainWindow::on_pushButtonInit_clicked()
         _inited = true;
         _ui->pushButtonInited->setChecked( true );
 
-        _fstream.open( "../record.csv", std::ios_base::out );
+        QString homeDir = QDir::homePath();;
+        homeDir += "/record.csv";
+
+        _fstream.open( homeDir.toLocal8Bit().data(), std::ios_base::out );
 
         _fstream.setf( std::ios_base::showpoint );
         _fstream.setf( std::ios_base::fixed );

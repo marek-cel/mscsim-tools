@@ -1,0 +1,139 @@
+<?xml version="1.0"?>
+<Wix
+  xmlns="http://schemas.microsoft.com/wix/2006/wi"
+  xmlns:util="http://schemas.microsoft.com/wix/UtilExtension">
+  <Product
+    Id="{79d59c33-7e9e-4e79-8821-1e03e950dbb2}" 
+    Name="MScSim-Tools"
+    Language="1033"
+    Version="0.1"
+    Manufacturer="Marek Cel" 
+    UpgradeCode="{b3ee6c56-d194-4be9-8f0d-de7f07faf7e7}">
+        
+    <Package
+      Description="MScSim Windows Installer Package"
+      Manufacturer="Marek Cel (marekcel.pl)"
+      InstallerVersion="301"
+      InstallPrivileges="elevated"
+      InstallScope="perMachine"
+      Platform="x64"
+      Compressed="yes" />
+
+    <Media Id="1" Cabinet="mscsim-tools.cab" EmbedCab="yes" />
+    
+    <Property Id="AllUSERS" Value="1"/>
+    
+    <WixVariable Id="WixUILicenseRtf" Value="LICENSE.rtf" />
+
+    <Directory Id="TARGETDIR" Name="SourceDir">
+    
+      <!-- Visual C++ 2019 Redistributable Merge Module -->
+      <Merge Id="VCRedist" SourceFile="C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Redist\MSVC\14.25.28508\MergeModules\Microsoft_VC142_CRT_x64.msm" DiskId="1" Language="0"/>
+      
+      <!-- installation dir -->
+      <Directory Id="ProgramFilesFolder" Name="PFiles">
+        <Directory Id="dir_mscsim_tools" Name="MScSim-Tools">
+        
+          <Directory Id="dir_mscsim_tools_bin" Name="bin">
+          
+            <!-- mscsim-aero.exe -->
+            <Component Id="dir_mscsim_tools_mscsim_aero" Guid="{7715ef53-21f9-44eb-a95b-14b114f24f19}">
+              <File Id="dir_mscsim_tools_mscsim_aero_exe" Name="mscsim-aero.exe" DiskId="1" Source="bin\mscsim-aero.exe" />
+            </Component>
+          
+            <!-- mscsim-aero.exe -->
+            <Component Id="dir_mscsim_tools_mscsim_asm3d" Guid="{2a4f0f68-08a5-493e-936a-6bed69d4dc91}">
+              <File Id="dir_mscsim_tools_mscsim_asm3d_exe" Name="mscsim-asm3d.exe" DiskId="1" Source="bin\mscsim-asm3d.exe" />
+            </Component>
+            
+            <!-- mscsim-fgrec.exe -->
+            <Component Id="dir_mscsim_tools_mscsim_fgrec" Guid="{22623c6b-1b28-41aa-b420-0144ff4710fb}">
+              <File Id="dir_mscsim_tools_mscsim_fgrec_exe" Name="mscsim-fgrec.exe" DiskId="1" Source="bin\mscsim-fgrec.exe" />
+            </Component>
+            
+            <!-- mscsim-mass.exe -->
+            <Component Id="dir_mscsim_tools_mscsim_mass" Guid="{4f658ce3-dea2-4a72-9c5b-3fc214018040}">
+              <File Id="dir_mscsim_tools_mscsim_mass_exe" Name="mscsim-mass.exe" DiskId="1" Source="bin\mscsim-mass.exe" />
+            </Component>
+          
+          
+          </Directory>
+            
+        </Directory>
+      </Directory>
+            
+      <!-- start menu shortcuts -->
+      <Directory Id="ProgramMenuFolder">
+        <Directory Id="ApplicationProgramsFolder" Name="MscSim-Tools">
+          <Component Id="menu_shortcuts" Guid="{d0683b2a-3fb5-441f-93e6-748e045a8ddb}">
+            <Shortcut
+              Id="menu_mscsim_tools_aero" 
+              Name="MScSim-Aero" 
+              Icon="mscsim_aero_ico"
+              Description="MScSim-Aero"
+              Target="[dir_mscsim_tools_bin]\mscsim-aero.exe"
+              WorkingDirectory="dir_mscsim_tools_bin" />
+            <Shortcut
+              Id="menu_mscsim_tools_asm3d" 
+              Name="MScSim-Assembler 3D" 
+              Icon="mscsim_asm3d_ico"
+              Description="MScSim-Assembler 3D"
+              Target="[dir_mscsim_tools_bin]\mscsim-asm3d.exe"
+              WorkingDirectory="dir_mscsim_tools_bin" />
+            <Shortcut
+              Id="menu_mscsim_tools_fgrec" 
+              Name="MScSim-FGFS Recorder" 
+              Icon="mscsim_fgrec_ico"
+              Description="MScSim-FGFS Recorder"
+              Target="[dir_mscsim_tools_bin]\mscsim-fgrec.exe"
+              WorkingDirectory="dir_mscsim_tools_bin" />
+            <Shortcut
+              Id="menu_mscsim_tools_mass" 
+              Name="MScSim-Mass" 
+              Icon="mscsim_mass_ico"
+              Description="MScSim-Mass"
+              Target="[dir_mscsim_tools_bin]\mscsim-mass.exe"
+              WorkingDirectory="dir_mscsim_tools_bin" />
+            <Shortcut
+              Id="menu_unistall"
+              Name="Uninstall MScSim-Tools"
+              Target="[SystemFolder]msiexec.exe"
+              Arguments="/x [ProductCode]"
+              Description="Uninstall" />
+            <RemoveFolder Id="ApplicationProgramsFolder" On="uninstall"/>
+            <RegistryValue Root="HKCU" Key="Software\[Manufacturer]\[ProductName]" Name="installed" Type="integer" Value="1" KeyPath="yes"/>
+          </Component>
+        </Directory>
+      </Directory>
+      
+    </Directory>
+
+    <!-- main program -->
+    <Feature Id="mscsim_tools_main" Title="MScSim-Tools" Level="1">
+      <ComponentGroupRef Id="cg_mscsim_tools_osg" />  <!-- OSG libs -->
+      <ComponentGroupRef Id="cg_mscsim_tools_qt" />   <!-- Qt libs  -->
+      <ComponentGroupRef Id="cg_mscsim_tools_qwt" />  <!-- Qwt libs -->
+      
+      <ComponentRef Id="dir_mscsim_tools_mscsim_aero" />   <!-- mscsim-aero.exe  -->
+      <ComponentRef Id="dir_mscsim_tools_mscsim_asm3d" />  <!-- mscsim-asm3d.exe -->
+      <ComponentRef Id="dir_mscsim_tools_mscsim_fgrec" />  <!-- mscsim-fgrec.exe -->
+      <ComponentRef Id="dir_mscsim_tools_mscsim_mass" />   <!-- mscsim-mass.exe  -->
+
+      <ComponentRef Id="menu_shortcuts" />      <!-- start menu shortcuts -->      
+    </Feature>
+    
+    <!-- Visual C++ 2019 Redistributable Merge Module -->
+    <Feature Id="VCRedist" Title="Visual C++ 2019 Runtime" AllowAdvertise="no" Display="hidden" Level="1">
+      <MergeRef Id="VCRedist"/>
+    </Feature>
+
+    <Property Id="WIXUI_INSTALLDIR" Value="dir_mscsim_tools" />
+    <UIRef Id="WixUI_InstallDir" />
+    
+    <Icon Id="mscsim_aero_ico" SourceFile="mscsim-aero.ico" />
+    <Icon Id="mscsim_asm3d_ico" SourceFile="mscsim-asm3d.ico" />
+    <Icon Id="mscsim_fgrec_ico" SourceFile="mscsim-fgrec.ico" />
+    <Icon Id="mscsim_mass_ico" SourceFile="mscsim-mass.ico" />
+    
+  </Product>
+</Wix>
