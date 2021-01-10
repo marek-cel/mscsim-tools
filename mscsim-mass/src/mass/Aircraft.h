@@ -295,6 +295,7 @@ public:
     inline double getMainRotorRad    () const { return _m_rotor_r   ; }
     inline double getMainRotorChord  () const { return _m_blades_c  ; }
     inline double getMainRotorRPM    () const { return _m_rotor_rpm ; }
+    inline double getMainRotorGear   () const { return _m_rotor_gear; }
     inline double getTailRotorRad    () const { return _t_rotor_r   ; }
     inline double getPowerLimit      () const { return _rotor_mcp   ; }
     inline double getMainRotorTipVel () const { return _m_rotor_tv  ; }
@@ -404,12 +405,13 @@ public:
 
     // rotors
 
-    inline void setMainRotorRad    ( double m_rotor_r   ) { _m_rotor_r   = m_rotor_r   ; }
-    inline void setMainRotorChord  ( double m_blades_c  ) { _m_blades_c  = m_blades_c  ; }
-    inline void setMainRotorRPM    ( double m_rotor_rpm ) { _m_rotor_rpm = m_rotor_rpm ; }
-    inline void setTailRotorRad    ( double t_rotor_r   ) { _t_rotor_r   = t_rotor_r   ; }
-    inline void setPowerLimit      ( double rotor_mcp   ) { _rotor_mcp   = rotor_mcp   ; }
-    inline void setMainRotorTipVel ( double m_rotor_tv  ) { _m_rotor_tv  = m_rotor_tv  ; }
+    inline void setMainRotorRad    ( double m_rotor_r    ) { _m_rotor_r    = m_rotor_r    ; }
+    inline void setMainRotorChord  ( double m_blades_c   ) { _m_blades_c   = m_blades_c   ; }
+    inline void setMainRotorRPM    ( double m_rotor_rpm  ) { _m_rotor_rpm  = m_rotor_rpm  ; }
+    inline void setMainRotorGear   ( double m_rotor_gear ) { _m_rotor_gear = m_rotor_gear ; }
+    inline void setTailRotorRad    ( double t_rotor_r    ) { _t_rotor_r    = t_rotor_r    ; }
+    inline void setPowerLimit      ( double rotor_mcp    ) { _rotor_mcp    = rotor_mcp    ; }
+    inline void setMainRotorTipVel ( double m_rotor_tv   ) { _m_rotor_tv   = m_rotor_tv   ; }
 
     inline void setMainRotorBlades( int m_rotor_nb ) { _m_rotor_nb = m_rotor_nb ; }
 
@@ -515,6 +517,7 @@ private:
     double _m_rotor_r;          ///< [m]   main rotor radius
     double _m_blades_c;         ///< [m]   main rotor blades chord
     double _m_rotor_rpm;        ///< [rpm] main rotor rotation speed
+    double _m_rotor_gear;       ///< [-]   main rotor gearing ratio
     double _t_rotor_r;          ///< [m]   tail rotor radius
     double _rotor_mcp;          ///< [hp]  drive system power limit (MCP)
     double _m_rotor_tv;         ///< [m/s] main rotor blade tip velocity

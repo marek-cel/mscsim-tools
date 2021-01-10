@@ -150,21 +150,13 @@ double RotorMain::computeMass( Type type,
 
         double v_tip_fps = Units::mps2fps( m_rotor_tv );
 
-        double mu_b = 1.0; // ?? flap natural frequency (blade)
-        double mu_h = 1.0; // ?? flap natural frequency (hub)
+        double mu_b = 1.0; // ?? flap natural frequency
 
-        double chi_b = 1.0; // ?? technology factor (blade)
-        double chi_h = 1.0; // ?? technology factor (hub)
+        double chi_b = 1.0; // ?? technology factor
 
-        double w_b = chi_b * 0.02606 * n_rotor * pow( (double)m_rotor_nb, 0.6592 )
+        double m_lb = chi_b * 0.02606 * n_rotor * pow( (double)m_rotor_nb, 0.6592 )
                 * pow( r_ft, 1.3371 ) * pow( c_ft, 0.9959 )
                 * pow( v_tip_fps, 0.6682 ) * pow( mu_b, 2.5279 );
-
-        double w_h = chi_h * 0.003722 * n_rotor * pow( (double)m_rotor_nb, 0.2807 )
-                * pow( r_ft, 1.5377 ) * pow( v_tip_fps, 0.429 ) * pow( mu_h, 2.1414 )
-                * pow( w_b / n_rotor, 0.5505 );
-
-        double m_lb = w_b + w_h;
 
         return Units::lb2kg( m_lb );
     }

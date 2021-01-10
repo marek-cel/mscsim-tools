@@ -73,6 +73,9 @@
            <layout class="QGridLayout" name="gridLayout_3">
             <item row="5" column="1">
              <widget class="QDoubleSpinBox" name="spinBoxMaxNzLand">
+              <property name="toolTip">
+               <string>maximum allowed Nz (landing)</string>
+              </property>
               <property name="alignment">
                <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
               </property>
@@ -106,6 +109,9 @@
             </item>
             <item row="3" column="1">
              <widget class="QDoubleSpinBox" name="spinBoxMassMaxLand">
+              <property name="toolTip">
+               <string>maximum landing mass</string>
+              </property>
               <property name="alignment">
                <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
               </property>
@@ -164,6 +170,9 @@
             </item>
             <item row="1" column="0">
              <widget class="QLabel" name="labelMassEmpty">
+              <property name="toolTip">
+               <string>aircraft empty mass</string>
+              </property>
               <property name="text">
                <string>Empty Mass [kg]:</string>
               </property>
@@ -187,6 +196,9 @@
             </item>
             <item row="4" column="1">
              <widget class="QDoubleSpinBox" name="spinBoxMaxNz">
+              <property name="toolTip">
+               <string>maximum allowed Nz</string>
+              </property>
               <property name="alignment">
                <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
               </property>
@@ -232,6 +244,9 @@
             </item>
             <item row="5" column="0">
              <widget class="QLabel" name="labelMaxNzLand">
+              <property name="toolTip">
+               <string>maximum allowed Nz (landing)</string>
+              </property>
               <property name="text">
                <string>Max Nz (landing) [-]:</string>
               </property>
@@ -245,6 +260,9 @@
             </item>
             <item row="4" column="0">
              <widget class="QLabel" name="labelMaxNz">
+              <property name="toolTip">
+               <string>maximum allowed Nz</string>
+              </property>
               <property name="text">
                <string>Max Nz [-]:</string>
               </property>
@@ -274,6 +292,9 @@
             </item>
             <item row="1" column="1">
              <widget class="QDoubleSpinBox" name="spinBoxMassEmpty">
+              <property name="toolTip">
+               <string>aircraft empty mass</string>
+              </property>
               <property name="alignment">
                <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
               </property>
@@ -340,6 +361,9 @@
             </item>
             <item row="3" column="0">
              <widget class="QLabel" name="labelMassMaxLand">
+              <property name="toolTip">
+               <string>maximum landing mass</string>
+              </property>
               <property name="text">
                <string>Max Landing Mass [kg]:</string>
               </property>
@@ -410,8 +434,8 @@
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>347</width>
-             <height>305</height>
+             <width>368</width>
+             <height>627</height>
             </rect>
            </property>
            <layout class="QGridLayout" name="gridLayout_13">
@@ -685,8 +709,8 @@
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>355</width>
-             <height>439</height>
+             <width>368</width>
+             <height>627</height>
             </rect>
            </property>
            <layout class="QGridLayout" name="gridLayout_2">
@@ -1069,8 +1093,8 @@
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>352</width>
-             <height>439</height>
+             <width>368</width>
+             <height>627</height>
             </rect>
            </property>
            <layout class="QGridLayout" name="gridLayout_14">
@@ -1411,8 +1435,8 @@
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>358</width>
-             <height>406</height>
+             <width>368</width>
+             <height>627</height>
             </rect>
            </property>
            <layout class="QGridLayout" name="gridLayout_15">
@@ -1715,8 +1739,8 @@
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>341</width>
-             <height>325</height>
+             <width>368</width>
+             <height>627</height>
             </rect>
            </property>
            <layout class="QGridLayout" name="gridLayout_16">
@@ -1916,8 +1940,8 @@
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>238</width>
-             <height>53</height>
+             <width>368</width>
+             <height>627</height>
             </rect>
            </property>
            <layout class="QGridLayout" name="gridLayout_17">
@@ -1987,69 +2011,16 @@
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>312</width>
-             <height>251</height>
+             <width>368</width>
+             <height>627</height>
             </rect>
            </property>
            <layout class="QGridLayout" name="gridLayout_18">
-            <item row="5" column="0">
-             <widget class="QLabel" name="labelPowerLimit">
-              <property name="text">
-               <string>Power Limit (MCP) [hp]:</string>
-              </property>
-              <property name="alignment">
-               <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-              </property>
-              <property name="buddy">
-               <cstring>spinBoxPowerLimit</cstring>
-              </property>
-             </widget>
-            </item>
-            <item row="0" column="1">
-             <widget class="QDoubleSpinBox" name="spinBoxMainRotorDiameter">
-              <property name="alignment">
-               <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-              </property>
-             </widget>
-            </item>
-            <item row="5" column="1">
-             <widget class="QDoubleSpinBox" name="spinBoxPowerLimit">
-              <property name="alignment">
-               <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-              </property>
-              <property name="maximum">
-               <double>99999.990000000005239</double>
-              </property>
-             </widget>
-            </item>
-            <item row="2" column="0">
-             <widget class="QLabel" name="labelMainRotorRPM">
-              <property name="text">
-               <string>Main Rotor RPM:</string>
-              </property>
-              <property name="alignment">
-               <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-              </property>
-              <property name="buddy">
-               <cstring>spinBoxMainRotorRPM</cstring>
-              </property>
-             </widget>
-            </item>
-            <item row="1" column="0">
-             <widget class="QLabel" name="labelMainRotorChord">
-              <property name="text">
-               <string>Main Rotor Blade Chord [m]:</string>
-              </property>
-              <property name="alignment">
-               <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-              </property>
-              <property name="buddy">
-               <cstring>spinBoxMainRotorChord</cstring>
-              </property>
-             </widget>
-            </item>
             <item row="3" column="0">
              <widget class="QLabel" name="labelTailRotorDiameter">
+              <property name="toolTip">
+               <string>tail rotor diameter</string>
+              </property>
               <property name="text">
                <string>Tail Rotor Diameter [m]:</string>
               </property>
@@ -2061,8 +2032,126 @@
               </property>
              </widget>
             </item>
+            <item row="7" column="0">
+             <widget class="QLabel" name="labelMainRotorTipVel">
+              <property name="toolTip">
+               <string>main rotor blade tip velocity in hover</string>
+              </property>
+              <property name="text">
+               <string>Main Rotor Tip Speed [m/s]:</string>
+              </property>
+              <property name="alignment">
+               <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+              </property>
+             </widget>
+            </item>
+            <item row="2" column="1">
+             <widget class="QDoubleSpinBox" name="spinBoxMainRotorRPM">
+              <property name="toolTip">
+               <string>main rotor nominal rotation speed</string>
+              </property>
+              <property name="alignment">
+               <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+              </property>
+              <property name="maximum">
+               <double>9999.989999999999782</double>
+              </property>
+             </widget>
+            </item>
+            <item row="6" column="1">
+             <widget class="QDoubleSpinBox" name="spinBoxPowerLimit">
+              <property name="toolTip">
+               <string>drive train power limit (MCP)</string>
+              </property>
+              <property name="alignment">
+               <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+              </property>
+              <property name="maximum">
+               <double>99999.990000000005239</double>
+              </property>
+             </widget>
+            </item>
+            <item row="4" column="0">
+             <widget class="QLabel" name="labelMainRotorBlades">
+              <property name="toolTip">
+               <string>number of main rotor blades</string>
+              </property>
+              <property name="text">
+               <string>Main Rotor Blades Count [-]:</string>
+              </property>
+              <property name="alignment">
+               <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+              </property>
+              <property name="buddy">
+               <cstring>spinBoxMainRotorBlades</cstring>
+              </property>
+             </widget>
+            </item>
+            <item row="2" column="0">
+             <widget class="QLabel" name="labelMainRotorRPM">
+              <property name="toolTip">
+               <string>main rotor nominal rotation speed</string>
+              </property>
+              <property name="text">
+               <string>Main Rotor RPM:</string>
+              </property>
+              <property name="alignment">
+               <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+              </property>
+              <property name="buddy">
+               <cstring>spinBoxMainRotorRPM</cstring>
+              </property>
+             </widget>
+            </item>
+            <item row="7" column="1">
+             <widget class="QDoubleSpinBox" name="spinBoxMainRotorTipVel">
+              <property name="font">
+               <font>
+                <weight>75</weight>
+                <bold>true</bold>
+               </font>
+              </property>
+              <property name="focusPolicy">
+               <enum>Qt::NoFocus</enum>
+              </property>
+              <property name="toolTip">
+               <string>main rotor blade tip velocity in hover</string>
+              </property>
+              <property name="alignment">
+               <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+              </property>
+              <property name="readOnly">
+               <bool>true</bool>
+              </property>
+              <property name="buttonSymbols">
+               <enum>QAbstractSpinBox::NoButtons</enum>
+              </property>
+              <property name="maximum">
+               <double>999.990000000000009</double>
+              </property>
+             </widget>
+            </item>
+            <item row="6" column="0">
+             <widget class="QLabel" name="labelPowerLimit">
+              <property name="toolTip">
+               <string>drive train power limit (MCP)</string>
+              </property>
+              <property name="text">
+               <string>Power Limit (MCP) [hp]:</string>
+              </property>
+              <property name="alignment">
+               <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+              </property>
+              <property name="buddy">
+               <cstring>spinBoxPowerLimit</cstring>
+              </property>
+             </widget>
+            </item>
             <item row="0" column="0">
              <widget class="QLabel" name="labelMainRotorDiameter">
+              <property name="toolTip">
+               <string>main rotor diameter</string>
+              </property>
               <property name="text">
                <string>Main Rotor Diameter [m]:</string>
               </property>
@@ -2074,7 +2163,7 @@
               </property>
              </widget>
             </item>
-            <item row="7" column="1">
+            <item row="8" column="1">
              <spacer name="verticalSpacer_3">
               <property name="orientation">
                <enum>Qt::Vertical</enum>
@@ -2089,36 +2178,9 @@
             </item>
             <item row="3" column="1">
              <widget class="QDoubleSpinBox" name="spinBoxTailRotorDiameter">
-              <property name="alignment">
-               <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+              <property name="toolTip">
+               <string>tail rotor diameter</string>
               </property>
-             </widget>
-            </item>
-            <item row="2" column="1">
-             <widget class="QDoubleSpinBox" name="spinBoxMainRotorRPM">
-              <property name="alignment">
-               <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-              </property>
-              <property name="maximum">
-               <double>9999.989999999999782</double>
-              </property>
-             </widget>
-            </item>
-            <item row="4" column="0">
-             <widget class="QLabel" name="labelMainRotorBlades">
-              <property name="text">
-               <string>Main Rotor Blades Count [-]:</string>
-              </property>
-              <property name="alignment">
-               <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-              </property>
-              <property name="buddy">
-               <cstring>spinBoxMainRotorBlades</cstring>
-              </property>
-             </widget>
-            </item>
-            <item row="1" column="1">
-             <widget class="QDoubleSpinBox" name="spinBoxMainRotorChord">
               <property name="alignment">
                <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
               </property>
@@ -2126,40 +2188,73 @@
             </item>
             <item row="4" column="1">
              <widget class="QSpinBox" name="spinBoxMainRotorBlades">
+              <property name="toolTip">
+               <string>number of main rotor blades</string>
+              </property>
               <property name="alignment">
                <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
               </property>
              </widget>
             </item>
-            <item row="6" column="0">
-             <widget class="QLabel" name="labelMainRotorTipVel">
+            <item row="1" column="1">
+             <widget class="QDoubleSpinBox" name="spinBoxMainRotorChord">
+              <property name="toolTip">
+               <string>main rotor mean chord</string>
+              </property>
+              <property name="alignment">
+               <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+              </property>
+             </widget>
+            </item>
+            <item row="1" column="0">
+             <widget class="QLabel" name="labelMainRotorChord">
+              <property name="toolTip">
+               <string>main rotor mean chord</string>
+              </property>
               <property name="text">
-               <string>Main Rotor Tip Speed [m/s]:</string>
+               <string>Main Rotor Blade Chord [m]:</string>
+              </property>
+              <property name="alignment">
+               <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+              </property>
+              <property name="buddy">
+               <cstring>spinBoxMainRotorChord</cstring>
+              </property>
+             </widget>
+            </item>
+            <item row="0" column="1">
+             <widget class="QDoubleSpinBox" name="spinBoxMainRotorDiameter">
+              <property name="toolTip">
+               <string>main rotor diameter</string>
               </property>
               <property name="alignment">
                <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
               </property>
              </widget>
             </item>
-            <item row="6" column="1">
-             <widget class="QDoubleSpinBox" name="spinBoxMainRotorTipVel">
-              <property name="font">
-               <font>
-                <weight>75</weight>
-                <bold>true</bold>
-               </font>
+            <item row="5" column="0">
+             <widget class="QLabel" name="labelMainRotorGear">
+              <property name="toolTip">
+               <string>engine speed to main rotor speed ratio</string>
               </property>
-              <property name="focusPolicy">
-               <enum>Qt::NoFocus</enum>
+              <property name="text">
+               <string>Engine Gearing Ratio [-]:</string>
               </property>
               <property name="alignment">
                <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
               </property>
-              <property name="readOnly">
-               <bool>true</bool>
+              <property name="buddy">
+               <cstring>spinBoxMainRotorGear</cstring>
               </property>
-              <property name="buttonSymbols">
-               <enum>QAbstractSpinBox::NoButtons</enum>
+             </widget>
+            </item>
+            <item row="5" column="1">
+             <widget class="QDoubleSpinBox" name="spinBoxMainRotorGear">
+              <property name="toolTip">
+               <string>engine speed to main rotor speed ratio</string>
+              </property>
+              <property name="alignment">
+               <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
               </property>
               <property name="maximum">
                <double>999.990000000000009</double>
@@ -2234,6 +2329,16 @@
          <item>
           <property name="text">
            <string>Engine</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Rotor Drive</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Main Rotor Hub</string>
           </property>
          </item>
          <item>
@@ -2971,6 +3076,7 @@
   <tabstop>spinBoxMainRotorRPM</tabstop>
   <tabstop>spinBoxTailRotorDiameter</tabstop>
   <tabstop>spinBoxMainRotorBlades</tabstop>
+  <tabstop>spinBoxMainRotorGear</tabstop>
   <tabstop>spinBoxPowerLimit</tabstop>
   <tabstop>comboBoxComponents</tabstop>
   <tabstop>listComponents</tabstop>

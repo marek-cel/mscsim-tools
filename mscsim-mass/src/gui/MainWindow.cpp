@@ -141,6 +141,8 @@
 #include <mass/Fuselage.h>
 #include <mass/GearMain.h>
 #include <mass/GearNose.h>
+#include <mass/RotorDrive.h>
+#include <mass/RotorHub.h>
 #include <mass/RotorMain.h>
 #include <mass/RotorTail.h>
 #include <mass/TailHor.h>
@@ -439,13 +441,21 @@ void MainWindow::addComponent()
     }
     else if ( _ui->comboBoxComponents->currentIndex() == 7 )
     {
-        component = new RotorMain( _doc.getAircraft() );
+        component = new RotorDrive( _doc.getAircraft() );
     }
     else if ( _ui->comboBoxComponents->currentIndex() == 8 )
     {
-        component = new RotorTail( _doc.getAircraft() );
+        component = new RotorHub( _doc.getAircraft() );
     }
     else if ( _ui->comboBoxComponents->currentIndex() == 9 )
+    {
+        component = new RotorMain( _doc.getAircraft() );
+    }
+    else if ( _ui->comboBoxComponents->currentIndex() == 10 )
+    {
+        component = new RotorTail( _doc.getAircraft() );
+    }
+    else if ( _ui->comboBoxComponents->currentIndex() == 11 )
     {
         component = new AllElse( _doc.getAircraft() );
     }
@@ -641,6 +651,7 @@ void MainWindow::setAircraftType( Type type )
     _ui->labelMainRotorChord     ->setEnabled( false );
     _ui->labelMainRotorRPM       ->setEnabled( false );
     _ui->labelTailRotorDiameter  ->setEnabled( false );
+    _ui->labelMainRotorGear      ->setEnabled( false );
     _ui->labelPowerLimit         ->setEnabled( false );
     _ui->labelMainRotorTipVel    ->setEnabled( false );
     _ui->labelMainRotorBlades    ->setEnabled( false );
@@ -649,6 +660,7 @@ void MainWindow::setAircraftType( Type type )
     _ui->spinBoxMainRotorChord     ->setEnabled( false );
     _ui->spinBoxMainRotorRPM       ->setEnabled( false );
     _ui->spinBoxTailRotorDiameter  ->setEnabled( false );
+    _ui->spinBoxMainRotorGear      ->setEnabled( false );
     _ui->spinBoxPowerLimit         ->setEnabled( false );
     _ui->spinBoxMainRotorTipVel    ->setEnabled( false );
     _ui->spinBoxMainRotorBlades    ->setEnabled( false );
@@ -708,6 +720,7 @@ void MainWindow::setAircraftType( Type type )
         _ui->labelMainRotorChord     ->setEnabled( true );
         _ui->labelMainRotorRPM       ->setEnabled( true );
         _ui->labelTailRotorDiameter  ->setEnabled( true );
+        _ui->labelMainRotorGear      ->setEnabled( true );
         _ui->labelPowerLimit         ->setEnabled( true );
         _ui->labelMainRotorTipVel    ->setEnabled( true );
         _ui->labelMainRotorBlades    ->setEnabled( true );
@@ -716,6 +729,7 @@ void MainWindow::setAircraftType( Type type )
         _ui->spinBoxMainRotorChord     ->setEnabled( true );
         _ui->spinBoxMainRotorRPM       ->setEnabled( true );
         _ui->spinBoxTailRotorDiameter  ->setEnabled( true );
+        _ui->spinBoxMainRotorGear      ->setEnabled( true );
         _ui->spinBoxPowerLimit         ->setEnabled( true );
         _ui->spinBoxMainRotorTipVel    ->setEnabled( true );
         _ui->spinBoxMainRotorBlades    ->setEnabled( true );
@@ -1056,6 +1070,7 @@ void MainWindow::updateGUI()
     _ui->spinBoxMainRotorChord     ->setValue( ac->getMainRotorChord  () );
     _ui->spinBoxMainRotorRPM       ->setValue( ac->getMainRotorRPM    () );
     _ui->spinBoxTailRotorDiameter  ->setValue( ac->getTailRotorRad    () * 2.0 );
+    _ui->spinBoxMainRotorGear      ->setValue( ac->getMainRotorGear   () );
     _ui->spinBoxPowerLimit         ->setValue( ac->getPowerLimit      () );
     _ui->spinBoxMainRotorTipVel    ->setValue( ac->getMainRotorTipVel () );
     _ui->spinBoxMainRotorBlades    ->setValue( ac->getMainRotorBlades () );
@@ -2096,6 +2111,15 @@ void MainWindow::on_spinBoxMainRotorRPM_valueChanged( double arg1 )
 void MainWindow::on_spinBoxTailRotorDiameter_valueChanged( double arg1 )
 {
     _doc.getAircraft()->setTailRotorRad( 0.5 * arg1 );
+    _saved = false;
+    updateTitleBar();
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void MainWindow::on_spinBoxMainRotorGear_valueChanged( double arg1 )
+{
+    _doc.getAircraft()->setMainRotorGear( arg1 );
     _saved = false;
     updateTitleBar();
 }

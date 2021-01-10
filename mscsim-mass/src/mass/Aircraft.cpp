@@ -133,6 +133,8 @@
 #include <mass/Fuselage.h>
 #include <mass/GearMain.h>
 #include <mass/GearNose.h>
+#include <mass/RotorDrive.h>
+#include <mass/RotorHub.h>
 #include <mass/RotorMain.h>
 #include <mass/RotorTail.h>
 #include <mass/TailHor.h>
@@ -253,13 +255,14 @@ bool Aircraft::read( QDomElement *parentNode )
 
             QDomElement nodeM_engine = nodeData.firstChildElement( "m_engine" );
 
-            QDomElement nodeMainRotorRad    = nodeData.firstChildElement( "m_rotor_r"   );
-            QDomElement nodeMainRotorChord  = nodeData.firstChildElement( "m_blades_c"  );
-            QDomElement nodeMainRotorRPM    = nodeData.firstChildElement( "m_rotor_rpm" );
-            QDomElement nodeTailRotorRad    = nodeData.firstChildElement( "t_rotor_r"   );
-            QDomElement nodePowerLimit      = nodeData.firstChildElement( "rotor_mcp"   );
-            QDomElement nodeMainRotorTipVel = nodeData.firstChildElement( "m_rotor_tv"  );
-            QDomElement nodeMainRotorBlades = nodeData.firstChildElement( "m_rotor_nb"  );
+            QDomElement nodeMainRotorRad    = nodeData.firstChildElement( "m_rotor_r"    );
+            QDomElement nodeMainRotorChord  = nodeData.firstChildElement( "m_blades_c"   );
+            QDomElement nodeMainRotorRPM    = nodeData.firstChildElement( "m_rotor_rpm"  );
+            QDomElement nodeMainRotorGear   = nodeData.firstChildElement( "m_rotor_gear" );
+            QDomElement nodeTailRotorRad    = nodeData.firstChildElement( "t_rotor_r"    );
+            QDomElement nodePowerLimit      = nodeData.firstChildElement( "rotor_mcp"    );
+            QDomElement nodeMainRotorTipVel = nodeData.firstChildElement( "m_rotor_tv"   );
+            QDomElement nodeMainRotorBlades = nodeData.firstChildElement( "m_rotor_nb"   );
 
             if ( !nodeM_empty   .isNull()
               && !nodeM_maxTO   .isNull()
@@ -339,6 +342,7 @@ bool Aircraft::read( QDomElement *parentNode )
               && !nodeMainRotorRad    .isNull()
               && !nodeMainRotorChord  .isNull()
               && !nodeMainRotorRPM    .isNull()
+              && !nodeMainRotorGear   .isNull()
               && !nodeTailRotorRad    .isNull()
               && !nodePowerLimit      .isNull()
               && !nodeMainRotorTipVel .isNull()
@@ -445,13 +449,14 @@ bool Aircraft::read( QDomElement *parentNode )
                 _m_engine = nodeM_engine.text().toDouble();
 
                 // rotors
-                _m_rotor_r   = nodeMainRotorRad    .text().toDouble();
-                _m_blades_c  = nodeMainRotorChord  .text().toDouble();
-                _m_rotor_rpm = nodeMainRotorRPM    .text().toDouble();
-                _t_rotor_r   = nodeTailRotorRad    .text().toDouble();
-                _rotor_mcp   = nodePowerLimit      .text().toDouble();
-                _m_rotor_tv  = nodeMainRotorTipVel .text().toDouble();
-                _m_rotor_nb  = nodeMainRotorBlades .text().toInt();
+                _m_rotor_r    = nodeMainRotorRad    .text().toDouble();
+                _m_blades_c   = nodeMainRotorChord  .text().toDouble();
+                _m_rotor_rpm  = nodeMainRotorRPM    .text().toDouble();
+                _m_rotor_gear = nodeMainRotorGear   .text().toDouble();
+                _t_rotor_r    = nodeTailRotorRad    .text().toDouble();
+                _rotor_mcp    = nodePowerLimit      .text().toDouble();
+                _m_rotor_tv   = nodeMainRotorTipVel .text().toDouble();
+                _m_rotor_nb   = nodeMainRotorBlades .text().toInt();
 
                 // components
                 QDomElement nodeComponent = nodeComponents.firstChildElement();
@@ -479,6 +484,14 @@ bool Aircraft::read( QDomElement *parentNode )
                     else if ( nodeComponent.tagName() == GearNose::xml_tag )
                     {
                         temp = new GearNose( this );
+                    }
+                    else if ( nodeComponent.tagName() == RotorDrive::xml_tag )
+                    {
+                        temp = new RotorDrive( this );
+                    }
+                    else if ( nodeComponent.tagName() == RotorHub::xml_tag )
+                    {
+                        temp = new RotorHub( this );
                     }
                     else if ( nodeComponent.tagName() == RotorMain::xml_tag )
                     {
@@ -621,14 +634,15 @@ void Aircraft::save( QDomDocument *doc, QDomElement *parentNode )
     Xml::saveTextNode( doc, &nodeData, "m_engine"  , _m_engine );
 
     // rotors
-    Xml::saveTextNode( doc, &nodeData, "m_rotor_r"   , _m_rotor_r   );
-    Xml::saveTextNode( doc, &nodeData, "m_blades_c"  , _m_blades_c  );
-    Xml::saveTextNode( doc, &nodeData, "m_rotor_rpm" , _m_rotor_rpm );
-    Xml::saveTextNode( doc, &nodeData, "t_rotor_r"   , _t_rotor_r   );
-    Xml::saveTextNode( doc, &nodeData, "rotor_mcp"   , _rotor_mcp   );
-    Xml::saveTextNode( doc, &nodeData, "m_rotor_tv"  , _m_rotor_tv  );
+    Xml::saveTextNode( doc, &nodeData, "m_rotor_r"    , _m_rotor_r    );
+    Xml::saveTextNode( doc, &nodeData, "m_blades_c"   , _m_blades_c   );
+    Xml::saveTextNode( doc, &nodeData, "m_rotor_rpm"  , _m_rotor_rpm  );
+    Xml::saveTextNode( doc, &nodeData, "m_rotor_gear" , _m_rotor_gear );
+    Xml::saveTextNode( doc, &nodeData, "t_rotor_r"    , _t_rotor_r    );
+    Xml::saveTextNode( doc, &nodeData, "rotor_mcp"    , _rotor_mcp    );
+    Xml::saveTextNode( doc, &nodeData, "m_rotor_tv"   , _m_rotor_tv   );
 
-    Xml::saveTextNode( doc, &nodeData, "m_rotor_nb"  , _m_rotor_nb  );
+    Xml::saveTextNode( doc, &nodeData, "m_rotor_nb"  , _m_rotor_nb   );
 
     // components
     QDomElement componentsNode = doc->createElement( "components" );
@@ -732,6 +746,7 @@ void Aircraft::reset()
     _m_rotor_r   = 0.0;
     _m_blades_c  = 0.0;
     _m_rotor_rpm = 0.0;
+    _m_rotor_gear = 1.0;
     _t_rotor_r   = 0.0;
     _rotor_mcp   = 0.0;
     _m_rotor_tv  = 0.0;

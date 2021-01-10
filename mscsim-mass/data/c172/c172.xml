@@ -73,6 +73,7 @@
    <m_rotor_r>0.000000</m_rotor_r>
    <m_blades_c>0.000000</m_blades_c>
    <m_rotor_rpm>0.000000</m_rotor_rpm>
+   <m_rotor_gear>0.000000</m_rotor_gear>
    <t_rotor_r>0.000000</t_rotor_r>
    <rotor_mcp>0.000000</rotor_mcp>
    <m_rotor_tv>0.000000</m_rotor_tv>

@@ -1,3 +1,9 @@
+2021-01-10 Marek M. Cel <marekcel@marekcel.pl>
+    
+    * mscsim-mass tool - helicopter rotor hub and drive train components added
+
+
+
 2021-01-09 Marek M. Cel <marekcel@marekcel.pl>
     
     * mscsim-mass tool - refactoring, component types added, wetted area calculations,
