@@ -145,7 +145,7 @@ public:
      * @param m [kg] mass
      * @param i [kg*m^2] inertia tensor
      * @param r [m] position
-     * @return shifted inertia tensor [kg*m^2
+     * @return shifted inertia tensor [kg*m^2]
      */
     static Matrix3x3 getInertia( double m, const Matrix3x3 &i, const Vector3 &r );
 

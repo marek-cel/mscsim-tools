@@ -151,6 +151,41 @@ void Document::newEmpty()
 
 bool Document::exportAs( const char *fileName )
 {
+    FILE *file = fopen( fileName, "w" );
+
+    if ( file )
+    {
+        std::string indent = "";
+        std::string sapcer = "";
+
+        fprintf( file, "empty mass [kg]: %.1f\n", _aircraft.getMassTotal() );
+
+        fprintf( file, "center of mass [m]:  %8.2f %8.2f %8.2f\n",
+                 _aircraft.getCenterOfMass().x(),
+                 _aircraft.getCenterOfMass().y(),
+                 _aircraft.getCenterOfMass().z() );
+
+        fprintf( file, "inertia [kg*m^2]:\n" );
+        fprintf( file, "%12.1f %12.1f %12.1f\n",
+                 _aircraft.getInertiaMatrix().xx(),
+                 _aircraft.getInertiaMatrix().xy(),
+                 _aircraft.getInertiaMatrix().xz() );
+        fprintf( file, "%12.1f %12.1f %12.1f\n",
+                 _aircraft.getInertiaMatrix().yx(),
+                 _aircraft.getInertiaMatrix().yy(),
+                 _aircraft.getInertiaMatrix().yz() );
+        fprintf( file, "%12.1f %12.1f %12.1f\n",
+                 _aircraft.getInertiaMatrix().zx(),
+                 _aircraft.getInertiaMatrix().zy(),
+                 _aircraft.getInertiaMatrix().zz() );
+
+        fprintf( file, "\n" );
+
+        fclose( file );
+
+        return true;
+    }
+
     return false;
 }
 
