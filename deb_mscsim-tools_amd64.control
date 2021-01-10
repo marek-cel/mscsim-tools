@@ -3,6 +3,6 @@ Version: 0.1
 Architecture: amd64
 Maintainer: Marek M. Cel <marekcel@marekcel.pl>
 Depends: libopenscenegraph160, libopenthreads21, libqt5core5a, libqt5gui5, libqt5network5, libqt5opengl5, libqt5svg5, libqt5widgets5, libqt5xml5
-Installed-Size: 3154
+Installed-Size: 1554
 Homepage: http://marekcel.pl
 Description: Miscellaneous tools for MScSim flight simulation software. This is collection of small tools and utilities used with flight simulation software as aircraft characteristics approximation and estimation tools, generators and editors of various input data.
