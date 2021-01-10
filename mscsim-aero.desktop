@@ -1,0 +1,11 @@
+[Desktop Entry]
+Type=Application
+Version=0.1
+Name=MScSim-Aero
+GenericName=MScSim-Aero
+Exec=mscsim-aero
+Terminal=false
+Categories=
+Comment=
+Keywords=
+Icon=mscsim-aero

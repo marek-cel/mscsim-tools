@@ -1,0 +1,11 @@
+[Desktop Entry]
+Type=Application
+Version=0.1
+Name=MScSim-FGFS Recorder
+GenericName=MScSim-FGFS Recorder
+Exec=mscsim-fgrec
+Terminal=false
+Categories=
+Comment=
+Keywords=
+Icon=mscsim-fgrec

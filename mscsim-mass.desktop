@@ -1,0 +1,11 @@
+[Desktop Entry]
+Type=Application
+Version=0.1
+Name=MScSim-Mass
+GenericName=MScSim-Mass
+Exec=mscsim-mass
+Terminal=false
+Categories=
+Comment=
+Keywords=
+Icon=mscsim-mass

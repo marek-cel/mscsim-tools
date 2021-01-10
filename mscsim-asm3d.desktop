@@ -1,0 +1,11 @@
+[Desktop Entry]
+Type=Application
+Version=0.1
+Name=MScSim-Assembler 3D
+GenericName=MScSim-Assembler 3D
+Exec=mscsim-asm3d
+Terminal=false
+Categories=
+Comment=
+Keywords=
+Icon=mscsim-asm3d
