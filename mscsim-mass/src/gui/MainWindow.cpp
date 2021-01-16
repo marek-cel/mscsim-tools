@@ -162,12 +162,13 @@ MainWindow::MainWindow( QWidget *parent ) :
     _scSave   = new QShortcut( QKeySequence(Qt::CTRL + Qt::Key_S), this, SLOT(on_actionSave_triggered())   );
     _scExport = new QShortcut( QKeySequence(Qt::CTRL + Qt::Key_E), this, SLOT(on_actionExport_triggered()) );
 
+    setAircraftType( FighterAttack );
     updateGUI();
-    updateTitleBar();
 
     settingsRead();
 
-    setAircraftType( FighterAttack );
+    _saved = true;
+    updateTitleBar();
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -324,6 +325,7 @@ void MainWindow::readFile( QString fileName )
     }
 
     updateGUI();
+    _saved = true;
     updateTitleBar();
 }
 
